@@ -1,7 +1,14 @@
 package ru.geekbrains.psy_journal.model.data;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
+
+@Entity(tableName = TABLE_JOURNAL)
 public class Journal {
 
+	@PrimaryKey(autoGenerate = true)
 	private int id;
 	private String date;
 	private Td td;
@@ -14,5 +21,4 @@ public class Journal {
 	private WorkForm workForm;
 	private Double workTime;
 	private String comment;
-
 }
