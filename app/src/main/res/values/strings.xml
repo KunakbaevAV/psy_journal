@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">psy_journal</string>
+    <string name="data_example">04.06.19</string>
+    <string name="theme_example">Диагностика сплоченности коллектива</string>
+    <string name="id_td_example">A5–4</string>
+    <string name="choose_tf">Выберите направление работы</string>
+    <string name="choose_category">С кем проводится работа (категория)</string>
+    <string name="group_example">7а</string>
+    <string name="choose_group">С кем проводится работа (класс/группа)</string>
+    <string name="choose_fio">С кем проводится работа (ФИО)</string>
+    <string name="quantity_people">Сколько человек охвачено</string>
+    <string name="declared_request">Декларируемый запрос</string>
+    <string name="real_request">Выявленный запрос</string>
+    <string name="choose_work_form">Укажите форму работы</string>
+    <string name="choose_work_time">Сколько времени затрачено на работу</string>
+    <string name="comment_layout">Примечания</string>
 </resources>
