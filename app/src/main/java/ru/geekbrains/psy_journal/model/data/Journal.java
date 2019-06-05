@@ -10,7 +10,7 @@ public class Journal {
 
 	@PrimaryKey(autoGenerate = true)
 	private int id;
-	private String date;
+    private long date;
 	private TD td;
 	private Category category;
 	private Group group;
