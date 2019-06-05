@@ -3,15 +3,17 @@
     <string name="data_example">05.06.19</string>
     <string name="theme_example">Диагностика сплоченности коллектива</string>
     <string name="id_td_example">A5–4</string>
-    <string name="choose_tf">Выберите направление работы</string>
-    <string name="choose_category">С кем проводится работа (категория)</string>
+    <string name="choose_tf">Направление работы</string>
+    <string name="choose_category">Категория</string>
     <string name="group_example">7а</string>
-    <string name="choose_group">С кем проводится работа (класс/группа)</string>
-    <string name="choose_fio">С кем проводится работа (ФИО)</string>
-    <string name="quantity_people">Сколько человек охвачено</string>
+    <string name="choose_group">Класс/группа</string>
+    <string name="choose_fio">ФИО</string>
+    <string name="quantity_people">Охвачено человек</string>
     <string name="declared_request">Декларируемый запрос</string>
-    <string name="real_request">Выявленный запрос</string>
-    <string name="choose_work_form">Укажите форму работы</string>
-    <string name="choose_work_time">Сколько времени затрачено на работу</string>
-    <string name="comment_layout">Примечания</string>
+    <string name="real_request">Выявленная проблема</string>
+    <string name="choose_work_form">Форма работы</string>
+    <string name="choose_work_time">Затрачено времени</string>
+    <string name="comment_label">Примечания</string>
+    <string name="block_client_label">С кем проводится работа</string>
+    <string name="block_topic_label">Тематика</string>
 </resources>
