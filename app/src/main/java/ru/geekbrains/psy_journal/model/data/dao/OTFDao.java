@@ -9,21 +9,21 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.Single;
-import ru.geekbrains.psy_journal.model.data.Otf;
+import ru.geekbrains.psy_journal.model.data.OTF;
 
 @Dao
-public interface OtfDao {
+public interface OTFDao {
 
-    @Query("SELECT * FROM Otf")
-    Single<List<Otf>> getAllOtf();
+    @Query("SELECT * FROM OTF")
+    Single<List<OTF>> getAllOtf();
 
     @Insert
-    long insert(Otf otf);
+    long insert(OTF otf);
 
     @Delete
-    int delete(Otf otf);
+    int delete(OTF otf);
 
     @Update
-    int update(Otf otf);
+    int update(OTF otf);
 
 }

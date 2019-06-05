@@ -11,7 +11,7 @@ public class Journal {
 	@PrimaryKey(autoGenerate = true)
 	private int id;
 	private String date;
-	private Td td;
+	private TD td;
 	private Category category;
 	private Group group;
 	private String name;

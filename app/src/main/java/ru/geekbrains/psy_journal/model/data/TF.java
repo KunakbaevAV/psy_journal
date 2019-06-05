@@ -6,11 +6,11 @@ import androidx.room.PrimaryKey;
 import static ru.geekbrains.psy_journal.Constants.TABLE_TF;
 
 @Entity(tableName = TABLE_TF)
-public class Tf {
+public class TF {
 
 	@PrimaryKey(autoGenerate = true)
 	private int id;
 	private String code;
 	private String name;
-	private Otf otf;
+	private OTF otf;
 }

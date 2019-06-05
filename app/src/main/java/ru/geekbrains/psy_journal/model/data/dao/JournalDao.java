@@ -14,7 +14,7 @@ import ru.geekbrains.psy_journal.model.data.Journal;
 @Dao
 public interface JournalDao {
 
-    @Query("SELECT * FROM journal")
+    @Query("SELECT * FROM Journal")
     Single<List<Journal>> getAll();
 
     @Insert

@@ -9,21 +9,21 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.Single;
-import ru.geekbrains.psy_journal.model.data.Tf;
+import ru.geekbrains.psy_journal.model.data.TF;
 
 @Dao
-public interface TfDao {
+public interface TFDao {
 
-    @Query("SELECT * FROM Tf")
-    Single<List<Tf>> getAllTf();
+    @Query("SELECT * FROM TF")
+    Single<List<TF>> getAllTf();
 
     @Insert
-    long insert(Tf tf);
+    long insert(TF tf);
 
     @Delete
-    int delete(Tf tf);
+    int delete(TF tf);
 
     @Update
-    int update(Tf tf);
+    int update(TF tf);
 
 }

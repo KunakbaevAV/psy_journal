@@ -9,21 +9,21 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.Single;
-import ru.geekbrains.psy_journal.model.data.Td;
+import ru.geekbrains.psy_journal.model.data.TD;
 
 @Dao
-public interface TdDao {
+public interface TDDao {
 
-    @Query("SELECT * FROM Td")
-    Single<List<Td>> getAllTd();
+    @Query("SELECT * FROM TD")
+    Single<List<TD>> getAllTd();
 
     @Insert
-    long insert(Td td);
+    long insert(TD td);
 
     @Delete
-    int delete(Td td);
+    int delete(TD td);
 
     @Update
-    int update(Td td);
+    int update(TD td);
 
 }

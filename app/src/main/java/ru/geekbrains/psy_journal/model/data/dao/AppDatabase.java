@@ -6,12 +6,12 @@ import androidx.room.RoomDatabase;
 import ru.geekbrains.psy_journal.model.data.Category;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.Otf;
-import ru.geekbrains.psy_journal.model.data.Td;
-import ru.geekbrains.psy_journal.model.data.Tf;
+import ru.geekbrains.psy_journal.model.data.OTF;
+import ru.geekbrains.psy_journal.model.data.TD;
+import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
 
-@Database(entities = {Category.class, Group.class, Journal.class, Otf.class, Tf.class, Td.class, WorkForm.class}, version = 1, exportSchema = false)
+@Database(entities = {Category.class, Group.class, Journal.class, OTF.class, TF.class, TD.class, WorkForm.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract CategoryDao categoryDao();
@@ -20,11 +20,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract JournalDao journalDao();
 
-    public abstract OtfDao otfDao();
+    public abstract OTFDao otfDao();
 
-    public abstract TfDao tfDao();
+    public abstract TFDao tfDao();
 
-    public abstract TdDao tdDao();
+    public abstract TDDao tdDao();
 
     public abstract WorkFormDao workFormDao();
 }
