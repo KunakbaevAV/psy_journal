@@ -7,12 +7,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_all_work"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="@dimen/minMargin"
+        android:layout_height="@dimen/minMargin"
+        android:layout_marginStart="@dimen/standartMargin"
+        android:layout_marginTop="@dimen/standartMargin"
+        android:layout_marginEnd="@dimen/standartMargin"
+        android:layout_marginBottom="@dimen/standartMargin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
