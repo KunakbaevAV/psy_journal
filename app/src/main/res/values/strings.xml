@@ -16,4 +16,18 @@
     <string name="comment_label">Примечания</string>
     <string name="block_client_label">С кем проводится работа</string>
     <string name="block_topic_label">Тематика</string>
+    <string name="report_label">Отчет</string>
+    <string name="report_date_begin">от дня</string>
+    <string name="report_date_end">до дня</string>
+    <string name="block_report_all_label">Все направления</string>
+    <string name="report_label_quantity_people">Человек</string>
+    <string name="report_label_work_time">Часов</string>
+    <string name="tf_01">A/01.7 Психолого-педагогическое сопровождение образовательного процесса в образовательных организациях общего, профессионального и дополнительного образования, сопровождение основных и дополнительных образовательных программ</string>
+    <string name="tf_02">A/02.7 Психологическая экспертиза (оценка) комфортности и безопасности образовательной среды образовательных организаций</string>
+    <string name="tf_03">A/03.7 Психологическое консультирование субъектов образовательного процесса</string>
+    <string name="tf_04">A/04.7 Коррекционно-развивающая работа с детьми и обучающимися, в том числе работа по восстановлению и реабилитации</string>
+    <string name="tf_05">A/05.7 Психологическая диагностика детей и обучающихся</string>
+    <string name="tf_06">A/06.7 Психологическое просвещение субъектов образовательного процесса</string>
+    <string name="tf_07">A/07.7 Психопрофилактика (профессиональная деятельность, направленная на сохранение и укрепление психологического здоровья обучающихся в процессе обучения и воспитания в образовательных организациях)</string>
+    <string name="report_example_count">999</string>
 </resources>
