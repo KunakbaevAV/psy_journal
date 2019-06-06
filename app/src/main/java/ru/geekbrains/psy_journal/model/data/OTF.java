@@ -8,8 +8,8 @@ import static ru.geekbrains.psy_journal.Constants.TABLE_OTF;
 @Entity(tableName = TABLE_OTF)
 public class OTF {
 
-	@PrimaryKey(autoGenerate = true)
-	private int id;
-	private String code;
-	private String name;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    private String code;
+    private String name;
 }
