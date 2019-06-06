@@ -1,9 +1,16 @@
 package ru.geekbrains.psy_journal.model.data;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
+
+@Entity(tableName = TABLE_JOURNAL)
 public class Journal {
 
+	@PrimaryKey(autoGenerate = true)
 	private int id;
-	private String date;
+	private long date;
 	private String dayOfWeek;
 	private TD td;
 	private Category category;
@@ -24,11 +31,11 @@ public class Journal {
 		this.id = id;
 	}
 
-	public String getDate() {
+	public long getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 
