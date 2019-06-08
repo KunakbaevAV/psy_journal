@@ -1,6 +1,5 @@
 package ru.geekbrains.psy_journal.model.data;
 
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
