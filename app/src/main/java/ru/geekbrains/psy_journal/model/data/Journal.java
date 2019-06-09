@@ -48,6 +48,10 @@ public class Journal {
         dayOfWeek = determineDayOfWeek(date);
     }
 
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
     public String getDayOfWeek() {
         return dayOfWeek;
     }
