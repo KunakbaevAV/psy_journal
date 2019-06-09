@@ -3,6 +3,10 @@ package ru.geekbrains.psy_journal.model.data;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
 
 @Entity(tableName = TABLE_JOURNAL)
@@ -10,8 +14,8 @@ public class Journal {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private long date;
-    private String dayOfWeek;
+    private long date = new Date().getTime();
+    private String dayOfWeek = determineDayOfWeek(date);
     private TD td;
     private Category category;
     private Group group;
@@ -37,14 +41,11 @@ public class Journal {
 
     public void setDate(long date) {
         this.date = date;
+        dayOfWeek = determineDayOfWeek(date);
     }
 
     public String getDayOfWeek() {
         return dayOfWeek;
-    }
-
-    public void setDayOfWeek(String dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
     }
 
     public TD getTd() {
@@ -125,5 +126,12 @@ public class Journal {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    private String determineDayOfWeek(long date){
+    	if (date != 0){
+    		return new SimpleDateFormat("EEEE", Locale.getDefault()).format(new Date(date));
+	    }
+    	return null;
     }
 }
