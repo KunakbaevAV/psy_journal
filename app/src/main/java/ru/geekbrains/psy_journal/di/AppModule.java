@@ -9,6 +9,9 @@ import dagger.Provides;
 import ru.geekbrains.psy_journal.model.data.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.dao.AppDatabase;
 import ru.geekbrains.psy_journal.model.data.dao.JournalDao;
+import ru.geekbrains.psy_journal.model.data.dao.OTFDao;
+import ru.geekbrains.psy_journal.model.data.dao.TDDao;
+import ru.geekbrains.psy_journal.model.data.dao.TFDao;
 
 import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
 
@@ -34,6 +37,21 @@ public class AppModule {
     @Provides
     JournalDao getJournalDao() {
         return getAppDatabase().journalDao();
+    }
+
+    @Provides
+    OTFDao getOTFDao() {
+        return getAppDatabase().otfDao();
+    }
+
+    @Provides
+    TFDao getTFDao() {
+        return getAppDatabase().tfDao();
+    }
+
+    @Provides
+    TDDao getTDDao() {
+        return getAppDatabase().tdDao();
     }
 
     @Provides

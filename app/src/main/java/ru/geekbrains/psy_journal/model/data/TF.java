@@ -15,15 +15,13 @@ public class TF {
     private int id;
     private String code;
     private String name;
+    private int idOTF;
 
-    @TypeConverters(OTFConverter.class)
-    private OTF otf;
-
-    public TF(int id, String code, String name, OTF otf) {
+    public TF(int id, String code, String name, int idOTF) {
         this.id = id;
         this.code = code;
         this.name = name;
-        this.otf = otf;
+        this.idOTF = idOTF;
     }
 
     public int getId() {
@@ -50,11 +48,11 @@ public class TF {
         this.name = name;
     }
 
-    public OTF getOtf() {
-        return otf;
+    public int getIdOTF() {
+        return idOTF;
     }
 
-    public void setOtf(OTF otf) {
-        this.otf = otf;
+    public void setIdOTF(int idOTF) {
+        this.idOTF = idOTF;
     }
 }

@@ -17,6 +17,9 @@ public interface TDDao {
     @Query("SELECT * FROM TD")
     Single<List<TD>> getAllTd();
 
+    @Query("SELECT * FROM TD WHERE idTF = :idTF")
+    Single<List<TD>> getTdByTf(int idTF);
+
     @Insert
     long insert(TD td);
 

@@ -15,14 +15,13 @@ public class TD {
     private int id;
     private String code;
     private String name;
+    private int idTF;
 
-    @TypeConverters(TFConverter.class)
-    private TF tf;
-
-    public TD(int id, String code, String name) {
+    public TD(int id, String code, String name, int idTF) {
         this.id = id;
         this.code = code;
         this.name = name;
+        this.idTF = idTF;
     }
 
     public int getId() {
@@ -49,11 +48,11 @@ public class TD {
         this.name = name;
     }
 
-    public TF getTf() {
-        return tf;
+    public int getIdTF() {
+        return idTF;
     }
 
-    public void setTf(TF tf) {
-        this.tf = tf;
+    public void setIdTF(int idTF) {
+        this.idTF = idTF;
     }
 }
