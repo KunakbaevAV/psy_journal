@@ -1,6 +1,7 @@
 package ru.geekbrains.psy_journal.model.data;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -19,17 +20,42 @@ public class Journal {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private long date = new Date().getTime();
+    @Ignore
     private String dayOfWeek = determineDayOfWeek(date);
-    private TD td;
-    private Category category;
-    private Group group;
+    private int idTd;
+    private int idCategory;
+    private int idGroup;
     private String name;
     private int quantityPeople;
     private String declaredRequest;
     private String realRequest;
-    private WorkForm workForm;
+    private int idWorkForm;
     private Float workTime = 1.0f;
     private String comment;
+
+    public Journal() {
+
+    }
+
+    @Ignore
+    public Journal(long date, String dayOfWeek, int idTd,
+                   int idCategory, int idGroup, String name,
+                   int quantityPeople, String declaredRequest,
+                   String realRequest, int idWorkForm,
+                   Float workTime, String comment) {
+        this.date = date;
+        this.dayOfWeek = dayOfWeek;
+        this.idTd = idTd;
+        this.idCategory = idCategory;
+        this.idGroup = idGroup;
+        this.name = name;
+        this.quantityPeople = quantityPeople;
+        this.declaredRequest = declaredRequest;
+        this.realRequest = realRequest;
+        this.idWorkForm = idWorkForm;
+        this.workTime = workTime;
+        this.comment = comment;
+    }
 
     public int getId() {
         return id;
@@ -48,44 +74,32 @@ public class Journal {
         dayOfWeek = determineDayOfWeek(date);
     }
 
-	/**
-	 * поле dayOfWeek нужно только для отчета  файл.xlsx
-	 * Имеет ли смысл этот метод, если поле dayOfWeek зависит от поля date?
-	 * поле dayOfWeek даже в базе хранить не нужно. При установке поля date
-	 * автоматически методом String determineDayOfWeek(long date)
-	 * отформатируется день недели и установится в поле dayOfWeek.
-	 * @param dayOfWeek
-	 */
-    public void setDayOfWeek(String dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
-
     public String getDayOfWeek() {
         return dayOfWeek;
     }
 
-    public TD getTd() {
-        return td;
+    public int getIdTd() {
+        return idTd;
     }
 
-    public void setTd(TD td) {
-        this.td = td;
+    public void setIdTd(int idTd) {
+        this.idTd = idTd;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getIdCategory() {
+        return idCategory;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setIdCategory(int idCategory) {
+        this.idCategory = idCategory;
     }
 
-    public Group getGroup() {
-        return group;
+    public int getIdGroup() {
+        return idGroup;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setIdGroup(int idGroup) {
+        this.idGroup = idGroup;
     }
 
     public String getName() {
@@ -120,12 +134,12 @@ public class Journal {
         this.realRequest = realRequest;
     }
 
-    public WorkForm getWorkForm() {
-        return workForm;
+    public int getIdWorkForm() {
+        return idWorkForm;
     }
 
-    public void setWorkForm(WorkForm workForm) {
-        this.workForm = workForm;
+    public void setIdWorkForm(int idWorkForm) {
+        this.idWorkForm = idWorkForm;
     }
 
     public Float getWorkTime() {
