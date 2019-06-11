@@ -39,4 +39,10 @@ public class DateSettingDialog extends DialogFragment implements android.app.Dat
 	public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 		settable.setDate(year, month, dayOfMonth);
 	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		settable = null;
+	}
 }

@@ -23,25 +23,34 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/declared_request_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:counterMaxLength="255"
+            app:counterTextAppearance="@style/TextAppearance.MaterialComponents.Body1">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/declared_request_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/declared_request" />
+                android:hint="@string/declared_request"
+                android:inputType="textAutoCorrect"
+               />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/real_request_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:counterMaxLength="255"
+            app:counterTextAppearance="@style/TextAppearance.MaterialComponents.Body1">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/real_request_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/real_request" />
+                android:hint="@string/real_request"
+                android:inputType="textAutoCorrect"      />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
