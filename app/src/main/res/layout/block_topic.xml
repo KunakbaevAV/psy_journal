@@ -60,7 +60,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/work_form_layout"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/minMargin"
                 android:layout_marginEnd="@dimen/standartMargin"
                 app:layout_constraintBaseline_toBaselineOf="@+id/code_tf_layout"
