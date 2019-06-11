@@ -10,4 +10,6 @@ public class Constants {
     public static final String TABLE_TD = "TD";
     public static final String TABLE_WORK_FORM = "Work_form";
 
+    public static final String DATABASE_NAME = "psy_journal_db";
+
 }

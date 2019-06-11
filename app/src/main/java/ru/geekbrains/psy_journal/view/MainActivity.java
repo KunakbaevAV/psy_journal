@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	    if ("Tag add work".equals(getTag())) fab.setImageDrawable(done);
 	    else fab.setImageDrawable(plus);
         if(savedInstanceState == null){
+        	getSupportFragmentManager()	    else fab.setImageDrawable(plus);
+        if(savedInstanceState == null){
         	getSupportFragmentManager()
 		        .beginTransaction()
 		        .replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")

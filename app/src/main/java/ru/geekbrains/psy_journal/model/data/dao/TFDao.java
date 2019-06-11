@@ -17,6 +17,9 @@ public interface TFDao {
     @Query("SELECT * FROM TF")
     Single<List<TF>> getAllTf();
 
+    @Query("SELECT * FROM TF WHERE idOTF = :idOTF")
+    Single<List<TF>> getTfByOtf(int idOTF);
+
     @Insert
     long insert(TF tf);
 

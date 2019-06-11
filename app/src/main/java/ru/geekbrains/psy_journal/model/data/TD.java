@@ -2,6 +2,9 @@ package ru.geekbrains.psy_journal.model.data;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import ru.geekbrains.psy_journal.model.data.converters.TFConverter;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_TD;
 
@@ -12,7 +15,14 @@ public class TD {
     private int id;
     private String code;
     private String name;
-    private TF tf;
+    private int idTF;
+
+    public TD(int id, String code, String name, int idTF) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.idTF = idTF;
+    }
 
     public int getId() {
         return id;
@@ -38,11 +48,11 @@ public class TD {
         this.name = name;
     }
 
-    public TF getTf() {
-        return tf;
+    public int getIdTF() {
+        return idTF;
     }
 
-    public void setTf(TF tf) {
-        this.tf = tf;
+    public void setIdTF(int idTF) {
+        this.idTF = idTF;
     }
 }
