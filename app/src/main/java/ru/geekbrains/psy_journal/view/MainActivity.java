@@ -29,14 +29,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 	    ButterKnife.bind(this);
-	    if ("Tag add work".equals(getTag())) fab.setImageDrawable(done);
-	    else fab.setImageDrawable(plus);
+	    setImageFab();
         if(savedInstanceState == null){
         	getSupportFragmentManager()
 		        .beginTransaction()
 		        .replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
 		        .commit();
         }
+    }
+
+    private void setImageFab(){
+	    if ("Tag add work".equals(getTag())) fab.setImageDrawable(done);
+	    else fab.setImageDrawable(plus);
     }
 
     private String getTag(){
@@ -51,25 +55,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			Fragment currentFragment = getSupportFragmentManager().getFragments().get(getSupportFragmentManager().getFragments().size() - 1);
 			String tag = currentFragment.getTag();
 			if (tag == null) return;
-			Fragment fragment = null;
 			switch (tag){
 				case "Tag add work":
 					Added added = (Added) currentFragment;
 					added.collectAll();
-					fragment = new AllWorkFragment();
-					tag = "Tag all work";
+					getSupportFragmentManager()
+						.beginTransaction()
+						.replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
+						.commit();
 					fab.setImageDrawable(plus);
 					break;
 				case "Tag all work":
-					fragment = new AddWorkFragment();
-					tag = "Tag add work";
+					getSupportFragmentManager()
+						.beginTransaction()
+						.add(R.id.frame_master, new AddWorkFragment(), "Tag add work")
+						.addToBackStack(null)
+						.commit();
 					fab.setImageDrawable(done);
 					break;
 			}
-			if (fragment != null) getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.frame_master, fragment, tag)
-				.commit();
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		setImageFab();
 	}
 }
