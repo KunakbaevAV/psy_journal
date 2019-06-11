@@ -43,17 +43,12 @@
                 android:hint="@string/choose_group" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/name_layout"
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/name_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/choose_fio" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:hint="@string/choose_fio"
+            android:completionThreshold="3"            />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
