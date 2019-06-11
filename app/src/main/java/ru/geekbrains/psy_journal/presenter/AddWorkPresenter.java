@@ -27,9 +27,7 @@ public class AddWorkPresenter extends MvpPresenter<Added> implements Settable {
 	}
 
 	public void setNameGroup(String name){
-		Group group = new Group();
-		group.setName(name);
-		journal.setGroup(group);
+		journal.setGroup(new Group(name));
 	}
 
 	@Override
@@ -44,7 +42,7 @@ public class AddWorkPresenter extends MvpPresenter<Added> implements Settable {
 	@Override
 	public void setHours(int hour, int minutes) {
 		float hours = hour + minutes / 60.0f;
-//		journal.setWorkTime(hours);
+		journal.setWorkTime(hours);
 		getViewState().showHours(hours);
 	}
 }

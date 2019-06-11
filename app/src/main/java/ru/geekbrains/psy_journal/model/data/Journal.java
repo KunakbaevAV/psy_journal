@@ -28,7 +28,7 @@ public class Journal {
     private String declaredRequest;
     private String realRequest;
     private WorkForm workForm;
-    private Double workTime;
+    private Float workTime = 1.0f;
     private String comment;
 
     public int getId() {
@@ -48,6 +48,14 @@ public class Journal {
         dayOfWeek = determineDayOfWeek(date);
     }
 
+	/**
+	 * поле dayOfWeek нужно только для отчета  файл.xlsx
+	 * Имеет ли смысл этот метод, если поле dayOfWeek зависит от поля date?
+	 * поле dayOfWeek даже в базе хранить не нужно. При установке поля date
+	 * автоматически методом String determineDayOfWeek(long date)
+	 * отформатируется день недели и установится в поле dayOfWeek.
+	 * @param dayOfWeek
+	 */
     public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
@@ -120,11 +128,11 @@ public class Journal {
         this.workForm = workForm;
     }
 
-    public Double getWorkTime() {
+    public Float getWorkTime() {
         return workTime;
     }
 
-    public void setWorkTime(Double workTime) {
+    public void setWorkTime(Float workTime) {
         this.workTime = workTime;
     }
 

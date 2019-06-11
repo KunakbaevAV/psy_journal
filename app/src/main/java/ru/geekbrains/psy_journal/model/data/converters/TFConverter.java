@@ -25,7 +25,6 @@ public class TFConverter {
     @TypeConverter
     public TF toTF(String data) {
         List<String> list = Arrays.asList(data.split(","));
-        return new TF(Integer.parseInt(list.get(0)), list.get(1), list.get(2), otf);
+        return new TF(Integer.parseInt(list.get(0)), list.get(1), list.get(2), Integer.parseInt(list.get(3)));
     }
-
 }

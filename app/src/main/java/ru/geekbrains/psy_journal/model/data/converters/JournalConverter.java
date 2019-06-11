@@ -23,7 +23,7 @@ public class JournalConverter {
     @TypeConverter
     public TD toTD(String data) {
         List<String> list = Arrays.asList(data.split(","));
-        return new TD(Integer.parseInt(list.get(0)), list.get(1), list.get(2));
+        return new TD(Integer.parseInt(list.get(0)), list.get(1), list.get(2), Integer.parseInt(list.get(3)));
     }
 
     @TypeConverter
