@@ -34,7 +34,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/group_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standartMargin">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/group_text"
@@ -43,12 +44,22 @@
                 android:hint="@string/choose_group" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-            android:id="@+id/name_text"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/choose_fio"
-            android:completionThreshold="3"            />
+            android:layout_marginTop="@dimen/standartMargin">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="3"
+                android:hint="@string/choose_fio"
+                android:paddingStart="@dimen/padding_gorizontal"
+                android:paddingTop="@dimen/padding_vertical"
+                android:paddingEnd="@dimen/padding_gorizontal"
+                android:paddingBottom="@dimen/padding_vertical" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

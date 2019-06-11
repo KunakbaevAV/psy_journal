@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/standartMargin"
     android:elevation="@dimen/standart_elevation">
 
@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
-        app:errorTextColor="?attr/colorAccent"
-        app:errorTextAppearance="@style/TextAppearance.MaterialComponents.Body1">
+        app:errorTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        app:errorTextColor="?attr/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/quantity_people_count"
@@ -22,7 +22,7 @@
             android:gravity="center"
             android:hint="@string/quantity_people"
             android:textAlignment="center"
-            />
+            tools:text="@string/report_example_count" />
 
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.cardview.widget.CardView>
