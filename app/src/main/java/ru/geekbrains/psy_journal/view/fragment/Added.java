@@ -11,4 +11,6 @@ public interface Added extends MvpView {
 	@StateStrategyType(SingleStateStrategy.class)
 	void showHours(float hours);
 	void collectAll();
+
+	void showToast(String message);
 }

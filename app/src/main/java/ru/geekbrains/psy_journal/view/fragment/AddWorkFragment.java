@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.R;
+import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
@@ -65,6 +67,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_work, container, false);
+		App.getAppComponent().inject(workPresenter);
 		unbinder = ButterKnife.bind(this, view);
 		dateText.setHint(dateFormat.format(new Date()));
 		workTimeText.setText("1.0");
@@ -159,6 +162,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 		if (realRequestText.getText() != null) workPresenter.getJournal().setRealRequest(realRequestText.getText().toString());
 		if (commentText.getText() != null) workPresenter.getJournal().setComment(commentText.getText().toString());
 		workPresenter.addWorkIntoDatabase();
+	}
+
+	@Override
+	public void showToast(String message) {
+		if (getActivity() == null) return;
+		Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override

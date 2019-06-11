@@ -71,14 +71,14 @@ public class Report {
 		Row row = sheet.createRow(numberRow++);
 		row.createCell(column++).setCellValue(DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(journal.getDate())));
 		row.createCell(column++).setCellValue(journal.getDayOfWeek());
-		row.createCell(column++).setCellValue(journal.getTd().getCode());
-		row.createCell(column++).setCellValue(journal.getCategory().getName());
-		row.createCell(column++).setCellValue(journal.getGroup().getName());
+//		row.createCell(column++).setCellValue(journal.getIdTd().getCode()); //FIXME Исправить огласно изменениям в классе Journal (объекты заменены на их id)
+//		row.createCell(column++).setCellValue(journal.getIdCategory().getName());//FIXME Исправить огласно изменениям в классе Journal (объекты заменены на их id)
+//		row.createCell(column++).setCellValue(journal.getIdGroup().getName());//FIXME Исправить огласно изменениям в классе Journal (объекты заменены на их id)
 		row.createCell(column++).setCellValue(journal.getName());
 		row.createCell(column++).setCellValue(String.valueOf(journal.getQuantityPeople()));
 		row.createCell(column++).setCellValue(journal.getDeclaredRequest());
 		row.createCell(column++).setCellValue(journal.getRealRequest());
-		row.createCell(column++).setCellValue(journal.getWorkForm().getName());
+//		row.createCell(column++).setCellValue(journal.getIdWorkForm().getName());//FIXME Исправить огласно изменениям в классе Journal (объекты заменены на их id)
 		row.createCell(column++).setCellValue(String.valueOf(journal.getWorkTime()));
 		row.createCell(column).setCellValue(journal.getComment());
 	}
