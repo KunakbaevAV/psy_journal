@@ -2,6 +2,8 @@ package ru.geekbrains.psy_journal.di;
 
 import android.app.Application;
 
+import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
+
 public class App extends Application {
 
     private static AppComponent appComponent;
@@ -16,5 +18,12 @@ public class App extends Application {
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+
+        firstInit();
+    }
+
+    private void firstInit() {
+        DataBaseFirstLoader dataBaseFirstLoader = new DataBaseFirstLoader();
+        dataBaseFirstLoader.initDataBase();
     }
 }

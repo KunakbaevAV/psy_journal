@@ -3,12 +3,18 @@ package ru.geekbrains.psy_journal.model.database;
 import javax.inject.Inject;
 
 import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.model.data.Category;
+import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.OTF;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.data.TF;
+import ru.geekbrains.psy_journal.model.data.WorkForm;
+import ru.geekbrains.psy_journal.model.data.dao.CategoryDao;
+import ru.geekbrains.psy_journal.model.data.dao.GroupDao;
 import ru.geekbrains.psy_journal.model.data.dao.OTFDao;
 import ru.geekbrains.psy_journal.model.data.dao.TDDao;
 import ru.geekbrains.psy_journal.model.data.dao.TFDao;
+import ru.geekbrains.psy_journal.model.data.dao.WorkFormDao;
 
 /**
  * Огромный такой костыль, который сейчас заменяет класс, который должен парсить xml с профстандартом
@@ -22,6 +28,15 @@ public class DataBaseFirstLoader {
 
     @Inject
     TDDao tdDao;
+
+    @Inject
+    CategoryDao categoryDao;
+
+    @Inject
+    GroupDao groupDao;
+
+    @Inject
+    WorkFormDao workFormDao;
 
     public DataBaseFirstLoader() {
         App.getAppComponent().inject(this);
@@ -119,5 +134,27 @@ public class DataBaseFirstLoader {
         tdDao.insert(new TD(73, "B/05.7.5", "Изучение интересов, склонностей, способностей лиц с ограниченными возможностями здоровья, обучающихся, испытывающих трудности в освоении основных общеобразовательных программ, развитии и социальной адаптации, в том числе несовершеннолетних обучающихся, признанных в установленном порядке обвиняемыми или подсудимыми, либо являющихся потерпевшими или свидетелями преступления", 12));
         tdDao.insert(new TD(74, "B/05.7.6", "Осуществление с целью профориентации комплекса диагностических мероприятий по изучению мотивации, личностных, характерологических особенностей лиц с ограниченными возможностями здоровья, обучающихся, испытывающих трудности в освоении основных общеобразовательных программ, развитии и социальной адаптации, в том числе несовершеннолетних обучающихся, признанных в установленном порядке обвиняемыми или подсудимыми, либо являющихся потерпевшими или свидетелями преступления", 12));
         tdDao.insert(new TD(75, "B/05.7.7", "Ведение профессиональной документации (планы работы, протоколы, журналы, психологические заключения и отчеты)", 12));
+
+        categoryDao.insert(new Category(1, "Классные руководители"));
+        categoryDao.insert(new Category(2, "Педагоги"));
+        categoryDao.insert(new Category(3, "Обучающиеся"));
+        categoryDao.insert(new Category(4, "Родители"));
+        categoryDao.insert(new Category(5, "Администрация"));
+
+        groupDao.insert(new Group("5а"));
+        groupDao.insert(new Group("5б"));
+        groupDao.insert(new Group("5в"));
+        groupDao.insert(new Group("5г"));
+        groupDao.insert(new Group("6а"));
+        groupDao.insert(new Group("6б"));
+        groupDao.insert(new Group("6в"));
+        groupDao.insert(new Group("6г"));
+
+        workFormDao.insert(new WorkForm(1, "Дианостика"));
+        workFormDao.insert(new WorkForm(2, "Профилактическая акция"));
+        workFormDao.insert(new WorkForm(3, "Консультация"));
+        workFormDao.insert(new WorkForm(4, "Тренинговое занятие"));
+        workFormDao.insert(new WorkForm(5, "Развитие"));
+        workFormDao.insert(new WorkForm(6, "Профилактика"));
     }
 }
