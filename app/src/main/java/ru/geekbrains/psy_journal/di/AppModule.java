@@ -10,10 +10,13 @@ import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.psy_journal.model.data.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.dao.AppDatabase;
+import ru.geekbrains.psy_journal.model.data.dao.CategoryDao;
+import ru.geekbrains.psy_journal.model.data.dao.GroupDao;
 import ru.geekbrains.psy_journal.model.data.dao.JournalDao;
 import ru.geekbrains.psy_journal.model.data.dao.OTFDao;
 import ru.geekbrains.psy_journal.model.data.dao.TDDao;
 import ru.geekbrains.psy_journal.model.data.dao.TFDao;
+import ru.geekbrains.psy_journal.model.data.dao.WorkFormDao;
 import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
 
 import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
@@ -55,6 +58,21 @@ public class AppModule {
     @Provides
     TDDao getTDDao() {
         return getAppDatabase().tdDao();
+    }
+
+    @Provides
+    CategoryDao getCategoryDao() {
+        return getAppDatabase().categoryDao();
+    }
+
+    @Provides
+    GroupDao getGroupDao() {
+        return getAppDatabase().groupDao();
+    }
+
+    @Provides
+    WorkFormDao getWorkFormDao() {
+        return getAppDatabase().workFormDao();
     }
 
     @Provides
