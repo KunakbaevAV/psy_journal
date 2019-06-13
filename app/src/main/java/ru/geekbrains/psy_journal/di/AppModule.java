@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.psy_journal.model.data.RoomHelper;
@@ -12,6 +14,7 @@ import ru.geekbrains.psy_journal.model.data.dao.JournalDao;
 import ru.geekbrains.psy_journal.model.data.dao.OTFDao;
 import ru.geekbrains.psy_journal.model.data.dao.TDDao;
 import ru.geekbrains.psy_journal.model.data.dao.TFDao;
+import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
 
 import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
 
@@ -58,5 +61,11 @@ public class AppModule {
     AppDatabase getAppDatabase() {
         return Room.databaseBuilder(context,
                 AppDatabase.class, DATABASE_NAME).build();
+    }
+
+    @Provides
+    @Singleton
+    DataBaseFirstLoader getDataBaseFirstLoader() {
+        return new DataBaseFirstLoader();
     }
 }
