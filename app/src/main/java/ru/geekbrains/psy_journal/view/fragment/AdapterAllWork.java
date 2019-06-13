@@ -33,11 +33,16 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.position = position;
         presenter.bindView(holder);
+        holder.themeLayout.setOnClickListener(v -> presenter.onClickUpdate(holder));
     }
 
     @Override
     public int getItemCount() {
         return presenter.getItemCount();
+    }
+
+    public void delete(int adapterPosition) {
+        notifyItemRemoved(adapterPosition);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements IViewHolder {

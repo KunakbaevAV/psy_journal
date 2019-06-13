@@ -8,4 +8,7 @@ public interface IRecyclerAllWorkPresenter {
 
     int getItemCount();
 
+    void onClickDelete(int position);
+
+    void onClickUpdate(IViewHolder holder);
 }
