@@ -1,10 +1,13 @@
 package ru.geekbrains.psy_journal.model.database;
 
+import android.util.Log;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Single;
+import io.reactivex.SingleOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Category;
@@ -61,27 +64,27 @@ public class RoomHelper {
 
     //Возвращает список Трудовых функций, относящихся к указанной Обобщенной трудовой функции
     public Single<List<TF>> getTFList(int idOTF) {
-        return tfDao.getTfByOtf(idOTF);
+        return tfDao.getTfByOtf(idOTF).subscribeOn(Schedulers.io());
     }
 
     //Возвращает список Трудовых действий, относящихся к указанной Трудовой функции
     public Single<List<TD>> getTDList(int idTF) {
-        return tdDao.getTdByTf(idTF);
+        return tdDao.getTdByTf(idTF).subscribeOn(Schedulers.io());
     }
 
     //Возвращает список категорий людей, с которыми работает пользователь
     public Single<List<Category>> getListCategory() {
-        return categoryDao.getAllCategories();
+        return categoryDao.getAllCategories().subscribeOn(Schedulers.io());
     }
 
     //Возвращает список групп(классов), с которыми работает пользователь
     public Single<List<Group>> getListGroups() {
-        return groupDao.getAllGroups();
+        return groupDao.getAllGroups().subscribeOn(Schedulers.io());
     }
 
     //Возвращает список форм работы пользователя
     public Single<List<WorkForm>> getListWorkForms() {
-        return workFormDao.getAllWorkForms();
+        return workFormDao.getAllWorkForms().subscribeOn(Schedulers.io());
     }
 
     public Long insertItemJournal(Journal journal) {
@@ -96,8 +99,9 @@ public class RoomHelper {
         return journalDao.update(journal);
     }
 
-    public Long insertItemOTF(OTF otf) {
-        return otfDao.insert(otf);
+    public Single<Long> insertItemOTF(OTF otf) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> otfDao.insert(otf)).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemOTF(OTF otf) {
@@ -108,8 +112,9 @@ public class RoomHelper {
         return otfDao.update(otf);
     }
 
-    public Long insertItemTF(TF tf) {
-        return tfDao.insert(tf);
+    public Single<Long> insertItemTF(TF tf) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> tfDao.insert(tf)).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemTF(TF tf) {
@@ -120,8 +125,9 @@ public class RoomHelper {
         return tfDao.update(tf);
     }
 
-    public Long insertItemTD(TD td) {
-        return tdDao.insert(td);
+    public Single<Long> insertItemTD(TD td) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> tdDao.insert(td)).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemTD(TD td) {
@@ -132,8 +138,9 @@ public class RoomHelper {
         return tdDao.update(td);
     }
 
-    public Long insertItemCategory(Category category) {
-        return categoryDao.insert(category);
+    public Single<Long> insertItemCategory(Category category) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> categoryDao.insert(category)).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemCategory(Category category) {
@@ -144,8 +151,9 @@ public class RoomHelper {
         return categoryDao.update(category);
     }
 
-    public Long insertItemGroup(Group group) {
-        return groupDao.insert(group);
+    public Single<Long> insertItemGroup(Group group) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> groupDao.insert(group)).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemGroup(Group group) {
@@ -156,8 +164,9 @@ public class RoomHelper {
         return groupDao.delete(group);
     }
 
-    public Long insertItemWorkForm(WorkForm workForm) {
-        return workFormDao.insert(workForm);
+    public Single<Long> insertItemWorkForm(WorkForm workForm) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> workFormDao.insert(workForm)).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemWorkForm(WorkForm workForm) {
