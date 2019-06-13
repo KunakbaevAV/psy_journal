@@ -2,6 +2,8 @@ package ru.geekbrains.psy_journal.di;
 
 import android.app.Application;
 
+import javax.inject.Inject;
+
 import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
 
 public class App extends Application {
@@ -12,6 +14,9 @@ public class App extends Application {
         return appComponent;
     }
 
+    @Inject
+    DataBaseFirstLoader dataBaseFirstLoader;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,11 +24,6 @@ public class App extends Application {
                 .appModule(new AppModule(this))
                 .build();
 
-        firstInit();
-    }
-
-    private void firstInit() {
-        DataBaseFirstLoader dataBaseFirstLoader = new DataBaseFirstLoader();
         dataBaseFirstLoader.initDataBase();
     }
 }
