@@ -2,9 +2,6 @@ package ru.geekbrains.psy_journal.model.data;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import ru.geekbrains.psy_journal.model.data.converters.TFConverter;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_TD;
 

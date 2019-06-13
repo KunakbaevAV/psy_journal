@@ -6,7 +6,6 @@ import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Category;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.OTF;
-import ru.geekbrains.psy_journal.model.data.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
