@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.model.data.dao;
+package ru.geekbrains.psy_journal.model.database.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

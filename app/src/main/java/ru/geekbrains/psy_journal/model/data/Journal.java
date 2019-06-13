@@ -3,18 +3,14 @@ package ru.geekbrains.psy_journal.model.data;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.geekbrains.psy_journal.model.data.converters.JournalConverter;
-
 import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
 
 @Entity(tableName = TABLE_JOURNAL)
-@TypeConverters(JournalConverter.class)
 public class Journal {
 
     @PrimaryKey(autoGenerate = true)

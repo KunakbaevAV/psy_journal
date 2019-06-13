@@ -10,8 +10,7 @@ import javax.inject.Inject;
 
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.OTF;
-import ru.geekbrains.psy_journal.model.data.RoomHelper;
+import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.data.WorkForm;

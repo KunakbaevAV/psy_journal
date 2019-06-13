@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.RoomHelper;
+import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkView;
 import ru.geekbrains.psy_journal.view.fragment.IViewHolder;
 
