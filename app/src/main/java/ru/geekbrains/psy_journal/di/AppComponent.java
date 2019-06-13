@@ -3,8 +3,8 @@ package ru.geekbrains.psy_journal.di;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.geekbrains.psy_journal.model.data.RoomHelper;
 import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
+import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presenter.AllWorkPresenter;
 

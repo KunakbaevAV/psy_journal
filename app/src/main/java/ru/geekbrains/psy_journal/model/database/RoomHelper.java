@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.model.data;
+package ru.geekbrains.psy_journal.model.database;
 
 import java.util.List;
 
@@ -7,13 +7,20 @@ import javax.inject.Inject;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.model.data.dao.CategoryDao;
-import ru.geekbrains.psy_journal.model.data.dao.GroupDao;
-import ru.geekbrains.psy_journal.model.data.dao.JournalDao;
-import ru.geekbrains.psy_journal.model.data.dao.OTFDao;
-import ru.geekbrains.psy_journal.model.data.dao.TDDao;
-import ru.geekbrains.psy_journal.model.data.dao.TFDao;
-import ru.geekbrains.psy_journal.model.data.dao.WorkFormDao;
+import ru.geekbrains.psy_journal.model.data.Category;
+import ru.geekbrains.psy_journal.model.data.Group;
+import ru.geekbrains.psy_journal.model.data.Journal;
+import ru.geekbrains.psy_journal.model.data.OTF;
+import ru.geekbrains.psy_journal.model.data.TD;
+import ru.geekbrains.psy_journal.model.data.TF;
+import ru.geekbrains.psy_journal.model.data.WorkForm;
+import ru.geekbrains.psy_journal.model.database.dao.CategoryDao;
+import ru.geekbrains.psy_journal.model.database.dao.GroupDao;
+import ru.geekbrains.psy_journal.model.database.dao.JournalDao;
+import ru.geekbrains.psy_journal.model.database.dao.OTFDao;
+import ru.geekbrains.psy_journal.model.database.dao.TDDao;
+import ru.geekbrains.psy_journal.model.database.dao.TFDao;
+import ru.geekbrains.psy_journal.model.database.dao.WorkFormDao;
 
 public class RoomHelper {
 
