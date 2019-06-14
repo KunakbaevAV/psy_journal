@@ -104,6 +104,16 @@ public class RoomHelper {
                 emitter -> otfDao.insert(otf)).subscribeOn(Schedulers.io());
     }
 
+    public Single<Long> insertListOTF(List<OTF> otfList) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> {
+                    for (OTF item : otfList) {
+                        otfDao.insert(item);
+                    }
+                }
+        ).subscribeOn(Schedulers.io());
+    }
+
     public int deleteItemOTF(OTF otf) {
         return otfDao.delete(otf);
     }
@@ -115,6 +125,16 @@ public class RoomHelper {
     public Single<Long> insertItemTF(TF tf) {
         return Single.create((SingleOnSubscribe<Long>)
                 emitter -> tfDao.insert(tf)).subscribeOn(Schedulers.io());
+    }
+
+    public Single<Long> insertListTF(List<TF> tfList) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> {
+                    for (TF item : tfList) {
+                        tfDao.insert(item);
+                    }
+                }
+        ).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemTF(TF tf) {
@@ -130,6 +150,16 @@ public class RoomHelper {
                 emitter -> tdDao.insert(td)).subscribeOn(Schedulers.io());
     }
 
+    public Single<Long> insertListTD(List<TD> tdList) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> {
+                    for (TD item : tdList) {
+                        tdDao.insert(item);
+                    }
+                }
+        ).subscribeOn(Schedulers.io());
+    }
+
     public int deleteItemTD(TD td) {
         return tdDao.delete(td);
     }
@@ -141,6 +171,16 @@ public class RoomHelper {
     public Single<Long> insertItemCategory(Category category) {
         return Single.create((SingleOnSubscribe<Long>)
                 emitter -> categoryDao.insert(category)).subscribeOn(Schedulers.io());
+    }
+
+    public Single<Long> insertListCategory(List<Category> categoryList) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> {
+                    for (Category item : categoryList) {
+                        categoryDao.insert(item);
+                    }
+                }
+        ).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemCategory(Category category) {
@@ -156,6 +196,16 @@ public class RoomHelper {
                 emitter -> groupDao.insert(group)).subscribeOn(Schedulers.io());
     }
 
+    public Single<Long> insertListGroups(List<Group> groupList) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> {
+                    for (Group item : groupList) {
+                        groupDao.insert(item);
+                    }
+                }
+        ).subscribeOn(Schedulers.io());
+    }
+
     public int deleteItemGroup(Group group) {
         return groupDao.delete(group);
     }
@@ -167,6 +217,16 @@ public class RoomHelper {
     public Single<Long> insertItemWorkForm(WorkForm workForm) {
         return Single.create((SingleOnSubscribe<Long>)
                 emitter -> workFormDao.insert(workForm)).subscribeOn(Schedulers.io());
+    }
+
+    public Single<Long> insertListWorkForms(List<WorkForm> workFormList) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> {
+                    for (WorkForm item : workFormList) {
+                        workFormDao.insert(item);
+                    }
+                }
+        ).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemWorkForm(WorkForm workForm) {
