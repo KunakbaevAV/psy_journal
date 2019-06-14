@@ -39,13 +39,13 @@ public class App extends Application {
         if (isFirstStart) {
             dataBaseFirstLoader.initDataBase();
             SharedPreferences.Editor editor = mSetting.edit();
-            editor.putBoolean(FIRST_START, true);
+            editor.putBoolean(FIRST_START, false);
             editor.apply();
         }
     }
 
     private void checkFirstStart() {
         mSetting = getSharedPreferences(FIRST_START, Context.MODE_PRIVATE);
-        isFirstStart = mSetting.getBoolean(FIRST_START, false);
+        isFirstStart = mSetting.getBoolean(FIRST_START, true);
     }
 }
