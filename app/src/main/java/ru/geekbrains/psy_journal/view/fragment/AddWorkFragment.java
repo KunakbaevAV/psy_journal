@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.collection.ArraySet;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -170,8 +171,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
 	@Override
-	public void openDialogue(String title) {
+	public void openDialogue(String title, String old) {
     	if (getActivity() != null){
+		    FragmentManager manager = getActivity().getSupportFragmentManager();
+		    DialogFragment dialog = (DialogFragment) manager.findFragmentByTag(old);
+		    if (dialog != null) dialog.dismiss();
 		    FunctionDialog.newInstance(title).show(getActivity().getSupportFragmentManager(), "Tag " + title);
 	    }
 	}

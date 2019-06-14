@@ -12,7 +12,7 @@ public interface AddWorkView extends MvpView {
 	void showHours(float hours);
 	void collectAll();
 	@StateStrategyType(SingleStateStrategy.class)
-	void openDialogue(String title);
+	void openDialogue(String title, String old);
 	@StateStrategyType(SingleStateStrategy.class)
 	void closeDialogs(String code);
 	void showToast(String message);

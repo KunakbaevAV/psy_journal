@@ -36,7 +36,13 @@ public class FunctionDialog extends DialogFragment {
 		return new AlertDialog.Builder(getActivity())
 			.setTitle(title)
 			.setView(createViewList())
-			.setNegativeButton("cancel", (dialog, id) -> dialog.dismiss())
+			.setNegativeButton("cancel", (dialog, id) -> {
+				settable.toClear();
+				getActivity().getSupportFragmentManager()
+					.beginTransaction()
+					.remove(this)
+					.commit();
+			})
 			.create();
 	}
 
