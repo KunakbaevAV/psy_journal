@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 import static ru.geekbrains.psy_journal.Constants.TABLE_OTF;
 
 @Entity(tableName = TABLE_OTF)
-public class OTF {
+public class OTF implements Functional {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -19,7 +19,7 @@ public class OTF {
         this.name = name;
     }
 
-    public int getId() {
+	public int getId() {
         return id;
     }
 

@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Category;
@@ -51,6 +53,33 @@ public class RoomHelper {
     public RoomHelper() {
         App.getAppComponent().inject(this);
     }
+
+    //первичная загрузка из файла в базу OTF
+	public void initializeOTF(List<OTF> list){
+		Disposable disposable = otfDao.insert(list)
+			.subscribeOn(Schedulers.io())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(() -> Log.i("initializeOTF: ", "added to base"),
+				e -> Log.e("initializeOTF: ", String.format("error adding to database, %s", e.getMessage())));
+	}
+
+	//первичная загрузка из файла в базу TF
+	public void initializeTF(List<TF> list){
+		Disposable disposable = tfDao.insert(list)
+			.subscribeOn(Schedulers.io())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(() -> Log.i("initializeTF: ", "added to base"),
+				e -> Log.e("initializeTF: ", String.format("error adding to database, %s", e.getMessage())));
+	}
+
+	//первичная загрузка из файла в базу TD
+	public void initializeTD(List<TD> list){
+		Disposable disposable = tdDao.insert(list)
+			.subscribeOn(Schedulers.io())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(() -> Log.i("initializeTD: ", "added to base"),
+				e -> Log.e("initializeTD: ", String.format("error adding to database, %s", e.getMessage())));
+	}
 
     //Возвращает список всех зарегистрированных единиц работы
     public Single<List<Journal>> getJournalList() {
@@ -177,8 +206,8 @@ public class RoomHelper {
         return Single.create((SingleOnSubscribe<Long>)
                 emitter -> {
                     for (Category item : categoryList) {
-                        categoryDao.insert(item);
-                    }
+//                        categoryDao.insert(item); ошибка
+                     }
                 }
         ).subscribeOn(Schedulers.io());
     }
@@ -223,7 +252,7 @@ public class RoomHelper {
         return Single.create((SingleOnSubscribe<Long>)
                 emitter -> {
                     for (WorkForm item : workFormList) {
-                        workFormDao.insert(item);
+//                        workFormDao.insert(item); ошибка
                     }
                 }
         ).subscribeOn(Schedulers.io());

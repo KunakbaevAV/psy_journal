@@ -1,12 +1,14 @@
 package ru.geekbrains.psy_journal.model.data;
 
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_TD;
 
 @Entity(tableName = TABLE_TD)
-public class TD {
+public class TD implements Functional {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

@@ -31,8 +31,8 @@ public class App extends Application {
                 .build();
         appComponent.inject(this);
 
-        checkFirstStart();
-        initDB();
+//        checkFirstStart();
+//        initDB();
     }
 
     private void initDB() {

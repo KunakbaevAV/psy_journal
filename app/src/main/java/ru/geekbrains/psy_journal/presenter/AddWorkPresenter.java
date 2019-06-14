@@ -1,26 +1,37 @@
 package ru.geekbrains.psy_journal.presenter;
 
-import android.annotation.SuppressLint;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
-import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.disposables.Disposable;
+import ru.geekbrains.psy_journal.model.data.Functional;
+import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
+import ru.geekbrains.psy_journal.model.data.OTF;
+import ru.geekbrains.psy_journal.model.data.TD;
+import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
-import ru.geekbrains.psy_journal.view.fragment.Added;
-@InjectViewState
-public class AddWorkPresenter extends MvpPresenter<Added> implements Settable {
+import ru.geekbrains.psy_journal.model.data.WorkForm;
+import ru.geekbrains.psy_journal.view.dialogs.adapters.Displayed;
+import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 
+@InjectViewState
+public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements Settable {
+
+	private final List<Functional> currentList = new ArrayList<>();
+	private List<Group> groupList;
+	private List<WorkForm> workFormList;
 	private Journal journal;
-	//инжектировать класс для отправки Journal в БД
+
 
     @Inject
     RoomHelper roomHelper;
@@ -29,50 +40,46 @@ public class AddWorkPresenter extends MvpPresenter<Added> implements Settable {
 		return journal;
 	}
 
-	public AddWorkPresenter(Journal journal) {
-		this.journal = journal;
+	public AddWorkPresenter() {
+		journal = new Journal();
 	}
 
-    @SuppressLint("CheckResult")
-    public void addWorkIntoDatabase() {
-        journal = getJournalItem();
-        addWorkObservable(journal)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(work -> getViewState().showToast("Work was added"),
-                        throwable -> getViewState().showToast("Error adding work to database " + throwable.getMessage()));
-    }
+	public void getOTF(){
+		Disposable disposable = roomHelper.getOTFList()
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(otfs -> {
+					if (!currentList.isEmpty()) currentList.clear();
+					currentList.addAll(otfs);
+				},
+				e -> Log.e("getOTF(): ", e.getMessage()));
+	}
 
-    private Single<Long> addWorkObservable(Journal journal) {
-        return Single.create((SingleOnSubscribe<Long>) emitter -> {
-            long id = roomHelper.insertItemJournal(journal);
-            emitter.onSuccess(id);
-        }).subscribeOn(Schedulers.io());
-    }
+	private void getTF(int idOTF){
+		Disposable disposable = roomHelper.getTFList(idOTF)
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(list -> {
+					if (!currentList.isEmpty()) currentList.clear();
+					currentList.addAll(list);
+				},
+				e -> Log.e("getTF(): ", e.getMessage()));
+	}
 
-    private Journal getJournalItem() { //FIXME Тестовый метод создания единицы работы для проверки добавления в БД
-        long date = 38100;
-        String dayOfWeek = "Sunday";
-        int td = 3;
-        int category = 2;
-        int group = 3;
-        String name = "Ivanov";
-        int quantityPeople = 1;
-        String declaredRequest = "Theme - Declared request";
-        String realRequest = "Real";
-        int workForm = 1;
-        float workTime = (float) 0.5;
-        String comment = "Comment";
-        journal = new Journal(date, dayOfWeek, td, category,
-                group, name, quantityPeople, declaredRequest, realRequest,
-                workForm, workTime, comment);
+	private void getTD(int idTF){
+		Disposable disposable = roomHelper.getTDList(idTF)
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(list -> {
+					if (!currentList.isEmpty()) currentList.clear();
+					currentList.addAll(list);
+				},
+				e -> Log.e("getTD: ", e.getMessage()));
+	}
 
-        return journal;
-    }
+	public void addWorkIntoDatabase(){
+//		roomHelper.insertItemJournal(journal);
+	}
 
-    public void setNameGroup(String name) { //FIXME Переделать, т.к. изменились поля класса Journal
-        //journal.setIdGroup(new Group(name));
-        int idGroup = 1;
-        journal.setIdGroup(idGroup);
+    public void setGroup(Group group) {
+        journal.setIdGroup(group.getId());
 	}
 
 	@Override
@@ -89,5 +96,32 @@ public class AddWorkPresenter extends MvpPresenter<Added> implements Settable {
 		float hours = hour + minutes / 60.0f;
 		journal.setWorkTime(hours);
 		getViewState().showHours(hours);
+	}
+
+	@Override
+	public void bindView(Displayed displayed, int position) {
+		Functional function = currentList.get(position);
+		displayed.bind(function.getCode(), function.getName());
+	}
+
+	@Override
+	public int getItemCount() {
+		return currentList.size();
+	}
+
+	@Override
+	public void choose(int position) {
+		Functional function = currentList.get(position);
+		if (function instanceof OTF){
+			getTF(((OTF) function).getId());
+			getViewState().openDialogue("TF");
+		}
+		if (function instanceof TF){
+			getTD(((TF) function).getId());
+			getViewState().openDialogue("TD");
+		}
+		if (function instanceof TD){
+			getViewState().closeDialogs(function.getCode());
+		}
 	}
 }
