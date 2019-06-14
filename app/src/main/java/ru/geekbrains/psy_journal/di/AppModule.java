@@ -84,6 +84,8 @@ public class AppModule {
     @Provides
     @Singleton
     DataBaseFirstLoader getDataBaseFirstLoader() {
-        return new DataBaseFirstLoader();
+	    DataBaseFirstLoader dataBaseFirstLoader = new DataBaseFirstLoader();
+	    dataBaseFirstLoader.initDataBase();
+        return dataBaseFirstLoader;
     }
 }
