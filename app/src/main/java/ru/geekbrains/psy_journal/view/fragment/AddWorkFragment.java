@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.collection.ArraySet;
+import androidx.fragment.app.FragmentManager;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -38,10 +39,11 @@ import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
 import ru.geekbrains.psy_journal.view.dialogs.DateSettingDialog;
+import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 import ru.geekbrains.psy_journal.view.dialogs.TimeSettingDialog;
 
 public class AddWorkFragment extends MvpAppCompatFragment implements
-	Added,
+	AddWorkView,
 	View.OnClickListener {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.getDefault());
@@ -52,6 +54,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	@BindView(R.id.quantity_people_count) TextInputEditText quantityPeople;
 	@BindView(R.id.declared_request_text) TextInputEditText declaredRequestText;
 	@BindView(R.id.real_request_text) TextInputEditText realRequestText;
+	@BindView(R.id.code_tf_text) TextInputEditText codeTfText;
 	@BindView(R.id.comment_text) TextInputEditText commentText;
 	@BindView(R.id.quantity_people_layout) TextInputLayout quantityPeopleLayout;
 
@@ -60,14 +63,15 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
     @ProvidePresenter
 	AddWorkPresenter providePresenter(){
-    	return new AddWorkPresenter(new Journal());
+	    AddWorkPresenter workPresenter = new AddWorkPresenter();
+	    App.getAppComponent().inject(workPresenter);
+    	return workPresenter;
     }
 
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_work, container, false);
-		App.getAppComponent().inject(workPresenter);
 		unbinder = ButterKnife.bind(this, view);
 		dateText.setHint(dateFormat.format(new Date()));
 		workTimeText.setText("1.0");
@@ -117,19 +121,20 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 		}
 	}
 
-	@OnClick({R.id.date_text, R.id.work_time_count})
+	@OnClick({R.id.date_text, R.id.work_time_count, R.id.code_tf_text})
 	@Override
 	public void onClick(View v) {
+    	if (getActivity() == null) return;
 		switch (v.getId()){
 			case R.id.date_text:
-				if (getActivity() != null){
-					new DateSettingDialog().show(getActivity().getSupportFragmentManager(), "Tag date picker");
-				}
+				new DateSettingDialog().show(getActivity().getSupportFragmentManager(), "Tag date picker");
 				break;
 			case R.id.work_time_count:
-				if (getActivity() != null){
-					new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), "Tag time picker");
-				}
+				new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), "Tag time picker");
+				break;
+			case R.id.code_tf_text:
+				workPresenter.getOTF();
+				FunctionDialog.newInstance("OTF").show(getActivity().getSupportFragmentManager(), "Tag OTF");
 				break;
 		}
 	}
@@ -151,7 +156,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 			String name = editable.toString();
 			if (!name.equals("")){
 				saveNames(name);
-				workPresenter.setNameGroup(name);
+//				workPresenter.setGroup(name);
 			}
 		}
 		if (quantityPeople.getText() != null){
@@ -162,6 +167,27 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 		if (realRequestText.getText() != null) workPresenter.getJournal().setRealRequest(realRequestText.getText().toString());
 		if (commentText.getText() != null) workPresenter.getJournal().setComment(commentText.getText().toString());
 		workPresenter.addWorkIntoDatabase();
+	}
+
+	@Override
+	public void openDialogue(String title) {
+    	if (getActivity() != null){
+		    FunctionDialog.newInstance(title).show(getActivity().getSupportFragmentManager(), "Tag " + title);
+	    }
+	}
+
+	@Override
+	public void closeDialogs(String code) {
+		if (getActivity() != null){
+			FragmentManager manager = getActivity().getSupportFragmentManager();
+			for (int i = 0; i < manager.getFragments().size(); i++) {
+				if ("Tag TD".equals(manager.getFragments().get(i).getTag()) ||
+					"Tag TF".equals(manager.getFragments().get(i).getTag()) ||
+					"Tag OTF".equals(manager.getFragments().get(i).getTag()))
+						manager.beginTransaction().remove(manager.getFragments().get(i)).commit();
+			}
+		}
+		codeTfText.setText(code);
 	}
 
 	@Override

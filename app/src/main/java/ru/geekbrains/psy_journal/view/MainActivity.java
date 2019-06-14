@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
-import ru.geekbrains.psy_journal.view.fragment.Added;
+import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			if (tag == null) return;
 			switch (tag){
 				case "Tag add work":
-					Added added = (Added) currentFragment;
-					added.collectAll();
+					AddWorkView addWorkView = (AddWorkView) currentFragment;
+					addWorkView.collectAll();
 					getSupportFragmentManager()
 						.beginTransaction()
 						.replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")

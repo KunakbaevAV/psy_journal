@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 import static ru.geekbrains.psy_journal.Constants.TABLE_TF;
 
 @Entity(tableName = TABLE_TF)
-public class TF {
+public class TF implements Functional{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
