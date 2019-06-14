@@ -75,7 +75,9 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements Setta
 	}
 
 	public void addWorkIntoDatabase(){
-//		roomHelper.insertItemJournal(journal);
+		roomHelper.insertItemJournal(journal)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe();
 	}
 
     public void setGroup(Group group) {

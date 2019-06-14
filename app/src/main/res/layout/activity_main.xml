@@ -16,13 +16,13 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
         android:focusable="true"
         android:focusableInTouchMode="false"
-        app:tint="?attr/colorPrimaryDark"
         app:backgroundTint="?attr/colorAccent"
+        app:elevation="16dp"
         app:fabSize="auto"
-        app:elevation="16dp"/>
+        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -116,8 +116,10 @@ public class RoomHelper {
         return workFormDao.getAllWorkForms().subscribeOn(Schedulers.io());
     }
 
-    public Long insertItemJournal(Journal journal) {
-        return journalDao.insert(journal);
+    public Single<Long> insertItemJournal(Journal journal) {
+        return Single.create((SingleOnSubscribe<Long>)
+                emitter -> journalDao.insert(journal)
+        ).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemJournal(Journal journal) {
