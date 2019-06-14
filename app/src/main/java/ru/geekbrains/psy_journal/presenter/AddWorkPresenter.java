@@ -110,18 +110,24 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements Setta
 	}
 
 	@Override
+	public void toClear() {
+		currentList.clear();
+	}
+
+	@Override
 	public void choose(int position) {
 		Functional function = currentList.get(position);
 		if (function instanceof OTF){
 			getTF(((OTF) function).getId());
-			getViewState().openDialogue("TF");
+			getViewState().openDialogue("TF", "Tag OTF");
 		}
 		if (function instanceof TF){
 			getTD(((TF) function).getId());
-			getViewState().openDialogue("TD");
+			getViewState().openDialogue("TD", "Tag TF");
 		}
 		if (function instanceof TD){
 			getViewState().closeDialogs(function.getCode());
+			currentList.clear();
 		}
 	}
 }
