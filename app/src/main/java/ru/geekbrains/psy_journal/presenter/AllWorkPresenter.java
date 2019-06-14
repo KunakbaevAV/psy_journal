@@ -13,7 +13,10 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
+import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkView;
@@ -52,6 +55,27 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
                 });
     }
 
+    @SuppressLint("CheckResult")
+    private void deleteItemJournalFromDatabase(Journal journal) {
+        deleteItemJournalFromDatabaseObservable(journal).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(hits -> {
+                            getViewState().updateRecyclerView();
+                            getViewState().showToast("Item Journal deleted from database");
+                        },
+                        throwable -> getViewState().showToast("Error deleting: " + throwable));
+    }
+
+    private Single<Integer> deleteItemJournalFromDatabaseObservable(Journal journal) {
+        return Single.create((SingleOnSubscribe<Integer>) emitter -> {
+            int id = roomHelper.deleteItemJournal(journal);
+            emitter.onSuccess(id);
+        }).subscribeOn(Schedulers.io());
+    }
+
+    private void openScreenUpdateJournal(Journal journal) {
+        // TODO Метод открытия окна для редактирования единицы работы
+    }
+
     private void ifRequestSuccess() {
         getViewState().updateRecyclerView();
         getViewState().hideProgressBar();
@@ -80,5 +104,17 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
         private String getDate(long date) {
             return dateFormat.format(new Date(date));
         }
+
+        @Override
+        public void onClickDelete(int positiom) {
+            deleteItemJournalFromDatabase(listWorks.get(positiom));
+            listWorks.remove(positiom);
+        }
+
+        @Override
+        public void onClickUpdate(IViewHolder holder) {
+            openScreenUpdateJournal(listWorks.get(holder.getPos()));
+        }
     }
+
 }
