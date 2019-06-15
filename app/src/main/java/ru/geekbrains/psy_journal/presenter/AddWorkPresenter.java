@@ -16,21 +16,25 @@ import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.OTF;
 import ru.geekbrains.psy_journal.model.data.TD;
-import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
+import ru.geekbrains.psy_journal.view.dialogs.Updated;
 import ru.geekbrains.psy_journal.view.dialogs.adapters.Displayed;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 
 @InjectViewState
-public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements Settable {
+public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
+	Settable,
+	Terminable{
 
+	private static final float HOUR_IN_MINUTES = 60.0f;
+	private final RecyclePresenter recyclePresenter = new RecyclePresenter();
 	private final List<Functional> currentList = new ArrayList<>();
+	private final Journal journal;
+	private Updated updated;
 	private List<Group> groupList;
 	private List<WorkForm> workFormList;
-	private Journal journal;
 
 
     @Inject
@@ -44,12 +48,13 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements Setta
 		journal = new Journal();
 	}
 
-	public void getOTF(){
+	private void getOTF(){
 		Disposable disposable = roomHelper.getOTFList()
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(otfs -> {
+			.subscribe(list ->{
 					if (!currentList.isEmpty()) currentList.clear();
-					currentList.addAll(otfs);
+					currentList.addAll(list);
+					updated.update("OTF");
 				},
 				e -> Log.e("getOTF(): ", e.getMessage()));
 	}
@@ -60,6 +65,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements Setta
 			.subscribe(list -> {
 					if (!currentList.isEmpty()) currentList.clear();
 					currentList.addAll(list);
+					updated.update("TF");
 				},
 				e -> Log.e("getTF(): ", e.getMessage()));
 	}
@@ -70,6 +76,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements Setta
 			.subscribe(list -> {
 					if (!currentList.isEmpty()) currentList.clear();
 					currentList.addAll(list);
+					updated.update("TD");
 				},
 				e -> Log.e("getTD: ", e.getMessage()));
 	}
@@ -95,41 +102,50 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements Setta
 
 	@Override
 	public void setHours(int hour, int minutes) {
-		float hours = hour + minutes / 60.0f;
+		float hours = hour + minutes / HOUR_IN_MINUTES;
 		journal.setWorkTime(hours);
 		getViewState().showHours(hours);
 	}
 
 	@Override
-	public void bindView(Displayed displayed, int position) {
-		Functional function = currentList.get(position);
-		displayed.bind(function.getCode(), function.getName());
+	public Bindable setBind() {
+		return recyclePresenter;
 	}
 
 	@Override
-	public int getItemCount() {
-		return currentList.size();
+	public void setUpdated(Updated updated) {
+		this.updated = updated;
+		getOTF();
 	}
 
-	@Override
-	public void toClear() {
-		currentList.clear();
-	}
+	private class RecyclePresenter implements Bindable{
 
-	@Override
-	public void choose(int position) {
-		Functional function = currentList.get(position);
-		if (function instanceof OTF){
-			getTF(((OTF) function).getId());
-			getViewState().openDialogue("TF", "Tag OTF");
+		@Override
+		public void bindView(Displayed displayed, int position) {
+			Functional function = currentList.get(position);
+			displayed.bind(function.getCode(), function.getName());
 		}
-		if (function instanceof TF){
-			getTD(((TF) function).getId());
-			getViewState().openDialogue("TD", "Tag TF");
+
+		@Override
+		public int getItemCount() {
+			return currentList.size();
 		}
-		if (function instanceof TD){
-			getViewState().closeDialogs(function.getCode());
-			currentList.clear();
+
+		@Override
+		public void selectItem(int position) {
+			Functional function = currentList.get(position);
+			switch (function.getLabel()){
+				case "OTF":
+					getTF(function.getId());
+					break;
+				case "TF":
+					getTD(function.getId());
+					break;
+				case "TD":
+					getViewState().closeDialogs((TD) function);
+					currentList.clear();
+					break;
+			}
 		}
 	}
 }

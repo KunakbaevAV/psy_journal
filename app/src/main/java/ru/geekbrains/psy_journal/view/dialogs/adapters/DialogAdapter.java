@@ -11,42 +11,44 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presenter.Settable;
+import ru.geekbrains.psy_journal.presenter.Bindable;
 
 public class DialogAdapter extends RecyclerView.Adapter{
 
-	private Settable settable;
+	private Bindable bindable;
 
-	public DialogAdapter(Settable settable) {
-		this.settable = settable;
+	public DialogAdapter(Bindable bindable) {
+		this.bindable = bindable;
 	}
 
 	@NonNull
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		return new FunctionViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_functions, parent, false), settable);
+		return new FunctionViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_functions, parent, false), bindable);
 	}
 
 	@Override
 	public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 		FunctionViewHolder myViewHolder = (FunctionViewHolder) holder;
-		settable.bindView(myViewHolder, position);
+		bindable.bindView(myViewHolder, position);
 	}
 
 	@Override
 	public int getItemCount() {
-		return settable.getItemCount();
+		return bindable.getItemCount();
 	}
 
-	public static class FunctionViewHolder extends RecyclerView.ViewHolder implements Displayed, View.OnClickListener {
+	public static class FunctionViewHolder extends RecyclerView.ViewHolder implements
+		Displayed,
+		View.OnClickListener {
 
 		@BindView(R.id.code_fun)TextView codeView;
 		@BindView(R.id.name_fun) TextView nameView;
-		private Settable settable;
+		private Bindable bindable;
 
-		FunctionViewHolder(@NonNull View itemView, Settable settable) {
+		FunctionViewHolder(@NonNull View itemView, Bindable bindable) {
 			super(itemView);
-			this.settable = settable;
+			this.bindable = bindable;
 			ButterKnife.bind(this, itemView);
 			itemView.setOnClickListener(this);
 		}
@@ -59,7 +61,7 @@ public class DialogAdapter extends RecyclerView.Adapter{
 
 		@Override
 		public void onClick(View v) {
-			settable.choose(getAdapterPosition());
+			bindable.selectItem(getAdapterPosition());
 		}
 	}
 }

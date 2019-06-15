@@ -1,7 +1,5 @@
 package ru.geekbrains.psy_journal.model.data;
 
-import android.os.Parcelable;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -16,12 +14,18 @@ public class TD implements Functional {
     private String name;
     private int idTF;
 
-    public TD(int id, String code, String name, int idTF) {
+	public TD(int id, String code, String name, int idTF) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.idTF = idTF;
     }
+
+	@Override
+	public String getLabel() {
+		// это просто метка, чтобы не тратить время на приведения класса обьекта через instanceof
+		return "TD";
+	}
 
     public int getId() {
         return id;
