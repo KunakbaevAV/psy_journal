@@ -7,43 +7,64 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.arellomobile.mvp.MvpAppCompatDialogFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presenter.Settable;
+import ru.geekbrains.psy_journal.presenter.DialogFunctionPresenter;
 import ru.geekbrains.psy_journal.view.dialogs.adapters.DialogAdapter;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 
-public class FunctionDialog extends DialogFragment implements Updated{
+public class FunctionDialog extends MvpAppCompatDialogFragment implements Updated{
 
-	private Settable settable;
+	public static FunctionDialog newInstance(String title, int id){
+		FunctionDialog fragment = new FunctionDialog();
+		Bundle args = new Bundle();
+		args.putString("key title", title);
+		args.putInt("key id", id);
+		fragment.setArguments(args);
+		return fragment;
+	}
+
 	private DialogAdapter adapter;
-	private TextView titleView;
+	private String title;
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (getActivity() == null) return;
-		AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag("Tag add work");
-		if (fragment != null) settable = fragment.workPresenter;
+	@InjectPresenter DialogFunctionPresenter functionPresenter;
+
+	@ProvidePresenter
+	DialogFunctionPresenter providePresenter(){
+		if (getActivity() != null){
+			int id = 0;
+			if (getArguments() != null) {
+				title = getArguments().getString("key title");
+				id = getArguments().getInt("key id");
+			}
+			AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag("Tag add work");
+			if (fragment != null){
+				return new DialogFunctionPresenter(fragment.workPresenter, title, id);
+			}
+		}
+		return null;
 	}
 
 	@NonNull
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		if (getActivity() == null) return super.onCreateDialog(savedInstanceState);
 		return new AlertDialog.Builder(getActivity())
+			.setTitle(title)
 			.setView(createViewList())
 			.setNegativeButton("cancel", (dialog, id) -> getActivity()
 				.getSupportFragmentManager()
 				.beginTransaction()
 				.remove(this)
-				.commit())
+				.commitNow())
 			.create();
 	}
 
@@ -52,8 +73,7 @@ public class FunctionDialog extends DialogFragment implements Updated{
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.function_dialog, null);
 		RecyclerView recyclerView = view.findViewById(R.id.recycler_dialog);
-		titleView = view.findViewById(R.id.title_dialog);
-		adapter = new DialogAdapter(settable.setBind());
+		adapter = new DialogAdapter(functionPresenter);
 		recyclerView.setAdapter(adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		recyclerView.setHasFixedSize(true);
@@ -63,7 +83,6 @@ public class FunctionDialog extends DialogFragment implements Updated{
 	@Override
 	public void onStart() {
 		super.onStart();
-		settable.setUpdated(this);
 		if (getDialog() != null){
 			Window window = getDialog().getWindow();
 			if (window != null){
@@ -74,14 +93,7 @@ public class FunctionDialog extends DialogFragment implements Updated{
 	}
 
 	@Override
-	public void update(String title) {
-		titleView.setText(title);
+	public void update() {
 		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		settable = null;
 	}
 }

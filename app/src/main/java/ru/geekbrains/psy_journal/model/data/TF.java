@@ -21,12 +21,6 @@ public class TF implements Functional{
         this.idOTF = idOTF;
     }
 
-	@Override
-	public String getLabel() {
-		// это просто метка, чтобы не тратить время на приведения класса обьекта через instanceof
-		return "TF";
-	}
-
     public int getId() {
         return id;
     }

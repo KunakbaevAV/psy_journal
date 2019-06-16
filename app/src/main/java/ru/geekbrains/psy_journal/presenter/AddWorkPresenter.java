@@ -1,26 +1,20 @@
 package ru.geekbrains.psy_journal.presenter;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import javax.inject.Inject;
-
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
+import ru.geekbrains.psy_journal.model.data.OTF;
 import ru.geekbrains.psy_journal.model.data.TD;
+import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.view.dialogs.Updated;
-import ru.geekbrains.psy_journal.view.dialogs.adapters.Displayed;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 
 @InjectViewState
@@ -29,13 +23,10 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	Terminable{
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
-	private final RecyclePresenter recyclePresenter = new RecyclePresenter();
-	private final List<Functional> currentList = new ArrayList<>();
 	private final Journal journal;
-	private Updated updated;
+
 	private List<Group> groupList;
 	private List<WorkForm> workFormList;
-
 
     @Inject
     RoomHelper roomHelper;
@@ -48,39 +39,6 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		journal = new Journal();
 	}
 
-	private void getOTF(){
-		Disposable disposable = roomHelper.getOTFList()
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(list ->{
-					if (!currentList.isEmpty()) currentList.clear();
-					currentList.addAll(list);
-					updated.update("OTF");
-				},
-				e -> Log.e("getOTF(): ", e.getMessage()));
-	}
-
-	private void getTF(int idOTF){
-		Disposable disposable = roomHelper.getTFList(idOTF)
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(list -> {
-					if (!currentList.isEmpty()) currentList.clear();
-					currentList.addAll(list);
-					updated.update("TF");
-				},
-				e -> Log.e("getTF(): ", e.getMessage()));
-	}
-
-	private void getTD(int idTF){
-		Disposable disposable = roomHelper.getTDList(idTF)
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(list -> {
-					if (!currentList.isEmpty()) currentList.clear();
-					currentList.addAll(list);
-					updated.update("TD");
-				},
-				e -> Log.e("getTD: ", e.getMessage()));
-	}
-
 	public void addWorkIntoDatabase(){
 		roomHelper.insertItemJournal(journal)
 				.observeOn(AndroidSchedulers.mainThread())
@@ -89,6 +47,31 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
     public void setGroup(Group group) {
         journal.setIdGroup(group.getId());
+	}
+
+	@Override
+	public Single<List<OTF>> getOTF(){
+		return roomHelper.getOTFList();
+	}
+
+	@Override
+	public Single<List<TF>> getTF(int idOTF){
+		return roomHelper.getTFList(idOTF);
+	}
+
+	@Override
+	public Single<List<TD>> getTD(int idTF){
+		return roomHelper.getTDList(idTF);
+	}
+
+	@Override
+	public void openNewFunction(String title, int id) {
+		getViewState().openDialogue(title, id);
+	}
+
+	@Override
+	public void saveTD(TD td) {
+		getViewState().closeDialogs(td);
 	}
 
 	@Override
@@ -105,47 +88,5 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		float hours = hour + minutes / HOUR_IN_MINUTES;
 		journal.setWorkTime(hours);
 		getViewState().showHours(hours);
-	}
-
-	@Override
-	public Bindable setBind() {
-		return recyclePresenter;
-	}
-
-	@Override
-	public void setUpdated(Updated updated) {
-		this.updated = updated;
-		getOTF();
-	}
-
-	private class RecyclePresenter implements Bindable{
-
-		@Override
-		public void bindView(Displayed displayed, int position) {
-			Functional function = currentList.get(position);
-			displayed.bind(function.getCode(), function.getName());
-		}
-
-		@Override
-		public int getItemCount() {
-			return currentList.size();
-		}
-
-		@Override
-		public void selectItem(int position) {
-			Functional function = currentList.get(position);
-			switch (function.getLabel()){
-				case "OTF":
-					getTF(function.getId());
-					break;
-				case "TF":
-					getTD(function.getId());
-					break;
-				case "TD":
-					getViewState().closeDialogs((TD) function);
-					currentList.clear();
-					break;
-			}
-		}
 	}
 }

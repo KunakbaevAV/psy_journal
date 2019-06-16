@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.collection.ArraySet;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -36,7 +35,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
@@ -135,7 +133,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 				new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), "Tag time picker");
 				break;
 			case R.id.code_tf_text:
-				new FunctionDialog().show(getActivity().getSupportFragmentManager(), "Tag functions");
+				FunctionDialog.newInstance("OTF", 0).show(getActivity().getSupportFragmentManager(), "Tag OTF");
 				break;
 		}
 	}
@@ -171,11 +169,22 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
 	@Override
+	public void openDialogue(String title, int id) {
+		if (getActivity() != null){
+			FunctionDialog.newInstance(title, id).show(getActivity().getSupportFragmentManager(), "Tag " + title);
+		}
+	}
+
+	@Override
 	public void closeDialogs(TD td) {
 		if (getActivity() != null){
 			FragmentManager manager = getActivity().getSupportFragmentManager();
-			DialogFragment dialog = (DialogFragment) manager.findFragmentByTag("Tag functions");
-			if (dialog != null) manager.beginTransaction().remove(dialog).commit();
+			for (int i = 0; i < manager.getFragments().size(); i++) {
+				if ("Tag TD".equals(manager.getFragments().get(i).getTag()) ||
+					"Tag TF".equals(manager.getFragments().get(i).getTag()) ||
+					"Tag OTF".equals(manager.getFragments().get(i).getTag()))
+					manager.beginTransaction().remove(manager.getFragments().get(i)).commit();
+			}
 		}
 		codeTfText.setText(td.getCode());
 		workPresenter.getJournal().setIdTd(td.getId());
