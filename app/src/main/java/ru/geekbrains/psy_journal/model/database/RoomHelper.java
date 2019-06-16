@@ -81,6 +81,31 @@ public class RoomHelper {
 				e -> Log.e("initializeTD: ", String.format("error adding to database, %s", e.getMessage())));
 	}
 
+    public void initializeCategory(List<Category> list) {
+        Disposable disposable = categoryDao.insertList(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> Log.i("initializeCategory: ", "added to base"),
+                        e -> Log.e("initializeCategory: ", String.format("error adding to database, %s", e.getMessage())));
+    }
+
+    public void initializeGroup(List<Group> list) {
+        Disposable disposable = groupDao.insertList(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> Log.i("initializeGroup: ", "added to base"),
+                        e -> Log.e("initializeGroup: ", String.format("error adding to database, %s", e.getMessage())));
+    }
+
+    public void initializeWorkForms(List<WorkForm> list) {
+        Disposable disposable = workFormDao.insertList(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> Log.i("initializeWorkForm: ", "added to base"),
+                        e -> Log.e("initializeWorkForm: ", String.format("error adding to database, %s", e.getMessage())));
+
+    }
+
     //Возвращает список всех зарегистрированных единиц работы
     public Single<List<Journal>> getJournalList() {
         return journalDao.getAll().subscribeOn(Schedulers.io());
