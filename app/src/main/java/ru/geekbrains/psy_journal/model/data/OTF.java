@@ -13,7 +13,7 @@ public class OTF implements Functional {
     private String code;
     private String name;
 
-    public OTF(int id, String code, String name) {
+	public OTF(int id, String code, String name) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -23,7 +23,13 @@ public class OTF implements Functional {
         return id;
     }
 
-    public void setId(int id) {
+	@Override
+	public String getLabel() {
+		// это просто метка, чтобы не тратить время на приведения класса обьекта через instanceof
+		return "OTF";
+	}
+
+	public void setId(int id) {
         this.id = id;
     }
 

@@ -14,12 +14,18 @@ public class TF implements Functional{
     private String name;
     private int idOTF;
 
-    public TF(int id, String code, String name, int idOTF) {
+	public TF(int id, String code, String name, int idOTF) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.idOTF = idOTF;
     }
+
+	@Override
+	public String getLabel() {
+		// это просто метка, чтобы не тратить время на приведения класса обьекта через instanceof
+		return "TF";
+	}
 
     public int getId() {
         return id;

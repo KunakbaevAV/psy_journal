@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:orientation="horizontal"
-        android:divider="@drawable/separtor"
-        android:showDividers="beginning|middle|end"
+        android:divider="@android:drawable/divider_horizontal_textfield"
+        android:showDividers="middle"
         android:layout_gravity="center">
 
         <TextView

@@ -4,15 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:divider="@android:drawable/divider_horizontal_textfield"
+    android:showDividers="middle"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/title_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textStyle="bold"
+        style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+        android:padding="8dp"
+        android:layout_gravity="start"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rc"
+        android:id="@+id/recycler_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:divider="@color/colorPrimaryDark"
+        android:showDividers="middle"
         tools:listitem="@layout/item_functions">
-
     </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

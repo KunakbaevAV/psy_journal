@@ -4,6 +4,11 @@ import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.geekbrains.psy_journal.model.data.TD;
+
 public interface AddWorkView extends MvpView {
 
 	@StateStrategyType(SingleStateStrategy.class)
@@ -12,8 +17,6 @@ public interface AddWorkView extends MvpView {
 	void showHours(float hours);
 	void collectAll();
 	@StateStrategyType(SingleStateStrategy.class)
-	void openDialogue(String title, String old);
-	@StateStrategyType(SingleStateStrategy.class)
-	void closeDialogs(String code);
+	void closeDialogs(TD td);
 	void showToast(String message);
 }

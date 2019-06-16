@@ -37,6 +37,7 @@ import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Journal;
+import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
 import ru.geekbrains.psy_journal.view.dialogs.DateSettingDialog;
@@ -134,8 +135,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 				new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), "Tag time picker");
 				break;
 			case R.id.code_tf_text:
-				workPresenter.getOTF();
-				FunctionDialog.newInstance("OTF").show(getActivity().getSupportFragmentManager(), "Tag OTF");
+				new FunctionDialog().show(getActivity().getSupportFragmentManager(), "Tag functions");
 				break;
 		}
 	}
@@ -147,7 +147,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
 	public void showHours(float hours) {
-		workTimeText.setText(String.valueOf(hours));
+		workTimeText.setText(String.format(Locale.getDefault(),"%.2f", hours));
 	}
 
 	@Override
@@ -171,27 +171,14 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
 	@Override
-	public void openDialogue(String title, String old) {
-    	if (getActivity() != null){
-		    FragmentManager manager = getActivity().getSupportFragmentManager();
-		    DialogFragment dialog = (DialogFragment) manager.findFragmentByTag(old);
-		    if (dialog != null) dialog.dismiss();
-		    FunctionDialog.newInstance(title).show(getActivity().getSupportFragmentManager(), "Tag " + title);
-	    }
-	}
-
-	@Override
-	public void closeDialogs(String code) {
+	public void closeDialogs(TD td) {
 		if (getActivity() != null){
 			FragmentManager manager = getActivity().getSupportFragmentManager();
-			for (int i = 0; i < manager.getFragments().size(); i++) {
-				if ("Tag TD".equals(manager.getFragments().get(i).getTag()) ||
-					"Tag TF".equals(manager.getFragments().get(i).getTag()) ||
-					"Tag OTF".equals(manager.getFragments().get(i).getTag()))
-						manager.beginTransaction().remove(manager.getFragments().get(i)).commit();
-			}
+			DialogFragment dialog = (DialogFragment) manager.findFragmentByTag("Tag functions");
+			if (dialog != null) manager.beginTransaction().remove(dialog).commit();
 		}
-		codeTfText.setText(code);
+		codeTfText.setText(td.getCode());
+		workPresenter.getJournal().setIdTd(td.getId());
 	}
 
 	@Override

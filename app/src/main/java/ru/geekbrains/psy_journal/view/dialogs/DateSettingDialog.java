@@ -4,19 +4,16 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.DatePicker;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
 import java.util.Calendar;
-
-import ru.geekbrains.psy_journal.presenter.Settable;
+import ru.geekbrains.psy_journal.presenter.Terminable;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 
 public class DateSettingDialog extends DialogFragment implements android.app.DatePickerDialog.OnDateSetListener {
 
-	private Settable settable;
+	private Terminable terminable;
 
 	@NonNull
 	@Override
@@ -28,7 +25,7 @@ public class DateSettingDialog extends DialogFragment implements android.app.Dat
 		if (getActivity() != null){
 			AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag("Tag add work");
 			if (fragment != null) {
-				settable = fragment.workPresenter;
+				terminable = fragment.workPresenter;
 				return new DatePickerDialog(getActivity(), this, year, month, day);
 			}
 		}
@@ -37,12 +34,12 @@ public class DateSettingDialog extends DialogFragment implements android.app.Dat
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-		settable.setDate(year, month, dayOfMonth);
+		terminable.setDate(year, month, dayOfMonth);
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		settable = null;
+		terminable = null;
 	}
 }
