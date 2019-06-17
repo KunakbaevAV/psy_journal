@@ -2,10 +2,10 @@ package ru.geekbrains.psy_journal.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,68 +21,82 @@ import ru.geekbrains.psy_journal.view.fragment.AllWorkFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-	@BindView(R.id.fab) FloatingActionButton fab;
-	@BindDrawable(R.drawable.ic_add_circle_outline_white_24dp) Drawable plus;
-	@BindDrawable(R.drawable.ic_done_white_24dp) Drawable done;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindDrawable(R.drawable.ic_add_circle_outline_white_24dp)
+    Drawable plus;
+    @BindDrawable(R.drawable.ic_done_white_24dp)
+    Drawable done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-	    ButterKnife.bind(this);
-	    setImageFab();
-        if(savedInstanceState == null){
-        	getSupportFragmentManager()
-		        .beginTransaction()
-		        .replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
-		        .commit();
+        ButterKnife.bind(this);
+        setImageFab();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
+                    .commit();
         }
     }
 
-    private void setImageFab(){
-    	String tag = getTag();
-	    if ("Tag add work".equals(tag) || "Tag OTF".equals(tag) || "Tag TF".equals(tag) ||
-		    "Tag TD".equals(tag)) fab.setImageDrawable(done);
-	    else fab.setImageDrawable(plus);
+    private void setImageFab() {
+        String tag = getTag();
+        if ("Tag add work".equals(tag) || "Tag OTF".equals(tag) || "Tag TF".equals(tag) ||
+                "Tag TD".equals(tag)) fab.setImageDrawable(done);
+        else fab.setImageDrawable(plus);
     }
 
-    private String getTag(){
-    	if (getSupportFragmentManager().getFragments().size() == 0) return null;
-    	return getSupportFragmentManager().getFragments().get(getSupportFragmentManager().getFragments().size() - 1).getTag();
+    private String getTag() {
+        if (getSupportFragmentManager().getFragments().size() == 0) return null;
+        return getSupportFragmentManager().getFragments().get(getSupportFragmentManager().getFragments().size() - 1).getTag();
     }
 
     @OnClick({R.id.fab})
-	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.fab){
-			Fragment currentFragment = getSupportFragmentManager().getFragments().get(getSupportFragmentManager().getFragments().size() - 1);
-			String tag = currentFragment.getTag();
-			if (tag == null) return;
-			switch (tag){
-				case "Tag add work":
-					AddWorkView addWorkView = (AddWorkView) currentFragment;
-					addWorkView.collectAll();
-					getSupportFragmentManager()
-						.beginTransaction()
-						.replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
-						.commit();
-					fab.setImageDrawable(plus);
-					break;
-				case "Tag all work":
-					getSupportFragmentManager()
-						.beginTransaction()
-						.add(R.id.frame_master, new AddWorkFragment(), "Tag add work")
-						.addToBackStack(null)
-						.commit();
-					fab.setImageDrawable(done);
-					break;
-			}
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.fab) {
+            Fragment currentFragment = getSupportFragmentManager().getFragments().get(getSupportFragmentManager().getFragments().size() - 1);
+            String tag = currentFragment.getTag();
+            if (tag == null) return;
+            switch (tag) {
+                case "Tag add work":
+                    AddWorkFragment addWorkFragment = (AddWorkFragment) currentFragment;
+                    if (!addWorkFragment.isEmptyDeclaredRequest()) {
+                        openAddWorkFragment((AddWorkView) currentFragment);
+                        break;
+                    }
+                    break;
+                case "Tag all work":
+                    openAllWorkFragment();
+                    break;
+            }
+        }
+    }
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		setImageFab();
-	}
+    private void openAllWorkFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_master, new AddWorkFragment(), "Tag add work")
+                .addToBackStack(null)
+                .commit();
+        fab.setImageDrawable(done);
+    }
+
+    private void openAddWorkFragment(AddWorkView currentFragment) {
+        currentFragment.collectAll();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
+                .commit();
+        fab.setImageDrawable(plus);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setImageFab();
+    }
 }
