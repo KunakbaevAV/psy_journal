@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +36,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.model.data.Functional;
+import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
@@ -50,10 +52,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         AddWorkView,
         View.OnClickListener {
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.getDefault());
-    private Unbinder unbinder;
+    private static final String PATTERN = "dd.MM.yy";
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN, Locale.getDefault());
     @InjectPresenter
     public AddWorkPresenter workPresenter;
+    @BindView(R.id.declared_request_layout)
+    TextInputLayout declaredReqoestLayout;
     @BindView(R.id.date_text)
     TextInputEditText dateText;
     @BindView(R.id.work_time_count)
@@ -64,8 +68,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     TextInputEditText quantityPeople;
     @BindView(R.id.declared_request_text)
     TextInputEditText declaredRequestText;
-    @BindView(R.id.declared_request_layout)
-    TextInputLayout declaredReqoestLayout;
     @BindView(R.id.real_request_text)
     TextInputEditText realRequestText;
     @BindView(R.id.code_tf_text)
@@ -74,6 +76,15 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     TextInputEditText commentText;
     @BindView(R.id.quantity_people_layout)
     TextInputLayout quantityPeopleLayout;
+    private Unbinder unbinder;
+
+    public static AddWorkFragment newInstance(Journal journal) {
+        AddWorkFragment addWorkFragment = new AddWorkFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("journal", journal);
+        addWorkFragment.setArguments(args);
+        return addWorkFragment;
+    }
 
     @ProvidePresenter
     AddWorkPresenter providePresenter() {
@@ -148,7 +159,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
                 new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), "Tag time picker");
                 break;
             case R.id.code_tf_text:
-                FunctionDialog.newInstance("OTF", 0).show(getActivity().getSupportFragmentManager(), "Tag OTF");
+                FunctionDialog.newInstance(getString(R.string.OTF), 0).show(getActivity().getSupportFragmentManager(), getString(R.string.OTF));
                 break;
         }
     }
@@ -190,23 +201,27 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     @Override
     public void openDialogue(String title, int id) {
         if (getActivity() != null) {
-            FunctionDialog.newInstance(title, id).show(getActivity().getSupportFragmentManager(), "Tag " + title);
+            FunctionDialog.newInstance(title, id).show(getActivity().getSupportFragmentManager(), title);
         }
     }
 
     @Override
-    public void closeDialogs(TD td) {
+    public void closeDialogs(Functional functional) {
         if (getActivity() != null) {
             FragmentManager manager = getActivity().getSupportFragmentManager();
             for (int i = 0; i < manager.getFragments().size(); i++) {
-                if ("Tag TD".equals(manager.getFragments().get(i).getTag()) ||
-                        "Tag TF".equals(manager.getFragments().get(i).getTag()) ||
-                        "Tag OTF".equals(manager.getFragments().get(i).getTag()))
+                if (getString(R.string.TD).equals(manager.getFragments().get(i).getTag()) ||
+                        getString(R.string.TF).equals(manager.getFragments().get(i).getTag()) ||
+                        getString(R.string.OTF).equals(manager.getFragments().get(i).getTag()))
                     manager.beginTransaction().remove(manager.getFragments().get(i)).commit();
             }
         }
-        codeTfText.setText(td.getCode());
-        workPresenter.getJournal().setIdTd(td.getId());
+        if (functional.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))
+            codeTfText.setText(functional.getName());
+        else {
+            codeTfText.setText(functional.getCode());
+            workPresenter.getJournal().setIdTd(functional.getId());
+        }
     }
 
     @Override

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setImageFab() {
         String tag = getTag();
-        if ("Tag add work".equals(tag) || "Tag OTF".equals(tag) || "Tag TF".equals(tag) ||
-                "Tag TD".equals(tag)) fab.setImageDrawable(done);
+        if ("Tag add work".equals(tag) || getString(R.string.OTF).equals(tag) || getString(R.string.TF).equals(tag) ||
+                getString(R.string.TD).equals(tag)) fab.setImageDrawable(done);
         else fab.setImageDrawable(plus);
     }
 
@@ -86,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void openAddWorkFragment(AddWorkView currentFragment) {
-        currentFragment.collectAll();
+        AddWorkView addWorkView = currentFragment;
+        addWorkView.collectAll();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
