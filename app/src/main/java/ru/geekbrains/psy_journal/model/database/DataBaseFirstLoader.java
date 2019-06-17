@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Category;
 import ru.geekbrains.psy_journal.model.data.Group;
@@ -37,6 +38,7 @@ public class DataBaseFirstLoader {
         roomHelper.initializeOTF(otfList);
 
         initTfList();
+        addOtherWorkActivities();
         roomHelper.initializeTF(tfList);
 
         initTdList();
@@ -176,5 +178,13 @@ public class DataBaseFirstLoader {
     private void initOtfList() {
         otfList.add(new OTF(1, "A", "Психолого-педагогическое сопровождение образовательного процесса в образовательных организациях общего, профессионального и дополнительного образования, сопровождение основных и дополнительных образовательных программ"));
         otfList.add(new OTF(2, "B", "Оказание психолого-педагогической помощи лицам с ограниченными возможностями здоровья, испытывающим трудности в освоении основных общеобразовательных программ, развитии и социальной адаптации, в том числе несовершеннолетним обучающимся, признанным в случаях и в порядке, которые предусмотрены уголовно-процессуальным законодательством, подозреваемыми, обвиняемыми или подсудимыми по уголовному делу либо являющимся потерпевшими или свидетелями преступления"));
+    }
+
+    //метод добавления иной деятельности в трудовые функции
+    private void addOtherWorkActivities(){
+    	int tfSize = tfList.size();
+	    for (int i = 0; i < otfList.size() ; i++) {
+		    tfList.add(new TF(++tfSize, Constants.CODE_OF_OTHER_ACTIVITY, "иная деятельность", i + 1));
+	    }
     }
 }

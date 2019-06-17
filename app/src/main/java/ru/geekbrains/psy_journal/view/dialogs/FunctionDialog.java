@@ -18,6 +18,7 @@ import com.arellomobile.mvp.MvpAppCompatDialogFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Functional;
@@ -134,11 +135,12 @@ public class FunctionDialog extends MvpAppCompatDialogFragment implements Update
 			return;
 		}
 		if (title.equals(getString(R.string.TF))){
-			settable.openNewFunction(getString(R.string.TD), function.getId());
+			if (function.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY)) settable.saveSelectedFunction(function);
+			else settable.openNewFunction(getString(R.string.TD), function.getId());
 			return;
 		}
 		if (title.equals(getString(R.string.TD))){
-			settable.saveTD((TD) function);
+			settable.saveSelectedFunction(function);
 		}
 	}
 

@@ -33,8 +33,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.model.data.Functional;
+import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
@@ -47,6 +50,15 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	View.OnClickListener {
 
 	private static final String PATTERN = "dd.MM.yy";
+
+	public static AddWorkFragment newInstance(Journal journal){
+		AddWorkFragment addWorkFragment = new AddWorkFragment();
+		Bundle args = new Bundle();
+		args.putParcelable("journal", journal);
+		addWorkFragment.setArguments(args);
+		return addWorkFragment;
+	}
+
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN, Locale.getDefault());
     private Unbinder unbinder;
 	@BindView(R.id.date_text) TextInputEditText dateText;
@@ -177,7 +189,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
 	@Override
-	public void closeDialogs(TD td) {
+	public void closeDialogs(Functional functional) {
 		if (getActivity() != null){
 			FragmentManager manager = getActivity().getSupportFragmentManager();
 			for (int i = 0; i < manager.getFragments().size(); i++) {
@@ -187,8 +199,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 					manager.beginTransaction().remove(manager.getFragments().get(i)).commit();
 			}
 		}
-		codeTfText.setText(td.getCode());
-		workPresenter.getJournal().setIdTd(td.getId());
+		if (functional.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))codeTfText.setText(functional.getName());
+		else {
+			codeTfText.setText(functional.getCode());
+			workPresenter.getJournal().setIdTd(functional.getId());
+		}
 	}
 
 	@Override

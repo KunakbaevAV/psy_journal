@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.TD;
@@ -51,8 +52,8 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	@Override
-	public void saveTD(TD td) {
-		getViewState().closeDialogs(td);
+	public void saveSelectedFunction(Functional function) {
+		getViewState().closeDialogs(function);
 	}
 
 	@Override

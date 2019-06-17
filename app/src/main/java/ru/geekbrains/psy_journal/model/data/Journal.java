@@ -1,5 +1,8 @@
 package ru.geekbrains.psy_journal.model.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -11,7 +14,7 @@ import java.util.Locale;
 import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
 
 @Entity(tableName = TABLE_JOURNAL)
-public class Journal {
+public class Journal implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -53,7 +56,39 @@ public class Journal {
         this.comment = comment;
     }
 
-    public int getId() {
+	protected Journal(Parcel in) {
+		id = in.readInt();
+		date = in.readLong();
+		dayOfWeek = in.readString();
+		idTd = in.readInt();
+		idCategory = in.readInt();
+		idGroup = in.readInt();
+		name = in.readString();
+		quantityPeople = in.readInt();
+		declaredRequest = in.readString();
+		realRequest = in.readString();
+		idWorkForm = in.readInt();
+		if (in.readByte() == 0) {
+			workTime = null;
+		} else {
+			workTime = in.readFloat();
+		}
+		comment = in.readString();
+	}
+
+	public static final Creator<Journal> CREATOR = new Creator<Journal>() {
+		@Override
+		public Journal createFromParcel(Parcel in) {
+			return new Journal(in);
+		}
+
+		@Override
+		public Journal[] newArray(int size) {
+			return new Journal[size];
+		}
+	};
+
+	public int getId() {
         return id;
     }
 
@@ -160,4 +195,31 @@ public class Journal {
 	    }
     	return null;
     }
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeLong(date);
+		dest.writeString(dayOfWeek);
+		dest.writeInt(idTd);
+		dest.writeInt(idCategory);
+		dest.writeInt(idGroup);
+		dest.writeString(name);
+		dest.writeInt(quantityPeople);
+		dest.writeString(declaredRequest);
+		dest.writeString(realRequest);
+		dest.writeInt(idWorkForm);
+		if (workTime == null) {
+			dest.writeByte((byte) 0);
+		} else {
+			dest.writeByte((byte) 1);
+			dest.writeFloat(workTime);
+		}
+		dest.writeString(comment);
+	}
 }
