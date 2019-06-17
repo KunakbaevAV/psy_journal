@@ -5,16 +5,12 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.Calendar;
 import java.util.List;
 import javax.inject.Inject;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.OTF;
 import ru.geekbrains.psy_journal.model.data.TD;
-import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
-import ru.geekbrains.psy_journal.view.dialogs.Updated;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 
 @InjectViewState
@@ -47,21 +43,6 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
     public void setGroup(Group group) {
         journal.setIdGroup(group.getId());
-	}
-
-	@Override
-	public Single<List<OTF>> getOTF(){
-		return roomHelper.getOTFList();
-	}
-
-	@Override
-	public Single<List<TF>> getTF(int idOTF){
-		return roomHelper.getTFList(idOTF);
-	}
-
-	@Override
-	public Single<List<TD>> getTD(int idTF){
-		return roomHelper.getTDList(idTF);
 	}
 
 	@Override

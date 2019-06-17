@@ -46,7 +46,8 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	AddWorkView,
 	View.OnClickListener {
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.getDefault());
+	private static final String PATTERN = "dd.MM.yy";
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN, Locale.getDefault());
     private Unbinder unbinder;
 	@BindView(R.id.date_text) TextInputEditText dateText;
 	@BindView(R.id.work_time_count) TextInputEditText workTimeText;
@@ -133,7 +134,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 				new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), "Tag time picker");
 				break;
 			case R.id.code_tf_text:
-				FunctionDialog.newInstance("OTF", 0).show(getActivity().getSupportFragmentManager(), "Tag OTF");
+				FunctionDialog.newInstance(getString(R.string.OTF), 0).show(getActivity().getSupportFragmentManager(), getString(R.string.OTF));
 				break;
 		}
 	}
@@ -171,7 +172,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	@Override
 	public void openDialogue(String title, int id) {
 		if (getActivity() != null){
-			FunctionDialog.newInstance(title, id).show(getActivity().getSupportFragmentManager(), "Tag " + title);
+			FunctionDialog.newInstance(title, id).show(getActivity().getSupportFragmentManager(), title);
 		}
 	}
 
@@ -180,9 +181,9 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 		if (getActivity() != null){
 			FragmentManager manager = getActivity().getSupportFragmentManager();
 			for (int i = 0; i < manager.getFragments().size(); i++) {
-				if ("Tag TD".equals(manager.getFragments().get(i).getTag()) ||
-					"Tag TF".equals(manager.getFragments().get(i).getTag()) ||
-					"Tag OTF".equals(manager.getFragments().get(i).getTag()))
+				if (getString(R.string.TD).equals(manager.getFragments().get(i).getTag()) ||
+					getString(R.string.TF).equals(manager.getFragments().get(i).getTag()) ||
+					getString(R.string.OTF).equals(manager.getFragments().get(i).getTag()))
 					manager.beginTransaction().remove(manager.getFragments().get(i)).commit();
 			}
 		}

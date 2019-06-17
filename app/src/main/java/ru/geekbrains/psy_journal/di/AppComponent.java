@@ -7,6 +7,7 @@ import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presenter.AllWorkPresenter;
+import ru.geekbrains.psy_journal.presenter.DialogFunctionPresenter;
 
 @Singleton
 @Component(modules = AppModule.class)
@@ -19,6 +20,8 @@ public interface AppComponent {
     void inject(AllWorkPresenter allWorkPresenter);
 
     void inject(AddWorkPresenter workPresenter);
+
+	void inject(DialogFunctionPresenter functionPresenter);
 
     void inject(App app);
 }

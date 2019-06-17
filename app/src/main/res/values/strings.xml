@@ -30,4 +30,8 @@
     <string name="tf_06">A/06.7 Психологическое просвещение субъектов образовательного процесса</string>
     <string name="tf_07">A/07.7 Психопрофилактика (профессиональная деятельность, направленная на сохранение и укрепление психологического здоровья обучающихся в процессе обучения и воспитания в образовательных организациях)</string>
     <string name="report_example_count">999</string>
+    <string name="OTF">Joint labor functions</string>
+    <string name="TF">Labor functions</string>
+    <string name="TD">Labor action</string>
+    <string name="cancel">cancel</string>
 </resources>

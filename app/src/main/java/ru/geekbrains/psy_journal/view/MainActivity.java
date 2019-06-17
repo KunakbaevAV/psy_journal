@@ -2,7 +2,6 @@ package ru.geekbrains.psy_journal.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setImageFab(){
     	String tag = getTag();
-	    if ("Tag add work".equals(tag) || "Tag OTF".equals(tag) || "Tag TF".equals(tag) ||
-		    "Tag TD".equals(tag)) fab.setImageDrawable(done);
+	    if ("Tag add work".equals(tag) || getString(R.string.OTF).equals(tag) || getString(R.string.TF).equals(tag) ||
+		    getString(R.string.TD).equals(tag)) fab.setImageDrawable(done);
 	    else fab.setImageDrawable(plus);
     }
 

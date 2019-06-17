@@ -8,10 +8,12 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.model.data.Functional;
-import ru.geekbrains.psy_journal.model.data.TD;
+import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.view.dialogs.Updated;
 import ru.geekbrains.psy_journal.view.dialogs.adapters.Displayed;
 
@@ -19,28 +21,28 @@ import ru.geekbrains.psy_journal.view.dialogs.adapters.Displayed;
 public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bindable {
 
 	private final List<Functional> list = new ArrayList<>();
-	private Settable settable;
+	@Inject RoomHelper roomHelper;
 	private String title;
+	private int id;
 
-	public DialogFunctionPresenter(Settable settable, String title, int id) {
-		this.settable = settable;
-		this.title = title;
-		switch (title){
-			case "OTF":
-				getOTF();
-				break;
-			case "TF":
-				getTF(id);
-				break;
-			case "TD":
-				getTD(id);
-				break;
-		}
-
+	public String getTitle() {
+		return title;
 	}
 
-	private void getOTF(){
-		Disposable disposable = settable.getOTF()
+	public DialogFunctionPresenter() {
+	}
+
+	public DialogFunctionPresenter(String title, int id) {
+		this.title = title;
+		this.id = id;
+	}
+
+	public void loadData(){
+		getViewState().loadData(title, id);
+	}
+
+	public void getOTF(){
+		Disposable disposable = roomHelper.getOTFList()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(otfList -> {
 					list.addAll(otfList);
@@ -49,8 +51,8 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 
 	}
 
-	private void getTF(int idOTF){
-		Disposable disposable = settable.getTF(idOTF)
+	public void getTF(int idOTF){
+		Disposable disposable = roomHelper.getTFList(idOTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tfs -> {
 					list.addAll(tfs);
@@ -58,8 +60,8 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 				}, e -> Log.e("getTF(): ", e.getMessage()));
 	}
 
-	private void getTD(int idTF){
-		Disposable disposable = settable.getTD(idTF)
+	public void getTD(int idTF){
+		Disposable disposable = roomHelper.getTDList(idTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tds -> {
 					list.addAll(tds);
@@ -80,23 +82,6 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 
 	@Override
 	public void selectItem(int position) {
-		Functional function = list.get(position);
-		switch (title){
-			case "OTF":
-				settable.openNewFunction("TF", function.getId());
-				break;
-			case "TF":
-				settable.openNewFunction("TD", function.getId());
-				break;
-			case "TD":
-				settable.saveTD((TD) function);
-				break;
-		}
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		settable = null;
+		getViewState().openNewFeature(list.get(position));
 	}
 }
