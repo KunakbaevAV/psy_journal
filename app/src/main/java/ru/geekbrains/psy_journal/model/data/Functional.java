@@ -5,5 +5,4 @@ public interface Functional {
 	String getCode();
 	String getName();
 	int getId();
-	String getLabel();
 }

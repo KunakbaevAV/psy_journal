@@ -23,12 +23,6 @@ public class OTF implements Functional {
         return id;
     }
 
-	@Override
-	public String getLabel() {
-		// это просто метка, чтобы не тратить время на приведения класса обьекта через instanceof
-		return "OTF";
-	}
-
 	public void setId(int id) {
         this.id = id;
     }

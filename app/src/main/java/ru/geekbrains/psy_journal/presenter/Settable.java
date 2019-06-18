@@ -1,8 +1,9 @@
 package ru.geekbrains.psy_journal.presenter;
 
-import ru.geekbrains.psy_journal.view.dialogs.Updated;
+import ru.geekbrains.psy_journal.model.data.Functional;
 
 public interface Settable {
-	Bindable setBind();
-	void setUpdated(Updated updated);
+	void openNewFunction(String title, int id);
+
+    void saveSelectedFunction(Functional function);
 }
