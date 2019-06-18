@@ -41,7 +41,6 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
 import ru.geekbrains.psy_journal.view.dialogs.DateSettingDialog;
@@ -53,42 +52,37 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         View.OnClickListener {
 
     private static final String PATTERN = "dd.MM.yy";
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN, Locale.getDefault());
-    @InjectPresenter
-    public AddWorkPresenter workPresenter;
-    @BindView(R.id.declared_request_layout)
-    TextInputLayout declaredReqoestLayout;
-    @BindView(R.id.date_text)
-    TextInputEditText dateText;
-    @BindView(R.id.work_time_count)
-    TextInputEditText workTimeText;
-    @BindView(R.id.name_text)
-    AppCompatAutoCompleteTextView nameText;
-    @BindView(R.id.quantity_people_count)
-    TextInputEditText quantityPeople;
-    @BindView(R.id.declared_request_text)
-    TextInputEditText declaredRequestText;
-    @BindView(R.id.real_request_text)
-    TextInputEditText realRequestText;
-    @BindView(R.id.code_tf_text)
-    TextInputEditText codeTfText;
-    @BindView(R.id.comment_text)
-    TextInputEditText commentText;
-    @BindView(R.id.quantity_people_layout)
-    TextInputLayout quantityPeopleLayout;
-    private Unbinder unbinder;
 
-    public static AddWorkFragment newInstance(Journal journal) {
-        AddWorkFragment addWorkFragment = new AddWorkFragment();
-        Bundle args = new Bundle();
-        args.putParcelable("journal", journal);
-        addWorkFragment.setArguments(args);
-        return addWorkFragment;
-    }
+	public static AddWorkFragment newInstance(Journal journal) {
+		AddWorkFragment addWorkFragment = new AddWorkFragment();
+		Bundle args = new Bundle();
+		args.putParcelable("journal", journal);
+		addWorkFragment.setArguments(args);
+		return addWorkFragment;
+	}
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN, Locale.getDefault());
+
+    @BindView(R.id.declared_request_layout) TextInputLayout declaredReqoestLayout;
+    @BindView(R.id.date_text) TextInputEditText dateText;
+    @BindView(R.id.work_time_count) TextInputEditText workTimeText;
+    @BindView(R.id.name_text) AppCompatAutoCompleteTextView nameText;
+    @BindView(R.id.quantity_people_count) TextInputEditText quantityPeople;
+    @BindView(R.id.declared_request_text) TextInputEditText declaredRequestText;
+    @BindView(R.id.real_request_text) TextInputEditText realRequestText;
+    @BindView(R.id.code_tf_text) TextInputEditText codeTfText;
+    @BindView(R.id.comment_text) TextInputEditText commentText;
+    @BindView(R.id.quantity_people_layout) TextInputLayout quantityPeopleLayout;
+
+    private Unbinder unbinder;
+    private Journal journal;
+
+	@InjectPresenter
+	public AddWorkPresenter workPresenter;
 
     @ProvidePresenter
     AddWorkPresenter providePresenter() {
-        AddWorkPresenter workPresenter = new AddWorkPresenter();
+    	if (getArguments() != null) journal = getArguments().getParcelable("journal");
+        AddWorkPresenter workPresenter = new AddWorkPresenter(journal);
         App.getAppComponent().inject(workPresenter);
         return workPresenter;
     }
@@ -169,12 +163,57 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         dateText.setText(dateFormat.format(new Date(date)));
     }
 
-    @Override
+	@Override
+	public void showNumberOfPeople(int number) {
+		quantityPeople.setText(String.valueOf(number));
+	}
+
+	@Override
     public void showHours(float hours) {
         workTimeText.setText(String.format(Locale.getDefault(), "%.2f", hours));
     }
 
-    @Override
+	@Override
+	public void showCategory(int idCategory) {
+
+	}
+
+	@Override
+	public void showGroup(int idGroup) {
+
+	}
+
+	@Override
+	public void showName(String name) {
+		nameText.setText(name);
+	}
+
+	@Override
+	public void showDeclaredRequest(String declaredRequest) {
+		declaredRequestText.setText(declaredRequest);
+	}
+
+	@Override
+	public void showRealRequest(String realRequest) {
+		realRequestText.setText(realRequest);
+	}
+
+	@Override
+	public void showWorkForm(int idWorkForm) {
+
+	}
+
+	@Override
+	public void showTd(int idTd) {
+
+	}
+
+	@Override
+	public void showComment(String comment) {
+		commentText.setText(comment);
+	}
+
+	@Override
     public void collectAll() {
         Editable editable = nameText.getText();
         if (editable != null) {
@@ -230,12 +269,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     public boolean isEmptyDeclaredRequest() {
         if (Objects.requireNonNull(declaredRequestText.getText()).toString().equals("")) {
             Toast.makeText(this.getContext(), R.string.fill_declared_request, Toast.LENGTH_SHORT).show();
@@ -245,4 +278,10 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
             return false;
         }
     }
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		unbinder.unbind();
+	}
 }

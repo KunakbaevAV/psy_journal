@@ -22,7 +22,6 @@ import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Functional;
-import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.presenter.DialogFunctionPresenter;
 import ru.geekbrains.psy_journal.presenter.Settable;
 import ru.geekbrains.psy_journal.view.dialogs.adapters.DialogAdapter;
@@ -32,7 +31,6 @@ public class FunctionDialog extends MvpAppCompatDialogFragment implements Update
 
     private static final String KEY_TITLE = "key title";
     private static final String KEY_ID = "key id";
-    private Settable settable;
 
 	public static FunctionDialog newInstance(String title, int id){
 		FunctionDialog fragment = new FunctionDialog();
@@ -42,6 +40,8 @@ public class FunctionDialog extends MvpAppCompatDialogFragment implements Update
 		fragment.setArguments(args);
 		return fragment;
 	}
+
+	private Settable settable;
 	private DialogAdapter adapter;
 
 	@InjectPresenter DialogFunctionPresenter functionPresenter;

@@ -2,6 +2,7 @@ package ru.geekbrains.psy_journal.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,12 +21,12 @@ import ru.geekbrains.psy_journal.view.fragment.AllWorkFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-    @BindDrawable(R.drawable.ic_add_circle_outline_white_24dp)
-    Drawable plus;
-    @BindDrawable(R.drawable.ic_done_white_24dp)
-    Drawable done;
+	public static final String TAG_ADD_WORK = "Tag add work";
+	public static final String TAG_ALL_WORK = "Tag all work";
+
+	@BindView(R.id.fab) FloatingActionButton fab;
+    @BindDrawable(R.drawable.ic_add_circle_outline_white_24dp) Drawable plus;
+    @BindDrawable(R.drawable.ic_done_white_24dp) Drawable done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +36,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setImageFab();
         if (savedInstanceState == null) {
             getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
-                    .commit();
+                .beginTransaction()
+                .replace(R.id.frame_master, new AllWorkFragment(), TAG_ALL_WORK)
+                .commit();
         }
     }
 
     private void setImageFab() {
         String tag = getTag();
-        if ("Tag add work".equals(tag) || getString(R.string.OTF).equals(tag) || getString(R.string.TF).equals(tag) ||
+        if (TAG_ADD_WORK.equals(tag) || getString(R.string.OTF).equals(tag) || getString(R.string.TF).equals(tag) ||
                 getString(R.string.TD).equals(tag)) fab.setImageDrawable(done);
         else fab.setImageDrawable(plus);
     }
@@ -61,36 +62,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String tag = currentFragment.getTag();
             if (tag == null) return;
             switch (tag) {
-                case "Tag add work":
+                case TAG_ADD_WORK:
                     AddWorkFragment addWorkFragment = (AddWorkFragment) currentFragment;
                     if (!addWorkFragment.isEmptyDeclaredRequest()) {
-                        openAddWorkFragment((AddWorkView) currentFragment);
-                        break;
+                        openAllWorkFragment(addWorkFragment);
                     }
                     break;
-                case "Tag all work":
-                    openAllWorkFragment();
+                case TAG_ALL_WORK:
+                    openAddWorkFragment();
                     break;
             }
         }
     }
 
-    private void openAllWorkFragment() {
+    private void openAddWorkFragment() {
         getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.frame_master, new AddWorkFragment(), "Tag add work")
-                .addToBackStack(null)
-                .commit();
+            .beginTransaction()
+            .add(R.id.frame_master, new AddWorkFragment(), TAG_ADD_WORK)
+            .addToBackStack(TAG_ADD_WORK)
+            .commit();
         fab.setImageDrawable(done);
     }
 
-    private void openAddWorkFragment(AddWorkView currentFragment) {
-        AddWorkView addWorkView = currentFragment;
-        addWorkView.collectAll();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_master, new AllWorkFragment(), "Tag all work")
-                .commit();
+    private void openAllWorkFragment(AddWorkView currentFragment) {
+        currentFragment.collectAll();
+	    FragmentManager manager = getSupportFragmentManager();
+	    manager.popBackStack(TAG_ADD_WORK, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        manager.beginTransaction()
+            .replace(R.id.frame_master, new AllWorkFragment(), TAG_ALL_WORK)
+            .commit();
         fab.setImageDrawable(plus);
     }
 
