@@ -18,6 +18,7 @@ import ru.geekbrains.psy_journal.model.database.dao.OTFDao;
 import ru.geekbrains.psy_journal.model.database.dao.TDDao;
 import ru.geekbrains.psy_journal.model.database.dao.TFDao;
 import ru.geekbrains.psy_journal.model.database.dao.WorkFormDao;
+import ru.geekbrains.psy_journal.model.factory.CatalogFactory;
 
 import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
 
@@ -85,5 +86,11 @@ public class AppModule {
     @Singleton
     DataBaseFirstLoader getDataBaseFirstLoader() {
         return new DataBaseFirstLoader();
+    }
+
+    @Provides
+    @Singleton
+    CatalogFactory getCatalogFactory() {
+        return new CatalogFactory();
     }
 }

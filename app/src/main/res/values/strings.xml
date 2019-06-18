@@ -34,4 +34,5 @@
     <string name="TF">Labor functions</string>
     <string name="TD">Labor action</string>
     <string name="cancel">cancel</string>
+    <string name="add_catalog_item">Add item</string>
 </resources>

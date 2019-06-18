@@ -19,6 +19,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
+import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkView;
 import ru.geekbrains.psy_journal.view.fragment.IViewHolder;
 
@@ -74,6 +75,7 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
 
     private void openScreenUpdateJournal(Journal journal) {
         // TODO Метод открытия окна для редактирования единицы работы
+        AddWorkFragment.newInstance(journal);
     }
 
     private void ifRequestSuccess() {
@@ -106,9 +108,9 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
         }
 
         @Override
-        public void onClickDelete(int positiom) {
-            deleteItemJournalFromDatabase(listWorks.get(positiom));
-            listWorks.remove(positiom);
+        public void onClickDelete(int position) {
+            deleteItemJournalFromDatabase(listWorks.get(position));
+            listWorks.remove(position);
         }
 
         @Override
