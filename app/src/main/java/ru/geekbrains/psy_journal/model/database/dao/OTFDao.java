@@ -17,7 +17,7 @@ import ru.geekbrains.psy_journal.model.data.OTF;
 public interface OTFDao {
 
     @Query("SELECT * FROM OTF")
-    Single<List<OTF>> getAllOtf();
+    List<OTF> getAllOtf();
 
     //первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -17,7 +17,7 @@ import ru.geekbrains.psy_journal.model.data.Group;
 public interface GroupDao {
 
     @Query("SELECT * FROM `Group`")
-    Single<List<Group>> getAllGroups();
+    List<Group> getAllGroups();
 
     @Insert
     long insert(Group group);

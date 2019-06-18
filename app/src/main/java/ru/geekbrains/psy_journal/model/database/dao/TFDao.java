@@ -18,10 +18,10 @@ import ru.geekbrains.psy_journal.model.data.TF;
 public interface TFDao {
 
     @Query("SELECT * FROM TF")
-    Single<List<TF>> getAllTf();
+    List<TF> getAllTf();
 
     @Query("SELECT * FROM TF WHERE idOTF = :idOTF")
-    Single<List<TF>> getTfByOtf(int idOTF);
+    List<TF> getTfByOtf(int idOTF);
 
 	//первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
