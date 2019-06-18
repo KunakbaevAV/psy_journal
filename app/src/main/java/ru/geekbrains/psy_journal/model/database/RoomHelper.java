@@ -55,7 +55,7 @@ public class RoomHelper {
     }
 
     //первичная загрузка из файла в базу OTF
-	public void initializeOTF(List<OTF> list){
+    void initializeOTF(List<OTF> list) {
 		Disposable disposable = otfDao.insert(list)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +64,7 @@ public class RoomHelper {
 	}
 
 	//первичная загрузка из файла в базу TF
-	public void initializeTF(List<TF> list){
+    void initializeTF(List<TF> list) {
 		Disposable disposable = tfDao.insert(list)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
@@ -73,7 +73,7 @@ public class RoomHelper {
 	}
 
 	//первичная загрузка из файла в базу TD
-	public void initializeTD(List<TD> list){
+    void initializeTD(List<TD> list) {
 		Disposable disposable = tdDao.insert(list)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
@@ -81,7 +81,7 @@ public class RoomHelper {
 				e -> Log.e("initializeTD: ", String.format("error adding to database, %s", e.getMessage())));
 	}
 
-    public void initializeCategory(List<Category> list) {
+    void initializeCategory(List<Category> list) {
         Disposable disposable = categoryDao.insertList(list)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -89,7 +89,7 @@ public class RoomHelper {
                         e -> Log.e("initializeCategory: ", String.format("error adding to database, %s", e.getMessage())));
     }
 
-    public void initializeGroup(List<Group> list) {
+    void initializeGroup(List<Group> list) {
         Disposable disposable = groupDao.insertList(list)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,7 +97,7 @@ public class RoomHelper {
                         e -> Log.e("initializeGroup: ", String.format("error adding to database, %s", e.getMessage())));
     }
 
-    public void initializeWorkForms(List<WorkForm> list) {
+    void initializeWorkForms(List<WorkForm> list) {
         Disposable disposable = workFormDao.insertList(list)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -160,16 +160,6 @@ public class RoomHelper {
                 emitter -> otfDao.insert(otf)).subscribeOn(Schedulers.io());
     }
 
-    public Single<Long> insertListOTF(List<OTF> otfList) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    for (OTF item : otfList) {
-                        otfDao.insert(item);
-                    }
-                }
-        ).subscribeOn(Schedulers.io());
-    }
-
     public int deleteItemOTF(OTF otf) {
         return otfDao.delete(otf);
     }
@@ -181,16 +171,6 @@ public class RoomHelper {
     public Single<Long> insertItemTF(TF tf) {
         return Single.create((SingleOnSubscribe<Long>)
                 emitter -> tfDao.insert(tf)).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Long> insertListTF(List<TF> tfList) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    for (TF item : tfList) {
-                        tfDao.insert(item);
-                    }
-                }
-        ).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemTF(TF tf) {
@@ -206,16 +186,6 @@ public class RoomHelper {
                 emitter -> tdDao.insert(td)).subscribeOn(Schedulers.io());
     }
 
-    public Single<Long> insertListTD(List<TD> tdList) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    for (TD item : tdList) {
-                        tdDao.insert(item);
-                    }
-                }
-        ).subscribeOn(Schedulers.io());
-    }
-
     public int deleteItemTD(TD td) {
         return tdDao.delete(td);
     }
@@ -229,16 +199,6 @@ public class RoomHelper {
                 emitter -> categoryDao.insert(category)).subscribeOn(Schedulers.io());
     }
 
-    public Single<Long> insertListCategory(List<Category> categoryList) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    for (Category item : categoryList) {
-//                        categoryDao.insert(item); ошибка
-                     }
-                }
-        ).subscribeOn(Schedulers.io());
-    }
-
     public int deleteItemCategory(Category category) {
         return categoryDao.delete(category);
     }
@@ -247,42 +207,12 @@ public class RoomHelper {
         return categoryDao.update(category);
     }
 
-    public Single<Long> insertItemGroup(Group group) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> groupDao.insert(group)).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Long> insertListGroups(List<Group> groupList) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    for (Group item : groupList) {
-                        groupDao.insert(item);
-                    }
-                }
-        ).subscribeOn(Schedulers.io());
-    }
-
     public int deleteItemGroup(Group group) {
         return groupDao.delete(group);
     }
 
     public int updateItemGroup(Group group) {
         return groupDao.delete(group);
-    }
-
-    public Single<Long> insertItemWorkForm(WorkForm workForm) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> workFormDao.insert(workForm)).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Long> insertListWorkForms(List<WorkForm> workFormList) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    for (WorkForm item : workFormList) {
-//                        workFormDao.insert(item); ошибка
-                    }
-                }
-        ).subscribeOn(Schedulers.io());
     }
 
     public int deleteItemWorkForm(WorkForm workForm) {
