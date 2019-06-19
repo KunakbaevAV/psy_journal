@@ -16,9 +16,9 @@ public interface AddWorkView extends MvpView {
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void showHours(float hours);
 	@StateStrategyType(AddToEndSingleStrategy.class)
-	void showCategory(int idCategory);
+	void showCategory(String nameCategory);
 	@StateStrategyType(AddToEndSingleStrategy.class)
-	void showGroup(int idGroup);
+	void showGroup(String nameGroup);
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void showName(String name);
 	@StateStrategyType(AddToEndSingleStrategy.class)
@@ -26,9 +26,9 @@ public interface AddWorkView extends MvpView {
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void showRealRequest(String realRequest);
 	@StateStrategyType(AddToEndSingleStrategy.class)
-	void showWorkForm(int idWorkForm);
+	void showWorkForm(String nameWorkForm);
 	@StateStrategyType(AddToEndSingleStrategy.class)
-	void showTd(int idTd);
+	void showTd(Functional functional);
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void showComment(String comment);
 
@@ -36,6 +36,6 @@ public interface AddWorkView extends MvpView {
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void openDialogue(String title, int id);
 	@StateStrategyType(SingleStateStrategy.class)
-    void closeDialogs(Functional function);
+    void closeDialogs();
 	void showToast(String message);
 }

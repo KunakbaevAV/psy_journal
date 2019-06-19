@@ -174,12 +174,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     }
 
 	@Override
-	public void showCategory(int idCategory) {
+	public void showCategory(String nameCategory) {
 
 	}
 
 	@Override
-	public void showGroup(int idGroup) {
+	public void showGroup(String nameGroup) {
 
 	}
 
@@ -199,13 +199,18 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
 	@Override
-	public void showWorkForm(int idWorkForm) {
+	public void showWorkForm(String nameWorkForm) {
 
 	}
 
 	@Override
-	public void showTd(int idTd) {
-
+	public void showTd(Functional functional) {
+		if (functional.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))
+			codeTfText.setText(functional.getName());
+		else {
+			codeTfText.setText(functional.getCode());
+			workPresenter.getJournal().setIdTd(functional.getId());
+		}
 	}
 
 	@Override
@@ -245,7 +250,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     }
 
     @Override
-    public void closeDialogs(Functional functional) {
+    public void closeDialogs() {
         if (getActivity() != null) {
             FragmentManager manager = getActivity().getSupportFragmentManager();
             for (int i = 0; i < manager.getFragments().size(); i++) {
@@ -254,12 +259,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
                         getString(R.string.OTF).equals(manager.getFragments().get(i).getTag()))
                     manager.beginTransaction().remove(manager.getFragments().get(i)).commit();
             }
-        }
-        if (functional.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))
-            codeTfText.setText(functional.getName());
-        else {
-            codeTfText.setText(functional.getCode());
-            workPresenter.getJournal().setIdTd(functional.getId());
         }
     }
 
