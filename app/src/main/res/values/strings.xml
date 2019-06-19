@@ -33,7 +33,8 @@
     <string name="OTF">Joint labor functions</string>
     <string name="TF">Labor functions</string>
     <string name="TD">Labor action</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit">Отмена</string>
     <string name="fill_declared_request">Заполните декларируемый запрос</string>
-    <string name="add_catalog_item">Add item</string>
+    <string name="add_catalog_item">Добавить</string>
 </resources>

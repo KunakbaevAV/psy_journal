@@ -74,14 +74,12 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); //TODO Сделать проверку getActivity() == null
         builder
                 .setTitle(title)
                 .setView(createViewList())
-                .setPositiveButton(R.string.add_catalog_item, (dialog, id) -> {
-                    onClickAddItem();
-                })
-                .setNegativeButton(R.string.cancel, (dialog, id) -> getActivity()
+                .setPositiveButton(R.string.add_catalog_item, (dialog, id) -> onClickAddItem())
+                .setNegativeButton(R.string.exit, (dialog, id) -> getActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .remove(this)
@@ -108,7 +106,7 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(alertView);
         builder.setTitle(R.string.add_catalog_item);
-        builder.setNegativeButton(R.string.cancel, null);
+        builder.setNegativeButton(R.string.exit, null);
         builder.setPositiveButton(R.string.add_catalog_item, (dialog, id) -> {
             EditText catalogItem = alertView.findViewById(R.id.new_catalog_item);
             String newCatalogItem = catalogItem.getText().toString();
