@@ -23,7 +23,7 @@ public interface AppComponent {
 
     void inject(AddWorkPresenter workPresenter);
 
-	void inject(DialogFunctionPresenter functionPresenter);
+    void inject(DialogFunctionPresenter functionPresenter);
 
     void inject(App app);
 

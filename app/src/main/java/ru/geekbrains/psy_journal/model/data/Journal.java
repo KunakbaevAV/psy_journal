@@ -56,39 +56,39 @@ public class Journal implements Parcelable {
         this.comment = comment;
     }
 
-	protected Journal(Parcel in) {
-		id = in.readInt();
-		date = in.readLong();
-		dayOfWeek = in.readString();
-		idTd = in.readInt();
-		idCategory = in.readInt();
-		idGroup = in.readInt();
-		name = in.readString();
-		quantityPeople = in.readInt();
-		declaredRequest = in.readString();
-		realRequest = in.readString();
-		idWorkForm = in.readInt();
-		if (in.readByte() == 0) {
-			workTime = null;
-		} else {
-			workTime = in.readFloat();
-		}
-		comment = in.readString();
-	}
+    public static final Creator<Journal> CREATOR = new Creator<Journal>() {
+        @Override
+        public Journal createFromParcel(Parcel in) {
+            return new Journal(in);
+        }
 
-	public static final Creator<Journal> CREATOR = new Creator<Journal>() {
-		@Override
-		public Journal createFromParcel(Parcel in) {
-			return new Journal(in);
-		}
+        @Override
+        public Journal[] newArray(int size) {
+            return new Journal[size];
+        }
+    };
 
-		@Override
-		public Journal[] newArray(int size) {
-			return new Journal[size];
-		}
-	};
+    protected Journal(Parcel in) {
+        id = in.readInt();
+        date = in.readLong();
+        dayOfWeek = in.readString();
+        idTd = in.readInt();
+        idCategory = in.readInt();
+        idGroup = in.readInt();
+        name = in.readString();
+        quantityPeople = in.readInt();
+        declaredRequest = in.readString();
+        realRequest = in.readString();
+        idWorkForm = in.readInt();
+        if (in.readByte() == 0) {
+            workTime = null;
+        } else {
+            workTime = in.readFloat();
+        }
+        comment = in.readString();
+    }
 
-	public int getId() {
+    public int getId() {
         return id;
     }
 
@@ -196,30 +196,30 @@ public class Journal implements Parcelable {
     	return null;
     }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(id);
-		dest.writeLong(date);
-		dest.writeString(dayOfWeek);
-		dest.writeInt(idTd);
-		dest.writeInt(idCategory);
-		dest.writeInt(idGroup);
-		dest.writeString(name);
-		dest.writeInt(quantityPeople);
-		dest.writeString(declaredRequest);
-		dest.writeString(realRequest);
-		dest.writeInt(idWorkForm);
-		if (workTime == null) {
-			dest.writeByte((byte) 0);
-		} else {
-			dest.writeByte((byte) 1);
-			dest.writeFloat(workTime);
-		}
-		dest.writeString(comment);
-	}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeLong(date);
+        dest.writeString(dayOfWeek);
+        dest.writeInt(idTd);
+        dest.writeInt(idCategory);
+        dest.writeInt(idGroup);
+        dest.writeString(name);
+        dest.writeInt(quantityPeople);
+        dest.writeString(declaredRequest);
+        dest.writeString(realRequest);
+        dest.writeInt(idWorkForm);
+        if (workTime == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeFloat(workTime);
+        }
+        dest.writeString(comment);
+    }
 }

@@ -21,13 +21,10 @@ import ru.geekbrains.psy_journal.view.dialogs.adapters.Displayed;
 public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bindable {
 
 	private final List<Functional> list = new ArrayList<>();
-	@Inject RoomHelper roomHelper;
+	@Inject
+	RoomHelper roomHelper;
 	private String title;
 	private int id;
-
-	public String getTitle() {
-		return title;
-	}
 
 	public DialogFunctionPresenter() {
 	}
@@ -37,11 +34,15 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 		this.id = id;
 	}
 
-	public void loadData(){
+	public String getTitle() {
+		return title;
+	}
+
+	public void loadData() {
 		getViewState().loadData(title, id);
 	}
 
-	public void getOTF(){
+	public void getOTF() {
 		Disposable disposable = roomHelper.getOTFList()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(otfList -> {
@@ -51,7 +52,7 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 
 	}
 
-	public void getTF(int idOTF){
+	public void getTF(int idOTF) {
 		Disposable disposable = roomHelper.getTFList(idOTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tfs -> {
@@ -60,7 +61,7 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 				}, e -> Log.e("getTF(): ", e.getMessage()));
 	}
 
-	public void getTD(int idTF){
+	public void getTD(int idTF) {
 		Disposable disposable = roomHelper.getTDList(idTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tds -> {

@@ -9,7 +9,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
@@ -32,9 +31,28 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		return journal;
 	}
 
-	public AddWorkPresenter() {
-		journal = new Journal();
+	public AddWorkPresenter(Journal journal) {
+		if (journal == null) this.journal = new Journal();
+		else {
+			this.journal = journal;
+			init();
+		}
 	}
+
+	private void init(){
+		getViewState().showDate(journal.getDate());
+		getViewState().showNumberOfPeople(journal.getQuantityPeople());
+		getViewState().showHours(journal.getWorkTime());
+//		getViewState().showCategory();
+//		getViewState().showGroup();
+		getViewState().showName(journal.getName());
+		getViewState().showDeclaredRequest(journal.getDeclaredRequest());
+		getViewState().showRealRequest(journal.getRealRequest());
+//		getViewState().showWorkForm();
+//		getViewState().showTd();
+		getViewState().showComment(journal.getComment());
+	}
+
 
 	public void addWorkIntoDatabase(){
 		roomHelper.insertItemJournal(journal)
@@ -53,7 +71,8 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	@Override
 	public void saveSelectedFunction(Functional function) {
-		getViewState().closeDialogs(function);
+		getViewState().closeDialogs();
+		getViewState().showTd(function);
 	}
 
 	@Override

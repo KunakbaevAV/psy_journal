@@ -67,10 +67,7 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
     }
 
     private Single<Integer> deleteItemJournalFromDatabaseObservable(Journal journal) {
-        return Single.create((SingleOnSubscribe<Integer>) emitter -> {
-            int id = roomHelper.deleteItemJournal(journal);
-            emitter.onSuccess(id);
-        }).subscribeOn(Schedulers.io());
+        return roomHelper.deleteItemJournal(journal);
     }
 
     private void openScreenUpdateJournal(Journal journal) {

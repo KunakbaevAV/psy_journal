@@ -181,10 +181,10 @@ public class DataBaseFirstLoader {
     }
 
     //метод добавления иной деятельности в трудовые функции
-    private void addOtherWorkActivities(){
-    	int tfSize = tfList.size();
-	    for (int i = 0; i < otfList.size() ; i++) {
-		    tfList.add(new TF(++tfSize, Constants.CODE_OF_OTHER_ACTIVITY, "иная деятельность", i + 1));
-	    }
+    private void addOtherWorkActivities() {
+        int tfSize = tfList.size();
+        for (int i = 0; i < otfList.size(); i++) {
+            tfList.add(new TF(++tfSize, Constants.CODE_OF_OTHER_ACTIVITY, "иная деятельность", i + 1));
+        }
     }
 }
