@@ -269,7 +269,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     }
 
     public boolean isEmptyDeclaredRequest() {
-        if (Objects.requireNonNull(declaredRequestText.getText()).toString().equals("")) {
+        if (declaredRequestText.getText() == null || declaredRequestText.getText().toString().equals("")) {
             Toast.makeText(this.getContext(), R.string.fill_declared_request, Toast.LENGTH_SHORT).show();
             YoYo.with(Techniques.Shake).playOn(declaredReqoestLayout);
             return true;

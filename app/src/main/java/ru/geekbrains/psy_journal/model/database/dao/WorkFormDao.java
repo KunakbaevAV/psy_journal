@@ -17,7 +17,7 @@ import ru.geekbrains.psy_journal.model.data.WorkForm;
 public interface WorkFormDao {
 
     @Query("SELECT * FROM Work_form")
-    Single<List<WorkForm>> getAllWorkForms();
+    List<WorkForm> getAllWorkForms();
 
     @Insert
     long insert(WorkForm workForm);
