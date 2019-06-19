@@ -17,7 +17,7 @@ import ru.geekbrains.psy_journal.model.data.Category;
 public interface CategoryDao {
 
     @Query("SELECT * FROM Category")
-    Single<List<Category>> getAllCategories();
+    List<Category> getAllCategories();
 
     @Insert
     long insert(Category category);
