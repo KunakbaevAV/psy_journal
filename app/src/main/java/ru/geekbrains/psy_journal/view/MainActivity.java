@@ -60,8 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (tag) {
                 case TAG_ADD_WORK:
                     AddWorkFragment addWorkFragment = (AddWorkFragment) currentFragment;
-                    if (!addWorkFragment.isEmptyDeclaredRequest()) {
-	                    addWorkFragment.collectAll();
+                    if (addWorkFragment.isCollectedAll()) {
                         openAllWorkFragment();
                     }
                     break;

@@ -71,13 +71,13 @@ public class FunctionDialog extends MvpAppCompatDialogFragment implements Update
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		if (getActivity() == null) return super.onCreateDialog(savedInstanceState);
 		return new AlertDialog.Builder(getActivity())
-                .setTitle(functionPresenter.getTitle())
+            .setTitle(functionPresenter.getTitle())
 			.setView(createViewList())
-                .setNegativeButton(getResources().getString(R.string.cancel), (dialog, id) -> getActivity()
-				.getSupportFragmentManager()
-				.beginTransaction()
-				.remove(this)
-				.commitNow())
+            .setNegativeButton(getResources().getString(R.string.cancel), (dialog, id) -> getActivity()
+			.getSupportFragmentManager()
+			.beginTransaction()
+			.remove(this)
+			.commitNow())
 			.create();
 	}
 
