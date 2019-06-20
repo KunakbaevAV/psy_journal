@@ -22,7 +22,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AllWorkPresenter;
+import ru.geekbrains.psy_journal.view.MainActivity;
+
+import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class AllWorkFragment extends MvpAppCompatFragment implements AllWorkView {
 
@@ -102,6 +106,14 @@ public class AllWorkFragment extends MvpAppCompatFragment implements AllWorkView
 	public void showToast(String message) {
 		if (getActivity() == null) return;
 		Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void openScreenUpdateJournal(Journal journal) {
+		MainActivity activity = (MainActivity) getActivity();
+		if (activity == null) return;
+		activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_master, AddWorkFragment.newInstance(journal), TAG_ADD_WORK).commit();
+		activity.setImageFabForTag(TAG_ADD_WORK);
 	}
 
 }
