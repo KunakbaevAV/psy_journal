@@ -2,16 +2,19 @@ package ru.geekbrains.psy_journal.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.Calendar;
 import java.util.List;
+
 import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.geekbrains.psy_journal.model.data.Catalog;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.TD;
-import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
+import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 
 @InjectViewState
@@ -72,8 +75,14 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	@Override
 	public void saveSelectedFunction(Functional function) {
-		getViewState().closeDialogs(function);
+		getViewState().closeDialogs();
+		getViewState().showTd(function);
 	}
+
+    @Override
+    public void saveSelectedCatalog(Catalog catalog) {
+        //TODO Метод для сохранения выбранного элемента справочников (Категории/Группы/Формы работы)
+    }
 
 	@Override
 	public void setDate(int year, int month, int dayOfMonth) {

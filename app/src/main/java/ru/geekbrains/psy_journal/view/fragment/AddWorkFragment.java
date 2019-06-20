@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -44,14 +43,17 @@ import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
 import ru.geekbrains.psy_journal.view.dialogs.DateSettingDialog;
+import ru.geekbrains.psy_journal.view.dialogs.EditableDialog;
 import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 import ru.geekbrains.psy_journal.view.dialogs.TimeSettingDialog;
 
 public class AddWorkFragment extends MvpAppCompatFragment implements
         AddWorkView,
-        View.OnClickListener {
+        View.OnClickListener,
+		Collectable{
 
-    private static final String PATTERN = "dd.MM.yy";
+	private static final String PATTERN = "dd.MM.yy";
+	private static final String DEFAULT_WORK_TIME = "1.0";
 
 	public static AddWorkFragment newInstance(Journal journal) {
 		AddWorkFragment addWorkFragment = new AddWorkFragment();
@@ -60,9 +62,10 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 		addWorkFragment.setArguments(args);
 		return addWorkFragment;
 	}
+
     private final SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN, Locale.getDefault());
 
-    @BindView(R.id.declared_request_layout) TextInputLayout declaredReqoestLayout;
+    @BindView(R.id.declared_request_layout) TextInputLayout declaredRequestLayout;
     @BindView(R.id.date_text) TextInputEditText dateText;
     @BindView(R.id.work_time_count) TextInputEditText workTimeText;
     @BindView(R.id.name_text) AppCompatAutoCompleteTextView nameText;
@@ -93,7 +96,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         View view = inflater.inflate(R.layout.fragment_add_work, container, false);
         unbinder = ButterKnife.bind(this, view);
         dateText.setHint(dateFormat.format(new Date()));
-        workTimeText.setText("1.0");
+        workTimeText.setText(DEFAULT_WORK_TIME);
         if (getContext() != null)
             nameText.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getNames()));
         quantityPeople.addTextChangedListener(new AdapterTextWatcher() {
@@ -141,7 +144,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         }
     }
 
-    @OnClick({R.id.date_text, R.id.work_time_count, R.id.code_tf_text})
+    private String getCodeTD(){
+	    if (codeTfText.getText() == null || codeTfText.getText().toString().equals("")) return "";
+	    return codeTfText.getText().toString();
+    }
+
+    @OnClick({R.id.date_text, R.id.work_time_count, R.id.code_tf_text, R.id.category_text, R.id.group_text, R.id.work_form_text})
     @Override
     public void onClick(View v) {
         if (getActivity() == null) return;
@@ -154,6 +162,15 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
                 break;
             case R.id.code_tf_text:
                 FunctionDialog.newInstance(getString(R.string.OTF), 0).show(getActivity().getSupportFragmentManager(), getString(R.string.OTF));
+                break;
+            case R.id.category_text:
+                EditableDialog.newInstance(getString(R.string.choose_category)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_category));
+                break;
+            case R.id.group_text:
+                EditableDialog.newInstance(getString(R.string.choose_group)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_group));
+                break;
+            case R.id.work_form_text:
+                EditableDialog.newInstance(getString(R.string.choose_work_form)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_work_form));
                 break;
         }
     }
@@ -174,12 +191,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     }
 
 	@Override
-	public void showCategory(int idCategory) {
+	public void showCategory(String nameCategory) {
 
 	}
 
 	@Override
-	public void showGroup(int idGroup) {
+	public void showGroup(String nameGroup) {
 
 	}
 
@@ -199,13 +216,18 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
 	@Override
-	public void showWorkForm(int idWorkForm) {
+	public void showWorkForm(String nameWorkForm) {
 
 	}
 
 	@Override
-	public void showTd(int idTd) {
-
+	public void showTd(Functional functional) {
+		if (functional.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))
+			codeTfText.setText(functional.getName());
+		else {
+			codeTfText.setText(functional.getCode());
+			workPresenter.getJournal().setIdTd(functional.getId());
+		}
 	}
 
 	@Override
@@ -214,7 +236,10 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
 	@Override
-    public void collectAll() {
+    public boolean isCollectedAll() {
+    	String declaredRequest;
+		if ((declaredRequest = checkDeclaredRequest()) == null) return false;
+		workPresenter.getJournal().setDeclaredRequest(declaredRequest);
         Editable editable = nameText.getText();
         if (editable != null) {
             String name = editable.toString();
@@ -228,13 +253,13 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
             if (checkForNumber(quantity))
                 workPresenter.getJournal().setQuantityPeople(Integer.parseInt(quantity));
         }
-        if (declaredRequestText.getText() != null)
-            workPresenter.getJournal().setDeclaredRequest(declaredRequestText.getText().toString());
         if (realRequestText.getText() != null)
             workPresenter.getJournal().setRealRequest(realRequestText.getText().toString());
+//        workPresenter.getJournal().setIdTd();
         if (commentText.getText() != null)
             workPresenter.getJournal().setComment(commentText.getText().toString());
         workPresenter.addWorkIntoDatabase();
+        return true;
     }
 
     @Override
@@ -245,7 +270,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     }
 
     @Override
-    public void closeDialogs(Functional functional) {
+    public void closeDialogs() {
         if (getActivity() != null) {
             FragmentManager manager = getActivity().getSupportFragmentManager();
             for (int i = 0; i < manager.getFragments().size(); i++) {
@@ -255,12 +280,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
                     manager.beginTransaction().remove(manager.getFragments().get(i)).commit();
             }
         }
-        if (functional.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))
-            codeTfText.setText(functional.getName());
-        else {
-            codeTfText.setText(functional.getCode());
-            workPresenter.getJournal().setIdTd(functional.getId());
-        }
     }
 
     @Override
@@ -269,13 +288,13 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public boolean isEmptyDeclaredRequest() {
+    private String checkDeclaredRequest() {
         if (declaredRequestText.getText() == null || declaredRequestText.getText().toString().equals("")) {
             Toast.makeText(this.getContext(), R.string.fill_declared_request, Toast.LENGTH_SHORT).show();
-            YoYo.with(Techniques.Shake).playOn(declaredReqoestLayout);
-            return true;
+            YoYo.with(Techniques.Shake).playOn(declaredRequestLayout);
+            return null;
         } else {
-            return false;
+            return declaredRequestText.getText().toString();
         }
     }
 

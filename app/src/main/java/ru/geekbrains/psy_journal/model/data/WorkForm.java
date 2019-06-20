@@ -2,17 +2,22 @@ package ru.geekbrains.psy_journal.model.data;
 
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_WORK_FORM;
 
 @Entity(tableName = TABLE_WORK_FORM)
-public class WorkForm {
+public class WorkForm implements Catalog {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
 
+    public WorkForm() {
+    }
+
+    @Ignore
     public WorkForm(int id, String name) {
         this.id = id;
         this.name = name;
