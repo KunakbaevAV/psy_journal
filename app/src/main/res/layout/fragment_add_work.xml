@@ -30,8 +30,7 @@
             android:id="@+id/comment"
             layout="@layout/field_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standartMargin" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </ScrollView>
