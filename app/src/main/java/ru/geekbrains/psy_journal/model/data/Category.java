@@ -1,17 +1,22 @@
 package ru.geekbrains.psy_journal.model.data;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_CATEGORY;
 
 @Entity(tableName = TABLE_CATEGORY)
-public class Category {
+public class Category implements Catalog {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
 
+    public Category() {
+    }
+
+    @Ignore
     public Category(int id, String name) {
         this.id = id;
         this.name = name;

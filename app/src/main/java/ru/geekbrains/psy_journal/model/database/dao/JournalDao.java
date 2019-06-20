@@ -17,6 +17,9 @@ public interface JournalDao {
     @Query("SELECT * FROM Journal")
     List<Journal> getAll();
 
+    @Query("SELECT * FROM Journal WHERE id = :id")
+    Journal getItemJournal(int id);
+
     @Insert
     long insert(Journal journal);
 

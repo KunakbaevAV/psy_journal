@@ -43,6 +43,7 @@ import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
 import ru.geekbrains.psy_journal.view.dialogs.DateSettingDialog;
+import ru.geekbrains.psy_journal.view.dialogs.EditableDialog;
 import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 import ru.geekbrains.psy_journal.view.dialogs.TimeSettingDialog;
 
@@ -148,7 +149,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	    return codeTfText.getText().toString();
     }
 
-    @OnClick({R.id.date_text, R.id.work_time_count, R.id.code_tf_text})
+    @OnClick({R.id.date_text, R.id.work_time_count, R.id.code_tf_text, R.id.category_text, R.id.group_text, R.id.work_form_text})
     @Override
     public void onClick(View v) {
         if (getActivity() == null) return;
@@ -161,6 +162,15 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
                 break;
             case R.id.code_tf_text:
                 FunctionDialog.newInstance(getString(R.string.OTF), 0).show(getActivity().getSupportFragmentManager(), getString(R.string.OTF));
+                break;
+            case R.id.category_text:
+                EditableDialog.newInstance(getString(R.string.choose_category)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_category));
+                break;
+            case R.id.group_text:
+                EditableDialog.newInstance(getString(R.string.choose_group)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_group));
+                break;
+            case R.id.work_form_text:
+                EditableDialog.newInstance(getString(R.string.choose_work_form)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_work_form));
                 break;
         }
     }

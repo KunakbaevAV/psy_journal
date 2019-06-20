@@ -28,6 +28,7 @@
                 android:id="@+id/category_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
                 android:hint="@string/choose_category" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,6 +42,7 @@
                 android:id="@+id/group_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
                 android:hint="@string/choose_group" />
         </com.google.android.material.textfield.TextInputLayout>
 

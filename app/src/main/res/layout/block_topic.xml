@@ -71,6 +71,7 @@
                     android:id="@+id/work_form_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
                     android:hint="@string/choose_work_form" />
             </com.google.android.material.textfield.TextInputLayout>
 
