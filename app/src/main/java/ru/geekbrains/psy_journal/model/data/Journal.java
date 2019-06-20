@@ -21,15 +21,15 @@ public class Journal implements Parcelable {
     private long date = new Date().getTime();
     @Ignore
     private String dayOfWeek = determineDayOfWeek(date);
-    private int idTd;
+	private int quantityPeople;
+    private Float workTime = 1.0f;
     private int idCategory;
     private int idGroup;
     private String name;
-    private int quantityPeople;
     private String declaredRequest;
     private String realRequest;
     private int idWorkForm;
-    private Float workTime = 1.0f;
+	private String codeTd;
     private String comment;
 
     public Journal() {
@@ -37,14 +37,14 @@ public class Journal implements Parcelable {
     }
 
     @Ignore
-    public Journal(long date, String dayOfWeek, int idTd,
+    public Journal(long date, String dayOfWeek, String codeTd,
                    int idCategory, int idGroup, String name,
                    int quantityPeople, String declaredRequest,
                    String realRequest, int idWorkForm,
                    Float workTime, String comment) {
         this.date = date;
         this.dayOfWeek = dayOfWeek;
-        this.idTd = idTd;
+        this.codeTd = codeTd;
         this.idCategory = idCategory;
         this.idGroup = idGroup;
         this.name = name;
@@ -72,7 +72,7 @@ public class Journal implements Parcelable {
         id = in.readInt();
         date = in.readLong();
         dayOfWeek = in.readString();
-        idTd = in.readInt();
+        codeTd = in.readString();
         idCategory = in.readInt();
         idGroup = in.readInt();
         name = in.readString();
@@ -109,12 +109,12 @@ public class Journal implements Parcelable {
         return dayOfWeek;
     }
 
-    public int getIdTd() {
-        return idTd;
+    public String getCodeTd() {
+        return codeTd;
     }
 
-    public void setIdTd(int idTd) {
-        this.idTd = idTd;
+    public void setCodeTd(String codeTd) {
+        this.codeTd = codeTd;
     }
 
     public int getIdCategory() {
@@ -206,7 +206,7 @@ public class Journal implements Parcelable {
         dest.writeInt(id);
         dest.writeLong(date);
         dest.writeString(dayOfWeek);
-        dest.writeInt(idTd);
+        dest.writeString(codeTd);
         dest.writeInt(idCategory);
         dest.writeInt(idGroup);
         dest.writeString(name);

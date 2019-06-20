@@ -29,7 +29,7 @@ public interface AddWorkView extends MvpView {
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void showWorkForm(String nameWorkForm);
 	@StateStrategyType(AddToEndSingleStrategy.class)
-	void showTd(Functional functional);
+	void showTd(String code);
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void showComment(String comment);
 	@StateStrategyType(SkipStrategy.class)
