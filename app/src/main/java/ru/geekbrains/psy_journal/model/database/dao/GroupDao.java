@@ -19,6 +19,9 @@ public interface GroupDao {
     @Query("SELECT * FROM `Group`")
     List<Group> getAllGroups();
 
+    @Query("SELECT * FROM `Group` WHERE id = :id")
+    Group getItemGroup(int id);
+
     @Insert
     long insert(Group group);
 

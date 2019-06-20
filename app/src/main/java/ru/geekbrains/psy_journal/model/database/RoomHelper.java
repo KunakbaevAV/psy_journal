@@ -227,6 +227,20 @@ public class RoomHelper {
     }
 
     /**
+     * Метод получения из БД строчки таблицы {@link Journal} по id, обернутый в {@link Single}
+     *
+     * @param id идентификатор возвращаемой строки
+     * @return строка в виде объекта
+     */
+    public Single<Journal> getItemJournal(int id) {
+        return Single.create((SingleOnSubscribe<Journal>)
+                emitter -> {
+                    Journal item = journalDao.getItemJournal(id);
+                    emitter.onSuccess(item);
+                }).subscribeOn(Schedulers.io());
+    }
+
+    /**
      * @param otf Вставляемая Обобщенная трудовая функция
      * @return id вставленной {@link OTF} в обертке {@link Single}
      */
@@ -258,6 +272,20 @@ public class RoomHelper {
                 }).subscribeOn(Schedulers.io());
     }
 
+    /**
+     * Метод получения из БД строчки таблицы {@link OTF} по id, обернутый в {@link Single}
+     *
+     * @param id идентификатор возвращаемой строки
+     * @return строка в виде объекта
+     */
+    public Single<OTF> getItemOTF(int id) {
+        return Single.create((SingleOnSubscribe<OTF>)
+                emitter -> {
+                    OTF item = otfDao.getItemOtf(id);
+                    emitter.onSuccess(item);
+                }).subscribeOn(Schedulers.io());
+    }
+
     public Single<Long> insertItemTF(TF tf) {
         return Single.create((SingleOnSubscribe<Long>)
                 emitter -> {
@@ -282,6 +310,20 @@ public class RoomHelper {
                 }).subscribeOn(Schedulers.io());
     }
 
+    /**
+     * Метод получения из БД строчки таблицы {@link TF} по id, обернутый в {@link Single}
+     *
+     * @param id идентификатор возвращаемой строки
+     * @return строка в виде объекта
+     */
+    public Single<TF> getItemTF(int id) {
+        return Single.create((SingleOnSubscribe<TF>)
+                emitter -> {
+                    TF item = tfDao.getItemTF(id);
+                    emitter.onSuccess(item);
+                }).subscribeOn(Schedulers.io());
+    }
+
     public Single<Long> insertItemTD(TD td) {
         return Single.create((SingleOnSubscribe<Long>)
                 emitter -> {
@@ -303,6 +345,20 @@ public class RoomHelper {
                 emitter -> {
                     int id = tdDao.update(td);
                     emitter.onSuccess(id);
+                }).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Метод получения из БД строчки таблицы {@link TD} по id, обернутый в {@link Single}
+     *
+     * @param id идентификатор возвращаемой строки
+     * @return строка в виде объекта
+     */
+    public Single<TD> getItemTD(int id) {
+        return Single.create((SingleOnSubscribe<TD>)
+                emitter -> {
+                    TD item = tdDao.getItemTD(id);
+                    emitter.onSuccess(item);
                 }).subscribeOn(Schedulers.io());
     }
 
@@ -337,6 +393,20 @@ public class RoomHelper {
     }
 
     /**
+     * Метод получения из БД строчки таблицы {@link Category} по id, обернутый в {@link Single}
+     *
+     * @param id идентификатор возвращаемой строки
+     * @return строка в виде объекта
+     */
+    public Single<Category> getItemCategory(int id) {
+        return Single.create((SingleOnSubscribe<Category>)
+                emitter -> {
+                    Category item = categoryDao.getItemCategory(id);
+                    emitter.onSuccess(item);
+                }).subscribeOn(Schedulers.io());
+    }
+
+    /**
      * Метод вставки новой Группы в БД, обернутый в {@link Single}
      *
      * @param group Вставляемая Группа
@@ -367,6 +437,20 @@ public class RoomHelper {
     }
 
     /**
+     * Метод получения из БД строчки таблицы {@link Group} по id, обернутый в {@link Single}
+     *
+     * @param id идентификатор возвращаемой строки
+     * @return строка в виде объекта
+     */
+    public Single<Group> getItemGroup(int id) {
+        return Single.create((SingleOnSubscribe<Group>)
+                emitter -> {
+                    Group item = groupDao.getItemGroup(id);
+                    emitter.onSuccess(item);
+                }).subscribeOn(Schedulers.io());
+    }
+
+    /**
      * Метод вставки новой Формы работы в БД, обернутый в {@link Single}
      *
      * @param workForm Вставляемая форма работы
@@ -393,6 +477,20 @@ public class RoomHelper {
                 emitter -> {
                     int id = workFormDao.update(workForm);
                     emitter.onSuccess(id);
+                }).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Метод получения из БД строчки таблицы {@link WorkForm} по id, обернутый в {@link Single}
+     *
+     * @param id идентификатор возвращаемой строки
+     * @return строка в виде объекта
+     */
+    public Single<WorkForm> getItemWorkForm(int id) {
+        return Single.create((SingleOnSubscribe<WorkForm>)
+                emitter -> {
+                    WorkForm item = workFormDao.getItemWorkWorm(id);
+                    emitter.onSuccess(item);
                 }).subscribeOn(Schedulers.io());
     }
 
