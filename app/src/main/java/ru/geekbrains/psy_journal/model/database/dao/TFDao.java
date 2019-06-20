@@ -23,6 +23,9 @@ public interface TFDao {
     @Query("SELECT * FROM TF WHERE idOTF = :idOTF")
     List<TF> getTfByOtf(int idOTF);
 
+    @Query("SELECT * FROM TF WHERE id = :id")
+    TF getItemTF(int id);
+
 	//первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<TF> tfList);

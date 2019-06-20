@@ -23,6 +23,9 @@ public interface TDDao {
     @Query("SELECT * FROM TD WHERE idTF = :idTF")
     List<TD> getTdByTf(int idTF);
 
+    @Query("SELECT * FROM TD WHERE id = :id")
+    TD getItemTD(int id);
+
 	//первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<TD> tdList);

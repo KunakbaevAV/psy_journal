@@ -19,6 +19,9 @@ public interface WorkFormDao {
     @Query("SELECT * FROM Work_form")
     List<WorkForm> getAllWorkForms();
 
+    @Query("SELECT * FROM Work_form WHERE id = :id")
+    WorkForm getItemWorkWorm(int id);
+
     @Insert
     long insert(WorkForm workForm);
 

@@ -19,6 +19,9 @@ public interface OTFDao {
     @Query("SELECT * FROM OTF")
     List<OTF> getAllOtf();
 
+    @Query("SELECT * FROM OTF WHERE id = :id")
+    OTF getItemOtf(int id);
+
     //первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<OTF> otfList);
