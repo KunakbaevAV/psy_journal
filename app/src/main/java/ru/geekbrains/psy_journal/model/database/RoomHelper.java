@@ -363,6 +363,20 @@ public class RoomHelper {
     }
 
     /**
+     * Метод получения из БД строчки таблицы {@link TD} по коду, обернутый в {@link Single}
+     *
+     * @param code код возвращаемой строки (код в виде пустой строки = "Иная деятельность")
+     * @return строка в виде объекта
+     */
+    public Single<TD> getTdByCode(String code) {
+        return Single.create((SingleOnSubscribe<TD>)
+                emitter -> {
+                    TD item = tdDao.getTdByCode(code);
+                    emitter.onSuccess(item);
+                }).subscribeOn(Schedulers.io());
+    }
+
+    /**
      * Метод вставки новой Категории в БД, обернутый в {@link Single}
      *
      * @param category Вставляемая Категория
