@@ -9,7 +9,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
@@ -72,7 +71,8 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	@Override
 	public void saveSelectedFunction(Functional function) {
-		getViewState().closeDialogs(function);
+		getViewState().closeDialogs();
+		getViewState().showTd(function);
 	}
 
 	@Override

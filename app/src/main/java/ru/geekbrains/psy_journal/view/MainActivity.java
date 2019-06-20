@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
-import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -35,10 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
         setImageFab();
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_master, new AllWorkFragment(), TAG_ALL_WORK)
-                .commit();
+        	loadFragment(new AllWorkFragment(), TAG_ALL_WORK);
         }
     }
 
@@ -64,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (tag) {
                 case TAG_ADD_WORK:
                     AddWorkFragment addWorkFragment = (AddWorkFragment) currentFragment;
-                    if (!addWorkFragment.isEmptyDeclaredRequest()) {
-                        openAllWorkFragment(addWorkFragment);
+                    if (addWorkFragment.isCollectedAll()) {
+                        openAllWorkFragment();
                     }
                     break;
                 case TAG_ALL_WORK:
@@ -84,14 +80,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setImageDrawable(done);
     }
 
-    private void openAllWorkFragment(AddWorkView currentFragment) {
-        currentFragment.collectAll();
-	    FragmentManager manager = getSupportFragmentManager();
-	    manager.popBackStack(TAG_ADD_WORK, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        manager.beginTransaction()
-            .replace(R.id.frame_master, new AllWorkFragment(), TAG_ALL_WORK)
-            .commit();
+    private void openAllWorkFragment() {
+	    getSupportFragmentManager().popBackStack(TAG_ADD_WORK, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        loadFragment(new AllWorkFragment(), TAG_ALL_WORK);
         fab.setImageDrawable(plus);
+    }
+
+    private void loadFragment(Fragment fragment, String tag){
+	    getSupportFragmentManager()
+		    .beginTransaction()
+		    .replace(R.id.frame_master, fragment, tag)
+		    .commit();
     }
 
     @Override
