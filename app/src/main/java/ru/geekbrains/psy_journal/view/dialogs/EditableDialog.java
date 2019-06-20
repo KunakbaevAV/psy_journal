@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
     private String title;
     private EditableDialogAdapter adapter;
     private Settable settable;
+    private boolean wantToCloseDialog;
 
     public static EditableDialog newInstance(String title) {
         EditableDialog fragment = new EditableDialog();
@@ -78,7 +80,8 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
         builder
                 .setTitle(title)
                 .setView(createViewList())
-                .setPositiveButton(R.string.add_catalog_item, (dialog, id) -> onClickAddItem())
+                .setNeutralButton(R.string.add_catalog_item, (dialog, id) -> {
+                })
                 .setNegativeButton(R.string.exit, (dialog, id) -> getActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()
@@ -111,6 +114,7 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
             EditText catalogItem = alertView.findViewById(R.id.new_catalog_item);
             String newCatalogItem = catalogItem.getText().toString();
             editableDialogPresenter.insertCatalogItem(newCatalogItem);
+            wantToCloseDialog = true;
         });
         builder.show();
     }
@@ -146,5 +150,19 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
     public void saveCatalogItem(Catalog catalog) {
         if (settable == null) return;
         settable.saveSelectedCatalog(catalog);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final AlertDialog dialog = (AlertDialog) getDialog();
+        if (dialog != null) {
+            Button neutralButton = dialog.getButton(Dialog.BUTTON_NEUTRAL);
+            neutralButton.setOnClickListener(v -> {
+                wantToCloseDialog = false;
+                onClickAddItem();
+                if (wantToCloseDialog) dialog.dismiss();
+            });
+        }
     }
 }
