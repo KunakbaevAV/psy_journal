@@ -23,13 +23,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.model.data.Catalog;
+import ru.geekbrains.psy_journal.model.data.Category;
+import ru.geekbrains.psy_journal.model.data.Group;
+import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.presenter.EditableDialogPresenter;
 import ru.geekbrains.psy_journal.presenter.Settable;
 import ru.geekbrains.psy_journal.view.dialogs.adapters.EditableDialogAdapter;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 
 import static ru.geekbrains.psy_journal.Constants.KEY_TITLE;
+import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class EditableDialog extends MvpAppCompatDialogFragment implements EditableDialogView {
 
@@ -69,7 +72,7 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() == null) return;
-        AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag("Tag add work");
+        AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag(TAG_ADD_WORK);
         if (fragment != null) settable = fragment.workPresenter;
     }
 
@@ -147,9 +150,24 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
     }
 
     @Override
-    public void saveCatalogItem(Catalog catalog) {
+    public void saveSelectedCategory(Category catalog) {
         if (settable == null) return;
-        settable.saveSelectedCatalog(catalog);
+        settable.saveSelectedCategory(catalog);
+        if (getDialog() != null) getDialog().dismiss();
+    }
+
+    @Override
+    public void saveSelectedGroup(Group catalog) {
+        if (settable == null) return;
+        settable.saveSelectedGroup(catalog);
+        if (getDialog() != null) getDialog().dismiss();
+    }
+
+    @Override
+    public void saveSelectedWorkForm(WorkForm catalog) {
+        if (settable == null) return;
+        settable.saveSelectedWorkForm(catalog);
+        if (getDialog() != null) getDialog().dismiss();
     }
 
     @Override

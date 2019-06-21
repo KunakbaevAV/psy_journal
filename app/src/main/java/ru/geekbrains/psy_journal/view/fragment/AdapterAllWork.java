@@ -33,7 +33,6 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.position = position;
         presenter.bindView(holder);
-        holder.themeLayout.setOnClickListener(v -> presenter.onClickUpdate(holder));
     }
 
     @Override
@@ -45,7 +44,7 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
         notifyItemRemoved(adapterPosition);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements IViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements IViewHolder, View.OnClickListener {
 
         @BindView(R.id.date_layout)
         TextView dateLayout;
@@ -58,6 +57,7 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
         private ViewHolder(final View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
         }
 
         @Override
@@ -69,6 +69,11 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
         @Override
         public int getPos() {
             return position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            presenter.onClickUpdate(this);
         }
     }
 }
