@@ -24,6 +24,9 @@ import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Catalog;
+import ru.geekbrains.psy_journal.model.data.Category;
+import ru.geekbrains.psy_journal.model.data.Group;
+import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.presenter.EditableDialogPresenter;
 import ru.geekbrains.psy_journal.presenter.Settable;
 import ru.geekbrains.psy_journal.view.dialogs.adapters.EditableDialogAdapter;
@@ -149,7 +152,9 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
     @Override
     public void saveCatalogItem(Catalog catalog) {
         if (settable == null) return;
-        settable.saveSelectedCatalog(catalog);
+        if (catalog instanceof Category) settable.saveSelectedCategory((Category) catalog);
+        if (catalog instanceof Group) settable.saveSelectedGroup((Group) catalog);
+        if (catalog instanceof WorkForm) settable.saveSelectedWorkForm((WorkForm) catalog);
     }
 
     @Override

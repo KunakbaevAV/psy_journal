@@ -1,14 +1,17 @@
 package ru.geekbrains.psy_journal.presenter;
 
 import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.Calendar;
+
 import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.Constants;
-import ru.geekbrains.psy_journal.model.data.Catalog;
 import ru.geekbrains.psy_journal.model.data.Category;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
@@ -103,25 +106,20 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		getViewState().showTd(code);
 	}
 
-    @Override
-    public void saveSelectedCatalog(Catalog catalog) {
-        //TODO Метод для сохранения выбранного элемента справочников (Категории/Группы/Формы работы)
-    }
-
 	@Override
-	public void saveSelectedCatalog(Category category) {
+    public void saveSelectedCategory(Category category) {
 		journal.setIdCategory(category.getId());
 		getViewState().showCategory(category.getName());
 	}
 
 	@Override
-	public void saveSelectedCatalog(Group group) {
+    public void saveSelectedGroup(Group group) {
 		journal.setIdGroup(group.getId());
 		getViewState().showGroup(group.getName());
 	}
 
 	@Override
-	public void saveSelectedCatalog(WorkForm workForm) {
+    public void saveSelectedWorkForm(WorkForm workForm) {
 		journal.setIdWorkForm(workForm.getId());
 		getViewState().showWorkForm(workForm.getName());
 	}
