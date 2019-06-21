@@ -1,12 +1,12 @@
 package ru.geekbrains.psy_journal.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -18,10 +18,10 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
+import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
 
-	public static final String TAG_ADD_WORK = "Tag add work";
-	public static final String TAG_ALL_WORK = "Tag all work";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 	@BindView(R.id.fab) FloatingActionButton fab;
     @BindDrawable(R.drawable.ic_add_circle_outline_white_24dp) Drawable plus;
@@ -32,17 +32,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setImageFab();
+        setImageFabForTag(getTag());
         if (savedInstanceState == null) {
         	loadFragment(new AllWorkFragment(), TAG_ALL_WORK);
         }
     }
 
-    private void setImageFab() {
-        String tag = getTag();
+    public void setImageFabForTag(String tag) {
         if (TAG_ADD_WORK.equals(tag) || getString(R.string.OTF).equals(tag) || getString(R.string.TF).equals(tag) ||
-                getString(R.string.TD).equals(tag)) fab.setImageDrawable(done);
-        else fab.setImageDrawable(plus);
+                getString(R.string.TD).equals(tag)) setImageFab(done);
+        else setImageFab(plus);
+    }
+
+    private void setImageFab(Drawable image) {
+        fab.setImageDrawable(image);
     }
 
     private String getTag() {
@@ -77,13 +80,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             .add(R.id.frame_master, new AddWorkFragment(), TAG_ADD_WORK)
             .addToBackStack(TAG_ADD_WORK)
             .commit();
-        fab.setImageDrawable(done);
+        setImageFab(done);
     }
 
     private void openAllWorkFragment() {
 	    getSupportFragmentManager().popBackStack(TAG_ADD_WORK, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         loadFragment(new AllWorkFragment(), TAG_ALL_WORK);
-        fab.setImageDrawable(plus);
+        setImageFab(plus);
     }
 
     private void loadFragment(Fragment fragment, String tag){
@@ -96,6 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        setImageFab();
+        setImageFabForTag(getTag());
     }
 }

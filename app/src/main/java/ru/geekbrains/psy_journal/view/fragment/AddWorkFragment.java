@@ -35,10 +35,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
@@ -68,10 +66,13 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     @BindView(R.id.declared_request_layout) TextInputLayout declaredRequestLayout;
     @BindView(R.id.date_text) TextInputEditText dateText;
     @BindView(R.id.work_time_count) TextInputEditText workTimeText;
+	@BindView(R.id.category_text) TextInputEditText categoryText;
+	@BindView(R.id.group_text) TextInputEditText groupText;
     @BindView(R.id.name_text) AppCompatAutoCompleteTextView nameText;
     @BindView(R.id.quantity_people_count) TextInputEditText quantityPeople;
     @BindView(R.id.declared_request_text) TextInputEditText declaredRequestText;
     @BindView(R.id.real_request_text) TextInputEditText realRequestText;
+	@BindView(R.id.work_form_text) TextInputEditText workFormText;
     @BindView(R.id.code_tf_text) TextInputEditText codeTfText;
     @BindView(R.id.comment_text) TextInputEditText commentText;
     @BindView(R.id.quantity_people_layout) TextInputLayout quantityPeopleLayout;
@@ -144,11 +145,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         }
     }
 
-    private String getCodeTD(){
-	    if (codeTfText.getText() == null || codeTfText.getText().toString().equals("")) return "";
-	    return codeTfText.getText().toString();
-    }
-
     @OnClick({R.id.date_text, R.id.work_time_count, R.id.code_tf_text, R.id.category_text, R.id.group_text, R.id.work_form_text})
     @Override
     public void onClick(View v) {
@@ -192,12 +188,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
 	public void showCategory(String nameCategory) {
-
+		categoryText.setText(nameCategory);
 	}
 
 	@Override
 	public void showGroup(String nameGroup) {
-
+		groupText.setText(nameGroup);
 	}
 
 	@Override
@@ -217,17 +213,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
 	public void showWorkForm(String nameWorkForm) {
-
+		workFormText.setText(nameWorkForm);
 	}
 
 	@Override
-	public void showTd(Functional functional) {
-		if (functional.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))
-			codeTfText.setText(functional.getName());
-		else {
-			codeTfText.setText(functional.getCode());
-			workPresenter.getJournal().setIdTd(functional.getId());
-		}
+	public void showTd(String code) {
+		codeTfText.setText(code);
 	}
 
 	@Override
@@ -237,15 +228,15 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
     public boolean isCollectedAll() {
-    	String declaredRequest;
-		if ((declaredRequest = checkDeclaredRequest()) == null) return false;
+    	String declaredRequest = checkDeclaredRequest();
+		if (declaredRequest == null) return false;
 		workPresenter.getJournal().setDeclaredRequest(declaredRequest);
         Editable editable = nameText.getText();
         if (editable != null) {
             String name = editable.toString();
             if (!name.equals("")) {
+            	workPresenter.getJournal().setName(name);
                 saveNames(name);
-//				workPresenter.setGroup(name);
             }
         }
         if (quantityPeople.getText() != null) {
@@ -255,7 +246,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         }
         if (realRequestText.getText() != null)
             workPresenter.getJournal().setRealRequest(realRequestText.getText().toString());
-//        workPresenter.getJournal().setIdTd();
         if (commentText.getText() != null)
             workPresenter.getJournal().setComment(commentText.getText().toString());
         workPresenter.addWorkIntoDatabase();

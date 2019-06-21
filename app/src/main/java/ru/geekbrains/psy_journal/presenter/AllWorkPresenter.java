@@ -14,12 +14,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
-import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkView;
 import ru.geekbrains.psy_journal.view.fragment.IViewHolder;
 
@@ -71,8 +68,7 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
     }
 
     private void openScreenUpdateJournal(Journal journal) {
-        // TODO Метод открытия окна для редактирования единицы работы
-        AddWorkFragment.newInstance(journal);
+        getViewState().openScreenUpdateJournal(journal);
     }
 
     private void ifRequestSuccess() {
