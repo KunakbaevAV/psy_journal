@@ -4,7 +4,9 @@ import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
-import ru.geekbrains.psy_journal.model.data.Catalog;
+import ru.geekbrains.psy_journal.model.data.Category;
+import ru.geekbrains.psy_journal.model.data.Group;
+import ru.geekbrains.psy_journal.model.data.WorkForm;
 
 @StateStrategyType(SingleStateStrategy.class)
 public interface EditableDialogView extends MvpView {
@@ -15,5 +17,9 @@ public interface EditableDialogView extends MvpView {
 
     void showToast(String message);
 
-    void saveCatalogItem(Catalog catalog);
+    void saveSelectedCategory(Category catalog);
+
+    void saveSelectedGroup(Group catalog);
+
+    void saveSelectedWorkForm(WorkForm catalog);
 }

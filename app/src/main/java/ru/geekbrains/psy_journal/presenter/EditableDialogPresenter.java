@@ -90,7 +90,18 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
 
     // TODO Метод для выбора элемента
     public void selectItem(IViewHolderCatalog holder) {
-        getViewState().saveCatalogItem(catalogList.get(holder.getPos()));
+        Catalog catalog = catalogList.get(holder.getPos());
+        if (catalog instanceof Category) {
+            getViewState().saveSelectedCategory((Category) catalog);
+            return;
+        }
+        if (catalog instanceof Group) {
+            getViewState().saveSelectedGroup((Group) catalog);
+            return;
+        }
+        if (catalog instanceof WorkForm) {
+            getViewState().saveSelectedWorkForm((WorkForm) catalog);
+        }
     }
 
     // TODO Метод для добавления нового элемента каталога
