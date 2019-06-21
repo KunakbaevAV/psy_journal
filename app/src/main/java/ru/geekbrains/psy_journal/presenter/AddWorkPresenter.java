@@ -1,23 +1,18 @@
 package ru.geekbrains.psy_journal.presenter;
 
 import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-
 import java.util.Calendar;
-import java.util.List;
-
 import javax.inject.Inject;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.model.data.Catalog;
+import ru.geekbrains.psy_journal.model.data.Category;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
-import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
@@ -29,9 +24,6 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
 	private final Journal journal;
-
-	private List<Group> groupList;
-	private List<WorkForm> workFormList;
 
     @Inject
     RoomHelper roomHelper;
@@ -63,6 +55,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	private void getWorkForm(int id){
+		if (id == 0) return;
 		Disposable disposable = roomHelper.getItemWorkForm(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(workForm -> getViewState().showWorkForm(workForm.getName()),
@@ -70,6 +63,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	private void getCroup(int id){
+		if (id == 0) return;
 		Disposable disposable = roomHelper.getItemGroup(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(group -> getViewState().showGroup(group.getName()),
@@ -77,6 +71,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	private void getCategory(int id){
+		if (id == 0) return;
 		Disposable disposable = roomHelper.getItemCategory(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(category -> getViewState().showCategory(category.getName()),
@@ -112,6 +107,24 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
     public void saveSelectedCatalog(Catalog catalog) {
         //TODO Метод для сохранения выбранного элемента справочников (Категории/Группы/Формы работы)
     }
+
+	@Override
+	public void saveSelectedCatalog(Category category) {
+		journal.setIdCategory(category.getId());
+		getViewState().showCategory(category.getName());
+	}
+
+	@Override
+	public void saveSelectedCatalog(Group group) {
+		journal.setIdGroup(group.getId());
+		getViewState().showGroup(group.getName());
+	}
+
+	@Override
+	public void saveSelectedCatalog(WorkForm workForm) {
+		journal.setIdWorkForm(workForm.getId());
+		getViewState().showWorkForm(workForm.getName());
+	}
 
 	@Override
 	public void setDate(int year, int month, int dayOfMonth) {
