@@ -10,4 +10,5 @@
     <dimen name="small_text">14sp</dimen>
     <dimen name="padding_vertical">20dp</dimen>
     <dimen name="padding_gorizontal">12dp</dimen>
+    <dimen name="medium_text">20sp</dimen>
 </resources>

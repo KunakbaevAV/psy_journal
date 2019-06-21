@@ -9,8 +9,10 @@
         android:id="@+id/catalog_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/largeMargin"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/standartMargin"
         android:padding="@dimen/standartMargin"
         android:text="@string/theme_example"
-        android:textSize="@dimen/small_text" />
+        android:layout_marginBottom="@dimen/standartMargin"
+        android:textSize="@dimen/medium_text" />
 </com.google.android.material.card.MaterialCardView>
