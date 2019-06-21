@@ -32,6 +32,7 @@ import ru.geekbrains.psy_journal.view.dialogs.adapters.EditableDialogAdapter;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 
 import static ru.geekbrains.psy_journal.Constants.KEY_TITLE;
+import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class EditableDialog extends MvpAppCompatDialogFragment implements EditableDialogView {
 
@@ -71,7 +72,7 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() == null) return;
-        AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag("Tag add work");
+        AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag(TAG_ADD_WORK);
         if (fragment != null) settable = fragment.workPresenter;
     }
 
