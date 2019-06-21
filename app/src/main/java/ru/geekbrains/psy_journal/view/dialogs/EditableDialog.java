@@ -155,6 +155,7 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
         if (catalog instanceof Category) settable.saveSelectedCategory((Category) catalog);
         if (catalog instanceof Group) settable.saveSelectedGroup((Group) catalog);
         if (catalog instanceof WorkForm) settable.saveSelectedWorkForm((WorkForm) catalog);
+        if (getDialog() != null) getDialog().dismiss();
     }
 
     @Override
