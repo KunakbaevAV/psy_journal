@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import static ru.geekbrains.psy_journal.Constants.TABLE_GROUP;
 
 @Entity(tableName = TABLE_GROUP)
-public class Group {
+public class Group implements Catalog {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -18,9 +18,7 @@ public class Group {
 		this.name = name;
 	}
 
-	public Group(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Group() {
     }
 
     public int getId() {
