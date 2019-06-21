@@ -31,6 +31,7 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
     RoomHelper roomHelper;
     private List<Catalog> catalogList;
     private String title;
+    private Catalog catalog;
 
     public EditableDialogPresenter() {
 
@@ -90,12 +91,23 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
 
     // TODO Метод для выбора элемента
     public void selectItem(IViewHolderCatalog holder) {
-        getViewState().saveCatalogItem(catalogList.get(holder.getPos()));
+        Catalog catalog = catalogList.get(holder.getPos());
+        if (catalog instanceof Category) {
+            getViewState().saveSelectedCategory((Category) catalog);
+            return;
+        }
+        if (catalog instanceof Group) {
+            getViewState().saveSelectedGroup((Group) catalog);
+            return;
+        }
+        if (catalog instanceof WorkForm) {
+            getViewState().saveSelectedWorkForm((WorkForm) catalog);
+        }
     }
 
     // TODO Метод для добавления нового элемента каталога
     public void insertCatalogItem(String name) {
-        Catalog catalog = catalogFactory.getCatalog(title);
+        catalog = catalogFactory.getCatalog(title);
         if (catalog == null) return;
         catalog.setName(name);
 
@@ -116,7 +128,10 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
     private void insertCatalogItemSubscribe(Single<Long> id) {
         id.
                 observeOn(AndroidSchedulers.mainThread()).
-                subscribe(item -> getViewState().updateRecyclerView(),
+                subscribe(item -> {
+                            catalogList.add(catalog);
+                            getViewState().updateRecyclerView();
+                        },
                         throwable -> getViewState().showToast("Error inserting catalog item to database" + throwable.getMessage()));
     }
 }
