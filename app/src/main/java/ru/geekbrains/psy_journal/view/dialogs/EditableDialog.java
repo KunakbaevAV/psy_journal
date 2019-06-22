@@ -79,7 +79,8 @@ public class EditableDialog extends MvpAppCompatDialogFragment implements Editab
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); //TODO Сделать проверку getActivity() == null
+        if (getActivity() == null) return super.onCreateDialog(savedInstanceState);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder
                 .setTitle(title)
                 .setView(createViewList())
