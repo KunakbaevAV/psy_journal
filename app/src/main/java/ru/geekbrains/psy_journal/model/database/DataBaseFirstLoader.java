@@ -55,7 +55,7 @@ public class DataBaseFirstLoader {
     }
 
     private void initWorkFormList() {
-        workFormList.add(new WorkForm(1, "Дианостика"));
+        workFormList.add(new WorkForm(1, "Диагностика"));
         workFormList.add(new WorkForm(2, "Профилактическая акция"));
         workFormList.add(new WorkForm(3, "Консультация"));
         workFormList.add(new WorkForm(4, "Тренинговое занятие"));
