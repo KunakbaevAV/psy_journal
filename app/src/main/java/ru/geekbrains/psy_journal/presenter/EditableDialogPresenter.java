@@ -22,6 +22,9 @@ import ru.geekbrains.psy_journal.model.factory.CatalogFactory;
 import ru.geekbrains.psy_journal.view.dialogs.EditableDialogView;
 import ru.geekbrains.psy_journal.view.fragment.IViewHolderCatalog;
 
+import static ru.geekbrains.psy_journal.Constants.ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE;
+import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABASE;
+
 @InjectViewState
 public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
 
@@ -66,7 +69,7 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
-                }, throwable -> getViewState().showToast("Error loading data from database" + throwable.getMessage()));
+                }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage()));
     }
 
     @SuppressLint("CheckResult")
@@ -76,7 +79,7 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
-                }, throwable -> getViewState().showToast("Error loading data from database" + throwable.getMessage()));
+                }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage()));
     }
 
     @SuppressLint("CheckResult")
@@ -86,10 +89,10 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
-                }, throwable -> getViewState().showToast("Error loading data from database" + throwable.getMessage()));
+                }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage()));
     }
 
-    // TODO Метод для выбора элемента
+    //Метод для выбора элемента
     public void selectItem(IViewHolderCatalog holder) {
         Catalog catalog = catalogList.get(holder.getPos());
         if (catalog instanceof Category) {
@@ -105,7 +108,7 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
         }
     }
 
-    // TODO Метод для добавления нового элемента каталога
+    //Метод для добавления нового элемента каталога
     public void insertCatalogItem(String name) {
         catalog = catalogFactory.getCatalog(title);
         if (catalog == null) return;
@@ -132,6 +135,6 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                             catalogList.add(catalog);
                             getViewState().updateRecyclerView();
                         },
-                        throwable -> getViewState().showToast("Error inserting catalog item to database" + throwable.getMessage()));
+                        throwable -> getViewState().showToast(ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage()));
     }
 }

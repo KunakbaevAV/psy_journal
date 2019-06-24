@@ -64,14 +64,14 @@ public class DataBaseFirstLoader {
     }
 
     private void initGroupList() {
-        groupList.add(new Group("5а"));
-        groupList.add(new Group("5б"));
-        groupList.add(new Group("5в"));
-        groupList.add(new Group("5г"));
-        groupList.add(new Group("6а"));
-        groupList.add(new Group("6б"));
-        groupList.add(new Group("6в"));
-        groupList.add(new Group("6г"));
+        groupList.add(new Group(1, "5а"));
+        groupList.add(new Group(2, "5б"));
+        groupList.add(new Group(3, "5в"));
+        groupList.add(new Group(4, "5г"));
+        groupList.add(new Group(5, "6а"));
+        groupList.add(new Group(6, "6б"));
+        groupList.add(new Group(7, "6в"));
+        groupList.add(new Group(8, "6г"));
     }
 
     private void initCategoryList() {

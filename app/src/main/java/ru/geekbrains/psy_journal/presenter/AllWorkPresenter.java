@@ -20,6 +20,9 @@ import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkView;
 import ru.geekbrains.psy_journal.view.fragment.IViewHolder;
 
+import static ru.geekbrains.psy_journal.Constants.ERROR_DELETING;
+import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABASE;
+
 @InjectViewState
 public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
 
@@ -48,7 +51,7 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
                     listWorks.addAll(journalList);
                     ifRequestSuccess();
                 }, throwable -> {
-                    getViewState().showToast("Error loading data from database" + throwable.getMessage());
+                    getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage());
                     getViewState().hideProgressBar();
                 });
     }
@@ -56,11 +59,8 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
     @SuppressLint("CheckResult")
     private void deleteItemJournalFromDatabase(Journal journal) {
         deleteItemJournalFromDatabaseObservable(journal).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(hits -> {
-                            getViewState().updateRecyclerView();
-                            getViewState().showToast("Item Journal deleted from database");
-                        },
-                        throwable -> getViewState().showToast("Error deleting: " + throwable));
+                .subscribe(hits -> getViewState().updateRecyclerView(),
+                        throwable -> getViewState().showToast(ERROR_DELETING + throwable));
     }
 
     private Single<Integer> deleteItemJournalFromDatabaseObservable(Journal journal) {

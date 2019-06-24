@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">psy_journal</string>
-    <string name="data_example">dd.mm.yy</string>
+    <string name="app_name">Журнал психолога</string>
+    <string name="data_example">дд.мм.гг</string>
     <string name="theme_example">Диагностика сплоченности коллектива</string>
     <string name="id_td_example">A5–4</string>
     <string name="choose_tf">Направление работы</string>
@@ -30,11 +30,15 @@
     <string name="tf_06">A/06.7 Психологическое просвещение субъектов образовательного процесса</string>
     <string name="tf_07">A/07.7 Психопрофилактика (профессиональная деятельность, направленная на сохранение и укрепление психологического здоровья обучающихся в процессе обучения и воспитания в образовательных организациях)</string>
     <string name="report_example_count">999</string>
-    <string name="OTF">Joint labor functions</string>
-    <string name="TF">Labor functions</string>
-    <string name="TD">Labor action</string>
-    <string name="cancel">Cancel</string>
-    <string name="exit">Отмена</string>
+    <string name="OTF">Обобщенные трудовые функции</string>
+    <string name="TF">Трудовые функции</string>
+    <string name="TD">Трудовые действия</string>
+    <string name="cancel">Отмена</string>
     <string name="fill_declared_request">Заполните декларируемый запрос</string>
     <string name="add_catalog_item">Добавить</string>
+    <string name="user">Пользователь</string>
+    <string name="select_otf">Выбор Обобщенной трудовой функции (ОТФ)</string>
+    <string name="edit_catalogs">Редактирование списков</string>
+    <string name="get_report">Предоставление отчета</string>
+    <string name="send_email">Отправка отчета на электронную почту</string>
 </resources>
