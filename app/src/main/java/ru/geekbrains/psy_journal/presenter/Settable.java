@@ -4,9 +4,10 @@ import ru.geekbrains.psy_journal.model.data.Category;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
+import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 
 public interface Settable {
-	void openNewFunction(String title, int id);
+	void openNewFunction(FunctionDialog dialog, String title);
 	void saveSelectedFunction(Functional function);
 
 	// Методы для сохранения выбранного элемента справочников (Категории/Группы/Формы работы)

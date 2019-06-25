@@ -22,6 +22,7 @@
             android:gravity="center"
             android:hint="@string/quantity_people"
             android:textAlignment="center"
+            android:inputType="number"
             tools:text="@string/report_example_count" />
 
     </com.google.android.material.textfield.TextInputLayout>

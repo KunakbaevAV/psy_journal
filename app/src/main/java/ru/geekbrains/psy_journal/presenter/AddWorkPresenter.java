@@ -18,6 +18,7 @@ import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
+import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 
 @InjectViewState
@@ -92,8 +93,8 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	@Override
-	public void openNewFunction(String title, int id) {
-		getViewState().openDialogue(title, id);
+	public void openNewFunction(FunctionDialog dialog, String title) {
+		getViewState().openDialogue(dialog, title);
 	}
 
 	@Override

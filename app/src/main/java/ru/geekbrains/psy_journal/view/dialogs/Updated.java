@@ -8,8 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import ru.geekbrains.psy_journal.model.data.Functional;
 
 public interface Updated  extends MvpView {
-    @StateStrategyType(SingleStateStrategy.class)
-    void loadData(String title, int id);
+
 	@StateStrategyType(SingleStateStrategy.class)
 	void update();
     @StateStrategyType(SkipStrategy.class)
