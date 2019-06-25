@@ -28,6 +28,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
 	private Journal journal;
+	private boolean isRepeated;
 
     @Inject  RoomHelper roomHelper;
 
@@ -39,6 +40,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		if (journal == null) this.journal = new Journal();
 		else {
 			this.journal = journal;
+			isRepeated = true;
 			init();
 		}
 	}
@@ -74,9 +76,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	private void getCategory(int id){
-		Log.i("getCategory: id ", String.valueOf(id));
 		if (id == 0) return;
-		Log.i("roomHelper ", String.valueOf(roomHelper != null));
 		Disposable disposable = roomHelper.getItemCategory(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(category -> getViewState().showCategory(category.getName()),
@@ -84,7 +84,10 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	public void addWorkIntoDatabase(){
-		roomHelper.insertItemJournal(journal)
+		if (isRepeated)	roomHelper.updateItemJournal(journal)
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe();
+		else roomHelper.insertItemJournal(journal)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe();
 	}

@@ -34,7 +34,6 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
-import ru.geekbrains.psy_journal.view.AdapterTextWatcher;
 import ru.geekbrains.psy_journal.view.dialogs.DateSettingDialog;
 import ru.geekbrains.psy_journal.view.dialogs.EditableDialog;
 import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
@@ -99,13 +98,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         workTimeText.setText(DEFAULT_WORK_TIME);
         if (getContext() != null)
             nameText.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getNames()));
-        quantityPeople.addTextChangedListener(new AdapterTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s == null) return;
-                checkForNumber(s.toString());
-            }
-        });
         initialize();
         return view;
     }
@@ -128,13 +120,13 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         return new ArrayList<>(set);
     }
 
-    private boolean checkForNumber(String string) {
-        if (string.equals("")) return false;
-        string = string.trim();
+    private boolean hasNumber(String string) {
+        if (string == null ||string.equals("")) return false;
         String errorMessage = null;
         try {
             int num = Integer.parseInt(string);
             if (num < 0) errorMessage = "less than zero";
+            else workPresenter.getJournal().setQuantityPeople(num);
         } catch (NumberFormatException e) {
             errorMessage = "not a number";
         }
@@ -166,12 +158,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	    }
     }
 
-    private void checkQuantityPeople(){
+    private String checkQuantityPeople(){
 	    if (quantityPeople.getText() != null) {
-		    String quantity = quantityPeople.toString();
-		    if (checkForNumber(quantity))
-			    workPresenter.getJournal().setQuantityPeople(Integer.parseInt(quantity));
+		    return  quantityPeople.getText().toString().trim();
 	    }
+	    return null;
     }
 
 	private String checkDeclaredRequest() {
@@ -251,6 +242,8 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
     public boolean isCollectedAll() {
+    	String quantity = checkQuantityPeople();
+    	if (!hasNumber(quantity)) return false;
     	String declaredRequest = checkDeclaredRequest();
 		if (declaredRequest == null) return false;
 		workPresenter.getJournal().setDeclaredRequest(declaredRequest);
