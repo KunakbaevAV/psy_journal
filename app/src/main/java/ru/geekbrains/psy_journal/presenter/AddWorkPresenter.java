@@ -27,16 +27,15 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	Terminable{
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
-	private final Journal journal;
+	private Journal journal;
 
-    @Inject
-    RoomHelper roomHelper;
+    @Inject  RoomHelper roomHelper;
 
 	public Journal getJournal() {
 		return journal;
 	}
 
-	public AddWorkPresenter(Journal journal) {
+	public void initialize(Journal journal){
 		if (journal == null) this.journal = new Journal();
 		else {
 			this.journal = journal;
@@ -75,7 +74,9 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	private void getCategory(int id){
+		Log.i("getCategory: id ", String.valueOf(id));
 		if (id == 0) return;
+		Log.i("roomHelper ", String.valueOf(roomHelper != null));
 		Disposable disposable = roomHelper.getItemCategory(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(category -> getViewState().showCategory(category.getName()),

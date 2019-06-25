@@ -84,8 +84,9 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     @ProvidePresenter
     AddWorkPresenter providePresenter() {
     	if (getArguments() != null) journal = getArguments().getParcelable(KEY_JOURNAL);
-        AddWorkPresenter workPresenter = new AddWorkPresenter(journal);
+        AddWorkPresenter workPresenter = new AddWorkPresenter();
         App.getAppComponent().inject(workPresenter);
+        workPresenter.initialize(journal);
         return workPresenter;
     }
 
