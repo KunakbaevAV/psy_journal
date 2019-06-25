@@ -18,6 +18,7 @@ import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
+import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 
 @InjectViewState
@@ -26,19 +27,20 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	Terminable{
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
-	private final Journal journal;
+	private Journal journal;
+	private boolean isRepeated;
 
-    @Inject
-    RoomHelper roomHelper;
+    @Inject  RoomHelper roomHelper;
 
 	public Journal getJournal() {
 		return journal;
 	}
 
-	public AddWorkPresenter(Journal journal) {
+	public void initialize(Journal journal){
 		if (journal == null) this.journal = new Journal();
 		else {
 			this.journal = journal;
+			isRepeated = true;
 			init();
 		}
 	}
@@ -82,7 +84,10 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	public void addWorkIntoDatabase(){
-		roomHelper.insertItemJournal(journal)
+		if (isRepeated)	roomHelper.updateItemJournal(journal)
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe();
+		else roomHelper.insertItemJournal(journal)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe();
 	}
@@ -92,8 +97,8 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	@Override
-	public void openNewFunction(String title, int id) {
-		getViewState().openDialogue(title, id);
+	public void openNewFunction(FunctionDialog dialog, String title) {
+		getViewState().openDialogue(dialog, title);
 	}
 
 	@Override
