@@ -24,22 +24,16 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 	@Inject
 	RoomHelper roomHelper;
 	private String title;
-	private int id;
 
 	public DialogFunctionPresenter() {
 	}
 
-	public DialogFunctionPresenter(String title, int id) {
+	public DialogFunctionPresenter(String title) {
 		this.title = title;
-		this.id = id;
 	}
 
 	public String getTitle() {
 		return title;
-	}
-
-	public void loadData() {
-		getViewState().loadData(title, id);
 	}
 
 	public void getOTF() {
