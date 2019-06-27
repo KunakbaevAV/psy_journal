@@ -16,6 +16,7 @@ import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
+import ru.geekbrains.psy_journal.view.dialogs.OTFSelectionDialog;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkFragment;
 
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void openScreenSelectOtf() {
-        //TODO Метод открытия окна для выбора ОТФ
+	    new OTFSelectionDialog().show(getSupportFragmentManager(), "Tag OTFSelection");
     }
 
     private void openScreenGettingReport() {

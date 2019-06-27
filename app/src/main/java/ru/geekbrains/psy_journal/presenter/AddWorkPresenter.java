@@ -24,7 +24,8 @@ import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 @InjectViewState
 public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	Settable,
-	Terminable{
+	Terminable,
+	Temporal{
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
 	private Journal journal;
