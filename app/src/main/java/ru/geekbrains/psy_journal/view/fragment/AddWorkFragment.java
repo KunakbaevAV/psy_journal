@@ -30,10 +30,12 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
+import ru.geekbrains.psy_journal.presenter.Terminable;
 import ru.geekbrains.psy_journal.view.dialogs.DateSettingDialog;
 import ru.geekbrains.psy_journal.view.dialogs.EditableDialog;
 import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
@@ -42,12 +44,11 @@ import ru.geekbrains.psy_journal.view.dialogs.TimeSettingDialog;
 
 public class AddWorkFragment extends MvpAppCompatFragment implements
         AddWorkView,
-		Collectable{
+		Collectable,
+		Dated{
 
-	private static final String PATTERN = "dd.MM.yy";
 	private static final String DEFAULT_WORK_TIME = "1.0";
 	private static final String KEY_JOURNAL = "key journal";
-	private static final String TAG_DATE_PICKER = "Tag date picker";
 	private static final String TAG_TIME_PICKER = "Tag time picker";
 
 	static AddWorkFragment newInstance(Journal journal) {
@@ -58,7 +59,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 		return addWorkFragment;
 	}
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN, Locale.getDefault());
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
 
     @BindView(R.id.declared_request_layout) TextInputLayout declaredRequestLayout;
     @BindView(R.id.date_text) TextInputEditText dateText;
@@ -104,7 +105,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
     private void initialize(){
     	if (getActivity() == null) return;
-	    dateText.setOnClickListener(v -> new DateSettingDialog().show(getActivity().getSupportFragmentManager(), TAG_DATE_PICKER));
+	    dateText.setOnClickListener(v -> DateSettingDialog.newInstance(Constants.TAG_ADD_WORK).show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER));
 	    workTimeText.setOnClickListener(v -> new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), TAG_TIME_PICKER));
 	    categoryText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_category)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_category)));
 	    groupText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_group)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_group)));
@@ -120,18 +121,19 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         return new ArrayList<>(set);
     }
 
-    private boolean hasNumber(String string) {
-        if (string == null ||string.equals("")) return false;
-        String errorMessage = null;
-        try {
-            int num = Integer.parseInt(string);
-            if (num < 0) errorMessage = "less than zero";
-            else workPresenter.getJournal().setQuantityPeople(num);
-        } catch (NumberFormatException e) {
-            errorMessage = "not a number";
+    private void setNumber(String string) {
+    	int num;
+        if (string == null || string.equals("")){
+	        num = 0;
+        } else {
+	        try {
+		        num = Integer.parseInt(string);
+		        if (num < 0) num = 0;
+	        } catch (NumberFormatException e) {
+		        num = 0;
+	        }
         }
-        quantityPeopleLayout.setError(errorMessage);
-        return errorMessage == null;
+	    workPresenter.getJournal().setQuantityPeople(num);
     }
 
     private void saveNames(String name) {
@@ -158,11 +160,10 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	    }
     }
 
-    private String checkQuantityPeople(){
+    private void checkQuantityPeople(){
 	    if (quantityPeople.getText() != null) {
-		    return  quantityPeople.getText().toString().trim();
+			setNumber(quantityPeople.getText().toString().trim());
 	    }
-	    return null;
     }
 
 	private String checkDeclaredRequest() {
@@ -242,13 +243,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
     public boolean isCollectedAll() {
-    	String quantity = checkQuantityPeople();
-    	if (!hasNumber(quantity)) return false;
     	String declaredRequest = checkDeclaredRequest();
 		if (declaredRequest == null) return false;
 		workPresenter.getJournal().setDeclaredRequest(declaredRequest);
+		checkQuantityPeople();
         checkNames();
-        checkQuantityPeople();
         checkRealRequestText();
         checkCommentText();
         workPresenter.addWorkIntoDatabase();
@@ -280,6 +279,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         if (getActivity() == null) return;
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
+	@Override
+	public Terminable getTerminable() {
+		return workPresenter;
+	}
 
 	@Override
 	public void onDestroyView() {
