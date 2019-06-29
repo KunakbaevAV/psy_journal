@@ -1,25 +1,35 @@
 package ru.geekbrains.psy_journal.view.dialogs;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import androidx.fragment.app.FragmentManager;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.material.textfield.TextInputEditText;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
+import ru.geekbrains.psy_journal.model.data.ReportData;
+import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.presenter.OTFSelectionPresenter;
 import ru.geekbrains.psy_journal.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presenter.SettableByFunction;
-import ru.geekbrains.psy_journal.view.fragment.GivenBySettableFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableDate;
+import ru.geekbrains.psy_journal.view.fragment.GivenBySettableFunction;
+
+import static ru.geekbrains.psy_journal.Constants.TAG;
 
 public class OTFSelectionDialog extends AbstractDialog implements
 	OTFSelectionView,
@@ -110,13 +120,26 @@ public class OTFSelectionDialog extends AbstractDialog implements
 
 	@Override
 	public void transferData(int idOTF, long from, long unto){
-		Log.i("transferData: ", String.valueOf(idOTF));
-		Log.i("transferData: ", String.valueOf(from));
-		Log.i("transferData: ", String.valueOf(unto));
+        Log.i(TAG, String.valueOf(idOTF));
+        Log.i(TAG, String.valueOf(from));
+        Log.i(TAG, String.valueOf(unto));
 		//TODO здесь запуск фрагмента с отчетом.
 
+        testReport(idOTF, from, unto);
+    }
 
-	}
+    // тестовый метод проверки данных для отчета
+    @SuppressLint("CheckResult")
+    private void testReport(int idOTF, long from, long unto) {
+        RoomHelper roomHelper = new RoomHelper();
+        roomHelper.getReport(idOTF, from, unto).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(reportList -> {
+                    for (ReportData j : reportList) {
+                        Log.d(TAG, j.getNameTF() + "\n QuantityPeople: " + j.getQuantityPeople() + "\n WorkTime: " + j.getWorkTime());
+                    }
+                }, throwable -> {
+                });
+    }
 
 	@Override
 	public void onDestroyView() {
