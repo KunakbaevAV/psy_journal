@@ -15,6 +15,7 @@ import ru.geekbrains.psy_journal.model.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.model.database.dao.GroupDao;
 import ru.geekbrains.psy_journal.model.database.dao.JournalDao;
 import ru.geekbrains.psy_journal.model.database.dao.OTFDao;
+import ru.geekbrains.psy_journal.model.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.model.database.dao.TDDao;
 import ru.geekbrains.psy_journal.model.database.dao.TFDao;
 import ru.geekbrains.psy_journal.model.database.dao.WorkFormDao;
@@ -93,4 +94,10 @@ public class AppModule {
     CatalogFactory getCatalogFactory() {
         return new CatalogFactory();
     }
+
+    @Provides
+    ReportDao getReportDao() {
+        return getAppDatabase().reportDao();
+    }
+
 }
