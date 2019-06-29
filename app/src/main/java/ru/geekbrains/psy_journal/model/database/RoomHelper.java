@@ -16,6 +16,7 @@ import ru.geekbrains.psy_journal.model.data.Category;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.OTF;
+import ru.geekbrains.psy_journal.model.data.ReportData;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
@@ -23,6 +24,7 @@ import ru.geekbrains.psy_journal.model.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.model.database.dao.GroupDao;
 import ru.geekbrains.psy_journal.model.database.dao.JournalDao;
 import ru.geekbrains.psy_journal.model.database.dao.OTFDao;
+import ru.geekbrains.psy_journal.model.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.model.database.dao.TDDao;
 import ru.geekbrains.psy_journal.model.database.dao.TFDao;
 import ru.geekbrains.psy_journal.model.database.dao.WorkFormDao;
@@ -49,6 +51,9 @@ public class RoomHelper {
 
     @Inject
     WorkFormDao workFormDao;
+
+    @Inject
+    ReportDao reportDao;
 
     public RoomHelper() {
         App.getAppComponent().inject(this);
@@ -505,6 +510,14 @@ public class RoomHelper {
                 emitter -> {
                     WorkForm item = workFormDao.getItemWorkWorm(id);
                     emitter.onSuccess(item);
+                }).subscribeOn(Schedulers.io());
+    }
+
+    public Single<List<ReportData>> getReport(int idOTF, long dateFrom, long dateTo) {
+        return Single.create((SingleOnSubscribe<List<ReportData>>)
+                emitter -> {
+                    List<ReportData> list = reportDao.getReport(idOTF, dateFrom, dateTo);
+                    emitter.onSuccess(list);
                 }).subscribeOn(Schedulers.io());
     }
 
