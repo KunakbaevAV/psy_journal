@@ -11,12 +11,13 @@ import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.presenter.DialogFunctionPresenter;
 
-public class TDDialog extends FunctionDialog {
+public class TDDialog extends OTFDialog {
 
-	static TDDialog newInstance(int id){
+	public static TDDialog newInstance(int id, String tag){
 		TDDialog fragment = new TDDialog();
 		Bundle args = new Bundle();
 		args.putInt(Constants.KEY_ID, id);
+		args.putString(Constants.KEY_TAG, tag);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -38,6 +39,6 @@ public class TDDialog extends FunctionDialog {
 
 	@Override
 	public void openNewFeature(Functional function) {
-		settable.saveSelectedFunction(function);
+		settableByFunction.setFunction(function, true);
 	}
 }

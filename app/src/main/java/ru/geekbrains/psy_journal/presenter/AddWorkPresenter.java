@@ -5,8 +5,6 @@ import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.util.Calendar;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,18 +16,19 @@ import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
-import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkView;
 
 @InjectViewState
 public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	Settable,
-	Terminable,
-	Temporal{
+	SettableByDate,
+	SettableByTime,
+	SettableByFunction{
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
 	private Journal journal;
 	private boolean isRepeated;
+	private Disposable disposable;
 
     @Inject  RoomHelper roomHelper;
 
@@ -62,7 +61,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	private void getWorkForm(int id){
 		if (id == 0) return;
-		Disposable disposable = roomHelper.getItemWorkForm(id)
+		disposable = roomHelper.getItemWorkForm(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(workForm -> getViewState().showWorkForm(workForm.getName()),
 				e -> Log.e("getWorkForm: ", e.getMessage()));
@@ -70,7 +69,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	private void getCroup(int id){
 		if (id == 0) return;
-		Disposable disposable = roomHelper.getItemGroup(id)
+		disposable = roomHelper.getItemGroup(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(group -> getViewState().showGroup(group.getName()),
 				e -> Log.e("getCroup: ", e.getMessage()));
@@ -78,7 +77,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	private void getCategory(int id){
 		if (id == 0) return;
-		Disposable disposable = roomHelper.getItemCategory(id)
+		disposable = roomHelper.getItemCategory(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(category -> getViewState().showCategory(category.getName()),
 				e -> Log.e("getCategory: ", e.getMessage()));
@@ -95,21 +94,6 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
     public void setGroup(Group group) {
         journal.setIdGroup(group.getId());
-	}
-
-	@Override
-	public void openNewFunction(FunctionDialog dialog, String title) {
-		getViewState().openDialogue(dialog, title);
-	}
-
-	@Override
-	public void saveSelectedFunction(Functional function) {
-		String code = function.getCode();
-		if (function.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))
-			code = function.getName();
-		journal.setCodeTd(code);
-		getViewState().closeDialogs();
-		getViewState().showTd(code);
 	}
 
 	@Override
@@ -131,10 +115,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	}
 
 	@Override
-	public void setDate(int year, int month, int dayOfMonth) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(year, month, dayOfMonth);
-		long date = calendar.getTimeInMillis();
+	public void setDate(long date) {
 		journal.setDate(date);
 		getViewState().showDate(date);
 	}
@@ -144,5 +125,24 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		float hours = hour + minutes / HOUR_IN_MINUTES;
 		journal.setWorkTime(hours);
 		getViewState().showHours(hours);
+	}
+
+	@Override
+	public void setFunction(Functional function, boolean close) {
+		String code = function.getCode();
+		if (code.equals(Constants.CODE_OF_OTHER_ACTIVITY)){
+			code = function.getName();
+		}
+		if (close){
+			journal.setCodeTd(code);
+			getViewState().closeDialogs();
+			getViewState().showTd(code);
+		} else getViewState().openDialogue(function);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (disposable != null) disposable.dispose();
 	}
 }

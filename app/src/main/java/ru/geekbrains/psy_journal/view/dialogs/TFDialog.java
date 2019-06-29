@@ -10,12 +10,13 @@ import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.presenter.DialogFunctionPresenter;
 
-public class TFDialog extends FunctionDialog{
+public class TFDialog extends OTFDialog{
 
-	static TFDialog newInstance(int id){
+	public static TFDialog newInstance(int id, String tag){
 		TFDialog fragment = new TFDialog();
 		Bundle args = new Bundle();
         args.putInt(Constants.KEY_ID, id);
+        args.putString(Constants.KEY_TAG, tag);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -37,8 +38,6 @@ public class TFDialog extends FunctionDialog{
 
 	@Override
 	public void openNewFeature(Functional function) {
-		if (function.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY))
-			settable.saveSelectedFunction(function);
-		else settable.openNewFunction(TDDialog.newInstance(function.getId()), getString(R.string.TD));
+		settableByFunction.setFunction(function, function.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY));
 	}
 }

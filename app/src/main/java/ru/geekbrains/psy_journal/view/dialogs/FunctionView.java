@@ -7,8 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import ru.geekbrains.psy_journal.model.data.Functional;
 
-public interface Updated  extends MvpView {
-
+public interface FunctionView extends MvpView {
 	@StateStrategyType(SingleStateStrategy.class)
 	void update();
     @StateStrategyType(SkipStrategy.class)

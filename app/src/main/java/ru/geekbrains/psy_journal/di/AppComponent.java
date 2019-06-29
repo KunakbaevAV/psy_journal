@@ -31,6 +31,4 @@ public interface AppComponent {
     void inject(EditableDialogPresenter presenter);
 
     void inject(CatalogFactory catalogFactory);
-
-    void inject(OTFSelectionPresenter otfSelectionPresenter);
 }

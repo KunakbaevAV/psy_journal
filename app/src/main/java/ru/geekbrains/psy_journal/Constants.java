@@ -18,14 +18,18 @@ public class Constants {
 
     public static final String KEY_TITLE = "key title";
     public static final String KEY_ID = "key id";
+	public static final String KEY_TAG = "key tag";
 
     public static final String TAG_ADD_WORK = "Tag add work";
     public static final String TAG_ALL_WORK = "Tag all work";
 	public static final String TAG_DATE_PICKER = "Tag date picker";
+	public static final String TAG_OTF_SELECTION = "Tag OTFSelection";
 
     public static final String ERROR_LOADING_DATA_FROM_DATABASE = "Error loading data from database";
     public static final String ERROR_DELETING = "Error deleting: ";
     public static final String ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE = "Error inserting catalog item to database";
 
 	public static final String PATTERN_DATE = "dd.MM.yy";
+
+
 }

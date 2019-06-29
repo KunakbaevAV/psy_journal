@@ -1,21 +1,16 @@
 package ru.geekbrains.psy_journal.presenter;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import java.util.Calendar;
-import javax.inject.Inject;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import ru.geekbrains.psy_journal.model.database.RoomHelper;
-import ru.geekbrains.psy_journal.view.dialogs.Selectable;
+import ru.geekbrains.psy_journal.model.data.Functional;
+import ru.geekbrains.psy_journal.view.dialogs.OTFSelectionView;
 import ru.geekbrains.psy_journal.view.fragment.Collectable;
 
 @InjectViewState
-public class OTFSelectionPresenter extends MvpPresenter<Selectable> implements Terminable, Collectable {
-
-	@Inject	RoomHelper roomHelper;
+public class OTFSelectionPresenter extends MvpPresenter<OTFSelectionView> implements
+	SettableByFunction,
+	SettableByDate,
+	Collectable {
 
 	private boolean isFrom;
 	private int selectedOTF;
@@ -26,26 +21,27 @@ public class OTFSelectionPresenter extends MvpPresenter<Selectable> implements T
 		isFrom = from;
 	}
 
-	public void setSelectedOTF(int selectedOTF) {
-		this.selectedOTF = selectedOTF;
-	}
-
-	public long getFrom() {
-		return from;
-	}
-
-	public void getOTF(){
-		Disposable disposable = roomHelper.getOTFList()
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(otfList -> getViewState().fillAdapter(otfList),
-				e -> Log.e("getOTF: ", e.getMessage()));
+	private void checkDate(){
+		if (from != 0 && unto != 0){
+			if (from > unto){
+				long temp = from;
+				from = unto;
+				unto = temp;
+				getViewState().showSelectedFrom(from);
+				getViewState().showSelectedUnto(unto);
+			}
+		}
 	}
 
 	@Override
-	public void setDate(int year, int month, int dayOfMonth) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(year, month, dayOfMonth);
-		long date = calendar.getTimeInMillis();
+	public void setFunction(Functional function, boolean close) {
+		getViewState().closeDialog();
+		selectedOTF = function.getId();
+		getViewState().showSelectedOTF(function.getName());
+	}
+
+	@Override
+	public void setDate(long date) {
 		if (isFrom){
 			from = date;
 			getViewState().showSelectedFrom(date);
@@ -53,6 +49,7 @@ public class OTFSelectionPresenter extends MvpPresenter<Selectable> implements T
 			unto = date;
 			getViewState().showSelectedUnto(date);
 		}
+		checkDate();
 	}
 
 	@Override

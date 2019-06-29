@@ -33,19 +33,24 @@ import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
-import ru.geekbrains.psy_journal.presenter.Terminable;
+import ru.geekbrains.psy_journal.presenter.SettableByDate;
+import ru.geekbrains.psy_journal.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.view.dialogs.DateSettingDialog;
 import ru.geekbrains.psy_journal.view.dialogs.EditableDialog;
 import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 import ru.geekbrains.psy_journal.view.dialogs.OTFDialog;
+import ru.geekbrains.psy_journal.view.dialogs.TDDialog;
+import ru.geekbrains.psy_journal.view.dialogs.TFDialog;
 import ru.geekbrains.psy_journal.view.dialogs.TimeSettingDialog;
 
 public class AddWorkFragment extends MvpAppCompatFragment implements
         AddWorkView,
 		Collectable,
-		Dated{
+		GivenBySettableDate,
+	GivenBySettableFunction {
 
 	private static final String DEFAULT_WORK_TIME = "1.0";
 	private static final String KEY_JOURNAL = "key journal";
@@ -110,7 +115,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	    categoryText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_category)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_category)));
 	    groupText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_group)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_group)));
 	    workFormText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_work_form)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_work_form)));
-	    codeTfText.setOnClickListener(v -> new OTFDialog().show(getActivity().getSupportFragmentManager(), getString(R.string.OTF)));
+	    codeTfText.setOnClickListener(v -> openDialogue(OTFDialog.newInstance(Constants.TAG_ADD_WORK) , getString(R.string.OTF)));
     }
 
     private List<String> getNames() {
@@ -186,6 +191,18 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 			workPresenter.getJournal().setComment(commentText.getText().toString());
 	}
 
+	private void openDialogue(FunctionDialog dialog, String title) {
+		if (getActivity() != null) {
+			dialog.show(getActivity().getSupportFragmentManager(), title);
+		}
+	}
+
+	private boolean checkDialog(String tag){
+    	if (getActivity() == null) return false;
+    	FunctionDialog dialog = (FunctionDialog) getActivity().getSupportFragmentManager().findFragmentByTag(tag);
+    	return dialog != null;
+	}
+
     @Override
     public void showDate(long date) {
         dateText.setText(dateFormat.format(new Date(date)));
@@ -254,12 +271,16 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         return true;
     }
 
-    @Override
-    public void openDialogue(FunctionDialog dialog, String title) {
-        if (getActivity() != null) {
-            dialog.show(getActivity().getSupportFragmentManager(), title);
-        }
-    }
+	@Override
+	public void openDialogue(Functional function) {
+		if (checkDialog(getString(R.string.OTF)) && !checkDialog(getString(R.string.TF))){
+			openDialogue(TFDialog.newInstance(function.getId(), Constants.TAG_ADD_WORK), getString(R.string.TF));
+			return;
+		}
+		if (checkDialog(getString(R.string.TF))){
+			openDialogue(TDDialog.newInstance(function.getId(), Constants.TAG_ADD_WORK), getString(R.string.TD));
+		}
+	}
 
     @Override
     public void closeDialogs() {
@@ -281,7 +302,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     }
 
 	@Override
-	public Terminable getTerminable() {
+	public SettableByDate getSettableByDate() {
+		return workPresenter;
+	}
+
+	@Override
+	public SettableByFunction getSettableByFunction() {
 		return workPresenter;
 	}
 

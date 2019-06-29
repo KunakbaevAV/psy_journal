@@ -1,33 +1,22 @@
 package ru.geekbrains.psy_journal.view.dialogs;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.presenter.DialogFunctionPresenter;
-import ru.geekbrains.psy_journal.presenter.Settable;
+import ru.geekbrains.psy_journal.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.view.dialogs.adapters.DialogAdapter;
-import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 
-public abstract class FunctionDialog extends AbstractDialog implements Updated{
+public abstract class FunctionDialog extends AbstractDialog implements FunctionView {
 
-	protected Settable settable;
+	protected SettableByFunction settableByFunction;
 	private DialogAdapter adapter;
 
 	@InjectPresenter DialogFunctionPresenter functionPresenter;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getActivity() == null) return;
-        AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag("Tag add work");
-        if (fragment != null) settable = fragment.workPresenter;
-	}
 
 	protected View createView(){
 		if (getActivity() == null) return null;
@@ -53,9 +42,9 @@ public abstract class FunctionDialog extends AbstractDialog implements Updated{
     @Override
     public abstract void openNewFeature(Functional function);
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        settable = null;
-    }
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		settableByFunction = null;
+	}
 }

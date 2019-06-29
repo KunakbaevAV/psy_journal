@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.view.dialogs.OTFSelectionDialog;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void openScreenSelectOtf() {
-	    new OTFSelectionDialog().show(getSupportFragmentManager(), "Tag OTFSelection");
+	    new OTFSelectionDialog().show(getSupportFragmentManager(), Constants.TAG_OTF_SELECTION);
     }
 
     private void openScreenGettingReport() {
