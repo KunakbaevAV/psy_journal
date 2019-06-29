@@ -36,7 +36,9 @@ public class OTFSelectionDialog extends AbstractDialog implements
 		return new OTFSelectionPresenter();
 	}
 
-	private final DialogInterface.OnClickListener listener = (dialog, which) -> selectionPresenter.isCollectedAll();
+	private final DialogInterface.OnClickListener listener = (dialog, which) -> {
+		if(selectionPresenter.isCollectedAll()) dismiss();
+	};
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
 	private Unbinder unbinder;
 
@@ -113,7 +115,7 @@ public class OTFSelectionDialog extends AbstractDialog implements
 		Log.i("transferData: ", String.valueOf(unto));
 		//TODO здесь запуск фрагмента с отчетом.
 
-		dismiss();
+
 	}
 
 	@Override
