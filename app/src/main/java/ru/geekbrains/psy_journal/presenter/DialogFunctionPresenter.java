@@ -14,16 +14,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
-import ru.geekbrains.psy_journal.view.dialogs.Updated;
+import ru.geekbrains.psy_journal.view.dialogs.FunctionView;
 import ru.geekbrains.psy_journal.view.dialogs.adapters.Displayed;
 
 @InjectViewState
-public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bindable {
+public class DialogFunctionPresenter extends MvpPresenter<FunctionView> implements Bindable {
 
 	private final List<Functional> list = new ArrayList<>();
 	@Inject
 	RoomHelper roomHelper;
 	private String title;
+	private Disposable disposable;
 
 	public DialogFunctionPresenter() {
 	}
@@ -37,7 +38,7 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 	}
 
 	public void getOTF() {
-		Disposable disposable = roomHelper.getOTFList()
+		disposable = roomHelper.getOTFList()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(otfList -> {
 					list.addAll(otfList);
@@ -47,7 +48,7 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 	}
 
 	public void getTF(int idOTF) {
-		Disposable disposable = roomHelper.getTFList(idOTF)
+		disposable = roomHelper.getTFList(idOTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tfs -> {
 					list.addAll(tfs);
@@ -56,7 +57,7 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 	}
 
 	public void getTD(int idTF) {
-		Disposable disposable = roomHelper.getTDList(idTF)
+		disposable = roomHelper.getTDList(idTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tds -> {
 					list.addAll(tds);
@@ -78,5 +79,11 @@ public class DialogFunctionPresenter extends MvpPresenter<Updated> implements Bi
 	@Override
 	public void selectItem(int position) {
 		getViewState().openNewFeature(list.get(position));
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (disposable != null) disposable.dispose();
 	}
 }
