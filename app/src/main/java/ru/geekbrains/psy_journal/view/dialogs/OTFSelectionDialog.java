@@ -21,7 +21,7 @@ import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.model.data.ReportData;
+import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.presenter.OTFSelectionPresenter;
 import ru.geekbrains.psy_journal.presenter.SettableByDate;
@@ -132,10 +132,10 @@ public class OTFSelectionDialog extends AbstractDialog implements
     @SuppressLint("CheckResult")
     private void testReport(int idOTF, long from, long unto) {
         RoomHelper roomHelper = new RoomHelper();
-        roomHelper.getReport(idOTF, from, unto).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(reportList -> {
-                    for (ReportData j : reportList) {
-                        Log.d(TAG, j.getNameTF() + "\n QuantityPeople: " + j.getQuantityPeople() + "\n WorkTime: " + j.getWorkTime());
+		roomHelper.getLaborFunctionReport(idOTF, from, unto).observeOn(AndroidSchedulers.mainThread())
+				.subscribe(journalList -> {
+					for (Journal j : journalList) {
+						Log.d(TAG, j.getCodeTd() + "\n QuantityPeople: " + j.getQuantityPeople() + "\n WorkTime: " + j.getWorkTime());
                     }
                 }, throwable -> {
                 });

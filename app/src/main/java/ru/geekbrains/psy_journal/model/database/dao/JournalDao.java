@@ -14,6 +14,17 @@ import ru.geekbrains.psy_journal.model.data.Journal;
 @Dao
 public interface JournalDao {
 
+    String queryReportFromTF = "SELECT Journal.id, Journal.date, Journal.codeTd,\n" +
+            "                   Journal.idCategory, Journal.idGroup, Journal.name,\n" +
+            "                   Journal.quantityPeople, Journal.declaredRequest,\n" +
+            "                   Journal.realRequest, Journal.idWorkForm,\n" +
+            "                   Journal.workTime, Journal.comment FROM Journal LEFT JOIN\n" +
+            " \n" +
+            "TD ON Journal.codeTD = TD.code\n" +
+            " \n LEFT JOIN TF ON TD.idTF = TF.id " +
+            "WHERE TF.idOTF = :idOTF AND Journal.date BETWEEN :dateFrom AND :dateTo " +
+            "ORDER BY date";
+
     @Query("SELECT * FROM Journal")
     List<Journal> getAll();
 
@@ -28,5 +39,8 @@ public interface JournalDao {
 
     @Update
     int update(Journal journal);
+
+    @Query(queryReportFromTF)
+    Single<List<Journal>> getLaborFunctionReport(int idOTF, long dateFrom, long dateTo);
 
 }
