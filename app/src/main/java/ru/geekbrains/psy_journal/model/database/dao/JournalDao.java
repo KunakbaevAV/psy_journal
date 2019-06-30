@@ -43,4 +43,6 @@ public interface JournalDao {
     @Query(queryReportFromTF)
     Single<List<Journal>> getLaborFunctionReport(int idOTF, long dateFrom, long dateTo);
 
+    @Query("SELECT Journal.name FROM Journal WHERE Journal.name IS NOT NULL")
+    Single<List<String>> getListFullNames();
 }

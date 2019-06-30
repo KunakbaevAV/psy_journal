@@ -520,4 +520,13 @@ public class RoomHelper {
         return journalDao.getLaborFunctionReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
     }
 
+    /**
+     * Метод получения из таблицы {@link Journal} всех заполненных ФИО
+     *
+     * @return Возвращает список ФИО из таблицы БД {@link Journal} в обертке {@link Single}
+     */
+    public Single<List<String>> getListFullNames() {
+        return journalDao.getListFullNames().subscribeOn(Schedulers.io());
+    }
+
 }
