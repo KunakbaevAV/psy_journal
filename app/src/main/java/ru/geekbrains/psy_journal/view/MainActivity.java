@@ -159,11 +159,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void openScreenSelectOtf() {
-	    new OTFSelectionDialog().show(getSupportFragmentManager(), Constants.TAG_OTF_SELECTION);
+
     }
 
     private void openScreenGettingReport() {
-        //TODO Метод открытия окна формирования отчета
+        new OTFSelectionDialog().show(getSupportFragmentManager(), Constants.TAG_OTF_SELECTION);
     }
 
     private void openScreenSendReportToEmail() {
