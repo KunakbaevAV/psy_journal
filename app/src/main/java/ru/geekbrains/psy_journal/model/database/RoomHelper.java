@@ -508,4 +508,25 @@ public class RoomHelper {
                 }).subscribeOn(Schedulers.io());
     }
 
+    /**
+     * Метод получения из БД строк таблицы {@link Journal}, отфильтрованных по выбранной ОТФ и периоду
+     *
+     * @param idOTF    id выбранной ОТФ
+     * @param dateFrom Начало периода отчета
+     * @param dateTo   Конец периода отчета
+     * @return Возвращает список объектов {@link Journal} в обертке {@link Single}
+     */
+    public Single<List<Journal>> getLaborFunctionReport(int idOTF, long dateFrom, long dateTo) {
+        return journalDao.getLaborFunctionReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Метод получения из таблицы {@link Journal} всех заполненных ФИО
+     *
+     * @return Возвращает список ФИО из таблицы БД {@link Journal} в обертке {@link Single}
+     */
+    public Single<List<String>> getListFullNames() {
+        return journalDao.getListFullNames().subscribeOn(Schedulers.io());
+    }
+
 }
