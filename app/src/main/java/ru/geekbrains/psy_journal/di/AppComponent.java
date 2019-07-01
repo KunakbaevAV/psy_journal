@@ -10,6 +10,7 @@ import ru.geekbrains.psy_journal.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presenter.AllWorkPresenter;
 import ru.geekbrains.psy_journal.presenter.DialogFunctionPresenter;
 import ru.geekbrains.psy_journal.presenter.EditableDialogPresenter;
+import ru.geekbrains.psy_journal.presenter.OTFSelectionPresenter;
 
 @Singleton
 @Component(modules = AppModule.class)

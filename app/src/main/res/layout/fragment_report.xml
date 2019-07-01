@@ -13,47 +13,5 @@
         android:textAlignment="center"
         android:textSize="@dimen/largeText" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="@+id/report_date_begin_layout"
-        app:layout_constraintStart_toEndOf="@+id/report_date_begin_layout">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/report_date_begin_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standartMargin"
-            android:layout_marginEnd="@dimen/standartMargin"
-            app:layout_constraintEnd_toStartOf="@+id/report_date_end_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/report_date_begin_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="@string/report_date_begin"
-                android:textAlignment="center" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/report_date_end_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/standartMargin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/report_date_begin_layout"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/report_date_end_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="@string/report_date_end"
-                android:textAlignment="center" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/block_date_picker"/>
 </LinearLayout>
