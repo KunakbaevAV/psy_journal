@@ -24,6 +24,7 @@
             android:textAlignment="center"
             android:inputType="number"
             android:imeOptions="actionDone"
+            android:cursorVisible="false"
             tools:text="@string/report_example_count" />
 
     </com.google.android.material.textfield.TextInputLayout>

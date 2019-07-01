@@ -43,4 +43,6 @@
     <string name="edit_catalogs">Редактирование списков</string>
     <string name="get_report">Предоставление отчета</string>
     <string name="send_email">Отправка отчета на электронную почту</string>
+    <string name="report_of_generalized_labor_functions">отчет Обобщенных трудовых функций</string>
+    <string name="report">Отчет</string>
 </resources>

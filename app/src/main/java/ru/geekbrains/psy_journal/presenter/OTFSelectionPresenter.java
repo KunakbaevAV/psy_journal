@@ -2,6 +2,9 @@ package ru.geekbrains.psy_journal.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
+import java.util.Calendar;
+
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.view.dialogs.OTFSelectionView;
 import ru.geekbrains.psy_journal.view.fragment.Collectable;
@@ -12,6 +15,10 @@ public class OTFSelectionPresenter extends MvpPresenter<OTFSelectionView> implem
 	SettableByDate,
 	Collectable {
 
+	private static final int LAST_HOUR_DAY = 23;
+	private static final int LAST_MINUTE_HOUR = 59;
+	private static final int START = 0;
+	private final Calendar calendar = Calendar.getInstance();
 	private boolean isFrom;
 	private int selectedOTF;
 	private long from;
@@ -19,6 +26,20 @@ public class OTFSelectionPresenter extends MvpPresenter<OTFSelectionView> implem
 
 	public void setFrom(boolean from) {
 		isFrom = from;
+	}
+
+	private void setTimeInUnTo(){
+		calendar.setTimeInMillis(unto);
+		calendar.set(Calendar.HOUR, LAST_HOUR_DAY);
+		calendar.set(Calendar.MINUTE, LAST_MINUTE_HOUR);
+		unto = calendar.getTimeInMillis();
+	}
+
+	private void setTimeInFrom(){
+		calendar.setTimeInMillis(from);
+		calendar.set(Calendar.HOUR, START);
+		calendar.set(Calendar.MINUTE, START);
+		from = calendar.getTimeInMillis();
 	}
 
 	private void checkDate(){
@@ -30,6 +51,8 @@ public class OTFSelectionPresenter extends MvpPresenter<OTFSelectionView> implem
 				getViewState().showSelectedFrom(from);
 				getViewState().showSelectedUnto(unto);
 			}
+			setTimeInFrom();
+			setTimeInUnTo();
 		}
 	}
 

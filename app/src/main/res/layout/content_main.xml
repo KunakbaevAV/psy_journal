@@ -21,7 +21,8 @@
         app:hideOnScroll="true"
         app:fabCradleRoundedCornerRadius="16dp"
         app:elevation="16dp"
-        app:fabAlignmentMode="center">
+        app:fabAnimationMode="slide"
+        app:fabAlignmentMode="end">
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -34,6 +35,7 @@
         android:focusableInTouchMode="false"
         app:layout_anchor="@id/bottomAppBar"
         app:layout_anchorGravity="center"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:backgroundTint="?attr/colorAccent"
         app:elevation="16dp"
         app:fabSize="auto"

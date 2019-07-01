@@ -9,6 +9,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.material.textfield.TextInputEditText;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +55,7 @@ public class OTFSelectionDialog extends AbstractDialog implements
 
 	@Override
 	protected String getTitle() {
-		return "отчет Обобщенных трудовых функций";
+		return getResources().getString(R.string.report_of_generalized_labor_functions);
 	}
 
 	private void initialize(){
@@ -63,7 +64,7 @@ public class OTFSelectionDialog extends AbstractDialog implements
 			fromView.setOnClickListener(v -> determineDate(true));
 			toView.setOnClickListener(v -> determineDate(false));
 			hasPositiveButton(true);
-			setTextButton("Отчет");
+			setTextButton(getResources().getString(R.string.report));
 			setListener(listener);
 		}
 	}
@@ -110,12 +111,11 @@ public class OTFSelectionDialog extends AbstractDialog implements
 
 	@Override
 	public void transferData(int idOTF, long from, long unto){
-		Log.i("transferData: ", String.valueOf(idOTF));
-		Log.i("transferData: ", String.valueOf(from));
-		Log.i("transferData: ", String.valueOf(unto));
+		Log.i("from: ", String.valueOf(from));
+		Log.i("from: ", new SimpleDateFormat(Constants.PATTERN_DATE + " HH.mm", Locale.getDefault()).format(new Date(from)));
+		Log.i("unto: ", String.valueOf(unto));
+		Log.i("unto: ", new SimpleDateFormat(Constants.PATTERN_DATE + " HH.mm", Locale.getDefault()).format(new Date(unto)));
 		//TODO здесь запуск фрагмента с отчетом.
-
-
 	}
 
 	@Override
