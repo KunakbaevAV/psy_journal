@@ -1,5 +1,6 @@
 package ru.geekbrains.psy_journal.view.dialogs;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,20 +10,24 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.material.textfield.TextInputEditText;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presenter.OTFSelectionPresenter;
+import ru.geekbrains.psy_journal.model.data.ReportData;
+import ru.geekbrains.psy_journal.model.database.RoomHelper;
+import ru.geekbrains.psy_journal.presenter.ReportSelectionPresenter;
 import ru.geekbrains.psy_journal.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableDate;
 
-public class OTFSelectionDialog extends AbstractDialog implements
+import static ru.geekbrains.psy_journal.Constants.TAG;
+
+public class ReportSelectionDialog extends AbstractDialog implements
 	OTFSelectionView,
 	GivenBySettableDate,
 	GivenBySettableFunction {
@@ -31,10 +36,12 @@ public class OTFSelectionDialog extends AbstractDialog implements
 	@BindView(R.id.report_date_begin_text) TextInputEditText fromView;
 	@BindView(R.id.report_date_end_text) TextInputEditText toView;
 
-	@InjectPresenter OTFSelectionPresenter selectionPresenter;
+	@InjectPresenter
+	ReportSelectionPresenter selectionPresenter;
 
-	@ProvidePresenter OTFSelectionPresenter providePresenter(){
-		return new OTFSelectionPresenter();
+	@ProvidePresenter
+	ReportSelectionPresenter providePresenter() {
+		return new ReportSelectionPresenter();
 	}
 
 	private final DialogInterface.OnClickListener listener = (dialog, which) -> {
@@ -115,7 +122,7 @@ public class OTFSelectionDialog extends AbstractDialog implements
 		Log.i("transferData: ", String.valueOf(from));
 		Log.i("transferData: ", String.valueOf(unto));
 		//TODO здесь запуск фрагмента с отчетом.
-
+		testReport(idOTF, from, unto);
 
 	}
 
@@ -123,5 +130,18 @@ public class OTFSelectionDialog extends AbstractDialog implements
 	public void onDestroyView() {
 		super.onDestroyView();
 		unbinder.unbind();
+	}
+
+	// тестовый метод проверки данных для отчета
+	@SuppressLint("CheckResult")
+	private void testReport(int idOTF, long from, long unto) {
+		RoomHelper roomHelper = new RoomHelper();
+		roomHelper.getReport(idOTF, from, unto).observeOn(AndroidSchedulers.mainThread())
+				.subscribe(reportList -> {
+					for (ReportData j : reportList) {
+						Log.d(TAG, j.getNameTF() + "\n QuantityPeople: " + j.getQuantityPeople() + "\n WorkTime: " + j.getWorkTime());
+					}
+				}, throwable -> {
+				}).isDisposed();
 	}
 }

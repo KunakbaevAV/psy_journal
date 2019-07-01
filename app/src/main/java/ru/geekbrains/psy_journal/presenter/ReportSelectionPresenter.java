@@ -10,7 +10,7 @@ import ru.geekbrains.psy_journal.view.dialogs.OTFSelectionView;
 import ru.geekbrains.psy_journal.view.fragment.Collectable;
 
 @InjectViewState
-public class OTFSelectionPresenter extends MvpPresenter<OTFSelectionView> implements
+public class ReportSelectionPresenter extends MvpPresenter<OTFSelectionView> implements
 	SettableByFunction,
 	SettableByDate,
 	Collectable {
