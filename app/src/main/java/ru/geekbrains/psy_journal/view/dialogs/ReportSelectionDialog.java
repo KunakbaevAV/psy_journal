@@ -138,10 +138,12 @@ public class ReportSelectionDialog extends AbstractDialog implements
 		RoomHelper roomHelper = new RoomHelper();
 		roomHelper.getReport(idOTF, from, unto).observeOn(AndroidSchedulers.mainThread())
 				.subscribe(reportList -> {
+                    Log.d(TAG, "testReport: " + reportList.size());
 					for (ReportData j : reportList) {
-						Log.d(TAG, j.getNameTF() + "\n QuantityPeople: " + j.getQuantityPeople() + "\n WorkTime: " + j.getWorkTime());
+                        Log.d(TAG, j.getNameTF()
+                                + "\n QuantityPeople: " + j.getQuantityPeople()
+                                + "\n WorkTime: " + j.getWorkTime());
 					}
-				}, throwable -> {
-				}).isDisposed();
+                }, throwable -> Log.e(TAG, "testReport: " + throwable.getMessage())).isDisposed();
 	}
 }

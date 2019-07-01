@@ -10,10 +10,13 @@ import ru.geekbrains.psy_journal.model.data.ReportData;
 @Dao
 public interface ReportDao {
 
-    String queryReportFromTF = "SELECT TF.name AS nameTF, SUM(Journal.quantityPeople) AS quantityPeople, SUM(Journal.workTime) AS workTime FROM Journal LEFT JOIN\n" +
-            " \n" +
-            "TD ON Journal.codeTD = TD.code\n" +
-            " \n LEFT JOIN TF ON TD.idTF = TF.id " +
+    String queryReportFromTF = "SELECT " +
+            "TF.name AS nameTF, " +
+            "SUM(Journal.quantityPeople) AS quantityPeople, " +
+            "SUM(Journal.workTime) AS workTime " +
+            "FROM Journal " +
+            "LEFT JOIN TD ON Journal.codeTD = TD.code " +
+            "LEFT JOIN TF ON TD.idTF = TF.id " +
             "WHERE TF.idOTF = :idOTF AND Journal.date BETWEEN :dateFrom AND :dateTo " +
             "GROUP BY nameTF";
 
