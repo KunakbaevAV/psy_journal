@@ -1,0 +1,14 @@
+package ru.geekbrains.psy_journal.view.fragment;
+
+import com.arellomobile.mvp.MvpView;
+import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+
+public interface ReportView extends MvpView {
+	@StateStrategyType(SingleStateStrategy.class)
+	void updateRecyclerView();
+	@StateStrategyType(SingleStateStrategy.class)
+	void showProgressBar();
+	@StateStrategyType(SingleStateStrategy.class)
+	void hideProgressBar();
+}

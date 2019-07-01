@@ -21,6 +21,9 @@ import ru.geekbrains.psy_journal.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableDate;
+import ru.geekbrains.psy_journal.view.fragment.ReportFragment;
+
+import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class OTFSelectionDialog extends AbstractDialog implements
 	OTFSelectionView,
@@ -111,11 +114,12 @@ public class OTFSelectionDialog extends AbstractDialog implements
 
 	@Override
 	public void transferData(int idOTF, long from, long unto){
-		Log.i("from: ", String.valueOf(from));
-		Log.i("from: ", new SimpleDateFormat(Constants.PATTERN_DATE + " HH.mm", Locale.getDefault()).format(new Date(from)));
-		Log.i("unto: ", String.valueOf(unto));
-		Log.i("unto: ", new SimpleDateFormat(Constants.PATTERN_DATE + " HH.mm", Locale.getDefault()).format(new Date(unto)));
-		//TODO здесь запуск фрагмента с отчетом.
+		if (getActivity() == null) return;
+		getActivity().getSupportFragmentManager()
+			.beginTransaction()
+			.add(R.id.frame_master, ReportFragment.newInstance(idOTF, from, unto), "Tag report")
+			.addToBackStack(TAG_ADD_WORK)
+			.commit();
 	}
 
 	@Override
