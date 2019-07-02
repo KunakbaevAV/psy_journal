@@ -514,9 +514,10 @@ public class RoomHelper {
     }
 
     public Single<List<ReportData>> getReport(int idOTF, long dateFrom, long dateTo) {
+        ReportHelper reportHelper = new ReportHelper(tfDao, reportDao);
         return Single.create((SingleOnSubscribe<List<ReportData>>)
                 emitter -> {
-                    List<ReportData> list = reportDao.getReport(idOTF, dateFrom, dateTo);
+                    List<ReportData> list = reportHelper.getReportData(idOTF, dateFrom, dateTo);
                     emitter.onSuccess(list);
                 }).subscribeOn(Schedulers.io());
     }

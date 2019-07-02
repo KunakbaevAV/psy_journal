@@ -101,9 +101,4 @@ public class AppModule {
         return getAppDatabase().reportDao();
     }
 
-    @Provides
-    ReportHelper getReportHelper() {
-        return new ReportHelper();
-    }
-
 }

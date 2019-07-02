@@ -33,8 +33,6 @@ public interface AppComponent {
 
     void inject(CatalogFactory catalogFactory);
 
-    void inject(ReportHelper reportHelper);
-
     void inject(ReportSelectionDialog reportSelectionDialog);
 
     void inject(ReportPresenter reportPresenter);

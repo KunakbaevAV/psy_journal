@@ -13,6 +13,8 @@ import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.ReportData;
 import ru.geekbrains.psy_journal.model.data.TF;
+import ru.geekbrains.psy_journal.model.database.dao.ReportDao;
+import ru.geekbrains.psy_journal.model.database.dao.TFDao;
 
 import static ru.geekbrains.psy_journal.Constants.TAG;
 
@@ -21,8 +23,8 @@ import static ru.geekbrains.psy_journal.Constants.TAG;
  */
 public class ReportHelper {
 
-    @Inject
-    RoomHelper roomHelper;
+    private TFDao tfDao;
+    private ReportDao reportDao;
     private List<TF> tfList = new ArrayList<>();
     private List<ReportData> reportFact = new ArrayList<>();
     private List<ReportData> reportData = new ArrayList<>();
@@ -30,8 +32,9 @@ public class ReportHelper {
     private long from;
     private long unto;
 
-    public ReportHelper() {
-        App.getAppComponent().inject(this);
+    ReportHelper(TFDao tfDao, ReportDao reportDao) {
+        this.tfDao = tfDao;
+        this.reportDao = reportDao;
     }
 
     /**
@@ -45,49 +48,18 @@ public class ReportHelper {
      * @param from  дата, с которой считается отчет
      * @param unto  дата, по которую считается отчет
      */
-    public void getReportData(int idOTF, long from, long unto) {
+    List<ReportData> getReportData(int idOTF, long from, long unto) {
         this.idOTF = idOTF;
         this.from = from;
         this.unto = unto;
 
-        initListTF(idOTF);
-    }
-
-    private void initListTF(int idOTF) {
-
-        Disposable disposable = roomHelper.getTFList(idOTF)
-                .observeOn(AndroidSchedulers.mainThread())
-                .observeOn(Schedulers.io())
-                .subscribe(
-                        list -> {
-                            tfList.addAll(list);
-                            loadReportFact();
-                        },
-                        throwable -> Log.e(TAG, "initListTF: " + throwable.getMessage())
-                );
-    }
-
-    private void loadReportFact() {
-        roomHelper.getReport(idOTF, from, unto).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(reportList -> {
-                    for (ReportData reportData : reportList) {
-                        reportFact.add(new ReportData(
-                                reportData.getCodeTF(),
-                                reportData.getNameTF(),
-                                reportData.getQuantityPeople(),
-                                reportData.getWorkTime()
-                        ));
-                    }
-                    initReportData();
-                }, throwable -> Log.e(TAG, "loadReportFact: " + throwable.getMessage())).isDisposed();
-    }
-
-    private void initReportData() {
+        tfList.addAll(tfDao.getTfByOtf(idOTF));
+        reportFact.addAll(reportDao.getReport(idOTF, from, unto));
 
         for (TF tf : tfList) {
             reportData.add(dataFromFactReport(tf));
         }
-        //TODO Передать список reportData для вывода на экран
+        return reportData;
     }
 
     private ReportData dataFromFactReport(TF tf) {
