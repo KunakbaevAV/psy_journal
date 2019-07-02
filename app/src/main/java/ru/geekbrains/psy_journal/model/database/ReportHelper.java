@@ -87,6 +87,7 @@ public class ReportHelper {
         for (TF tf : tfList) {
             reportData.add(dataFromFactReport(tf));
         }
+        //TODO Передать список reportData для вывода на экран
     }
 
     private ReportData dataFromFactReport(TF tf) {
