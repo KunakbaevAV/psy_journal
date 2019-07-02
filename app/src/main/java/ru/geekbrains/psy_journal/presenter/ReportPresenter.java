@@ -7,7 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import ru.geekbrains.psy_journal.model.data.Journal;
+import ru.geekbrains.psy_journal.model.data.ReportData;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.view.fragment.ReportView;
 import ru.geekbrains.psy_journal.view.fragment.adapters.ReportRelated;
@@ -19,7 +19,7 @@ public class ReportPresenter extends MvpPresenter<ReportView> {
 	@Inject	RoomHelper roomHelper;
 
 	private final RecyclePresenter recyclePresenter = new RecyclePresenter();
-	private List<Journal> list;
+	private List<ReportData> list;
 	private Disposable disposable;
 
 	public RecyclePresenter getRecyclePresenter() {
@@ -27,21 +27,41 @@ public class ReportPresenter extends MvpPresenter<ReportView> {
 	}
 
 	public void  initialize(int idOTF, long from, long unto) {
-		disposable = roomHelper.getLaborFunctionReport(idOTF, from, unto)
+		getViewState().showProgressBar();
+		disposable = roomHelper.getReport(idOTF, from, unto)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(journals -> list = journals,
-				e -> Log.e("initialize: ", e.getMessage()));
+			.subscribe(reports -> {
+					ifRequestSuccess();
+					list = reports;
+				},
+				e -> {
+					getViewState().hideProgressBar();
+					Log.e("initialize: ", e.getMessage());
+				});
+	}
+
+	private void ifRequestSuccess() {
+		getViewState().updateRecyclerView();
+		getViewState().hideProgressBar();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (disposable != null) disposable.dispose();
 	}
 
 	private class RecyclePresenter implements ReportRelated {
 
 		@Override
 		public void bindView(ReportShown reportShown, int position) {
-//			reportShown.bind();
+			ReportData report = list.get(position);
+			reportShown.bind(report.getNameTF(), String.valueOf(report.getQuantityPeople()), String.valueOf(report.getWorkTime()));
 		}
 
 		@Override
 		public int getItemCount() {
+			if (list == null) return 0;
 			return list.size();
 		}
 

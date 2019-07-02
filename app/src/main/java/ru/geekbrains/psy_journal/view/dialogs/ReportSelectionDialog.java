@@ -14,9 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presenter.OTFSelectionPresenter;
-import ru.geekbrains.psy_journal.presenter.SettableByDate;
-import ru.geekbrains.psy_journal.presenter.SettableByFunction;
+import ru.geekbrains.psy_journal.presenter.ReportSelectionPresenter;
 import ru.geekbrains.psy_journal.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableDate;
@@ -25,8 +23,8 @@ import ru.geekbrains.psy_journal.view.fragment.ReportFragment;
 
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
-public class OTFSelectionDialog extends AbstractDialog implements
-	OTFSelectionView,
+public class ReportSelectionDialog extends AbstractDialog implements
+	ReportSelectionView,
 	GivenBySettableDate,
 	GivenBySettableFunction {
 
@@ -34,10 +32,10 @@ public class OTFSelectionDialog extends AbstractDialog implements
 	@BindView(R.id.report_date_begin_text) TextInputEditText fromView;
 	@BindView(R.id.report_date_end_text) TextInputEditText toView;
 
-	@InjectPresenter OTFSelectionPresenter selectionPresenter;
+	@InjectPresenter ReportSelectionPresenter selectionPresenter;
 
-	@ProvidePresenter OTFSelectionPresenter providePresenter(){
-		return new OTFSelectionPresenter();
+	@ProvidePresenter ReportSelectionPresenter providePresenter(){
+		return new ReportSelectionPresenter();
 	}
 
 	private final DialogInterface.OnClickListener listener = (dialog, which) -> {

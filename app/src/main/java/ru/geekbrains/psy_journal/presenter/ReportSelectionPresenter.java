@@ -6,11 +6,11 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.Calendar;
 
 import ru.geekbrains.psy_journal.model.data.Functional;
-import ru.geekbrains.psy_journal.view.dialogs.OTFSelectionView;
+import ru.geekbrains.psy_journal.view.dialogs.ReportSelectionView;
 import ru.geekbrains.psy_journal.view.fragment.Collectable;
 
 @InjectViewState
-public class ReportSelectionPresenter extends MvpPresenter<OTFSelectionView> implements
+public class ReportSelectionPresenter extends MvpPresenter<ReportSelectionView> implements
 	SettableByFunction,
 	SettableByDate,
 	Collectable {
