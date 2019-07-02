@@ -10,15 +10,15 @@ import ru.geekbrains.psy_journal.view.dialogs.OTFSelectionView;
 import ru.geekbrains.psy_journal.view.fragment.Collectable;
 
 @InjectViewState
-public class OTFSelectionPresenter extends MvpPresenter<OTFSelectionView> implements
+public class ReportSelectionPresenter extends MvpPresenter<OTFSelectionView> implements
 	SettableByFunction,
 	SettableByDate,
 	Collectable {
 
-	private static final int LAST_HOUR_DAY = 23;
-	private static final int LAST_MINUTE_HOUR = 59;
-	private static final int START = 0;
-	private final Calendar calendar = Calendar.getInstance();
+    private static final int LAST_HOUR_DAY = 23;
+    private static final int LAST_MINUTE_HOUR = 59;
+    private static final int START = 0;
+    private final Calendar calendar = Calendar.getInstance();
 	private boolean isFrom;
 	private int selectedOTF;
 	private long from;
@@ -28,19 +28,19 @@ public class OTFSelectionPresenter extends MvpPresenter<OTFSelectionView> implem
 		isFrom = from;
 	}
 
-	private void setTimeInUnTo(){
-		calendar.setTimeInMillis(unto);
-		calendar.set(Calendar.HOUR, LAST_HOUR_DAY);
-		calendar.set(Calendar.MINUTE, LAST_MINUTE_HOUR);
-		unto = calendar.getTimeInMillis();
-	}
+    private void setTimeInUnTo() {
+        calendar.setTimeInMillis(unto);
+        calendar.set(Calendar.HOUR, LAST_HOUR_DAY);
+        calendar.set(Calendar.MINUTE, LAST_MINUTE_HOUR);
+        unto = calendar.getTimeInMillis();
+    }
 
-	private void setTimeInFrom(){
-		calendar.setTimeInMillis(from);
-		calendar.set(Calendar.HOUR, START);
-		calendar.set(Calendar.MINUTE, START);
-		from = calendar.getTimeInMillis();
-	}
+    private void setTimeInFrom() {
+        calendar.setTimeInMillis(from);
+        calendar.set(Calendar.HOUR, START);
+        calendar.set(Calendar.MINUTE, START);
+        from = calendar.getTimeInMillis();
+    }
 
 	private void checkDate(){
 		if (from != 0 && unto != 0){
@@ -51,8 +51,8 @@ public class OTFSelectionPresenter extends MvpPresenter<OTFSelectionView> implem
 				getViewState().showSelectedFrom(from);
 				getViewState().showSelectedUnto(unto);
 			}
-			setTimeInFrom();
-			setTimeInUnTo();
+            setTimeInFrom();
+            setTimeInUnTo();
 		}
 	}
 

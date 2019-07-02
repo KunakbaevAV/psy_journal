@@ -17,6 +17,8 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presenter.OTFSelectionPresenter;
 import ru.geekbrains.psy_journal.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presenter.SettableByFunction;
+import ru.geekbrains.psy_journal.presenter.SettableByDate;
+import ru.geekbrains.psy_journal.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableDate;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableFunction;
 import ru.geekbrains.psy_journal.view.fragment.ReportFragment;

@@ -21,8 +21,8 @@
         app:hideOnScroll="true"
         app:fabCradleRoundedCornerRadius="16dp"
         app:elevation="16dp"
-        app:fabAnimationMode="slide"
-        app:fabAlignmentMode="end">
+        app:fabAlignmentMode="end"
+        app:fabAnimationMode="slide">
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

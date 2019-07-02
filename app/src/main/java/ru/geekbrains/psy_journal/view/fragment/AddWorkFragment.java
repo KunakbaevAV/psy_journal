@@ -189,14 +189,14 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     	return dialog != null;
 	}
 
-	private void closeKeyBoard(){
-    	if (getActivity() == null) return;
-		View view = getActivity().getCurrentFocus();
-		if (view != null) {
-			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-		}
-	}
+    private void closeKeyBoard() {
+        if (getActivity() == null) return;
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 	@Override
 	public void getNames(List<String> names) {
