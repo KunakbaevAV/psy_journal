@@ -11,6 +11,7 @@ import ru.geekbrains.psy_journal.model.data.ReportData;
 public interface ReportDao {
 
     String queryReportFromTF = "SELECT " +
+            "TF.code AS codeTF, " +
             "TF.name AS nameTF, " +
             "SUM(Journal.quantityPeople) AS quantityPeople, " +
             "SUM(Journal.workTime) AS workTime " +
