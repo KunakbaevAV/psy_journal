@@ -22,14 +22,18 @@ import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presenter.ReportPresenter;
 import ru.geekbrains.psy_journal.view.fragment.adapters.AdapterReport;
 
-public class ReportFragment extends MvpAppCompatFragment implements ReportView{
+public class ReportingFragment extends MvpAppCompatFragment implements ReportingView {
 
-	public static ReportFragment newInstance(int idOTF, long from, long unto) {
-		ReportFragment reportFragment = new ReportFragment();
+	private static final String KEY_ID_OTF = "key idOTF";
+	private static final String KEY_FROM = "key from";
+	private static final String KEY_UNTO = "key unto";
+
+	public static ReportingFragment newInstance(int idOTF, long from, long unto) {
+		ReportingFragment reportFragment = new ReportingFragment();
 		Bundle args = new Bundle();
-		args.putInt("key idOTF", idOTF);
-		args.putLong("key from", from);
-		args.putLong("key unto", unto);
+		args.putInt(KEY_ID_OTF, idOTF);
+		args.putLong(KEY_FROM, from);
+		args.putLong(KEY_UNTO, unto);
 		reportFragment.setArguments(args);
 		return reportFragment;
 	}
@@ -46,9 +50,9 @@ public class ReportFragment extends MvpAppCompatFragment implements ReportView{
 		ReportPresenter reportPresenter = new ReportPresenter();
 		App.getAppComponent().inject(reportPresenter);
 		if (getArguments() != null){
-			int idOTF = getArguments().getInt("key idOTF");
-			long from = getArguments().getLong("key from");
-			long unto = getArguments().getLong("key unto");
+			int idOTF = getArguments().getInt(KEY_ID_OTF);
+			long from = getArguments().getLong(KEY_FROM);
+			long unto = getArguments().getLong(KEY_UNTO);
 			reportPresenter.initialize(idOTF, from, unto);
 		}
 		return reportPresenter;

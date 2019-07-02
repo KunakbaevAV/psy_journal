@@ -4,7 +4,7 @@ import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
-public interface ReportView extends MvpView {
+public interface ReportingView extends MvpView {
 	@StateStrategyType(SingleStateStrategy.class)
 	void updateRecyclerView();
 	@StateStrategyType(SingleStateStrategy.class)

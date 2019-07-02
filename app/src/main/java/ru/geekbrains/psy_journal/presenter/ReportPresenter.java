@@ -9,12 +9,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.model.data.ReportData;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
-import ru.geekbrains.psy_journal.view.fragment.ReportView;
+import ru.geekbrains.psy_journal.view.fragment.ReportingView;
 import ru.geekbrains.psy_journal.view.fragment.adapters.ReportRelated;
 import ru.geekbrains.psy_journal.view.fragment.adapters.ReportShown;
 
 @InjectViewState
-public class ReportPresenter extends MvpPresenter<ReportView> {
+public class ReportPresenter extends MvpPresenter<ReportingView> {
 
 	@Inject	RoomHelper roomHelper;
 
@@ -56,7 +56,7 @@ public class ReportPresenter extends MvpPresenter<ReportView> {
 		@Override
 		public void bindView(ReportShown reportShown, int position) {
 			ReportData report = list.get(position);
-			reportShown.bind(report.getNameTF(), String.valueOf(report.getQuantityPeople()), String.valueOf(report.getWorkTime()));
+			reportShown.show(report.getNameTF(), report.getQuantityPeople(), report.getWorkTime());
 		}
 
 		@Override

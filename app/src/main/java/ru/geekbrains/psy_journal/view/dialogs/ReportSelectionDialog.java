@@ -19,7 +19,7 @@ import ru.geekbrains.psy_journal.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableDate;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableFunction;
-import ru.geekbrains.psy_journal.view.fragment.ReportFragment;
+import ru.geekbrains.psy_journal.view.fragment.ReportingFragment;
 
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
@@ -115,7 +115,7 @@ public class ReportSelectionDialog extends AbstractDialog implements
 		if (getActivity() == null) return;
 		getActivity().getSupportFragmentManager()
 			.beginTransaction()
-			.add(R.id.frame_master, ReportFragment.newInstance(idOTF, from, unto), "Tag report")
+			.add(R.id.frame_master, ReportingFragment.newInstance(idOTF, from, unto), "Tag report")
 			.addToBackStack(TAG_ADD_WORK)
 			.commit();
     }

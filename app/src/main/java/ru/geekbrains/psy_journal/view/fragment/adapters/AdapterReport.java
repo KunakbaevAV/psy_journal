@@ -48,10 +48,10 @@ public class AdapterReport  extends RecyclerView.Adapter<AdapterReport.ReportVie
 		}
 
 		@Override
-		public void bind(String tf, String quantityPeople, String workTime) {
+		public void show(String tf, int quantityPeople, float workTime) {
 			tfView.setText(tf);
-			quantityView.setText(quantityPeople);
-			workTimeView.setText(workTime);
+			quantityView.setText(String.valueOf(quantityPeople));
+			workTimeView.setText(String.valueOf(workTime));
 		}
 	}
 }
