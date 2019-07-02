@@ -6,6 +6,8 @@ import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
+import java.util.List;
+
 import ru.geekbrains.psy_journal.model.data.Functional;
 import ru.geekbrains.psy_journal.view.dialogs.FunctionDialog;
 
@@ -37,5 +39,7 @@ public interface AddWorkView extends MvpView {
 	void openDialogue(Functional function);
 	@StateStrategyType(SingleStateStrategy.class)
     void closeDialogs();
+	@StateStrategyType(AddToEndSingleStrategy.class)
+	void getNames(List<String> names);
 	void showToast(String message);
 }
