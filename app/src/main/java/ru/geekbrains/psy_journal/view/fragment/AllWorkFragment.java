@@ -115,5 +115,4 @@ public class AllWorkFragment extends MvpAppCompatFragment implements AllWorkView
 		activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_master, AddWorkFragment.newInstance(journal), TAG_ADD_WORK).commit();
 		activity.setImageFabForTag(TAG_ADD_WORK);
 	}
-
 }

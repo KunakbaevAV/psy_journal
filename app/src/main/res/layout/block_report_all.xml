@@ -2,73 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical"
     android:elevation="@dimen/standart_elevation">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <include
+        layout="@layout/block_report_tf"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/block_client_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standartMargin"
-                android:layout_marginBottom="@dimen/standartMargin"
-                android:text="@string/block_report_all_label"
-                android:textAlignment="center"
-                android:textSize="@dimen/largeText" />
-
-            <include
-                android:id="@+id/report_tf_01"
-                layout="@layout/block_report_tf_01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/report_tf_02"
-                layout="@layout/block_report_tf_02"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/report_tf_03"
-                layout="@layout/block_report_tf_03"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/report_tf_04"
-                layout="@layout/block_report_tf_04"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/report_tf_05"
-                layout="@layout/block_report_tf_05"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/report_tf_06"
-                layout="@layout/block_report_tf_06"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/report_tf_07"
-                layout="@layout/block_report_tf_07"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="wrap_content" />
 
 </androidx.cardview.widget.CardView>

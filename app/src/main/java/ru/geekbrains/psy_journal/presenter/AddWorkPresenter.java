@@ -36,7 +36,15 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		return journal;
 	}
 
+    private void getNames() {
+        disposable = roomHelper.getListFullNames()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list -> getViewState().getNames(list),
+                        e -> Log.e("getNames: ", e.getMessage()));
+    }
+
 	public void initialize(Journal journal){
+        getNames();
 		if (journal == null) this.journal = new Journal();
 		else {
 			this.journal = journal;
