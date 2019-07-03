@@ -49,7 +49,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         AddWorkView,
 		Collectable,
 		GivenBySettableDate,
-		GivenBySettableFunction {
+        GivenBySettableFunction {
 
 	private static final String DEFAULT_WORK_TIME = "1.0";
 	private static final String KEY_JOURNAL = "key journal";
@@ -73,8 +73,8 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 		return false;
 	};
 
-	@BindView(R.id.declared_request_layout)
-	TextInputLayout declaredRequestLayout;
+    @BindView(R.id.declared_request_layout)
+    TextInputLayout declaredRequestLayout;
     @BindView(R.id.date_text) TextInputEditText dateText;
     @BindView(R.id.work_time_count) TextInputEditText workTimeText;
 	@BindView(R.id.category_text) TextInputEditText categoryText;
@@ -117,12 +117,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     private void initialize(){
     	if (getActivity() == null) return;
 	    dateText.setOnClickListener(v -> DateSettingDialog.newInstance(Constants.TAG_ADD_WORK).show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER));
-		quantityPeople.setOnEditorActionListener(editorActionListener);
+        quantityPeople.setOnEditorActionListener(editorActionListener);
 	    workTimeText.setOnClickListener(v -> new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), TAG_TIME_PICKER));
 	    categoryText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_category)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_category)));
 	    groupText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_group)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_group)));
-		declaredRequestText.setOnEditorActionListener(editorActionListener);
-		realRequestText.setOnEditorActionListener(editorActionListener);
+        declaredRequestText.setOnEditorActionListener(editorActionListener);
+        realRequestText.setOnEditorActionListener(editorActionListener);
 	    workFormText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_work_form)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_work_form)));
 	    codeTfText.setOnClickListener(v -> openDialogue(OTFDialog.newInstance(Constants.TAG_ADD_WORK) , getString(R.string.OTF)));
     }

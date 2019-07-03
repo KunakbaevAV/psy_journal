@@ -1,14 +1,12 @@
 package ru.geekbrains.psy_journal.presenter;
 
 import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.model.data.ReportData;
@@ -21,9 +19,9 @@ import ru.geekbrains.psy_journal.view.fragment.adapters.ReportShown;
 public class ReportPresenter extends MvpPresenter<ReportingView> {
 
     private final RecyclePresenter recyclePresenter = new RecyclePresenter();
+    private final List<ReportData> list = new ArrayList<>();
     @Inject
     RoomHelper roomHelper;
-    private List<ReportData> list;
     private Disposable disposable;
 
     public RecyclePresenter getRecyclePresenter() {
@@ -36,7 +34,7 @@ public class ReportPresenter extends MvpPresenter<ReportingView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(reports -> {
                             ifRequestSuccess();
-                            list = reports;
+                            list.addAll(reports);
                         },
                         e -> {
                             getViewState().hideProgressBar();
@@ -60,12 +58,11 @@ public class ReportPresenter extends MvpPresenter<ReportingView> {
         @Override
         public void bindView(ReportShown reportShown, int position) {
             ReportData report = list.get(position);
-            reportShown.show(report.getNameTF(), report.getQuantityPeople(), report.getWorkTime());
+            reportShown.show(String.format("%s %s", report.getCodeTF(), report.getNameTF()), report.getQuantityPeople(), report.getWorkTime());
         }
 
         @Override
         public int getItemCount() {
-            if (list == null) return 0;
             return list.size();
         }
 

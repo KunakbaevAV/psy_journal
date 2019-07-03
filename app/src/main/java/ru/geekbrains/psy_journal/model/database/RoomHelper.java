@@ -3,6 +3,8 @@ package ru.geekbrains.psy_journal.model.database;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.inject.Inject;
 
@@ -514,12 +516,7 @@ public class RoomHelper {
     }
 
     public Single<List<ReportData>> getReport(int idOTF, long dateFrom, long dateTo) {
-        ReportHelper reportHelper = new ReportHelper(tfDao, reportDao);
-        return Single.create((SingleOnSubscribe<List<ReportData>>)
-                emitter -> {
-                    List<ReportData> list = reportHelper.getReportData(idOTF, dateFrom, dateTo);
-                    emitter.onSuccess(list);
-                }).subscribeOn(Schedulers.io());
+        return reportDao.getReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
     }
 
     /**

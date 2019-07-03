@@ -9,7 +9,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
-import ru.geekbrains.psy_journal.model.database.ReportHelper;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
 import ru.geekbrains.psy_journal.model.database.dao.AppDatabase;
 import ru.geekbrains.psy_journal.model.database.dao.CategoryDao;

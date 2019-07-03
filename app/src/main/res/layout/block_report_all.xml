@@ -3,8 +3,8 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/cardview_light_background"
     android:orientation="vertical"
+    android:background="@color/cardview_light_background"
     android:elevation="@dimen/standart_elevation">
 
     <include
