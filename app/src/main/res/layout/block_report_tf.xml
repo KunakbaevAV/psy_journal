@@ -38,6 +38,7 @@
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:textSize="@dimen/small_text"
+        android:focusable="false"
         app:layout_constraintEnd_toStartOf="@+id/report_label_work_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/report_label_work_time"

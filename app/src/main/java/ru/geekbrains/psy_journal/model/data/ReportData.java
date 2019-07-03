@@ -1,42 +1,29 @@
 package ru.geekbrains.psy_journal.model.data;
 
-import androidx.room.Ignore;
-
-public class ReportData {
+public class ReportData{
 
     private String codeTF;
     private String nameTF;
     private int quantityPeople;
     private float workTime;
 
-    public ReportData() {
-    }
+	public String getCodeTF() {
+		return codeTF;
+	}
 
-    @Ignore
-    public ReportData(String codeTF, String nameTF, int quantityPeople, float workTime) {
-        this.codeTF = codeTF;
-        this.nameTF = nameTF;
-        this.quantityPeople = quantityPeople;
-        this.workTime = workTime;
-    }
+	public void setCodeTF(String codeTF) {
+		this.codeTF = codeTF;
+	}
 
-    public String getCodeTF() {
-        return codeTF;
-    }
+	public String getNameTF() {
+		return nameTF;
+	}
 
-    public void setCodeTF(String codeTF) {
-        this.codeTF = codeTF;
-    }
+	public void setNameTF(String nameTF) {
+		this.nameTF = nameTF;
+	}
 
-    public String getNameTF() {
-        return nameTF;
-    }
-
-    public void setNameTF(String nameTF) {
-        this.nameTF = nameTF;
-    }
-
-    public int getQuantityPeople() {
+	public int getQuantityPeople() {
         return quantityPeople;
     }
 
