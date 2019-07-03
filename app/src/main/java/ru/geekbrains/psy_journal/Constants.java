@@ -31,5 +31,8 @@ public class Constants {
 
 	public static final String PATTERN_DATE = "dd.MM.yy";
 
+    public static final String PREFERENCES = "preferences";
+    public static final String FIRST_START = "first_start";
+
 
 }
