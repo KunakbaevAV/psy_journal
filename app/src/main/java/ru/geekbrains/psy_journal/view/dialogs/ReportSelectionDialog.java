@@ -1,7 +1,6 @@
 package ru.geekbrains.psy_journal.view.dialogs;
 
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
@@ -9,21 +8,23 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.material.textfield.TextInputEditText;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presenter.OTFSelectionPresenter;
+import ru.geekbrains.psy_journal.presenter.ReportSelectionPresenter;
 import ru.geekbrains.psy_journal.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presenter.SettableByFunction;
-import ru.geekbrains.psy_journal.view.fragment.GivenBySettableFunction;
 import ru.geekbrains.psy_journal.view.fragment.GivenBySettableDate;
+import ru.geekbrains.psy_journal.view.fragment.GivenBySettableFunction;
+import ru.geekbrains.psy_journal.view.fragment.ReportingFragment;
 
-public class OTFSelectionDialog extends AbstractDialog implements
-	OTFSelectionView,
+import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
+
+public class ReportSelectionDialog extends AbstractDialog implements
+	ReportSelectionView,
 	GivenBySettableDate,
 	GivenBySettableFunction {
 
@@ -31,10 +32,10 @@ public class OTFSelectionDialog extends AbstractDialog implements
 	@BindView(R.id.report_date_begin_text) TextInputEditText fromView;
 	@BindView(R.id.report_date_end_text) TextInputEditText toView;
 
-	@InjectPresenter OTFSelectionPresenter selectionPresenter;
+	@InjectPresenter ReportSelectionPresenter selectionPresenter;
 
-	@ProvidePresenter OTFSelectionPresenter providePresenter(){
-		return new OTFSelectionPresenter();
+	@ProvidePresenter ReportSelectionPresenter providePresenter(){
+		return new ReportSelectionPresenter();
 	}
 
 	private final DialogInterface.OnClickListener listener = (dialog, which) -> {
@@ -111,11 +112,12 @@ public class OTFSelectionDialog extends AbstractDialog implements
 
 	@Override
 	public void transferData(int idOTF, long from, long unto){
-		Log.i("from: ", String.valueOf(from));
-		Log.i("from: ", new SimpleDateFormat(Constants.PATTERN_DATE + " HH.mm", Locale.getDefault()).format(new Date(from)));
-		Log.i("unto: ", String.valueOf(unto));
-		Log.i("unto: ", new SimpleDateFormat(Constants.PATTERN_DATE + " HH.mm", Locale.getDefault()).format(new Date(unto)));
-		//TODO здесь запуск фрагмента с отчетом.
+		if (getActivity() == null) return;
+		getActivity().getSupportFragmentManager()
+			.beginTransaction()
+			.add(R.id.frame_master, ReportingFragment.newInstance(idOTF, from, unto), "Tag report")
+			.addToBackStack(TAG_ADD_WORK)
+			.commit();
 	}
 
 	@Override

@@ -1,19 +1,19 @@
 package ru.geekbrains.psy_journal.view.fragment;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
-import androidx.collection.ArraySet;
 import androidx.fragment.app.FragmentManager;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -23,11 +23,9 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -51,7 +49,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         AddWorkView,
 		Collectable,
 		GivenBySettableDate,
-	GivenBySettableFunction {
+	    GivenBySettableFunction {
 
 	private static final String DEFAULT_WORK_TIME = "1.0";
 	private static final String KEY_JOURNAL = "key journal";
@@ -66,8 +64,16 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
+	private final TextView.OnEditorActionListener editorActionListener = (v, actionId, event) -> {
+		if (actionId == EditorInfo.IME_ACTION_DONE) {
+			closeKeyBoard();
+			v.clearFocus();
+			return true;
+		}
+		return false;
+	};
 
-    @BindView(R.id.declared_request_layout) TextInputLayout declaredRequestLayout;
+	@BindView(R.id.declared_request_layout) TextInputLayout declaredRequestLayout;
     @BindView(R.id.date_text) TextInputEditText dateText;
     @BindView(R.id.work_time_count) TextInputEditText workTimeText;
 	@BindView(R.id.category_text) TextInputEditText categoryText;
@@ -103,8 +109,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
         unbinder = ButterKnife.bind(this, view);
         dateText.setHint(dateFormat.format(new Date()));
         workTimeText.setText(DEFAULT_WORK_TIME);
-        if (getContext() != null)
-            nameText.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getNames()));
         initialize();
         return view;
     }
@@ -112,19 +116,14 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     private void initialize(){
     	if (getActivity() == null) return;
 	    dateText.setOnClickListener(v -> DateSettingDialog.newInstance(Constants.TAG_ADD_WORK).show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER));
+	    quantityPeople.setOnEditorActionListener(editorActionListener);
 	    workTimeText.setOnClickListener(v -> new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), TAG_TIME_PICKER));
 	    categoryText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_category)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_category)));
 	    groupText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_group)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_group)));
+	    declaredRequestText.setOnEditorActionListener(editorActionListener);
+	    realRequestText.setOnEditorActionListener(editorActionListener);
 	    workFormText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_work_form)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_work_form)));
 	    codeTfText.setOnClickListener(v -> openDialogue(OTFDialog.newInstance(Constants.TAG_ADD_WORK) , getString(R.string.OTF)));
-    }
-
-    private List<String> getNames() {
-        if (getContext() == null) return null;
-        SharedPreferences preferences = getContext().getSharedPreferences("names options", Context.MODE_PRIVATE);
-        Set<String> set = preferences.getStringSet("names", null);
-        if (set == null) return null;
-        return new ArrayList<>(set);
     }
 
     private void setNumber(String string) {
@@ -142,26 +141,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	    workPresenter.getJournal().setQuantityPeople(num);
     }
 
-    private void saveNames(String name) {
-        if (getContext() != null) {
-            SharedPreferences preferences = getContext().getSharedPreferences("names options", Context.MODE_PRIVATE);
-            Set<String> set = preferences.getStringSet("names", new ArraySet<>());
-            if (set != null) {
-                set.add(name);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putStringSet("names", set);
-                editor.apply();
-            }
-       }
-    }
-
     private void checkNames(){
 	    Editable editable = nameText.getText();
 	    if (editable != null) {
 		    String name = editable.toString();
 		    if (!name.equals("")) {
 			    workPresenter.getJournal().setName(name);
-			    saveNames(name);
 		    }
 	    }
     }
@@ -204,13 +189,19 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
     	return dialog != null;
 	}
 
-	private void closeKeyBoard(){
-    	if (getActivity() == null) return;
-		View view = getActivity().getCurrentFocus();
-		if (view != null) {
-			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-		}
+    private void closeKeyBoard() {
+        if (getActivity() == null) return;
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+	@Override
+	public void getNames(List<String> names) {
+		if (getContext() != null)
+			nameText.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, names));
 	}
 
     @Override

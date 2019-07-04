@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.view.dialogs.OTFSelectionDialog;
+import ru.geekbrains.psy_journal.view.dialogs.ReportSelectionDialog;
 import ru.geekbrains.psy_journal.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.view.fragment.AllWorkFragment;
 
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void openScreenGettingReport() {
-	    new OTFSelectionDialog().show(getSupportFragmentManager(), Constants.TAG_OTF_SELECTION);
+        new ReportSelectionDialog().show(getSupportFragmentManager(), Constants.TAG_OTF_SELECTION);
     }
 
     private void openScreenSendReportToEmail() {

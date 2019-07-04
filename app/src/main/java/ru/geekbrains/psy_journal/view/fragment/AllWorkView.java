@@ -7,12 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import ru.geekbrains.psy_journal.model.data.Journal;
 
 @StateStrategyType(SingleStateStrategy.class)
-public interface AllWorkView extends MvpView {
-    void updateRecyclerView();
-
-    void showProgressBar();
-
-    void hideProgressBar();
+public interface AllWorkView extends ReportingView {
 
     void showToast(String message);
 

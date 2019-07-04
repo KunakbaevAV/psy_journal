@@ -3,6 +3,8 @@ package ru.geekbrains.psy_journal.model.database;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.inject.Inject;
 
@@ -16,6 +18,7 @@ import ru.geekbrains.psy_journal.model.data.Category;
 import ru.geekbrains.psy_journal.model.data.Group;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.data.OTF;
+import ru.geekbrains.psy_journal.model.data.ReportData;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
@@ -23,6 +26,7 @@ import ru.geekbrains.psy_journal.model.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.model.database.dao.GroupDao;
 import ru.geekbrains.psy_journal.model.database.dao.JournalDao;
 import ru.geekbrains.psy_journal.model.database.dao.OTFDao;
+import ru.geekbrains.psy_journal.model.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.model.database.dao.TDDao;
 import ru.geekbrains.psy_journal.model.database.dao.TFDao;
 import ru.geekbrains.psy_journal.model.database.dao.WorkFormDao;
@@ -49,6 +53,9 @@ public class RoomHelper {
 
     @Inject
     WorkFormDao workFormDao;
+
+    @Inject
+    ReportDao reportDao;
 
     public RoomHelper() {
         App.getAppComponent().inject(this);
@@ -506,6 +513,31 @@ public class RoomHelper {
                     WorkForm item = workFormDao.getItemWorkWorm(id);
                     emitter.onSuccess(item);
                 }).subscribeOn(Schedulers.io());
+    }
+
+    public Single<List<ReportData>> getReport(int idOTF, long dateFrom, long dateTo) {
+        return reportDao.getReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Метод получения из БД строк таблицы {@link Journal}, отфильтрованных по выбранной ОТФ и периоду
+     *
+     * @param idOTF    id выбранной ОТФ
+     * @param dateFrom Начало периода отчета
+     * @param dateTo   Конец периода отчета
+     * @return Возвращает список объектов {@link Journal} в обертке {@link Single}
+     */
+    public Single<List<Journal>> getLaborFunctionReport(int idOTF, long dateFrom, long dateTo) {
+        return journalDao.getLaborFunctionReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Метод получения из таблицы {@link Journal} всех заполненных ФИО
+     *
+     * @return Возвращает список ФИО из таблицы БД {@link Journal} в обертке {@link Single}
+     */
+    public Single<List<String>> getListFullNames() {
+        return journalDao.getListFullNames().subscribeOn(Schedulers.io());
     }
 
 }

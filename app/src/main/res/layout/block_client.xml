@@ -55,13 +55,15 @@
                 android:id="@+id/name_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:completionThreshold="3"
+                android:completionThreshold="2"
                 android:hint="@string/choose_fio"
                 android:paddingStart="@dimen/padding_gorizontal"
                 android:paddingTop="@dimen/padding_vertical"
                 android:paddingEnd="@dimen/padding_gorizontal"
                 android:paddingBottom="@dimen/padding_vertical"
-                android:inputType="textPersonName|textAutoComplete|textAutoCorrect"/>
+                android:cursorVisible="false"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName|textAutoCorrect"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
