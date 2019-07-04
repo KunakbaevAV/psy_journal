@@ -17,19 +17,19 @@ import ru.geekbrains.psy_journal.model.data.Category;
 public interface CategoryDao {
 
     @Query("SELECT * FROM Category")
-    List<Category> getAllCategories();
+    Single<List<Category>> getAllCategories();
 
     @Query("SELECT * FROM Category WHERE id = :id")
-    Category getItemCategory(int id);
+    Single<Category> getItemCategory(int id);
 
     @Insert
-    long insert(Category category);
+    Single<Long> insert(Category category);
 
     @Delete
-    int delete(Category category);
+    Single<Integer> delete(Category category);
 
     @Update
-    int update(Category category);
+    Single<Integer> update(Category category);
 
     //первичная инициализация
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_GROUP;
 
+/**
+ * Группа, с которой проводится работа
+ */
 @Entity(tableName = TABLE_GROUP)
 public class Group implements Catalog {
 
@@ -14,9 +17,9 @@ public class Group implements Catalog {
     private String name;
 
     @Ignore
-	public Group(String name) {
-		this.name = name;
-	}
+    public Group(String name) {
+        this.name = name;
+    }
 
     @Ignore
     public Group(int id, String name) {

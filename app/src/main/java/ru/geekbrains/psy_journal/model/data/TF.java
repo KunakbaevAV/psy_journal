@@ -5,6 +5,9 @@ import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_TF;
 
+/**
+ * Трудовые функции - термин из профстандарта
+ */
 @Entity(tableName = TABLE_TF)
 public class TF implements Functional{
 
@@ -14,7 +17,7 @@ public class TF implements Functional{
     private String name;
     private int idOTF;
 
-	public TF(int id, String code, String name, int idOTF) {
+    public TF(int id, String code, String name, int idOTF) {
         this.id = id;
         this.code = code;
         this.name = name;

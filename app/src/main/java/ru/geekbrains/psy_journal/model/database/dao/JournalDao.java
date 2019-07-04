@@ -26,19 +26,19 @@ public interface JournalDao {
             "ORDER BY date";
 
     @Query("SELECT * FROM Journal")
-    List<Journal> getAll();
+    Single<List<Journal>> getAll();
 
     @Query("SELECT * FROM Journal WHERE id = :id")
-    Journal getItemJournal(int id);
+    Single<Journal> getItemJournal(int id);
 
     @Insert
-    long insert(Journal journal);
+    Single<Long> insert(Journal journal);
 
     @Delete
-    int delete(Journal journal);
+    Single<Integer> delete(Journal journal);
 
     @Update
-    int update(Journal journal);
+    Single<Integer> update(Journal journal);
 
     @Query(queryReportFromTF)
     Single<List<Journal>> getLaborFunctionReport(int idOTF, long dateFrom, long dateTo);

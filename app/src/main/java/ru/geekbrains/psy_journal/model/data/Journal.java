@@ -13,6 +13,9 @@ import java.util.Locale;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
 
+/**
+ * Журнал регистрации единиц работы пользователя
+ */
 @Entity(tableName = TABLE_JOURNAL)
 public class Journal implements Parcelable {
 
@@ -21,7 +24,7 @@ public class Journal implements Parcelable {
     private long date = new Date().getTime();
     @Ignore
     private String dayOfWeek = determineDayOfWeek(date);
-	private int quantityPeople;
+    private int quantityPeople;
     private Float workTime = 1.0f;
     private int idCategory;
     private int idGroup;
@@ -29,7 +32,7 @@ public class Journal implements Parcelable {
     private String declaredRequest;
     private String realRequest;
     private int idWorkForm;
-	private String codeTd;
+    private String codeTd;
     private String comment;
 
     public Journal() {
@@ -190,10 +193,10 @@ public class Journal implements Parcelable {
     }
 
     private String determineDayOfWeek(long date){
-    	if (date != 0){
-    		return new SimpleDateFormat("EEEE", Locale.getDefault()).format(new Date(date));
-	    }
-    	return null;
+        if (date != 0){
+            return new SimpleDateFormat("EEEE", Locale.getDefault()).format(new Date(date));
+        }
+        return null;
     }
 
     @Override

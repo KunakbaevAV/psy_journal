@@ -13,6 +13,9 @@ public class Constants {
     public static final String DATABASE_NAME = "psy_journal_db";
 
     public static final String TAG = "Psy7";
+    public static final String DB_LOGS = "DB_logs";
+    public static final String DB_ADD_GOOD = "Добавлено в базу данных успешно";
+    public static final String DB_ADD_ERROR = "При загрузке в базу данных возникла ошибка";
     //код иной деятельности
 	public static final String CODE_OF_OTHER_ACTIVITY = "";
 

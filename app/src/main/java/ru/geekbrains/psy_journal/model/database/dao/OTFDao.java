@@ -17,22 +17,22 @@ import ru.geekbrains.psy_journal.model.data.OTF;
 public interface OTFDao {
 
     @Query("SELECT * FROM OTF")
-    List<OTF> getAllOtf();
+    Single<List<OTF>> getAllOtf();
 
     @Query("SELECT * FROM OTF WHERE id = :id")
-    OTF getItemOtf(int id);
+    Single<OTF> getItemOtf(int id);
 
     //первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<OTF> otfList);
 
 	@Insert
-    long insert(OTF otf);
+    Single<Long> insert(OTF otf);
 
     @Delete
-    int delete(OTF otf);
+    Single<Integer> delete(OTF otf);
 
     @Update
-    int update(OTF otf);
+    Single<Integer> update(OTF otf);
 
 }

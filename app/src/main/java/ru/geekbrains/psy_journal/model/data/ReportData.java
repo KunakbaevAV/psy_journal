@@ -1,5 +1,10 @@
 package ru.geekbrains.psy_journal.model.data;
 
+/**
+ * Отчет о проделанной работе пользователя.
+ * Учитывает охват человек, с которыми проводилась работа
+ * и затраченное время.
+ */
 public class ReportData {
 
     private String codeTF;

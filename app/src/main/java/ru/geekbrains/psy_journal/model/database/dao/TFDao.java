@@ -18,25 +18,25 @@ import ru.geekbrains.psy_journal.model.data.TF;
 public interface TFDao {
 
     @Query("SELECT * FROM TF")
-    List<TF> getAllTf();
+    Single<List<TF>> getAllTf();
 
     @Query("SELECT * FROM TF WHERE idOTF = :idOTF")
-    List<TF> getTfByOtf(int idOTF);
+    Single<List<TF>> getTfByOtf(int idOTF);
 
     @Query("SELECT * FROM TF WHERE id = :id")
-    TF getItemTF(int id);
+    Single<TF> getItemTF(int id);
 
 	//первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<TF> tfList);
 
     @Insert
-    long insert(TF tf);
+    Single<Long> insert(TF tf);
 
     @Delete
-    int delete(TF tf);
+    Single<Integer> delete(TF tf);
 
     @Update
-    int update(TF tf);
+    Single<Integer> update(TF tf);
 
 }

@@ -5,6 +5,9 @@ import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_TD;
 
+/**
+ * Трудовые действия - термин из профстандарта
+ */
 @Entity(tableName = TABLE_TD)
 public class TD implements Functional {
 
@@ -14,7 +17,7 @@ public class TD implements Functional {
     private String name;
     private int idTF;
 
-	public TD(int id, String code, String name, int idTF) {
+    public TD(int id, String code, String name, int idTF) {
         this.id = id;
         this.code = code;
         this.name = name;
