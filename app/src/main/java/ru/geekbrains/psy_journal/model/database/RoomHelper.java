@@ -5,13 +5,17 @@ import android.util.Log;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
+import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Category;
@@ -30,6 +34,8 @@ import ru.geekbrains.psy_journal.model.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.model.database.dao.TDDao;
 import ru.geekbrains.psy_journal.model.database.dao.TFDao;
 import ru.geekbrains.psy_journal.model.database.dao.WorkFormDao;
+
+import static ru.geekbrains.psy_journal.Constants.TAG;
 
 public class RoomHelper {
 
@@ -128,11 +134,7 @@ public class RoomHelper {
      * @return Возвращает список Обобщенных трудовых функций в обертке {@link Single}
      */
     public Single<List<OTF>> getOTFList() {
-        return Single.create((SingleOnSubscribe<List<OTF>>)
-                emitter -> {
-                    List<OTF> list = otfDao.getAllOtf();
-                    emitter.onSuccess(list);
-                }).subscribeOn(Schedulers.io());
+        return Single.wrap(observer -> observer.onSuccess(otfDao.getAllOtf()));
     }
 
     /**
