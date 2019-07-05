@@ -31,12 +31,12 @@ public interface TFDao {
 	Completable insert(List<TF> tfList);
 
     @Insert
-    Single<Long> insert(TF tf);
+    Completable insert(TF tf);
 
     @Delete
-    Single<Integer> delete(TF tf);
+    Completable delete(TF tf);
 
     @Update
-    Single<Integer> update(TF tf);
+    Completable update(TF tf);
 
 }

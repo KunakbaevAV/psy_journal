@@ -25,13 +25,13 @@ public interface WorkFormDao {
     Single<WorkForm> getItemWorkWorm(int id);
 
     @Insert
-    Single<Long> insert(WorkForm workForm);
+    Completable insert(WorkForm workForm);
 
     @Delete
-    Single<Integer> delete(WorkForm workForm);
+    Completable delete(WorkForm workForm);
 
     @Update
-    Single<Integer> update(WorkForm workForm);
+    Completable update(WorkForm workForm);
 
     //первичная инициализация
     @Insert(onConflict = OnConflictStrategy.REPLACE)

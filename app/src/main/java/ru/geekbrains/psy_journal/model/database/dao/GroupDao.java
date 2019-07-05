@@ -23,13 +23,13 @@ public interface GroupDao {
     Single<Group> getItemGroup(int id);
 
     @Insert
-    Single<Long> insert(Group group);
+    Completable insert(Group group);
 
     @Delete
-    Single<Integer> delete(Group group);
+    Completable delete(Group group);
 
     @Update
-    Single<Integer> update(Group group);
+    Completable update(Group group);
 
     //первичная инициализация
     @Insert(onConflict = OnConflictStrategy.REPLACE)
