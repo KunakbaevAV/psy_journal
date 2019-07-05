@@ -9,6 +9,9 @@ import java.util.List;
 import io.reactivex.Single;
 import ru.geekbrains.psy_journal.model.data.ReportData;
 
+/**
+ * Класс формирования запроса SQL для получения отчета о проделанной работе пользователя
+ */
 @Dao
 public interface ReportDao {
 

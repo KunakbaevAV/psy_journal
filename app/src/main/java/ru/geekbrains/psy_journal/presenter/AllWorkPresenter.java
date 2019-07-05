@@ -13,7 +13,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.model.data.Journal;
 import ru.geekbrains.psy_journal.model.database.RoomHelper;
@@ -53,17 +53,19 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
                 }, throwable -> {
                     getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage());
                     getViewState().hideProgressBar();
-                });
+                }).isDisposed();
     }
 
     @SuppressLint("CheckResult")
     private void deleteItemJournalFromDatabase(Journal journal) {
         deleteItemJournalFromDatabaseObservable(journal).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(hits -> getViewState().updateRecyclerView(),
-                        throwable -> getViewState().showToast(ERROR_DELETING + throwable));
+                .subscribe(
+                        () -> getViewState().updateRecyclerView(),
+                        er -> getViewState().showToast(ERROR_DELETING + er)
+                ).isDisposed();
     }
 
-    private Single<Integer> deleteItemJournalFromDatabaseObservable(Journal journal) {
+    private Completable deleteItemJournalFromDatabaseObservable(Journal journal) {
         return roomHelper.deleteItemJournal(journal);
     }
 

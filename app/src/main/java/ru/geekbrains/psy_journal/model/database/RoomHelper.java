@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -221,9 +222,8 @@ public class RoomHelper {
      * Добавление новой строки {@link Journal} в базу данных
      *
      * @param journal заполненная строка, вставляемая в БД в таблицу {@link Journal}
-     * @return id вставленной строки
      */
-    public Single<Long> insertItemJournal(Journal journal) {
+    public Completable insertItemJournal(Journal journal) {
         return journalDao.insert(journal).subscribeOn(Schedulers.io());
     }
 
@@ -231,9 +231,8 @@ public class RoomHelper {
      * Удаление из базы данных строки {@link Journal}
      *
      * @param journal удаляемая строка таблицы {@link Journal}
-     * @return id удаленной строки
      */
-    public Single<Integer> deleteItemJournal(Journal journal) {
+    public Completable deleteItemJournal(Journal journal) {
         return journalDao.delete(journal).subscribeOn(Schedulers.io());
     }
 
@@ -241,9 +240,8 @@ public class RoomHelper {
      * Редактирование строки {@link Journal}
      *
      * @param journal обновленная строка таблицы {@link Journal}
-     * @return id обновленной строки
      */
-    public Single<Integer> updateItemJournal(Journal journal) {
+    public Completable updateItemJournal(Journal journal) {
         return journalDao.update(journal).subscribeOn(Schedulers.io());
     }
 
@@ -261,9 +259,8 @@ public class RoomHelper {
      * Добавление новой строки {@link OTF} в базу данных
      *
      * @param otf заполненная строка, вставляемая в БД в таблицу {@link OTF}
-     * @return id вставленной строки
      */
-    public Single<Long> insertItemOTF(OTF otf) {
+    public Completable insertItemOTF(OTF otf) {
         return otfDao.insert(otf).subscribeOn(Schedulers.io());
     }
 
@@ -271,9 +268,8 @@ public class RoomHelper {
      * Удаление из базы данных строки {@link OTF}
      *
      * @param otf удаляемая строка таблицы {@link OTF}
-     * @return id удаленной строки
      */
-    public Single<Integer> deleteItemOTF(OTF otf) {
+    public Completable deleteItemOTF(OTF otf) {
         return otfDao.delete(otf).subscribeOn(Schedulers.io());
     }
 
@@ -281,9 +277,8 @@ public class RoomHelper {
      * Редактирование строки {@link OTF}
      *
      * @param otf обновленная строка таблицы {@link OTF}
-     * @return id обновленной строки
      */
-    public Single<Integer> updateItemOTF(OTF otf) {
+    public Completable updateItemOTF(OTF otf) {
         return otfDao.update(otf).subscribeOn(Schedulers.io());
     }
 
@@ -301,9 +296,8 @@ public class RoomHelper {
      * Добавление новой строки {@link TF} в базу данных
      *
      * @param tf заполненная строка, вставляемая в БД в таблицу {@link TF}
-     * @return id вставленной строки
      */
-    public Single<Long> insertItemTF(TF tf) {
+    public Completable insertItemTF(TF tf) {
         return tfDao.insert(tf).subscribeOn(Schedulers.io());
     }
 
@@ -311,9 +305,8 @@ public class RoomHelper {
      * Удаление из базы данных строки {@link TF}
      *
      * @param tf удаляемая строка таблицы {@link TF}
-     * @return id удаленной строки
      */
-    public Single<Integer> deleteItemTF(TF tf) {
+    public Completable deleteItemTF(TF tf) {
         return tfDao.delete(tf).subscribeOn(Schedulers.io());
     }
 
@@ -321,9 +314,8 @@ public class RoomHelper {
      * Редактирование строки {@link TF}
      *
      * @param tf обновленная строка таблицы {@link TF}
-     * @return id обновленной строки
      */
-    public Single<Integer> updateItemTF(TF tf) {
+    public Completable updateItemTF(TF tf) {
         return tfDao.update(tf).subscribeOn(Schedulers.io());
     }
 
@@ -341,9 +333,8 @@ public class RoomHelper {
      * Добавление новой строки {@link TD} в базу данных
      *
      * @param td заполненная строка, вставляемая в БД в таблицу {@link TD}
-     * @return id вставленной строки
      */
-    public Single<Integer> insertItemTD(TD td) {
+    public Completable insertItemTD(TD td) {
         return tdDao.update(td).subscribeOn(Schedulers.io());
     }
 
@@ -351,9 +342,8 @@ public class RoomHelper {
      * Удаление из базы данных строки {@link TD}
      *
      * @param td удаляемая строка таблицы {@link TD}
-     * @return id удаленной строки
      */
-    public Single<Integer> deleteItemTD(TD td) {
+    public Completable deleteItemTD(TD td) {
         return tdDao.delete(td).subscribeOn(Schedulers.io());
     }
 
@@ -361,9 +351,8 @@ public class RoomHelper {
      * Редактирование строки {@link TD}
      *
      * @param td обновленная строка таблицы {@link TD}
-     * @return id обновленной строки
      */
-    public Single<Integer> updateItemTD(TD td) {
+    public Completable updateItemTD(TD td) {
         return tdDao.update(td).subscribeOn(Schedulers.io());
     }
 
@@ -392,24 +381,16 @@ public class RoomHelper {
      *
      * @param category заполненная строка, вставляемая в БД в таблицу {@link Category}
      */
-    public Single<Long> insertItemCategory(Category category) {
+    public Completable insertItemCategory(Category category) {
         return categoryDao.insert(category).subscribeOn(Schedulers.io());
-        /*categoryDao.insert(category)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        () -> Log.i(DB_LOGS, "insertItemCategory: " + DB_ADD_GOOD),
-                        er -> Log.e(DB_LOGS, "insertItemCategory: " + DB_ADD_ERROR, er)
-                ).isDisposed();*/
     }
 
     /**
      * Удаление из базы данных строки {@link Category}
      *
      * @param category удаляемая строка таблицы {@link Category}
-     * @return id удаленной строки
      */
-    public Single<Integer> deleteItemCategory(Category category) {
+    public Completable deleteItemCategory(Category category) {
         return categoryDao.delete(category).subscribeOn(Schedulers.io());
     }
 
@@ -417,9 +398,8 @@ public class RoomHelper {
      * Редактирование строки {@link Category}
      *
      * @param category обновленная строка таблицы {@link Category}
-     * @return id обновленной строки
      */
-    public Single<Integer> updateItemCategory(Category category) {
+    public Completable updateItemCategory(Category category) {
         return categoryDao.update(category).subscribeOn(Schedulers.io());
     }
 
@@ -437,9 +417,8 @@ public class RoomHelper {
      * Добавление новой строки {@link Group} в базу данных
      *
      * @param group заполненная строка, вставляемая в БД в таблицу {@link Group}
-     * @return id вставленной строки
      */
-    public Single<Long> insertItemGroup(Group group) {
+    public Completable insertItemGroup(Group group) {
         return groupDao.insert(group).subscribeOn(Schedulers.io());
     }
 
@@ -447,9 +426,8 @@ public class RoomHelper {
      * Удаление из базы данных строки {@link Group}
      *
      * @param group удаляемая строка таблицы {@link Group}
-     * @return id удаленной строки
      */
-    public Single<Integer> deleteItemGroup(Group group) {
+    public Completable deleteItemGroup(Group group) {
         return groupDao.delete(group).subscribeOn(Schedulers.io());
     }
 
@@ -457,9 +435,8 @@ public class RoomHelper {
      * Редактирование строки {@link Group}
      *
      * @param group обновленная строка таблицы {@link Group}
-     * @return id обновленной строки
      */
-    public Single<Integer> updateItemGroup(Group group) {
+    public Completable updateItemGroup(Group group) {
         return groupDao.update(group).subscribeOn(Schedulers.io());
     }
 
@@ -477,9 +454,8 @@ public class RoomHelper {
      * Добавление новой строки {@link WorkForm} в базу данных
      *
      * @param workForm заполненная строка, вставляемая в БД в таблицу {@link WorkForm}
-     * @return id вставленной строки
      */
-    public Single<Long> insertItemWorkForm(WorkForm workForm) {
+    public Completable insertItemWorkForm(WorkForm workForm) {
         return workFormDao.insert(workForm).subscribeOn(Schedulers.io());
     }
 
@@ -487,9 +463,8 @@ public class RoomHelper {
      * Удаление из базы данных строки {@link WorkForm}
      *
      * @param workForm удаляемая строка таблицы {@link WorkForm}
-     * @return id удаленной строки
      */
-    public Single<Integer> deleteItemWorkForm(WorkForm workForm) {
+    public Completable deleteItemWorkForm(WorkForm workForm) {
         return workFormDao.delete(workForm).subscribeOn(Schedulers.io());
     }
 
@@ -497,9 +472,8 @@ public class RoomHelper {
      * Редактирование строки {@link WorkForm}
      *
      * @param workForm обновленная строка таблицы {@link WorkForm}
-     * @return id обновленной строки
      */
-    public Single<Integer> updateItemWorkForm(WorkForm workForm) {
+    public Completable updateItemWorkForm(WorkForm workForm) {
         return workFormDao.update(workForm).subscribeOn(Schedulers.io());
     }
 

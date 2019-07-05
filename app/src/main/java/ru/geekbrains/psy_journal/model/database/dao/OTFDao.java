@@ -27,12 +27,12 @@ public interface OTFDao {
 	Completable insert(List<OTF> otfList);
 
 	@Insert
-    Single<Long> insert(OTF otf);
+    Completable insert(OTF otf);
 
     @Delete
-    Single<Integer> delete(OTF otf);
+    Completable delete(OTF otf);
 
     @Update
-    Single<Integer> update(OTF otf);
+    Completable update(OTF otf);
 
 }

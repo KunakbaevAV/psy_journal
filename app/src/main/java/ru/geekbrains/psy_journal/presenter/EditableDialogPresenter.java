@@ -10,8 +10,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Catalog;
 import ru.geekbrains.psy_journal.model.data.Category;
@@ -69,7 +71,8 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
-                }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage()));
+                        }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
+                ).isDisposed();
     }
 
     @SuppressLint("CheckResult")
@@ -79,7 +82,8 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
-                }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage()));
+                        }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
+                ).isDisposed();
     }
 
     @SuppressLint("CheckResult")
@@ -89,7 +93,8 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
-                }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage()));
+                        }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
+                ).isDisposed();
     }
 
     //Метод для выбора элемента
@@ -128,13 +133,14 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
     }
 
     @SuppressLint("CheckResult")
-    private void insertCatalogItemSubscribe(Single<Long> id) {
-        id.
-                observeOn(AndroidSchedulers.mainThread()).
-                subscribe(item -> {
+    private void insertCatalogItemSubscribe(Completable completable) {
+        completable.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> {
                             catalogList.add(catalog);
                             getViewState().updateRecyclerView();
                         },
-                        throwable -> getViewState().showToast(ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage()));
+                        er -> getViewState().showToast(ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + er.getMessage())
+                ).isDisposed();
     }
 }

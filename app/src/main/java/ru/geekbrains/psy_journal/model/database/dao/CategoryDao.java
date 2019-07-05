@@ -23,13 +23,13 @@ public interface CategoryDao {
     Single<Category> getItemCategory(int id);
 
     @Insert
-    Single<Long> insert(Category category);
+    Completable insert(Category category);
 
     @Delete
-    Single<Integer> delete(Category category);
+    Completable delete(Category category);
 
     @Update
-    Single<Integer> update(Category category);
+    Completable update(Category category);
 
     //первичная инициализация
     @Insert(onConflict = OnConflictStrategy.REPLACE)

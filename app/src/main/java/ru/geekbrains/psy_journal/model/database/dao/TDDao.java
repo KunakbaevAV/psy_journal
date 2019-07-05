@@ -34,12 +34,12 @@ public interface TDDao {
 	Completable insert(List<TD> tdList);
 
     @Insert
-    Single<Long> insert(TD td);
+    Completable insert(TD td);
 
     @Delete
-    Single<Integer> delete(TD td);
+    Completable delete(TD td);
 
     @Update
-    Single<Integer> update(TD td);
+    Completable update(TD td);
 
 }
