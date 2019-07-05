@@ -18,13 +18,13 @@ public class Group implements Catalog {
 
     @Ignore
     public Group(String name) {
-        this.name = name;
+        setName(name);
     }
 
     @Ignore
     public Group(int id, String name) {
-        this.id = id;
-        this.name = name;
+        this(name);
+        setId(id);
     }
 
     public Group() {
