@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.apache.commons.math3.analysis.function.Sin;
+
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -17,19 +19,19 @@ import ru.geekbrains.psy_journal.model.data.WorkForm;
 public interface WorkFormDao {
 
     @Query("SELECT * FROM Work_form")
-    List<WorkForm> getAllWorkForms();
+    Single<List<WorkForm>> getAllWorkForms();
 
     @Query("SELECT * FROM Work_form WHERE id = :id")
-    WorkForm getItemWorkWorm(int id);
+    Single<WorkForm> getItemWorkWorm(int id);
 
     @Insert
-    long insert(WorkForm workForm);
+    Single<Long> insert(WorkForm workForm);
 
     @Delete
-    int delete(WorkForm workForm);
+    Single<Integer> delete(WorkForm workForm);
 
     @Update
-    int update(WorkForm workForm);
+    Single<Integer> update(WorkForm workForm);
 
     //первичная инициализация
     @Insert(onConflict = OnConflictStrategy.REPLACE)

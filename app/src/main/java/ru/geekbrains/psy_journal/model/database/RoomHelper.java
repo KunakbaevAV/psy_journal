@@ -3,15 +3,11 @@ package ru.geekbrains.psy_journal.model.database;
 import android.util.Log;
 
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.model.data.Category;
@@ -31,6 +27,13 @@ import ru.geekbrains.psy_journal.model.database.dao.TDDao;
 import ru.geekbrains.psy_journal.model.database.dao.TFDao;
 import ru.geekbrains.psy_journal.model.database.dao.WorkFormDao;
 
+import static ru.geekbrains.psy_journal.Constants.DB_ADD_ERROR;
+import static ru.geekbrains.psy_journal.Constants.DB_ADD_GOOD;
+import static ru.geekbrains.psy_journal.Constants.DB_LOGS;
+
+/**
+ * Организация работы с базой данный в дополнительном потоке
+ */
 public class RoomHelper {
 
     @Inject
@@ -61,462 +64,453 @@ public class RoomHelper {
         App.getAppComponent().inject(this);
     }
 
-    //первичная загрузка из файла в базу OTF
+    /**
+     * Первичная загрузка в базу данных сущностей {@link OTF}
+     *
+     * @param list загружаемый список сущностей
+     */
     void initializeOTF(List<OTF> list) {
-        Disposable disposable = otfDao.insert(list)
+        otfDao.insert(list)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("initializeOTF: ", "added to base"),
-                        e -> Log.e("initializeOTF: ", String.format("error adding to database, %s", e.getMessage())));
-    }
-
-    //первичная загрузка из файла в базу TF
-    void initializeTF(List<TF> list) {
-        Disposable disposable = tfDao.insert(list)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("initializeTF: ", "added to base"),
-                        e -> Log.e("initializeTF: ", String.format("error adding to database, %s", e.getMessage())));
-    }
-
-    //первичная загрузка из файла в базу TD
-    void initializeTD(List<TD> list) {
-        Disposable disposable = tdDao.insert(list)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("initializeTD: ", "added to base"),
-                        e -> Log.e("initializeTD: ", String.format("error adding to database, %s", e.getMessage())));
-    }
-
-    void initializeCategory(List<Category> list) {
-        Disposable disposable = categoryDao.insertList(list)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("initializeCategory: ", "added to base"),
-                        e -> Log.e("initializeCategory: ", String.format("error adding to database, %s", e.getMessage())));
-    }
-
-    void initializeGroup(List<Group> list) {
-        Disposable disposable = groupDao.insertList(list)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("initializeGroup: ", "added to base"),
-                        e -> Log.e("initializeGroup: ", String.format("error adding to database, %s", e.getMessage())));
-    }
-
-    void initializeWorkForms(List<WorkForm> list) {
-        Disposable disposable = workFormDao.insertList(list)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("initializeWorkForm: ", "added to base"),
-                        e -> Log.e("initializeWorkForm: ", String.format("error adding to database, %s", e.getMessage())));
-
+                .subscribe(
+                        () -> Log.i(DB_LOGS, "initializeOTF: " + DB_ADD_GOOD),
+                        er -> Log.e(DB_LOGS, "initializeOTF: " + DB_ADD_ERROR, er)
+                ).isDisposed();
     }
 
     /**
-     * @return Возвращает список всех зарегистрированных единиц работы в обертке {@link Single}
+     * Первичная загрузка в базу данных сущностей {@link TF}
+     *
+     * @param list загружаемый список сущностей
+     */
+    void initializeTF(List<TF> list) {
+        tfDao.insert(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Log.i(DB_LOGS, "initializeTF: " + DB_ADD_GOOD),
+                        er -> Log.e(DB_LOGS, "initializeTF: " + DB_ADD_ERROR, er)
+                ).isDisposed();
+    }
+
+    /**
+     * Первичная загрузка в базу данных сущностей {@link TD}
+     *
+     * @param list загружаемый список сущностей
+     */
+    void initializeTD(List<TD> list) {
+        tdDao.insert(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Log.i(DB_LOGS, "initializeTD: " + DB_ADD_GOOD),
+                        er -> Log.e(DB_LOGS, "initializeTD: " + DB_ADD_ERROR, er)
+                ).isDisposed();
+    }
+
+    /**
+     * Первичная загрузка в базу данных сущностей {@link Category}
+     *
+     * @param list загружаемый список сущностей
+     */
+    void initializeCategory(List<Category> list) {
+        categoryDao.insertList(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Log.i(DB_LOGS, "initializeCategory: " + DB_ADD_GOOD),
+                        er -> Log.e(DB_LOGS, "initializeCategory: " + DB_ADD_ERROR, er)
+                ).isDisposed();
+    }
+
+    /**
+     * Первичная загрузка в базу данных сущностей {@link Group}
+     *
+     * @param list загружаемый список сущностей
+     */
+    void initializeGroup(List<Group> list) {
+        groupDao.insertList(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Log.i(DB_LOGS, "initializeGroup: " + DB_ADD_GOOD),
+                        er -> Log.e(DB_LOGS, "initializeGroup: " + DB_ADD_ERROR, er)
+                ).isDisposed();
+    }
+
+    /**
+     * Первичная загрузка в базу данных сущностей {@link WorkForm}
+     *
+     * @param list загружаемый список сущностей
+     */
+    void initializeWorkForms(List<WorkForm> list) {
+        workFormDao.insertList(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Log.i(DB_LOGS, "initializeWorkForms: " + DB_ADD_GOOD),
+                        er -> Log.e(DB_LOGS, "initializeWorkForms: " + DB_ADD_ERROR, er)
+                ).isDisposed();
+    }
+
+    /**
+     * Получение из базы данных списка сущностей {@link Journal}
+     *
+     * @return список всех сущностей {@link Journal} в базе данных
      */
     public Single<List<Journal>> getJournalList() {
-        return Single.create((SingleOnSubscribe<List<Journal>>)
-                emitter -> {
-                    List<Journal> list = journalDao.getAll();
-                    emitter.onSuccess(list);
-                }).subscribeOn(Schedulers.io());
+        return journalDao.getAll().subscribeOn(Schedulers.io());
     }
 
     /**
-     * @return Возвращает список Обобщенных трудовых функций в обертке {@link Single}
+     * Получение из базы данных списка сущностей {@link OTF}
+     *
+     * @return список всех сущностей {@link OTF} в базе данных
      */
     public Single<List<OTF>> getOTFList() {
-        return Single.create((SingleOnSubscribe<List<OTF>>)
-                emitter -> {
-                    List<OTF> list = otfDao.getAllOtf();
-                    emitter.onSuccess(list);
-                }).subscribeOn(Schedulers.io());
+        return otfDao.getAllOtf().subscribeOn(Schedulers.io());
     }
 
     /**
-     * @param idOTF id Обобщенной трудовой функции, к которой относится список возвращаемых Трудовых функций
-     * @return Возвращает список Трудовых функций, относящихся к указанной Обобщенной трудовой функции в обертке {@link Single}
+     * Получение из базы данных списка сущностей {@link TF}
+     *
+     * @return список всех сущностей {@link TF} в базе данных
      */
     public Single<List<TF>> getTFList(int idOTF) {
-        return Single.create((SingleOnSubscribe<List<TF>>)
-                emitter -> {
-                    List<TF> list = tfDao.getTfByOtf(idOTF);
-                    emitter.onSuccess(list);
-                }).subscribeOn(Schedulers.io());
+        return tfDao.getTfByOtf(idOTF).subscribeOn(Schedulers.io());
     }
 
     /**
-     * @param idTF id Трудовой функции, к которой относятся возвращаемые Трудовые действия
-     * @return Возвращает список Трудовых действий, относящихся к указанной Трудовой функции в обертке {@link Single}
+     * Получение из базы данных списка сущностей {@link TD}
+     *
+     * @return список всех сущностей {@link TD} в базе данных
      */
     public Single<List<TD>> getTDList(int idTF) {
-        return Single.create((SingleOnSubscribe<List<TD>>)
-                emitter -> {
-                    List<TD> list = tdDao.getTdByTf(idTF);
-                    emitter.onSuccess(list);
-                }).subscribeOn(Schedulers.io());
+        return tdDao.getTdByTf(idTF).subscribeOn(Schedulers.io());
     }
 
     /**
-     * @return Возвращает список категорий людей, с которыми работает пользователь в обертке {@link Single}
+     * Получение из базы данных списка сущностей {@link Category}
+     *
+     * @return список всех сущностей {@link Category} в базе данных
      */
     public Single<List<Category>> getListCategory() {
-        return Single.create((SingleOnSubscribe<List<Category>>)
-                emitter -> {
-                    List<Category> list = categoryDao.getAllCategories();
-                    emitter.onSuccess(list);
-                }
-        ).subscribeOn(Schedulers.io());
+        return categoryDao.getAllCategories().subscribeOn(Schedulers.io());
     }
 
     /**
-     * @return Возвращает список групп(классов), с которыми работает пользователь в обертке {@link Single}
+     * Получение из базы данных списка сущностей {@link Group}
+     *
+     * @return список всех сущностей {@link Group} в базе данных
      */
     public Single<List<Group>> getListGroups() {
-        return Single.create((SingleOnSubscribe<List<Group>>)
-                emitter -> {
-                    List<Group> list = groupDao.getAllGroups();
-                    emitter.onSuccess(list);
-                }
-        ).subscribeOn(Schedulers.io());
+        return groupDao.getAllGroups().subscribeOn(Schedulers.io());
     }
 
     /**
-     * @return Возвращает список форм работы пользователя в обертке {@link Single}
+     * Получение из базы данных списка сущностей {@link WorkForm}
+     *
+     * @return список всех сущностей {@link WorkForm} в базе данных
      */
     public Single<List<WorkForm>> getListWorkForms() {
-        return Single.create((SingleOnSubscribe<List<WorkForm>>)
-                emitter -> {
-                    List<WorkForm> list = workFormDao.getAllWorkForms();
-                    emitter.onSuccess(list);
-                }
-        ).subscribeOn(Schedulers.io());
+        return workFormDao.getAllWorkForms().subscribeOn(Schedulers.io());
     }
 
     /**
-     * @param journal Заполненная строчка, вставляемая в БД в таблицу {@link Journal}
-     * @return Возвращает id вставленной строчки в обертке {@link Single}
+     * Добавление новой строки {@link Journal} в базу данных
+     *
+     * @param journal заполненная строка, вставляемая в БД в таблицу {@link Journal}
+     * @return id вставленной строки
      */
     public Single<Long> insertItemJournal(Journal journal) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    long id = journalDao.insert(journal);
-                    emitter.onSuccess(id);
-                }
-        ).subscribeOn(Schedulers.io());
+        return journalDao.insert(journal).subscribeOn(Schedulers.io());
     }
 
     /**
-     * @param journal Удаляемая строка таблицы {@link Journal}
-     * @return id удаленной строчки в обертке {@link Single}
+     * Удаление из базы данных строки {@link Journal}
+     *
+     * @param journal удаляемая строка таблицы {@link Journal}
+     * @return id удаленной строки
      */
     public Single<Integer> deleteItemJournal(Journal journal) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = journalDao.delete(journal);
-                    emitter.onSuccess(id);
-                }
-        ).subscribeOn(Schedulers.io());
+        return journalDao.delete(journal).subscribeOn(Schedulers.io());
     }
 
     /**
-     * @param journal Обновленная строчка таблицы {@link Journal}
-     * @return id обновленной строчки в обертке {@link Single}
+     * Редактирование строки {@link Journal}
+     *
+     * @param journal обновленная строка таблицы {@link Journal}
+     * @return id обновленной строки
      */
     public Single<Integer> updateItemJournal(Journal journal) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = journalDao.update(journal);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
+        return journalDao.update(journal).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод получения из БД строчки таблицы {@link Journal} по id, обернутый в {@link Single}
+     * Получить из базы данных строчки таблицы {@link Journal} по id
      *
      * @param id идентификатор возвращаемой строки
      * @return строка в виде объекта
      */
     public Single<Journal> getItemJournal(int id) {
-        return Single.create((SingleOnSubscribe<Journal>)
-                emitter -> {
-                    Journal item = journalDao.getItemJournal(id);
-                    emitter.onSuccess(item);
-                }).subscribeOn(Schedulers.io());
+        return journalDao.getItemJournal(id).subscribeOn(Schedulers.io());
     }
 
     /**
-     * @param otf Вставляемая Обобщенная трудовая функция
-     * @return id вставленной {@link OTF} в обертке {@link Single}
+     * Добавление новой строки {@link OTF} в базу данных
+     *
+     * @param otf заполненная строка, вставляемая в БД в таблицу {@link OTF}
+     * @return id вставленной строки
      */
     public Single<Long> insertItemOTF(OTF otf) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    long id = otfDao.insert(otf);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
+        return otfDao.insert(otf).subscribeOn(Schedulers.io());
     }
 
     /**
-     * @param otf Удаляемая Обобщенная трудовая функция
-     * @return id удаленной {@link OTF} в обертке {@link Single}
+     * Удаление из базы данных строки {@link OTF}
+     *
+     * @param otf удаляемая строка таблицы {@link OTF}
+     * @return id удаленной строки
      */
     public Single<Integer> deleteItemOTF(OTF otf) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = otfDao.delete(otf);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> updateItemOTF(OTF otf) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = otfDao.update(otf);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
+        return otfDao.delete(otf).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод получения из БД строчки таблицы {@link OTF} по id, обернутый в {@link Single}
+     * Редактирование строки {@link OTF}
+     *
+     * @param otf обновленная строка таблицы {@link OTF}
+     * @return id обновленной строки
+     */
+    public Single<Integer> updateItemOTF(OTF otf) {
+        return otfDao.update(otf).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Получить из базы данных строчки таблицы {@link OTF} по id
      *
      * @param id идентификатор возвращаемой строки
      * @return строка в виде объекта
      */
     public Single<OTF> getItemOTF(int id) {
-        return Single.create((SingleOnSubscribe<OTF>)
-                emitter -> {
-                    OTF item = otfDao.getItemOtf(id);
-                    emitter.onSuccess(item);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Long> insertItemTF(TF tf) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    long id = tfDao.insert(tf);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> deleteItemTF(TF tf) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = tfDao.delete(tf);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> updateItemTF(TF tf) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = tfDao.update(tf);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
+        return otfDao.getItemOtf(id).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод получения из БД строчки таблицы {@link TF} по id, обернутый в {@link Single}
+     * Добавление новой строки {@link TF} в базу данных
+     *
+     * @param tf заполненная строка, вставляемая в БД в таблицу {@link TF}
+     * @return id вставленной строки
+     */
+    public Single<Long> insertItemTF(TF tf) {
+        return tfDao.insert(tf).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Удаление из базы данных строки {@link TF}
+     *
+     * @param tf удаляемая строка таблицы {@link TF}
+     * @return id удаленной строки
+     */
+    public Single<Integer> deleteItemTF(TF tf) {
+        return tfDao.delete(tf).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Редактирование строки {@link TF}
+     *
+     * @param tf обновленная строка таблицы {@link TF}
+     * @return id обновленной строки
+     */
+    public Single<Integer> updateItemTF(TF tf) {
+        return tfDao.update(tf).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Получить из базы данных строчки таблицы {@link TF} по id
      *
      * @param id идентификатор возвращаемой строки
      * @return строка в виде объекта
      */
     public Single<TF> getItemTF(int id) {
-        return Single.create((SingleOnSubscribe<TF>)
-                emitter -> {
-                    TF item = tfDao.getItemTF(id);
-                    emitter.onSuccess(item);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Long> insertItemTD(TD td) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    long id = tdDao.update(td);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> deleteItemTD(TD td) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = tdDao.delete(td);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> updateItemTD(TD td) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = tdDao.update(td);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
+        return tfDao.getItemTF(id).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод получения из БД строчки таблицы {@link TD} по id, обернутый в {@link Single}
+     * Добавление новой строки {@link TD} в базу данных
+     *
+     * @param td заполненная строка, вставляемая в БД в таблицу {@link TD}
+     * @return id вставленной строки
+     */
+    public Single<Integer> insertItemTD(TD td) {
+        return tdDao.update(td).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Удаление из базы данных строки {@link TD}
+     *
+     * @param td удаляемая строка таблицы {@link TD}
+     * @return id удаленной строки
+     */
+    public Single<Integer> deleteItemTD(TD td) {
+        return tdDao.delete(td).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Редактирование строки {@link TD}
+     *
+     * @param td обновленная строка таблицы {@link TD}
+     * @return id обновленной строки
+     */
+    public Single<Integer> updateItemTD(TD td) {
+        return tdDao.update(td).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Получить из базы данных строчки таблицы {@link TD} по id
      *
      * @param id идентификатор возвращаемой строки
      * @return строка в виде объекта
      */
     public Single<TD> getItemTD(int id) {
-        return Single.create((SingleOnSubscribe<TD>)
-                emitter -> {
-                    TD item = tdDao.getItemTD(id);
-                    emitter.onSuccess(item);
-                }).subscribeOn(Schedulers.io());
+        return tdDao.getItemTD(id).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод получения из БД строчки таблицы {@link TD} по коду, обернутый в {@link Single}
+     * Получить из БД строку таблицы {@link TD} по коду
      *
      * @param code код возвращаемой строки (код в виде пустой строки = "Иная деятельность")
      * @return строка в виде объекта
      */
     public Single<TD> getTdByCode(String code) {
-        return Single.create((SingleOnSubscribe<TD>)
-                emitter -> {
-                    TD item = tdDao.getTdByCode(code);
-                    emitter.onSuccess(item);
-                }).subscribeOn(Schedulers.io());
+        return tdDao.getTdByCode(code).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод вставки новой Категории в БД, обернутый в {@link Single}
+     * Добавление новой строки {@link Category} в базу данных
      *
-     * @param category Вставляемая Категория
-     * @return id строки, вставленной в БД в таблицу {@link Category}
+     * @param category заполненная строка, вставляемая в БД в таблицу {@link Category}
      */
     public Single<Long> insertItemCategory(Category category) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    long id = categoryDao.insert(category);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> deleteItemCategory(Category category) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = categoryDao.delete(category);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> updateItemCategory(Category category) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = categoryDao.update(category);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
+        return categoryDao.insert(category).subscribeOn(Schedulers.io());
+        /*categoryDao.insert(category)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Log.i(DB_LOGS, "insertItemCategory: " + DB_ADD_GOOD),
+                        er -> Log.e(DB_LOGS, "insertItemCategory: " + DB_ADD_ERROR, er)
+                ).isDisposed();*/
     }
 
     /**
-     * Метод получения из БД строчки таблицы {@link Category} по id, обернутый в {@link Single}
+     * Удаление из базы данных строки {@link Category}
+     *
+     * @param category удаляемая строка таблицы {@link Category}
+     * @return id удаленной строки
+     */
+    public Single<Integer> deleteItemCategory(Category category) {
+        return categoryDao.delete(category).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Редактирование строки {@link Category}
+     *
+     * @param category обновленная строка таблицы {@link Category}
+     * @return id обновленной строки
+     */
+    public Single<Integer> updateItemCategory(Category category) {
+        return categoryDao.update(category).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Получить из базы данных строчки таблицы {@link Category} по id
      *
      * @param id идентификатор возвращаемой строки
      * @return строка в виде объекта
      */
     public Single<Category> getItemCategory(int id) {
-        return Single.create((SingleOnSubscribe<Category>)
-                emitter -> {
-                    Category item = categoryDao.getItemCategory(id);
-                    emitter.onSuccess(item);
-                }).subscribeOn(Schedulers.io());
+        return categoryDao.getItemCategory(id).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод вставки новой Группы в БД, обернутый в {@link Single}
+     * Добавление новой строки {@link Group} в базу данных
      *
-     * @param group Вставляемая Группа
-     * @return id строки, вставленной в БД в таблицу {@link Group}
+     * @param group заполненная строка, вставляемая в БД в таблицу {@link Group}
+     * @return id вставленной строки
      */
     public Single<Long> insertItemGroup(Group group) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    long id = groupDao.insert(group);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> deleteItemGroup(Group group) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = groupDao.delete(group);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> updateItemGroup(Group group) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = groupDao.update(group);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
+        return groupDao.insert(group).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод получения из БД строчки таблицы {@link Group} по id, обернутый в {@link Single}
+     * Удаление из базы данных строки {@link Group}
+     *
+     * @param group удаляемая строка таблицы {@link Group}
+     * @return id удаленной строки
+     */
+    public Single<Integer> deleteItemGroup(Group group) {
+        return groupDao.delete(group).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Редактирование строки {@link Group}
+     *
+     * @param group обновленная строка таблицы {@link Group}
+     * @return id обновленной строки
+     */
+    public Single<Integer> updateItemGroup(Group group) {
+        return groupDao.update(group).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Получить из базы данных строчки таблицы {@link Group} по id
      *
      * @param id идентификатор возвращаемой строки
      * @return строка в виде объекта
      */
     public Single<Group> getItemGroup(int id) {
-        return Single.create((SingleOnSubscribe<Group>)
-                emitter -> {
-                    Group item = groupDao.getItemGroup(id);
-                    emitter.onSuccess(item);
-                }).subscribeOn(Schedulers.io());
+        return groupDao.getItemGroup(id).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод вставки новой Формы работы в БД, обернутый в {@link Single}
+     * Добавление новой строки {@link WorkForm} в базу данных
      *
-     * @param workForm Вставляемая форма работы
-     * @return id строки вставленной в БД в таблицу {@link WorkForm}
+     * @param workForm заполненная строка, вставляемая в БД в таблицу {@link WorkForm}
+     * @return id вставленной строки
      */
     public Single<Long> insertItemWorkForm(WorkForm workForm) {
-        return Single.create((SingleOnSubscribe<Long>)
-                emitter -> {
-                    long id = workFormDao.insert(workForm);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> deleteItemWorkForm(WorkForm workForm) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = workFormDao.delete(workForm);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> updateItemWorkForm(WorkForm workForm) {
-        return Single.create((SingleOnSubscribe<Integer>)
-                emitter -> {
-                    int id = workFormDao.update(workForm);
-                    emitter.onSuccess(id);
-                }).subscribeOn(Schedulers.io());
+        return workFormDao.insert(workForm).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод получения из БД строчки таблицы {@link WorkForm} по id, обернутый в {@link Single}
+     * Удаление из базы данных строки {@link WorkForm}
+     *
+     * @param workForm удаляемая строка таблицы {@link WorkForm}
+     * @return id удаленной строки
+     */
+    public Single<Integer> deleteItemWorkForm(WorkForm workForm) {
+        return workFormDao.delete(workForm).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Редактирование строки {@link WorkForm}
+     *
+     * @param workForm обновленная строка таблицы {@link WorkForm}
+     * @return id обновленной строки
+     */
+    public Single<Integer> updateItemWorkForm(WorkForm workForm) {
+        return workFormDao.update(workForm).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Получить из базы данных строчки таблицы {@link WorkForm} по id
      *
      * @param id идентификатор возвращаемой строки
      * @return строка в виде объекта
      */
     public Single<WorkForm> getItemWorkForm(int id) {
-        return Single.create((SingleOnSubscribe<WorkForm>)
-                emitter -> {
-                    WorkForm item = workFormDao.getItemWorkWorm(id);
-                    emitter.onSuccess(item);
-                }).subscribeOn(Schedulers.io());
-    }
-
-    public Single<List<ReportData>> getReport(int idOTF, long dateFrom, long dateTo) {
-        return reportDao.getReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
+        return workFormDao.getItemWorkWorm(id).subscribeOn(Schedulers.io());
     }
 
     /**
@@ -525,16 +519,16 @@ public class RoomHelper {
      * @param idOTF    id выбранной ОТФ
      * @param dateFrom Начало периода отчета
      * @param dateTo   Конец периода отчета
-     * @return Возвращает список объектов {@link Journal} в обертке {@link Single}
+     * @return список объектов {@link Journal}
      */
-    public Single<List<Journal>> getLaborFunctionReport(int idOTF, long dateFrom, long dateTo) {
-        return journalDao.getLaborFunctionReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
+    public Single<List<ReportData>> getReport(int idOTF, long dateFrom, long dateTo) {
+        return reportDao.getReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
     }
 
     /**
-     * Метод получения из таблицы {@link Journal} всех заполненных ФИО
+     * Получить из таблицы {@link Journal} список всех заполненных ФИО
      *
-     * @return Возвращает список ФИО из таблицы БД {@link Journal} в обертке {@link Single}
+     * @return список ФИО из таблицы БД {@link Journal}
      */
     public Single<List<String>> getListFullNames() {
         return journalDao.getListFullNames().subscribeOn(Schedulers.io());

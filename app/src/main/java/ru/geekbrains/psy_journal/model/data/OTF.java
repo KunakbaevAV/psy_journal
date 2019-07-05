@@ -5,6 +5,9 @@ import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_OTF;
 
+/**
+ * Обобщенная трудовая функция - термин из профстандарта
+ */
 @Entity(tableName = TABLE_OTF)
 public class OTF implements Functional {
 
@@ -13,17 +16,17 @@ public class OTF implements Functional {
     private String code;
     private String name;
 
-	public OTF(int id, String code, String name) {
+    public OTF(int id, String code, String name) {
         this.id = id;
         this.code = code;
         this.name = name;
     }
 
-	public int getId() {
+    public int getId() {
         return id;
     }
 
-	public void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

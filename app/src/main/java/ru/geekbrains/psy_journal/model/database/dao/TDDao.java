@@ -18,28 +18,28 @@ import ru.geekbrains.psy_journal.model.data.TD;
 public interface TDDao {
 
     @Query("SELECT * FROM TD")
-    List<TD> getAllTd();
+    Single<List<TD>> getAllTd();
 
     @Query("SELECT * FROM TD WHERE idTF = :idTF")
-    List<TD> getTdByTf(int idTF);
+    Single<List<TD>> getTdByTf(int idTF);
 
     @Query("SELECT * FROM TD WHERE id = :id")
-    TD getItemTD(int id);
+    Single<TD> getItemTD(int id);
 
     @Query("SELECT * FROM TD WHERE code = :code")
-    TD getTdByCode(String code);
+    Single<TD> getTdByCode(String code);
 
 	//первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<TD> tdList);
 
     @Insert
-    long insert(TD td);
+    Single<Long> insert(TD td);
 
     @Delete
-    int delete(TD td);
+    Single<Integer> delete(TD td);
 
     @Update
-    int update(TD td);
+    Single<Integer> update(TD td);
 
 }

@@ -17,19 +17,19 @@ import ru.geekbrains.psy_journal.model.data.Group;
 public interface GroupDao {
 
     @Query("SELECT * FROM `Group`")
-    List<Group> getAllGroups();
+    Single<List<Group>> getAllGroups();
 
     @Query("SELECT * FROM `Group` WHERE id = :id")
-    Group getItemGroup(int id);
+    Single<Group> getItemGroup(int id);
 
     @Insert
-    long insert(Group group);
+    Single<Long> insert(Group group);
 
     @Delete
-    int delete(Group group);
+    Single<Integer> delete(Group group);
 
     @Update
-    int update(Group group);
+    Single<Integer> update(Group group);
 
     //первичная инициализация
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -13,6 +13,9 @@ public class Constants {
     public static final String DATABASE_NAME = "psy_journal_db";
 
     public static final String TAG = "Psy7";
+    public static final String DB_LOGS = "DB_logs";
+    public static final String DB_ADD_GOOD = "Добавлено в базу данных успешно";
+    public static final String DB_ADD_ERROR = "При загрузке в базу данных возникла ошибка";
     //код иной деятельности
 	public static final String CODE_OF_OTHER_ACTIVITY = "";
 
@@ -30,6 +33,9 @@ public class Constants {
     public static final String ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE = "Error inserting catalog item to database";
 
 	public static final String PATTERN_DATE = "dd.MM.yy";
+
+    public static final String PREFERENCES = "preferences";
+    public static final String FIRST_START = "first_start";
 
 
 }

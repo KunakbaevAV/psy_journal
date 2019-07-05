@@ -36,15 +36,15 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		return journal;
 	}
 
-	private void getNames(){
-		disposable = roomHelper.getListFullNames()
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(list -> getViewState().getNames(list),
-				e -> Log.e("getNames: ", e.getMessage()));
-	}
+    private void getNames() {
+        disposable = roomHelper.getListFullNames()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list -> getViewState().getNames(list),
+                        e -> Log.e("getNames: ", e.getMessage()));
+    }
 
 	public void initialize(Journal journal){
-		getNames();
+        getNames();
 		if (journal == null) this.journal = new Journal();
 		else {
 			this.journal = journal;
@@ -58,7 +58,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		getViewState().showNumberOfPeople(journal.getQuantityPeople());
 		getViewState().showHours(journal.getWorkTime());
 		getCategory(journal.getIdCategory());
-		getCroup(journal.getIdGroup());
+		getGroup(journal.getIdGroup());
 		getViewState().showName(journal.getName());
 		getViewState().showDeclaredRequest(journal.getDeclaredRequest());
 		getViewState().showRealRequest(journal.getRealRequest());
@@ -75,12 +75,12 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 				e -> Log.e("getWorkForm: ", e.getMessage()));
 	}
 
-	private void getCroup(int id){
+	private void getGroup(int id) {
 		if (id == 0) return;
 		disposable = roomHelper.getItemGroup(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(group -> getViewState().showGroup(group.getName()),
-				e -> Log.e("getCroup: ", e.getMessage()));
+					e -> Log.e("getGroup: ", e.getMessage()));
 	}
 
 	private void getCategory(int id){

@@ -39,7 +39,8 @@ public interface AddWorkView extends MvpView {
 	void openDialogue(Functional function);
 	@StateStrategyType(SingleStateStrategy.class)
     void closeDialogs();
-	@StateStrategyType(AddToEndSingleStrategy.class)
-	void getNames(List<String> names);
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void getNames(List<String> names);
 	void showToast(String message);
 }

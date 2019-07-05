@@ -24,25 +24,28 @@ import ru.geekbrains.psy_journal.view.fragment.ReportingFragment;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class ReportSelectionDialog extends AbstractDialog implements
-	ReportSelectionView,
-	GivenBySettableDate,
-	GivenBySettableFunction {
+		ReportSelectionView,
+		GivenBySettableDate,
+		GivenBySettableFunction {
 
-	@BindView(R.id.otf_text) TextInputEditText otfView;
-	@BindView(R.id.report_date_begin_text) TextInputEditText fromView;
-	@BindView(R.id.report_date_end_text) TextInputEditText toView;
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
+	@BindView(R.id.otf_text)
+	TextInputEditText otfView;
+	@BindView(R.id.report_date_begin_text)
+	TextInputEditText fromView;
+	@BindView(R.id.report_date_end_text)
+	TextInputEditText toView;
+	@InjectPresenter
+	ReportSelectionPresenter selectionPresenter;
+	private final DialogInterface.OnClickListener listener = (dialog, which) -> {
+		if (selectionPresenter.isCollectedAll()) dismiss();
+	};
+	private Unbinder unbinder;
 
-	@InjectPresenter ReportSelectionPresenter selectionPresenter;
-
-	@ProvidePresenter ReportSelectionPresenter providePresenter(){
+	@ProvidePresenter
+	ReportSelectionPresenter providePresenter() {
 		return new ReportSelectionPresenter();
 	}
-
-	private final DialogInterface.OnClickListener listener = (dialog, which) -> {
-		if(selectionPresenter.isCollectedAll()) dismiss();
-	};
-	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
-	private Unbinder unbinder;
 
 	@Override
 	protected View createView() {
@@ -59,8 +62,8 @@ public class ReportSelectionDialog extends AbstractDialog implements
 		return getResources().getString(R.string.report_of_generalized_labor_functions);
 	}
 
-	private void initialize(){
-		if (getActivity() != null){
+	private void initialize() {
+		if (getActivity() != null) {
 			otfView.setOnClickListener(v -> OTFDialog.newInstance(Constants.TAG_OTF_SELECTION).show(getActivity().getSupportFragmentManager(), getString(R.string.OTF)));
 			fromView.setOnClickListener(v -> determineDate(true));
 			toView.setOnClickListener(v -> determineDate(false));
@@ -70,7 +73,7 @@ public class ReportSelectionDialog extends AbstractDialog implements
 		}
 	}
 
-	private void determineDate(boolean isFrom){
+	private void determineDate(boolean isFrom) {
 		if (getActivity() == null) return;
 		selectionPresenter.setFrom(isFrom);
 		DateSettingDialog.newInstance(Constants.TAG_OTF_SELECTION).show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER);
@@ -96,7 +99,7 @@ public class ReportSelectionDialog extends AbstractDialog implements
 		if (getActivity() != null) {
 			FragmentManager manager = getActivity().getSupportFragmentManager();
 			OTFDialog dialog = (OTFDialog) manager.findFragmentByTag(getString(R.string.OTF));
-			if (dialog != null)	manager.beginTransaction().remove(dialog).commit();
+			if (dialog != null) manager.beginTransaction().remove(dialog).commit();
 		}
 	}
 
@@ -111,14 +114,14 @@ public class ReportSelectionDialog extends AbstractDialog implements
 	}
 
 	@Override
-	public void transferData(int idOTF, long from, long unto){
+	public void transferData(int idOTF, long from, long unto) {
 		if (getActivity() == null) return;
 		getActivity().getSupportFragmentManager()
-			.beginTransaction()
-			.add(R.id.frame_master, ReportingFragment.newInstance(idOTF, from, unto), "Tag report")
-			.addToBackStack(TAG_ADD_WORK)
-			.commit();
-	}
+				.beginTransaction()
+				.add(R.id.frame_master, ReportingFragment.newInstance(idOTF, from, unto), "Tag report")
+				.addToBackStack(TAG_ADD_WORK)
+				.commit();
+    }
 
 	@Override
 	public void onDestroyView() {

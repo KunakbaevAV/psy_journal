@@ -63,7 +63,7 @@
                 android:paddingBottom="@dimen/padding_vertical"
                 android:cursorVisible="false"
                 android:imeOptions="actionDone"
-                android:inputType="textPersonName|textAutoCorrect"/>
+                android:inputType="textPersonName|textAutoCorrect" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_CATEGORY;
 
+/**
+ * Категория людей, с которыми проводится работа
+ */
 @Entity(tableName = TABLE_CATEGORY)
 public class Category implements Catalog {
 

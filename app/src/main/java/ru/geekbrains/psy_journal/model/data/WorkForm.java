@@ -7,6 +7,9 @@ import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_WORK_FORM;
 
+/**
+ * Формы, в которых проводилась работа пользователя
+ */
 @Entity(tableName = TABLE_WORK_FORM)
 public class WorkForm implements Catalog {
 
