@@ -11,4 +11,5 @@
     <dimen name="padding_vertical">20dp</dimen>
     <dimen name="padding_gorizontal">12dp</dimen>
     <dimen name="medium_text">20sp</dimen>
+    <dimen name="bottom_tab_layout">256dp</dimen>
 </resources>
