@@ -1,5 +1,7 @@
 package ru.geekbrains.psy_journal.model.database;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,8 @@ import ru.geekbrains.psy_journal.model.data.OTF;
 import ru.geekbrains.psy_journal.model.data.TD;
 import ru.geekbrains.psy_journal.model.data.TF;
 import ru.geekbrains.psy_journal.model.data.WorkForm;
+
+import static ru.geekbrains.psy_journal.Constants.TAG;
 
 /**
  * Огромный такой костыль, который сейчас заменяет класс, который должен парсить xml с профстандартом
@@ -38,7 +42,6 @@ public class DataBaseFirstLoader {
         roomHelper.initializeOTF(otfList);
 
         initTfList();
-        addOtherWorkActivities();
         roomHelper.initializeTF(tfList);
 
         initTdList();
@@ -52,6 +55,8 @@ public class DataBaseFirstLoader {
 
         initWorkFormList();
         roomHelper.initializeWorkForms(workFormList);
+
+        addOtherWorkActivities();
     }
 
     private void initWorkFormList() {
@@ -184,7 +189,20 @@ public class DataBaseFirstLoader {
     private void addOtherWorkActivities() {
         int tfSize = tfList.size();
         for (int i = 0; i < otfList.size(); i++) {
-            tfList.add(new TF(++tfSize, Constants.CODE_OF_OTHER_ACTIVITY, "иная деятельность", i + 1));
+            tfList.add(new TF(++tfSize,
+                    Constants.CODE_OF_OTHER_ACTIVITY,
+                    "иная деятельность",
+                    i + 1));
+            addOtherTD(tfSize);
         }
+    }
+
+    private void addOtherTD(int idTF) {
+        int tdSize = tdList.size();
+        tdList.add(new TD(++tdSize,
+                Constants.CODE_OF_OTHER_ACTIVITY,
+                "иная деятельность",
+                idTF));
+        Log.d(TAG, "addOtherTD: id = " + tdSize);
     }
 }
