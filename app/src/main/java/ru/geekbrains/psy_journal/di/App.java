@@ -2,15 +2,13 @@ package ru.geekbrains.psy_journal.di;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import javax.inject.Inject;
 
-import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
+import ru.geekbrains.psy_journal.data.database.DataBaseFirstLoader;
 
 import static ru.geekbrains.psy_journal.Constants.FIRST_START;
 import static ru.geekbrains.psy_journal.Constants.PREFERENCES;
-import static ru.geekbrains.psy_journal.Constants.TAG;
 
 public class App extends Application {
 
