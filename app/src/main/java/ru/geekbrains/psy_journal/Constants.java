@@ -17,7 +17,8 @@ public class Constants {
     public static final String DB_ADD_GOOD = "Добавлено в базу данных успешно";
     public static final String DB_ADD_ERROR = "При загрузке в базу данных возникла ошибка";
     //код иной деятельности
-	public static final String CODE_OF_OTHER_ACTIVITY = "";
+    public static final String CODE_OF_OTHER_ACTIVITY_SUFFIX = "/0";
+    public static final String NAME_OF_OTHER_ACTIVITY = "Иная деятельность";
 
     public static final String KEY_TITLE = "key title";
     public static final String KEY_ID = "key id";

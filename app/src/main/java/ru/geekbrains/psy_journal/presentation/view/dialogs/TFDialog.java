@@ -38,6 +38,10 @@ public class TFDialog extends OTFDialog{
 
 	@Override
 	public void openNewFeature(Functional function) {
-		settableByFunction.setFunction(function, function.getCode().equals(Constants.CODE_OF_OTHER_ACTIVITY));
+		settableByFunction.setFunction(function, isOtherActivity(function));
+	}
+
+	private boolean isOtherActivity(Functional functional) {
+		return functional.getCode().endsWith(Constants.CODE_OF_OTHER_ACTIVITY_SUFFIX);
 	}
 }

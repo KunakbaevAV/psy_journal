@@ -1,13 +1,10 @@
 package ru.geekbrains.psy_journal.data.database;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
@@ -17,7 +14,7 @@ import ru.geekbrains.psy_journal.data.repositories.model.TD;
 import ru.geekbrains.psy_journal.data.repositories.model.TF;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 
-import static ru.geekbrains.psy_journal.Constants.TAG;
+import static ru.geekbrains.psy_journal.Constants.*;
 
 /**
  * Огромный такой костыль, который сейчас заменяет класс, который должен парсить xml с профстандартом
@@ -190,20 +187,24 @@ public class DataBaseFirstLoader {
     private void addOtherWorkActivities() {
         int tfSize = tfList.size();
         for (int i = 0; i < otfList.size(); i++) {
+            String codeOtherWorkActivity = getCodeOtherWorkActivity(i);
             tfList.add(new TF(++tfSize,
-                    Constants.CODE_OF_OTHER_ACTIVITY,
-                    "иная деятельность",
+                    codeOtherWorkActivity,
+                    NAME_OF_OTHER_ACTIVITY,
                     i + 1));
-            addOtherTD(tfSize);
+            addOtherTD(tfSize, codeOtherWorkActivity);
         }
     }
 
-    private void addOtherTD(int idTF) {
+    private String getCodeOtherWorkActivity(int i) {
+        return otfList.get(i).getCode().concat(CODE_OF_OTHER_ACTIVITY_SUFFIX);
+    }
+
+    private void addOtherTD(int idTF, String codeOtherWorkActivity) {
         int tdSize = tdList.size();
         tdList.add(new TD(++tdSize,
-                Constants.CODE_OF_OTHER_ACTIVITY,
-                "иная деятельность",
+                codeOtherWorkActivity,
+                NAME_OF_OTHER_ACTIVITY,
                 idTF));
-        Log.d(TAG, "addOtherTD: id = " + tdSize);
     }
 }
