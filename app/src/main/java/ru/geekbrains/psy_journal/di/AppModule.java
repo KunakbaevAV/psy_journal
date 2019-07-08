@@ -19,7 +19,7 @@ import ru.geekbrains.psy_journal.data.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.data.database.dao.TDDao;
 import ru.geekbrains.psy_journal.data.database.dao.TFDao;
 import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
-import ru.geekbrains.psy_journal.presentation.factory.CatalogFactory;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.factory.CatalogFactory;
 
 import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
 

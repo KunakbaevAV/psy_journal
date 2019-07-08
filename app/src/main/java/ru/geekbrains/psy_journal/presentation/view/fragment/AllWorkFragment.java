@@ -24,6 +24,7 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.presentation.presenter.AllWorkPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.AllWorkView;
 import ru.geekbrains.psy_journal.presentation.view.MainActivity;
 
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;

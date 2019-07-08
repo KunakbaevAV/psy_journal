@@ -26,6 +26,7 @@ public class App extends Application {
         super.onCreate();
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
+	            .fileModule(new FileModule(this))
                 .build();
         appComponent.inject(this);
         if (checkIsFirstStart()) dataBaseFirstLoader.initDataBase();

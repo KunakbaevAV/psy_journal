@@ -11,9 +11,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.domain.models.ReportData;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.view.fragment.ReportingView;
-import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.ReportRelated;
-import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.ReportShown;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportingView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportRelated;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportShown;
 
 @InjectViewState
 public class ReportPresenter extends MvpPresenter<ReportingView> {

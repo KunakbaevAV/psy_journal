@@ -12,7 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.EditableDialogPresenter;
-import ru.geekbrains.psy_journal.presentation.view.fragment.IViewHolderCatalog;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.IViewHolderCatalog;
 
 public class EditableDialogAdapter extends RecyclerView.Adapter<EditableDialogAdapter.ViewHolder> {
 

@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.view.fragment.adapters;
+package ru.geekbrains.psy_journal.presentation.presenter.view_ui;
 
 import ru.geekbrains.psy_journal.presentation.presenter.Derivable;
 

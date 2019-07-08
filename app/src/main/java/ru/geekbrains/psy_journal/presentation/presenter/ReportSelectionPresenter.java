@@ -6,8 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.Calendar;
 
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionView;
-import ru.geekbrains.psy_journal.presentation.view.fragment.Collectable;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportSelectionView;
 
 @InjectViewState
 public class ReportSelectionPresenter extends MvpPresenter<ReportSelectionView> implements

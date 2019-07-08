@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.IRecyclerAllWorkPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.IViewHolder;
 
 public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHolder> {
 
