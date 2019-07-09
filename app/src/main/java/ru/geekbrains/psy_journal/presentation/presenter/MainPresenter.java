@@ -12,6 +12,8 @@ import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.domain.file.CreatedByExcel;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ShownMessage;
 
+import static ru.geekbrains.psy_journal.Constants.TAG;
+
 @InjectViewState
 public class MainPresenter extends MvpPresenter<ShownMessage> {
 
@@ -27,6 +29,7 @@ public class MainPresenter extends MvpPresenter<ShownMessage> {
 				if (list.isEmpty()) showMessage("база пуста");
 				else{
 					try {
+						Log.d(TAG, "createExcelFile: размер полученного списка ReportingJournal = " + list.size());
 						excel.create(list);
 						getViewState().showMessage("файл записан в DOCUMENTS/Reports");
 					}catch (IOException e){

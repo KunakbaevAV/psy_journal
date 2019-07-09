@@ -35,6 +35,7 @@ import static ru.geekbrains.psy_journal.Constants.DB_ADD_ERROR;
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_GOOD;
 import static ru.geekbrains.psy_journal.Constants.DB_LOGS;
 import static ru.geekbrains.psy_journal.Constants.MAPPING_JOURNAL_ERROR;
+import static ru.geekbrains.psy_journal.Constants.TAG;
 
 /**
  * Организация работы с базой данный в дополнительном потоке
@@ -523,6 +524,8 @@ public class RoomHelper {
      * @return список {@link ReportingJournal} в дополнительном потоке
      */
     public Single<List<ReportingJournal>> getListReportingJournal() {
+
+
         return Single.create((SingleOnSubscribe<List<ReportingJournal>>)
                 emitter -> {
                     List<ReportingJournal> list = prepareListReportingJournal();
@@ -531,12 +534,12 @@ public class RoomHelper {
     }
 
     private List<ReportingJournal> prepareListReportingJournal() {
-        List<ReportingJournal> reportingJournals = new ArrayList<>();
+        List<ReportingJournal> reportingJournalList = new ArrayList<>();
         List<Journal> journalList = new ArrayList<>(journalDao.getAllSimple());
         for (Journal j : journalList) {
-            reportingJournals.add(mappingReportingJournal(j));
+            reportingJournalList.add(mappingReportingJournal(j));
         }
-        return reportingJournals;
+        return reportingJournalList;
     }
 
     private ReportingJournal mappingReportingJournal(Journal journal) {
@@ -545,39 +548,44 @@ public class RoomHelper {
         reportingJournal.setDate(journal.getDate());
         reportingJournal.setQuantityPeople(journal.getQuantityPeople());
         reportingJournal.setWorkTime(journal.getWorkTime());
-        reportingJournal.setNameCategory(categoryDao.getItemCategorySimple(journal.getIdCategory()).getName());
-        reportingJournal.setNameGroup(groupDao.getItemGroupSimple(journal.getIdGroup()).getName());
+        reportingJournal.setNameCategory(mappingNameCategory(journal));
+        reportingJournal.setNameGroup(mappingNameGroup(journal));
         reportingJournal.setName(journal.getName());
         reportingJournal.setDeclaredRequest(journal.getDeclaredRequest());
         reportingJournal.setRealRequest(journal.getRealRequest());
-        reportingJournal.setNameWorkForm(workFormDao.getItemWorkFormSimple(journal.getIdWorkForm()).getName());
+        reportingJournal.setNameWorkForm(mappingWorkForm(journal));
         reportingJournal.setCodeTd(journal.getCodeTd());
         reportingJournal.setComment(journal.getComment());
         return reportingJournal;
     }
 
-    private void mappingGetNameCategory(ReportingJournal reportingJournal, int id) {
-        getItemCategory(id)
-                .subscribe(
-                        category -> reportingJournal.setNameCategory(category.getName()),
-                        throwable -> Log.e(MAPPING_JOURNAL_ERROR, "getNameCategory: ", throwable)
-                ).isDisposed();
+    private String mappingNameCategory(Journal journal) {
+        int id = journal.getIdCategory();
+        if (id != 0) {
+            return categoryDao.getItemCategorySimple(id).getName();
+        } else {
+            return null;
+        }
     }
 
-    private void mappingGetNameGroup(ReportingJournal reportingJournal, int id) {
-        getItemGroup(id)
-                .subscribe(
-                        group -> reportingJournal.setNameGroup(group.getName()),
-                        throwable -> Log.e(MAPPING_JOURNAL_ERROR, "getNameCategory: ", throwable)
-                ).isDisposed();
+    private String mappingNameGroup(Journal journal) {
+        int id = journal.getIdGroup();
+        if (id != 0) {
+            return groupDao.getItemGroupSimple(id).getName();
+        } else {
+            return null;
+        }
     }
 
-    private void mappingGetWorkForm(ReportingJournal reportingJournal, int id) {
-        getItemWorkForm(id)
-                .subscribe(
-                        workForm -> reportingJournal.setNameWorkForm(workForm.getName()),
-                        throwable -> Log.e(MAPPING_JOURNAL_ERROR, "getNameCategory: " + throwable.getMessage())
-                ).isDisposed();
+    private String mappingWorkForm(Journal journal) {
+        int id = journal.getIdWorkForm();
+        if (id != 0) {
+            return workFormDao.getItemWorkFormSimple(id).getName();
+        } else {
+            return null;
+        }
     }
+
+
 
 }
