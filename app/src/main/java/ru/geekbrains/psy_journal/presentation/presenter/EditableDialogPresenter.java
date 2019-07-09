@@ -18,9 +18,9 @@ import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.factory.CatalogFactory;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.EditableDialogView;
-import ru.geekbrains.psy_journal.presentation.view.fragment.IViewHolderCatalog;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.factory.CatalogFactory;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.EditableDialogView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.IViewHolderCatalog;
 
 import static ru.geekbrains.psy_journal.Constants.ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE;
 import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABASE;

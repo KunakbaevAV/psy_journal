@@ -14,8 +14,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.FunctionView;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.Displayed;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.FunctionView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.Displayed;
 
 @InjectViewState
 public class DialogFunctionPresenter extends MvpPresenter<FunctionView> implements Bindable {

@@ -15,6 +15,7 @@ import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.data.repositories.model.OTF;
+import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 import ru.geekbrains.psy_journal.domain.models.ReportData;
 import ru.geekbrains.psy_journal.data.repositories.model.TD;
 import ru.geekbrains.psy_journal.data.repositories.model.TF;
@@ -508,4 +509,9 @@ public class RoomHelper {
         return journalDao.getListFullNames().subscribeOn(Schedulers.io());
     }
 
+    //Todo написать получение списка журналов и маппинг Journal в ReportingJournal
+	//желательно сделать через RxJava
+    public Single<List<ReportingJournal>> getListReportingJournal(){
+		return null;
+    }
 }

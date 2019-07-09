@@ -6,10 +6,7 @@ import android.os.Parcelable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
 
@@ -22,8 +19,6 @@ public class Journal implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private long date = new Date().getTime();
-    @Ignore
-    private String dayOfWeek = determineDayOfWeek(date);
     private int quantityPeople;
     private Float workTime = 1.0f;
     private int idCategory;
@@ -40,13 +35,12 @@ public class Journal implements Parcelable {
     }
 
     @Ignore
-    public Journal(long date, String dayOfWeek, String codeTd,
+    public Journal(long date, String codeTd,
                    int idCategory, int idGroup, String name,
                    int quantityPeople, String declaredRequest,
                    String realRequest, int idWorkForm,
                    Float workTime, String comment) {
         this.date = date;
-        this.dayOfWeek = dayOfWeek;
         this.codeTd = codeTd;
         this.idCategory = idCategory;
         this.idGroup = idGroup;
@@ -74,7 +68,6 @@ public class Journal implements Parcelable {
     protected Journal(Parcel in) {
         id = in.readInt();
         date = in.readLong();
-        dayOfWeek = in.readString();
         codeTd = in.readString();
         idCategory = in.readInt();
         idGroup = in.readInt();
@@ -105,11 +98,6 @@ public class Journal implements Parcelable {
 
     public void setDate(long date) {
         this.date = date;
-        dayOfWeek = determineDayOfWeek(date);
-    }
-
-    public String getDayOfWeek() {
-        return dayOfWeek;
     }
 
     public String getCodeTd() {
@@ -192,13 +180,6 @@ public class Journal implements Parcelable {
         this.comment = comment;
     }
 
-    private String determineDayOfWeek(long date){
-        if (date != 0){
-            return new SimpleDateFormat("EEEE", Locale.getDefault()).format(new Date(date));
-        }
-        return null;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -208,7 +189,6 @@ public class Journal implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeLong(date);
-        dest.writeString(dayOfWeek);
         dest.writeString(codeTd);
         dest.writeInt(idCategory);
         dest.writeInt(idGroup);

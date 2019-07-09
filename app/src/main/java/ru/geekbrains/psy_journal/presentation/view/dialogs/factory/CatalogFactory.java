@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.factory;
+package ru.geekbrains.psy_journal.presentation.view.dialogs.factory;
 
 import android.content.Context;
 

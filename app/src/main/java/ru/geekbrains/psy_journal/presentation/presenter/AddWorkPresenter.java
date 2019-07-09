@@ -15,7 +15,7 @@ import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.AddWorkView;
 
 @InjectViewState
 public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements

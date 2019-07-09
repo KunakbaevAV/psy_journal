@@ -28,6 +28,7 @@ import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.presentation.presenter.EditableDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.Settable;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.EditableDialogView;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.EditableDialogAdapter;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
 

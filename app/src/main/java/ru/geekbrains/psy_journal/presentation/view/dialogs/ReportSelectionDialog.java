@@ -17,6 +17,7 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.ReportSelectionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportSelectionView;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableDate;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableFunction;
 import ru.geekbrains.psy_journal.presentation.view.fragment.ReportingFragment;
@@ -24,7 +25,7 @@ import ru.geekbrains.psy_journal.presentation.view.fragment.ReportingFragment;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class ReportSelectionDialog extends AbstractDialog implements
-		ReportSelectionView,
+	ReportSelectionView,
 		GivenBySettableDate,
 		GivenBySettableFunction {
 

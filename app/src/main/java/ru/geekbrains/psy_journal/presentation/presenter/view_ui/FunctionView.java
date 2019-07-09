@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.view.dialogs;
+package ru.geekbrains.psy_journal.presentation.presenter.view_ui;
 
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
