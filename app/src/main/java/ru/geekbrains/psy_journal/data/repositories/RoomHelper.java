@@ -521,16 +521,10 @@ public class RoomHelper {
      * {@link Group}
      * {@link WorkForm}
      *
-     * @return список {@link ReportingJournal} в дополнительном потоке
+     * @return список {@link ReportingJournal} (нужно перевести в дополнительный поток)
      */
     public Single<List<ReportingJournal>> getListReportingJournal() {
-
-
-        return Single.create((SingleOnSubscribe<List<ReportingJournal>>)
-                emitter -> {
-                    List<ReportingJournal> list = prepareListReportingJournal();
-                    emitter.onSuccess(list);
-                }).subscribeOn(Schedulers.io());
+        return Single.wrap(observer -> observer.onSuccess(prepareListReportingJournal()));
     }
 
     private List<ReportingJournal> prepareListReportingJournal() {
