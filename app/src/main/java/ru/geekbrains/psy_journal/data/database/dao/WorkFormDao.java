@@ -20,7 +20,10 @@ public interface WorkFormDao {
     Single<List<WorkForm>> getAllWorkForms();
 
     @Query("SELECT * FROM Work_form WHERE id = :id")
-    Single<WorkForm> getItemWorkWorm(int id);
+    Single<WorkForm> getItemWorkForm(int id);
+
+    @Query("SELECT * FROM Work_form WHERE id = :id")
+    WorkForm getItemWorkFormSimple(int id);
 
     @Insert
     Completable insert(WorkForm workForm);

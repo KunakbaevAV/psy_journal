@@ -22,6 +22,9 @@ public interface CategoryDao {
     @Query("SELECT * FROM Category WHERE id = :id")
     Single<Category> getItemCategory(int id);
 
+    @Query("SELECT * FROM Category WHERE id = :id")
+    Category getItemCategorySimple(int id);
+
     @Insert
     Completable insert(Category category);
 

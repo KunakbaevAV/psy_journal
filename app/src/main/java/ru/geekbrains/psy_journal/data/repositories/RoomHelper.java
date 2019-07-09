@@ -2,12 +2,14 @@ package ru.geekbrains.psy_journal.data.repositories;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.di.App;
@@ -32,6 +34,7 @@ import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_ERROR;
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_GOOD;
 import static ru.geekbrains.psy_journal.Constants.DB_LOGS;
+import static ru.geekbrains.psy_journal.Constants.MAPPING_JOURNAL_ERROR;
 
 /**
  * Организация работы с базой данный в дополнительном потоке
@@ -485,7 +488,7 @@ public class RoomHelper {
      * @return строка в виде объекта
      */
     public Single<WorkForm> getItemWorkForm(int id) {
-        return workFormDao.getItemWorkWorm(id).subscribeOn(Schedulers.io());
+        return workFormDao.getItemWorkForm(id).subscribeOn(Schedulers.io());
     }
 
     /**
@@ -509,9 +512,72 @@ public class RoomHelper {
         return journalDao.getListFullNames().subscribeOn(Schedulers.io());
     }
 
-    //Todo написать получение списка журналов и маппинг Journal в ReportingJournal
-	//желательно сделать через RxJava
-    public Single<List<ReportingJournal>> getListReportingJournal(){
-		return null;
+    /**
+     * Метод получения из БД списка {@link ReportingJournal}
+     * с подставлением нужных значений из сущностей:
+     * {@link Journal}
+     * {@link Category}
+     * {@link Group}
+     * {@link WorkForm}
+     *
+     * @return список {@link ReportingJournal} в дополнительном потоке
+     */
+    public Single<List<ReportingJournal>> getListReportingJournal() {
+        return Single.create((SingleOnSubscribe<List<ReportingJournal>>)
+                emitter -> {
+                    List<ReportingJournal> list = prepareListReportingJournal();
+                    emitter.onSuccess(list);
+                }).subscribeOn(Schedulers.io());
     }
+
+    private List<ReportingJournal> prepareListReportingJournal() {
+        List<ReportingJournal> reportingJournals = new ArrayList<>();
+        List<Journal> journalList = new ArrayList<>(journalDao.getAllSimple());
+        for (Journal j : journalList) {
+            reportingJournals.add(mappingReportingJournal(j));
+        }
+        return reportingJournals;
+    }
+
+    private ReportingJournal mappingReportingJournal(Journal journal) {
+        ReportingJournal reportingJournal = new ReportingJournal();
+        //методы расположены в таком порядке, в котором они представлены на экране пользователя
+        reportingJournal.setDate(journal.getDate());
+        reportingJournal.setQuantityPeople(journal.getQuantityPeople());
+        reportingJournal.setWorkTime(journal.getWorkTime());
+        reportingJournal.setNameCategory(categoryDao.getItemCategorySimple(journal.getIdCategory()).getName());
+        reportingJournal.setNameGroup(groupDao.getItemGroupSimple(journal.getIdGroup()).getName());
+        reportingJournal.setName(journal.getName());
+        reportingJournal.setDeclaredRequest(journal.getDeclaredRequest());
+        reportingJournal.setRealRequest(journal.getRealRequest());
+        reportingJournal.setNameWorkForm(workFormDao.getItemWorkFormSimple(journal.getIdWorkForm()).getName());
+        reportingJournal.setCodeTd(journal.getCodeTd());
+        reportingJournal.setComment(journal.getComment());
+        return reportingJournal;
+    }
+
+    private void mappingGetNameCategory(ReportingJournal reportingJournal, int id) {
+        getItemCategory(id)
+                .subscribe(
+                        category -> reportingJournal.setNameCategory(category.getName()),
+                        throwable -> Log.e(MAPPING_JOURNAL_ERROR, "getNameCategory: ", throwable)
+                ).isDisposed();
+    }
+
+    private void mappingGetNameGroup(ReportingJournal reportingJournal, int id) {
+        getItemGroup(id)
+                .subscribe(
+                        group -> reportingJournal.setNameGroup(group.getName()),
+                        throwable -> Log.e(MAPPING_JOURNAL_ERROR, "getNameCategory: ", throwable)
+                ).isDisposed();
+    }
+
+    private void mappingGetWorkForm(ReportingJournal reportingJournal, int id) {
+        getItemWorkForm(id)
+                .subscribe(
+                        workForm -> reportingJournal.setNameWorkForm(workForm.getName()),
+                        throwable -> Log.e(MAPPING_JOURNAL_ERROR, "getNameCategory: " + throwable.getMessage())
+                ).isDisposed();
+    }
+
 }

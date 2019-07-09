@@ -18,6 +18,9 @@ public interface JournalDao {
     @Query("SELECT * FROM Journal")
     Single<List<Journal>> getAll();
 
+    @Query("SELECT * FROM Journal")
+    List<Journal> getAllSimple();
+
     @Query("SELECT * FROM Journal WHERE id = :id")
     Single<Journal> getItemJournal(int id);
 

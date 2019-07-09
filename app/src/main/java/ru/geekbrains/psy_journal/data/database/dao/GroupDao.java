@@ -22,6 +22,9 @@ public interface GroupDao {
     @Query("SELECT * FROM `Group` WHERE id = :id")
     Single<Group> getItemGroup(int id);
 
+    @Query("SELECT * FROM `Group` WHERE id = :id")
+    Group getItemGroupSimple(int id);
+
     @Insert
     Completable insert(Group group);
 
