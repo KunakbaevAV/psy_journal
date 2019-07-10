@@ -19,7 +19,7 @@
         <item
             android:id="@+id/create_excel_report_file"
             android:icon="@drawable/ic_check_24dp"
-            android:title="сформировать execel файл отчета" />
+            android:title="сформировать excel файл, отчет.xls" />
         <item
             android:id="@+id/send_email"
             android:icon="@drawable/ic_check_24dp"

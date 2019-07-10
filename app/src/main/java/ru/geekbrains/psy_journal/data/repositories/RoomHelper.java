@@ -524,7 +524,7 @@ public class RoomHelper {
      * @return список {@link ReportingJournal} (нужно перевести в дополнительный поток)
      */
     public Single<List<ReportingJournal>> getListReportingJournal() {
-        return Single.wrap(observer -> observer.onSuccess(prepareListReportingJournal()));
+        return Single.fromCallable(this::prepareListReportingJournal).subscribeOn(Schedulers.io());
     }
 
     private List<ReportingJournal> prepareListReportingJournal() {
@@ -540,6 +540,7 @@ public class RoomHelper {
         ReportingJournal reportingJournal = new ReportingJournal();
         //методы расположены в таком порядке, в котором они представлены на экране пользователя
         reportingJournal.setDate(journal.getDate());
+        reportingJournal.setDayOfWeek(journal.getDate());
         reportingJournal.setQuantityPeople(journal.getQuantityPeople());
         reportingJournal.setWorkTime(journal.getWorkTime());
         reportingJournal.setNameCategory(mappingNameCategory(journal));
