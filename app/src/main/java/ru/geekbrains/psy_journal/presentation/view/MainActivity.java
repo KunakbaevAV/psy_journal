@@ -1,13 +1,17 @@
 package ru.geekbrains.psy_journal.presentation.view;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -22,6 +26,9 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +56,7 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
     @InjectPresenter MainPresenter mainPresenter;
 
 	private static final int REQUEST_PERMISSION_EXTERNAL_STORAGE = 1;
+	private static final int REQUEST_FILES_GET = 2;
 
 	@ProvidePresenter
 	MainPresenter providePresenter(){
@@ -171,7 +179,7 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 	        	createExcelReportFile();
 	        	return true;
 	        case R.id.send_email:
-		        openScreenSendReportToEmail();
+		        getFiles();
 		        return true;
         }
         return false;
@@ -193,9 +201,37 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 		checkPermissions();
     }
 
-    private void openScreenSendReportToEmail() {
-        //TODO Метод открытия окна для отправки отчета на электронную почту
+    private void getFiles(){
+	    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+	    intent.setType("application/vnd.ms-excel");
+	    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+	    intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+	    startActivityForResult(intent, REQUEST_FILES_GET);
     }
+
+    private ArrayList<Uri> getAttachment(Intent data){
+	    ClipData clipData = data.getClipData();
+	    if (clipData == null) return null;
+		ArrayList<Uri> arrayList = new ArrayList<>(clipData.getItemCount());
+	    for (int i = 0; i < clipData.getItemCount(); i++) {
+		    arrayList.add(clipData.getItemAt(i).getUri());
+		}
+	    return arrayList;
+    }
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQUEST_FILES_GET && resultCode == RESULT_OK && data != null) {
+			ArrayList<Uri> uris = getAttachment(data);
+			Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+			intent.setType("multipart/*");
+			intent.putExtra(Intent.EXTRA_STREAM, uris);
+			if (intent.resolveActivity(getPackageManager()) != null) {
+				startActivity(intent);
+			}
+		}
+	}
 
 	private void checkPermissions(){
 		if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
