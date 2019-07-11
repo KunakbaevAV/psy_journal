@@ -3,9 +3,11 @@ package ru.geekbrains.psy_journal.data.repositories.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
@@ -23,10 +25,13 @@ public class Journal implements Parcelable {
     private Float workTime = 1.0f;
     private int idCategory;
     private int idGroup;
+    @ColumnInfo(index = true)
     private String name;
+    @ColumnInfo(index = true)
     private String declaredRequest;
     private String realRequest;
     private int idWorkForm;
+    @ColumnInfo(index = true)
     private String codeTd;
     private String comment;
 
