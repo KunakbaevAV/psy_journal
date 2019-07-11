@@ -25,13 +25,13 @@ public class Journal implements Parcelable {
     private Float workTime = 1.0f;
     private int idCategory;
     private int idGroup;
-    @ColumnInfo(index = true)
+    //    @ColumnInfo(index = true)
     private String name;
-    @ColumnInfo(index = true)
+    //    @ColumnInfo(index = true)
     private String declaredRequest;
     private String realRequest;
     private int idWorkForm;
-    @ColumnInfo(index = true)
+    //    @ColumnInfo(index = true)
     private String codeTd;
     private String comment;
 
