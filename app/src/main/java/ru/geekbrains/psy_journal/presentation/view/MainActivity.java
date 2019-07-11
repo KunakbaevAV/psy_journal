@@ -15,7 +15,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -23,8 +22,6 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-
-import butterknife.BindArray;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +29,7 @@ import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.MainPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ShownMessage;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.Informed;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AllWorkFragment;
@@ -40,7 +37,7 @@ import ru.geekbrains.psy_journal.presentation.view.fragment.AllWorkFragment;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
 
-public class MainActivity extends MvpAppCompatActivity implements ShownMessage {
+public class MainActivity extends MvpAppCompatActivity implements Informed {
 
 	@BindView(R.id.main_navigation_drawer) DrawerLayout drawer;
 	@BindView(R.id.navigation_view) NavigationView navigationView;
@@ -204,7 +201,7 @@ public class MainActivity extends MvpAppCompatActivity implements ShownMessage {
 		if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
 			ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_EXTERNAL_STORAGE);
-		} else {
+		} else {			
 			mainPresenter.createExcelFile();
 		}
 	}
@@ -215,12 +212,26 @@ public class MainActivity extends MvpAppCompatActivity implements ShownMessage {
 			grantResults[1] == PackageManager.PERMISSION_GRANTED)){
 				mainPresenter.createExcelFile();
 		} else {
-			mainPresenter.showMessage("Отсутствует разрешение на запись файла");
+			showMessage("Отсутствует разрешение на запись файла");
 		}
 	}
 
+	private void showMessage(String message) {
+		Snackbar.make(bottomAppBar, message, Snackbar.LENGTH_INDEFINITE).show();
+	}
+
 	@Override
-	public void showMessage(String message) {
-		Snackbar.make(navigationView, message, Snackbar.LENGTH_INDEFINITE).show();
+	public void showEmpty() {
+		showMessage("база пуста");
+	}
+
+	@Override
+	public void showGood(String message) {
+		showMessage(String.format("%s записан в DOCUMENTS/Отчеты", message));
+	}
+
+	@Override
+	public void showBad(String error) {
+		showMessage(String.format("отчет.xls не создан, %s", error));
 	}
 }

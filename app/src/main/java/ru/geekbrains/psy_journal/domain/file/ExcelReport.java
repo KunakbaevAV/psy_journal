@@ -1,17 +1,19 @@
 package ru.geekbrains.psy_journal.domain.file;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 
 public class ExcelReport implements CreatedByExcel{
@@ -27,28 +29,30 @@ public class ExcelReport implements CreatedByExcel{
 	}
 
 	@Override
-	public void create(List<ReportingJournal> journals) throws IOException {
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		String nameSheet = String.format(Locale.getDefault(),"report %s", DateFormat.getDateInstance(DateFormat.SHORT).format(new Date()));
-		XSSFSheet sheet = workbook.createSheet(nameSheet);
+	public File create(List<ReportingJournal> journals) throws IOException {
+		numberRow = 0;
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
+		String nameSheet = dateFormat.format(new Date());
+		HSSFSheet sheet = workbook.createSheet(nameSheet);
 		createHeadlines(sheet);
 		for (int i = 0; i < journals.size(); i++) {
 			fillInWithData(sheet, journals.get(i));
 		}
-		fileSaved.writeExcelFile(workbook);
+		return fileSaved.writeExcelFile(workbook);
 	}
 
-	private void createHeadlines(XSSFSheet sheet){
+	private void createHeadlines(HSSFSheet sheet){
 		Row row = sheet.createRow(numberRow++);
 		for (int i = 0; i < headlines.length; i++) {
 			row.createCell(i).setCellValue(headlines[i]);
 		}
 	}
 
-	private void fillInWithData(XSSFSheet sheet, ReportingJournal journal){
+	private void fillInWithData(HSSFSheet sheet, ReportingJournal journal){
 		int column = 0;
 		Row row = sheet.createRow(numberRow++);
-		row.createCell(column++).setCellValue(DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(journal.getDate())));
+		row.createCell(column++).setCellValue(journal.getDate());
 		row.createCell(column++).setCellValue(journal.getDayOfWeek());
 		row.createCell(column++).setCellValue(journal.getCodeTd());
 		row.createCell(column++).setCellValue(journal.getNameCategory());

@@ -14,18 +14,18 @@ import ru.geekbrains.psy_journal.domain.file.FileSaved;
 import ru.geekbrains.psy_journal.data.files.FileCreator;
 
 @Module
-public class FileModule {
+class FileModule {
 
 	private Context context;
 
-	public FileModule(Context context) {
+	FileModule(Context context) {
 		this.context = context;
 	}
 
 	@Singleton
 	@Provides
 	File getDirectory(){
-		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Reports");
+		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), context.getResources().getString(R.string.reports));
 		if (!file.exists() && !file.mkdirs()) return null;
 		return file;
 	}

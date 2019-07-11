@@ -1,14 +1,17 @@
 package ru.geekbrains.psy_journal.domain.models;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class ReportingJournal {
 
+	private static final String PATTERN_DAY_WEEK = "EEEE";
+
 	private int id;
-	private long date;
-	private String dayOfWeek = determineDayOfWeek(date);
+	private String date;
+	private String dayOfWeek;
 	private int quantityPeople;
 	private Float workTime;
 	private String nameCategory;
@@ -28,20 +31,20 @@ public class ReportingJournal {
 		this.id = id;
 	}
 
-	public long getDate() {
+	public String getDate() {
 		return date;
 	}
 
 	public void setDate(long date) {
-		this.date = date;
+		this.date = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(new Date(date));
 	}
 
 	public String getDayOfWeek() {
 		return dayOfWeek;
 	}
 
-	public void setDayOfWeek(String dayOfWeek) {
-		this.dayOfWeek = dayOfWeek;
+	public void setDayOfWeek(long date) {
+		this.dayOfWeek = determineDayOfWeek(date);
 	}
 
 	public int getQuantityPeople() {
@@ -126,7 +129,7 @@ public class ReportingJournal {
 
 	private String determineDayOfWeek(long date){
 		if (date != 0){
-			return new SimpleDateFormat("EEEE", Locale.getDefault()).format(new Date(date));
+			return new SimpleDateFormat(PATTERN_DAY_WEEK, Locale.getDefault()).format(new Date(date));
 		}
 		return null;
 	}

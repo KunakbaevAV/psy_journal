@@ -35,7 +35,7 @@
         android:focusableInTouchMode="false"
         app:layout_anchor="@id/bottomAppBar"
         app:layout_anchorGravity="center"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:layout_behavior=".presentation.view.utilities.BehaviorFABAndBottomAppBar"
         app:backgroundTint="?attr/colorAccent"
         app:elevation="16dp"
         app:fabSize="auto"
