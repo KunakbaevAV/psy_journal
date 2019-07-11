@@ -26,9 +26,7 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
-
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -209,9 +207,7 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 	    startActivityForResult(intent, REQUEST_FILES_GET);
     }
 
-    private ArrayList<Uri> getAttachment(Intent data){
-	    ClipData clipData = data.getClipData();
-	    if (clipData == null) return null;
+    private ArrayList<Uri> getAttachment(ClipData clipData){
 		ArrayList<Uri> arrayList = new ArrayList<>(clipData.getItemCount());
 	    for (int i = 0; i < clipData.getItemCount(); i++) {
 		    arrayList.add(clipData.getItemAt(i).getUri());
@@ -219,15 +215,30 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 	    return arrayList;
     }
 
+    private Intent sendMultipleFiles(Intent data){
+	    ClipData clipData = data.getClipData();
+	    if (clipData == null) return null;
+	    Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+	    intent.putExtra(Intent.EXTRA_STREAM, getAttachment(clipData));
+	    return intent;
+    }
+
+    private Intent sendOneFile(Intent data){
+	    Uri uri = data.getData();
+	    if (uri == null) return null;
+	    Intent intent = new Intent(Intent.ACTION_SEND);
+	    intent.putExtra(Intent.EXTRA_STREAM, uri);
+	    return intent;
+    }
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_FILES_GET && resultCode == RESULT_OK && data != null) {
-			ArrayList<Uri> uris = getAttachment(data);
-			Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-			intent.setType("multipart/*");
-			intent.putExtra(Intent.EXTRA_STREAM, uris);
-			if (intent.resolveActivity(getPackageManager()) != null) {
+			Intent intent = sendMultipleFiles(data);
+			if (intent == null) intent = sendOneFile(data);
+			if (intent != null && intent.resolveActivity(getPackageManager()) != null) {
+				intent.setType("multipart/*");
 				startActivity(intent);
 			}
 		}
