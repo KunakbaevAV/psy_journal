@@ -43,7 +43,12 @@
     <string name="edit_catalogs">Редактировать списки</string>
     <string name="get_report">Отчет</string>
     <string name="send_email">Отправить отчет на электронную почту</string>
-    <string name="report_of_generalized_labor_functions">отчет Обобщенных трудовых функций</string>
+    <string name="report_of_generalized_labor_functions">Отчет</string>
     <string name="report">Отчет</string>
     <string name="reports">Отчеты</string>
+    <string name="need_mail_client">Установите почтовый клиент</string>
+    <string name="no_permission_write_file">Отсутствует разрешение на запись файла</string>
+    <string name="db_empty">база пуста</string>
+    <string name="file_write_to">%s записан в DOCUMENTS/Отчеты</string>
+    <string name="file_write_error">отчет.xls не создан, %s</string>
 </resources>

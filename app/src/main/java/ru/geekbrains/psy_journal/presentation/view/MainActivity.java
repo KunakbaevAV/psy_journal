@@ -26,9 +26,7 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
-
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +39,8 @@ import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionDialog
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AllWorkFragment;
 
+import static ru.geekbrains.psy_journal.Constants.INTENT_TYPE_EXCEL;
+import static ru.geekbrains.psy_journal.Constants.INTENT_TYPE_MULTIPART;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
 
@@ -203,15 +203,13 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 
     private void getFiles(){
 	    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-	    intent.setType("application/vnd.ms-excel");
+        intent.setType(INTENT_TYPE_EXCEL);
 	    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 	    intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 	    startActivityForResult(intent, REQUEST_FILES_GET);
     }
 
-    private ArrayList<Uri> getAttachment(Intent data){
-	    ClipData clipData = data.getClipData();
-	    if (clipData == null) return null;
+    private ArrayList<Uri> getAttachment(ClipData clipData) {
 		ArrayList<Uri> arrayList = new ArrayList<>(clipData.getItemCount());
 	    for (int i = 0; i < clipData.getItemCount(); i++) {
 		    arrayList.add(clipData.getItemAt(i).getUri());
@@ -219,17 +217,35 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 	    return arrayList;
     }
 
+    private Intent sendMultipleFiles(Intent data) {
+        ClipData clipData = data.getClipData();
+        if (clipData == null) return null;
+        Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType(INTENT_TYPE_MULTIPART);
+        intent.putExtra(Intent.EXTRA_STREAM, getAttachment(clipData));
+        return intent;
+    }
+
+    private Intent sendOneFile(Intent data) {
+        Uri uri = data.getData();
+        if (uri == null) return null;
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType(INTENT_TYPE_MULTIPART);
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        return intent;
+    }
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_FILES_GET && resultCode == RESULT_OK && data != null) {
-			ArrayList<Uri> uris = getAttachment(data);
-			Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-			intent.setType("multipart/*");
-			intent.putExtra(Intent.EXTRA_STREAM, uris);
-			if (intent.resolveActivity(getPackageManager()) != null) {
+            Intent intent = sendMultipleFiles(data);
+            if (intent == null) {
+                intent = sendOneFile(data);
+            }
+            if (intent != null && intent.resolveActivity(getPackageManager()) != null) {
 				startActivity(intent);
-			}
+            } else showMessage(getString(R.string.need_mail_client));
 		}
 	}
 
@@ -248,7 +264,7 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 			grantResults[1] == PackageManager.PERMISSION_GRANTED)){
 				mainPresenter.createExcelFile();
 		} else {
-			showMessage("Отсутствует разрешение на запись файла");
+            showMessage(getString(R.string.no_permission_write_file));
 		}
 	}
 
@@ -258,16 +274,16 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 
 	@Override
 	public void showEmpty() {
-		showMessage("база пуста");
+        showMessage(getString(R.string.db_empty));
 	}
 
 	@Override
 	public void showGood(String message) {
-		showMessage(String.format("%s записан в DOCUMENTS/Отчеты", message));
+        showMessage(String.format(getString(R.string.file_write_to), message));
 	}
 
 	@Override
 	public void showBad(String error) {
-		showMessage(String.format("отчет.xls не создан, %s", error));
+        showMessage(String.format(getString(R.string.file_write_error), error));
 	}
 }
