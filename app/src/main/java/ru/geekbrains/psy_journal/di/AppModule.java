@@ -8,18 +8,18 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.geekbrains.psy_journal.model.database.DataBaseFirstLoader;
-import ru.geekbrains.psy_journal.model.database.RoomHelper;
-import ru.geekbrains.psy_journal.model.database.dao.AppDatabase;
-import ru.geekbrains.psy_journal.model.database.dao.CategoryDao;
-import ru.geekbrains.psy_journal.model.database.dao.GroupDao;
-import ru.geekbrains.psy_journal.model.database.dao.JournalDao;
-import ru.geekbrains.psy_journal.model.database.dao.OTFDao;
-import ru.geekbrains.psy_journal.model.database.dao.ReportDao;
-import ru.geekbrains.psy_journal.model.database.dao.TDDao;
-import ru.geekbrains.psy_journal.model.database.dao.TFDao;
-import ru.geekbrains.psy_journal.model.database.dao.WorkFormDao;
-import ru.geekbrains.psy_journal.model.factory.CatalogFactory;
+import ru.geekbrains.psy_journal.data.database.DataBaseFirstLoader;
+import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.database.dao.AppDatabase;
+import ru.geekbrains.psy_journal.data.database.dao.CategoryDao;
+import ru.geekbrains.psy_journal.data.database.dao.GroupDao;
+import ru.geekbrains.psy_journal.data.database.dao.JournalDao;
+import ru.geekbrains.psy_journal.data.database.dao.OTFDao;
+import ru.geekbrains.psy_journal.data.database.dao.ReportDao;
+import ru.geekbrains.psy_journal.data.database.dao.TDDao;
+import ru.geekbrains.psy_journal.data.database.dao.TFDao;
+import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.factory.CatalogFactory;
 
 import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
 

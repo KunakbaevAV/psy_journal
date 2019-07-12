@@ -16,8 +16,10 @@ public class Constants {
     public static final String DB_LOGS = "DB_logs";
     public static final String DB_ADD_GOOD = "Добавлено в базу данных успешно";
     public static final String DB_ADD_ERROR = "При загрузке в базу данных возникла ошибка";
+    public static final String MAPPING_JOURNAL_ERROR = "Mapping_journal_error";
     //код иной деятельности
-	public static final String CODE_OF_OTHER_ACTIVITY = "";
+    public static final String CODE_OF_OTHER_ACTIVITY_SUFFIX = "/0";
+    public static final String NAME_OF_OTHER_ACTIVITY = "Иная деятельность";
 
     public static final String KEY_TITLE = "key title";
     public static final String KEY_ID = "key id";
@@ -36,6 +38,8 @@ public class Constants {
 
     public static final String PREFERENCES = "preferences";
     public static final String FIRST_START = "first_start";
+    public static final String INTENT_TYPE_MULTIPART = "multipart/*";
+    public static final String INTENT_TYPE_EXCEL = "application/vnd.ms-excel";
 
 
 }
