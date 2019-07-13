@@ -34,10 +34,10 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
-import ru.geekbrains.psy_journal.presentation.presenter.AddWorkPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.AddWorkView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AddWorkView;
 import ru.geekbrains.psy_journal.presentation.presenter.Collectable;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.DateSettingDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.EditableDialog;
@@ -50,8 +50,8 @@ import ru.geekbrains.psy_journal.presentation.view.dialogs.TimeSettingDialog;
 public class AddWorkFragment extends MvpAppCompatFragment implements
 	AddWorkView,
 	Collectable,
-		GivenBySettableDate,
-        GivenBySettableFunction {
+	GivenBySettableDate,
+    GivenBySettableFunction {
 
 	private static final String DEFAULT_WORK_TIME = "1.0";
 	private static final String KEY_JOURNAL = "key journal";

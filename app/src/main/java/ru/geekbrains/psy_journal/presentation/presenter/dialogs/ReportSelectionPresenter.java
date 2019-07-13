@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.presenter;
+package ru.geekbrains.psy_journal.presentation.presenter.dialogs;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -6,7 +6,10 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.Calendar;
 
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportSelectionView;
+import ru.geekbrains.psy_journal.presentation.presenter.Collectable;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.ReportSelectionView;
 
 @InjectViewState
 public class ReportSelectionPresenter extends MvpPresenter<ReportSelectionView> implements
@@ -16,43 +19,37 @@ public class ReportSelectionPresenter extends MvpPresenter<ReportSelectionView> 
 
     private static final int LAST_HOUR_DAY = 23;
     private static final int LAST_MINUTE_HOUR = 59;
-    private static final int START = 0;
+    private static final int START_HOUR_DAY = 0;
+	private static final int START_MINUTE_HOUR = 0;
     private final Calendar calendar = Calendar.getInstance();
 	private boolean isFrom;
 	private int selectedOTF;
 	private long from;
 	private long unto;
-
+	//Fixme придумать по другому определять поля вызова выбора даты
 	public void setFrom(boolean from) {
 		isFrom = from;
 	}
 
-    private void setTimeInUnTo() {
-        calendar.setTimeInMillis(unto);
+    private void setTimeInUnTo(long date) {
+        calendar.setTimeInMillis(date);
         calendar.set(Calendar.HOUR, LAST_HOUR_DAY);
         calendar.set(Calendar.MINUTE, LAST_MINUTE_HOUR);
         unto = calendar.getTimeInMillis();
     }
 
-    private void setTimeInFrom() {
-        calendar.setTimeInMillis(from);
-        calendar.set(Calendar.HOUR, START);
-        calendar.set(Calendar.MINUTE, START);
+    private void setTimeInFrom(long date) {
+        calendar.setTimeInMillis(date);
+        calendar.set(Calendar.HOUR, START_HOUR_DAY);
+        calendar.set(Calendar.MINUTE, START_MINUTE_HOUR);
         from = calendar.getTimeInMillis();
     }
 
-	private void checkDate(){
+	private boolean checkDate(){
 		if (from != 0 && unto != 0){
-			if (from > unto){
-				long temp = from;
-				from = unto;
-				unto = temp;
-				getViewState().showSelectedFrom(from);
-				getViewState().showSelectedUnto(unto);
-			}
-            setTimeInFrom();
-            setTimeInUnTo();
+			return from > unto;
 		}
+		return false;
 	}
 
 	@Override
@@ -65,13 +62,18 @@ public class ReportSelectionPresenter extends MvpPresenter<ReportSelectionView> 
 	@Override
 	public void setDate(long date) {
 		if (isFrom){
-			from = date;
-			getViewState().showSelectedFrom(date);
+			setTimeInFrom(date);
+			if (checkDate()) {
+				from = 0;
+				getViewState().showErrorFrom();
+			} else getViewState().showSelectedFrom(date);
 		} else {
-			unto = date;
-			getViewState().showSelectedUnto(date);
+			setTimeInUnTo(date);
+			if (checkDate()) {
+				unto = 0;
+				getViewState().showErrorUnto();
+			} else getViewState().showSelectedUnto(date);
 		}
-		checkDate();
 	}
 
 	@Override

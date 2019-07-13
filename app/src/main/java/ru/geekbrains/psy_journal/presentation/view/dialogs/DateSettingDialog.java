@@ -12,7 +12,7 @@ import java.util.Calendar;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableDate;
 
-public class DateSettingDialog extends DialogFragment implements android.app.DatePickerDialog.OnDateSetListener {
+public class DateSettingDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
 	private static final String KEY_TAG = "key tag";
 

@@ -11,7 +11,7 @@ import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
-import ru.geekbrains.psy_journal.presentation.presenter.DialogFunctionPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogFunctionPresenter;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableFunction;
 
 public class OTFDialog extends FunctionDialog{

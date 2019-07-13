@@ -6,5 +6,5 @@ import java.io.File;
 import java.io.IOException;
 
 public interface FileSaved {
-	File writeExcelFile(HSSFWorkbook workbook) throws IOException;
+	File writeExcelFile(HSSFWorkbook workbook, String nameFile) throws IOException;
 }

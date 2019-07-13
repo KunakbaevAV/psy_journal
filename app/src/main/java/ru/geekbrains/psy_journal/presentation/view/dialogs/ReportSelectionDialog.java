@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import butterknife.BindView;
@@ -14,10 +16,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.ReportSelectionPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.ReportSelectionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportSelectionView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.ReportSelectionView;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableDate;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableFunction;
 import ru.geekbrains.psy_journal.presentation.view.fragment.ReportingFragment;
@@ -26,18 +28,19 @@ import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class ReportSelectionDialog extends AbstractDialog implements
 	ReportSelectionView,
-		GivenBySettableDate,
-		GivenBySettableFunction {
+	GivenBySettableDate,
+	GivenBySettableFunction {
 
-	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
-	@BindView(R.id.otf_text)
-	TextInputEditText otfView;
-	@BindView(R.id.report_date_begin_text)
-	TextInputEditText fromView;
-	@BindView(R.id.report_date_end_text)
-	TextInputEditText toView;
+	@BindView(R.id.otf_text) TextInputEditText otfView;
+	@BindView(R.id.report_date_begin_text)TextInputEditText fromView;
+	@BindView(R.id.report_date_end_text) TextInputEditText toView;
+	@BindView(R.id.report_date_begin_layout) TextInputLayout dateBeginLayout;
+	@BindView(R.id.report_date_end_layout) TextInputLayout dateEndLayout;
+
 	@InjectPresenter
 	ReportSelectionPresenter selectionPresenter;
+
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
 	private final DialogInterface.OnClickListener listener = (dialog, which) -> {
 		if (selectionPresenter.isCollectedAll()) dismiss();
 	};
@@ -106,12 +109,24 @@ public class ReportSelectionDialog extends AbstractDialog implements
 
 	@Override
 	public void showSelectedFrom(long date) {
+		if (dateBeginLayout.getError() != null) dateBeginLayout.setError(null);
 		fromView.setText(dateFormat.format(date));
 	}
 
 	@Override
 	public void showSelectedUnto(long date) {
+		if (dateEndLayout.getError() != null) dateEndLayout.setError(null);
 		toView.setText(dateFormat.format(date));
+	}
+
+	@Override
+	public void showErrorFrom() {
+		dateBeginLayout.setError("Начальная дата НЕ может быть больше конечной");
+	}
+
+	@Override
+	public void showErrorUnto() {
+		dateEndLayout.setError("Конечная дата НЕ может быть меньше начальной");
 	}
 
 	@Override

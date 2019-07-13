@@ -9,11 +9,10 @@ public class ReportingJournal {
 
 	private static final String PATTERN_DAY_WEEK = "EEEE";
 
-	private int id;
 	private String date;
 	private String dayOfWeek;
-	private int quantityPeople;
-	private Float workTime;
+	private String quantityPeople;
+	private String workTime;
 	private String nameCategory;
 	private String nameGroup;
 	private String name;
@@ -22,14 +21,6 @@ public class ReportingJournal {
 	private String nameWorkForm;
 	private String codeTd;
 	private String comment;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getDate() {
 		return date;
@@ -47,20 +38,20 @@ public class ReportingJournal {
 		this.dayOfWeek = determineDayOfWeek(date);
 	}
 
-	public int getQuantityPeople() {
+	public String getQuantityPeople() {
 		return quantityPeople;
 	}
 
 	public void setQuantityPeople(int quantityPeople) {
-		this.quantityPeople = quantityPeople;
+		this.quantityPeople = String.valueOf(quantityPeople);
 	}
 
-	public Float getWorkTime() {
+	public String getWorkTime() {
 		return workTime;
 	}
 
 	public void setWorkTime(Float workTime) {
-		this.workTime = workTime;
+		this.workTime = String.valueOf(workTime);
 	}
 
 	public String getNameCategory() {

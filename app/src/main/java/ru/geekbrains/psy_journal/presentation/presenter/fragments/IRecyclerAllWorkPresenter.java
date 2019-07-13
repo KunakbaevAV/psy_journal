@@ -1,6 +1,6 @@
-package ru.geekbrains.psy_journal.presentation.presenter;
+package ru.geekbrains.psy_journal.presentation.presenter.fragments;
 
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.IViewHolder;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.IViewHolder;
 
 public interface IRecyclerAllWorkPresenter {
 

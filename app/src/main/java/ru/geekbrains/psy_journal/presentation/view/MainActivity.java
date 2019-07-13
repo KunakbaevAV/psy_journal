@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -33,8 +34,8 @@ import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.presentation.presenter.MainPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.Informed;
+import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.InformedView;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AllWorkFragment;
@@ -44,7 +45,7 @@ import static ru.geekbrains.psy_journal.Constants.INTENT_TYPE_MULTIPART;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
 
-public class MainActivity extends MvpAppCompatActivity implements Informed {
+public class MainActivity extends MvpAppCompatActivity implements InformedView {
 
 	@BindView(R.id.main_navigation_drawer) DrawerLayout drawer;
 	@BindView(R.id.navigation_view) NavigationView navigationView;
@@ -221,7 +222,6 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
         ClipData clipData = data.getClipData();
         if (clipData == null) return null;
         Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-        intent.setType(INTENT_TYPE_MULTIPART);
         intent.putExtra(Intent.EXTRA_STREAM, getAttachment(clipData));
         return intent;
     }
@@ -230,7 +230,6 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
         Uri uri = data.getData();
         if (uri == null) return null;
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType(INTENT_TYPE_MULTIPART);
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         return intent;
     }
@@ -243,9 +242,12 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
             if (intent == null) {
                 intent = sendOneFile(data);
             }
-            if (intent != null && intent.resolveActivity(getPackageManager()) != null) {
-				startActivity(intent);
-            } else showMessage(getString(R.string.need_mail_client));
+            if (intent != null){
+	            intent.setType(INTENT_TYPE_MULTIPART);
+	            if (intent.resolveActivity(getPackageManager()) != null) {
+		            startActivity(intent);
+	            } else showMessage(getString(R.string.need_mail_client));
+            }
 		}
 	}
 
@@ -269,7 +271,9 @@ public class MainActivity extends MvpAppCompatActivity implements Informed {
 	}
 
 	private void showMessage(String message) {
-		Snackbar.make(bottomAppBar, message, Snackbar.LENGTH_INDEFINITE).show();
+		Snackbar snackbar = Snackbar.make(bottomAppBar, message, Snackbar.LENGTH_INDEFINITE);
+		snackbar.setAnchorView(fab);
+		snackbar.show();
 	}
 
 	@Override
