@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.psy_journal.data.database.DataBaseFirstLoader;
+import ru.geekbrains.psy_journal.data.repositories.Mapping;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.database.dao.AppDatabase;
 import ru.geekbrains.psy_journal.data.database.dao.CategoryDao;
@@ -98,6 +99,11 @@ public class AppModule {
     @Provides
     ReportDao getReportDao() {
         return getAppDatabase().reportDao();
+    }
+
+    @Provides
+    Mapping getMapping() {
+        return new Mapping();
     }
 
 }

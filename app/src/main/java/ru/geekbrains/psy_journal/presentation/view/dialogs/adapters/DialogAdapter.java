@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.Bindable;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.Displayed;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.Bindable;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 
 public class DialogAdapter extends RecyclerView.Adapter{
 

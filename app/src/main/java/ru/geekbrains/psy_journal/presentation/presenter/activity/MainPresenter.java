@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.presenter;
+package ru.geekbrains.psy_journal.presentation.presenter.activity;
 
 import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
@@ -14,10 +14,10 @@ import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.domain.file.CreatedByExcel;
 import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.Informed;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.InformedView;
 
 @InjectViewState
-public class MainPresenter extends MvpPresenter<Informed> {
+public class MainPresenter extends MvpPresenter<InformedView> {
 
     @Inject RoomHelper roomHelper;
     @Inject CreatedByExcel excel;
