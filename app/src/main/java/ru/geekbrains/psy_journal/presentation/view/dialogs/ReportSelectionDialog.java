@@ -148,4 +148,10 @@ public class ReportSelectionDialog extends AbstractDialog implements
 		super.onDestroyView();
 		unbinder.unbind();
 	}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //TODO запретить, если даты не выбраны
+    }
 }
