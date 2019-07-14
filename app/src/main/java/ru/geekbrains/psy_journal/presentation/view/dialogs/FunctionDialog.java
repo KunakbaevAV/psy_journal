@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
-import ru.geekbrains.psy_journal.presentation.presenter.DialogFunctionPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogFunctionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.FunctionView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.FunctionView;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.DialogAdapter;
 
 public abstract class FunctionDialog extends AbstractDialog implements FunctionView {

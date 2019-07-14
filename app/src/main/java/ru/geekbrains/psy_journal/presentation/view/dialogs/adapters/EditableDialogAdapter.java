@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.EditableDialogPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.IViewHolderCatalog;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.IViewHolderCatalog;
 
 public class EditableDialogAdapter extends RecyclerView.Adapter<EditableDialogAdapter.ViewHolder> {
 

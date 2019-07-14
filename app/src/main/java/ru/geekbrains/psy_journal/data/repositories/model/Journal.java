@@ -2,9 +2,7 @@ package ru.geekbrains.psy_journal.data.repositories.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -32,26 +30,6 @@ public class Journal implements Parcelable {
     private String comment;
 
     public Journal() {
-
-    }
-
-    @Ignore
-    public Journal(long date, String codeTd,
-                   int idCategory, int idGroup, String name,
-                   int quantityPeople, String declaredRequest,
-                   String realRequest, int idWorkForm,
-                   Float workTime, String comment) {
-        this.date = date;
-        this.codeTd = codeTd;
-        this.idCategory = idCategory;
-        this.idGroup = idGroup;
-        this.name = name;
-        this.quantityPeople = quantityPeople;
-        this.declaredRequest = declaredRequest;
-        this.realRequest = realRequest;
-        this.idWorkForm = idWorkForm;
-        this.workTime = workTime;
-        this.comment = comment;
     }
 
     public static final Creator<Journal> CREATOR = new Creator<Journal>() {
@@ -67,22 +45,22 @@ public class Journal implements Parcelable {
     };
 
     protected Journal(Parcel in) {
-        id = in.readInt();
-        date = in.readLong();
-        codeTd = in.readString();
-        idCategory = in.readInt();
-        idGroup = in.readInt();
-        name = in.readString();
-        quantityPeople = in.readInt();
-        declaredRequest = in.readString();
-        realRequest = in.readString();
-        idWorkForm = in.readInt();
+        setId(in.readInt());
+        setDate(in.readLong());
+        setCodeTd(in.readString());
+        setIdCategory(in.readInt());
+        setIdGroup(in.readInt());
+        setName(in.readString());
+        setQuantityPeople(in.readInt());
+        setDeclaredRequest(in.readString());
+        setRealRequest(in.readString());
+        setIdWorkForm(in.readInt());
         if (in.readByte() == 0) {
-            workTime = null;
+            setWorkTime(null);
         } else {
-            workTime = in.readFloat();
+            setWorkTime(in.readFloat());
         }
-        comment = in.readString();
+        setComment(in.readString());
     }
 
     public int getId() {
@@ -188,22 +166,22 @@ public class Journal implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeLong(date);
-        dest.writeString(codeTd);
-        dest.writeInt(idCategory);
-        dest.writeInt(idGroup);
-        dest.writeString(name);
-        dest.writeInt(quantityPeople);
-        dest.writeString(declaredRequest);
-        dest.writeString(realRequest);
-        dest.writeInt(idWorkForm);
-        if (workTime == null) {
+        dest.writeInt(getId());
+        dest.writeLong(getDate());
+        dest.writeString(getCodeTd());
+        dest.writeInt(getIdCategory());
+        dest.writeInt(getIdGroup());
+        dest.writeString(getName());
+        dest.writeInt(getQuantityPeople());
+        dest.writeString(getDeclaredRequest());
+        dest.writeString(getRealRequest());
+        dest.writeInt(getIdWorkForm());
+        if (getWorkTime() == null) {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-            dest.writeFloat(workTime);
+            dest.writeFloat(getWorkTime());
         }
-        dest.writeString(comment);
+        dest.writeString(getComment());
     }
 }

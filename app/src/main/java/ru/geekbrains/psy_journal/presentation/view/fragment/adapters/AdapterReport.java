@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportRelated;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportShown;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.ReportRelated;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.ReportShown;
 
 public class AdapterReport extends RecyclerView.Adapter<AdapterReport.ReportViewHolder> {
 

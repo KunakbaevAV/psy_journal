@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.presentation.presenter.ReportPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportingView;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.ReportingView;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.AdapterReport;
 
 public class ReportingFragment extends MvpAppCompatFragment implements ReportingView {

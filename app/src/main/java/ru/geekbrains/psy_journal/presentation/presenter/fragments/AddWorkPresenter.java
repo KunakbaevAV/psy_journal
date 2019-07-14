@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.presenter;
+package ru.geekbrains.psy_journal.presentation.presenter.fragments;
 
 import android.util.Log;
 
@@ -9,20 +9,25 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.AddWorkView;
+import ru.geekbrains.psy_journal.presentation.presenter.Settable;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByTime;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AddWorkView;
 
 @InjectViewState
 public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	Settable,
 	SettableByDate,
 	SettableByTime,
-	SettableByFunction{
+        SettableByFunction {
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
 	private Journal journal;
@@ -137,13 +142,13 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	@Override
 	public void setFunction(Functional function, boolean close) {
 		String code = function.getCode();
-//		if (code.equals(Constants.CODE_OF_OTHER_ACTIVITY)){
-//			code = function.getName();
-//		}
+        if (code.equals(Constants.CODE_OF_OTHER_ACTIVITY_SUFFIX)) {
+            code = function.getName();
+        }
 		if (close){
 			journal.setCodeTd(code);
 			getViewState().closeDialogs();
-			getViewState().showTd(function.getName());
+            getViewState().showTd(code);
 		} else getViewState().openDialogue(function);
 	}
 

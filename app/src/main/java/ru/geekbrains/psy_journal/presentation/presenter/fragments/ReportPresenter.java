@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.presenter;
+package ru.geekbrains.psy_journal.presentation.presenter.fragments;
 
 import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
@@ -11,9 +11,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.domain.models.ReportData;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportingView;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportRelated;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.ReportShown;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.ReportingView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.ReportRelated;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.ReportShown;
 
 @InjectViewState
 public class ReportPresenter extends MvpPresenter<ReportingView> {

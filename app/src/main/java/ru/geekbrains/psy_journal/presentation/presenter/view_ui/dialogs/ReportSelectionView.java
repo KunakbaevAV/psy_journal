@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.presenter.view_ui;
+package ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs;
 
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
@@ -13,6 +13,12 @@ public interface ReportSelectionView extends MvpView {
 	void showSelectedFrom(long date);
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void showSelectedUnto(long date);
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void showErrorFrom();
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void showErrorUnto();
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void transferData(int idOTF, long from, long unto);
 }

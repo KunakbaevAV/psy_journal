@@ -18,6 +18,8 @@ import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 
 public class ExcelReport implements CreatedByExcel{
 
+    private static final String PATTERN_NAME_REPORT = "dd_MM_yy HH:mm";
+    private static final String REPORT_XLS = "отчет %s.xls";
 	private final FileSaved fileSaved;
 	private final String[] headlines;
 	private int numberRow;
@@ -32,14 +34,20 @@ public class ExcelReport implements CreatedByExcel{
 	public File create(List<ReportingJournal> journals) throws IOException {
 		numberRow = 0;
 		HSSFWorkbook workbook = new HSSFWorkbook();
-		SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
-		String nameSheet = dateFormat.format(new Date());
-		HSSFSheet sheet = workbook.createSheet(nameSheet);
+        Date date = new Date();
+        HSSFSheet sheet = workbook.createSheet(createNameSheet(date));
 		createHeadlines(sheet);
-		for (int i = 0; i < journals.size(); i++) {
-			fillInWithData(sheet, journals.get(i));
-		}
-		return fileSaved.writeExcelFile(workbook);
+        fillLines(sheet, journals);
+        return fileSaved.writeExcelFile(workbook, createNameFile(date));
+    }
+
+    private String createNameSheet(Date date) {
+        return new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault()).format(date);
+    }
+
+    private String createNameFile(Date date) {
+        String dateCreationTime = new SimpleDateFormat(PATTERN_NAME_REPORT, Locale.getDefault()).format(date);
+        return String.format(REPORT_XLS, dateCreationTime);
 	}
 
 	private void createHeadlines(HSSFSheet sheet){
@@ -48,6 +56,12 @@ public class ExcelReport implements CreatedByExcel{
 			row.createCell(i).setCellValue(headlines[i]);
 		}
 	}
+
+    private void fillLines(HSSFSheet sheet, List<ReportingJournal> journals) {
+        for (int i = 0; i < journals.size(); i++) {
+            fillInWithData(sheet, journals.get(i));
+        }
+    }
 
 	private void fillInWithData(HSSFSheet sheet, ReportingJournal journal){
 		int column = 0;
@@ -58,11 +72,11 @@ public class ExcelReport implements CreatedByExcel{
 		row.createCell(column++).setCellValue(journal.getNameCategory());
 		row.createCell(column++).setCellValue(journal.getNameGroup());
 		row.createCell(column++).setCellValue(journal.getName());
-		row.createCell(column++).setCellValue(String.valueOf(journal.getQuantityPeople()));
+        row.createCell(column++).setCellValue(journal.getQuantityPeople());
 		row.createCell(column++).setCellValue(journal.getDeclaredRequest());
 		row.createCell(column++).setCellValue(journal.getRealRequest());
 		row.createCell(column++).setCellValue(journal.getNameWorkForm());
-		row.createCell(column++).setCellValue(String.valueOf(journal.getWorkTime()));
+        row.createCell(column++).setCellValue(journal.getWorkTime());
 		row.createCell(column).setCellValue(journal.getComment());
 	}
 }

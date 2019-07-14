@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.presenter;
+package ru.geekbrains.psy_journal.presentation.presenter.fragments;
 
 import android.annotation.SuppressLint;
 
@@ -17,8 +17,8 @@ import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.AllWorkView;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.IViewHolder;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.IViewHolder;
 
 import static ru.geekbrains.psy_journal.Constants.ERROR_DELETING;
 import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABASE;

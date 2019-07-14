@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.IRecyclerAllWorkPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.IViewHolder;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.IRecyclerAllWorkPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.IViewHolder;
 
 public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHolder> {
 
