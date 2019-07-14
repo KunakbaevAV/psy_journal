@@ -25,7 +25,7 @@ class FileModule {
 	@Singleton
 	@Provides
 	File getDirectory(){
-		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), context.getResources().getString(R.string.reports));
+        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
 		if (!file.exists() && !file.mkdirs()) return null;
 		return file;
 	}

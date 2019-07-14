@@ -19,7 +19,7 @@ import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 public class ExcelReport implements CreatedByExcel{
 
     private static final String PATTERN_NAME_REPORT = "dd_MM_yy HH:mm";
-    private static final String REPORT_XLS = "отчет %s.xls";
+	private static final String REPORT_XLS = "report %s.xls";
 	private final FileSaved fileSaved;
 	private final String[] headlines;
 	private int numberRow;

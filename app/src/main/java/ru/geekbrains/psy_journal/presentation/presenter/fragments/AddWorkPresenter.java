@@ -142,8 +142,8 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	@Override
 	public void setFunction(Functional function, boolean close) {
 		String code = function.getCode();
-        if (code.equals(Constants.CODE_OF_OTHER_ACTIVITY_SUFFIX)) {
-            code = function.getName();
+		if (code.endsWith(Constants.CODE_OF_OTHER_ACTIVITY_SUFFIX)) {
+			code = function.getCode() + " " + function.getName();
         }
 		if (close){
 			journal.setCodeTd(code);
