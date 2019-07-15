@@ -51,4 +51,5 @@
     <string name="db_empty">база пуста</string>
     <string name="file_write_to">%s записан в DOCUMENTS/Отчеты</string>
     <string name="file_write_error">отчет.xls не создан, %s</string>
+    <string name="title_add_catalog_item">Добавление элемента справочника </string>
 </resources>

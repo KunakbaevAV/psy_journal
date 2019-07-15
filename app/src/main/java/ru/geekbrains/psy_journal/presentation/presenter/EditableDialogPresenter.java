@@ -12,26 +12,26 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.factory.CatalogFactory;
+import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.Displayed;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.EditableDialogView;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.IViewHolderCatalog;
 
 import static ru.geekbrains.psy_journal.Constants.ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE;
 import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABASE;
 
 @InjectViewState
-public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
+public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> implements Bindable, Insertable {
+
+    private static final String EMPTY_CODE = "";
 
     @Inject
-    CatalogFactory catalogFactory;
-    @Inject
     RoomHelper roomHelper;
+
     private List<Catalog> catalogList;
     private String title;
     private Catalog catalog;
@@ -46,9 +46,10 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
         catalogList = new ArrayList<>();
     }
 
-    public void bindView(IViewHolderCatalog holder) {
-        Catalog catalogItem = catalogList.get(holder.getPos());
-        holder.setCatalogItem(catalogItem.getName());
+    @Override
+    public void bindView(Displayed displayed, int position) {
+        Catalog catalogItem = catalogList.get(position);
+        displayed.bind(EMPTY_CODE, catalogItem.getName());
     }
 
     public int getItemCount() {
@@ -58,8 +59,9 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
         return 0;
     }
 
-    public void loadData() {
-        getViewState().loadData(title);
+    @Override
+    public void selectItem(int position) {
+        getViewState().saveSelectedCatalog(catalogList.get(position));
     }
 
     @SuppressLint("CheckResult")
@@ -95,39 +97,25 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                 ).isDisposed();
     }
 
-    //Метод для выбора элемента
-    public void selectItem(IViewHolderCatalog holder) {
-        Catalog catalog = catalogList.get(holder.getPos());
-        if (catalog instanceof Category) {
-            getViewState().saveSelectedCategory((Category) catalog);
-            return;
-        }
-        if (catalog instanceof Group) {
-            getViewState().saveSelectedGroup((Group) catalog);
-            return;
-        }
-        if (catalog instanceof WorkForm) {
-            getViewState().saveSelectedWorkForm((WorkForm) catalog);
-        }
+    @Override
+    public void insertCategoryItem(String name) {
+        catalog = new Category();
+        catalog.setName(name);
+        insertCatalogItemSubscribe(roomHelper.insertItemCategory((Category) catalog));
     }
 
-    //Метод для добавления нового элемента каталога
-    public void insertCatalogItem(String name) {
-        catalog = catalogFactory.getCatalog(title);
-        if (catalog == null) return;
+    @Override
+    public void insertGroupItem(String name) {
+        catalog = new Group();
         catalog.setName(name);
+        insertCatalogItemSubscribe(roomHelper.insertItemGroup((Group) catalog));
+    }
 
-        if (catalog instanceof Category) {
-            insertCatalogItemSubscribe(roomHelper.insertItemCategory((Category) catalog));
-            return;
-        }
-        if (catalog instanceof Group) {
-            insertCatalogItemSubscribe(roomHelper.insertItemGroup((Group) catalog));
-            return;
-        }
-        if (catalog instanceof WorkForm) {
-            insertCatalogItemSubscribe(roomHelper.insertItemWorkForm((WorkForm) catalog));
-        }
+    @Override
+    public void insertWorkFormItem(String name) {
+        catalog = new WorkForm();
+        catalog.setName(name);
+        insertCatalogItemSubscribe(roomHelper.insertItemWorkForm((WorkForm) catalog));
     }
 
     @SuppressLint("CheckResult")
@@ -138,7 +126,11 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> {
                             catalogList.add(catalog);
                             getViewState().updateRecyclerView();
                         },
-                        er -> getViewState().showToast(ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + er.getMessage())
+                        throwable -> getViewState().showToast(ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage())
                 ).isDisposed();
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

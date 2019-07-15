@@ -1,15 +1,15 @@
 package ru.geekbrains.psy_journal.di;
 
 import javax.inject.Singleton;
+
 import dagger.Component;
 import ru.geekbrains.psy_journal.data.database.DataBaseFirstLoader;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
-import ru.geekbrains.psy_journal.presentation.presenter.MainPresenter;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.factory.CatalogFactory;
 import ru.geekbrains.psy_journal.presentation.presenter.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.AllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.DialogFunctionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.EditableDialogPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.MainPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.ReportPresenter;
 
 @Singleton
@@ -29,8 +29,6 @@ public interface AppComponent {
     void inject(App app);
 
     void inject(EditableDialogPresenter presenter);
-
-    void inject(CatalogFactory catalogFactory);
 
     void inject(ReportPresenter presenter);
 

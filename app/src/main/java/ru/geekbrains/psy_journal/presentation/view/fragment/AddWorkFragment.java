@@ -11,10 +11,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.fragment.app.FragmentManager;
+
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -22,36 +24,43 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
+import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.AddWorkPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.Collectable;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.AddWorkView;
-import ru.geekbrains.psy_journal.presentation.presenter.Collectable;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.CategoryDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.DateSettingDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.EditableDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.FunctionDialog;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.GroupDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.OTFDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.TDDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.TFDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.TimeSettingDialog;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.WorkFormDialog;
 
 public class AddWorkFragment extends MvpAppCompatFragment implements
 	AddWorkView,
 	Collectable,
 		GivenBySettableDate,
-        GivenBySettableFunction {
+		GivenBySettableFunction,
+		GivenBySettableCatalog {
 
 	private static final String DEFAULT_WORK_TIME = "1.0";
 	private static final String KEY_JOURNAL = "key journal";
@@ -121,11 +130,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	    dateText.setOnClickListener(v -> DateSettingDialog.newInstance(Constants.TAG_ADD_WORK).show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER));
         quantityPeople.setOnEditorActionListener(editorActionListener);
 	    workTimeText.setOnClickListener(v -> new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), TAG_TIME_PICKER));
-	    categoryText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_category)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_category)));
-	    groupText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_group)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_group)));
+		categoryText.setOnClickListener(v -> openCatalog(CategoryDialog.newInstance(Constants.TAG_ADD_WORK), getString(R.string.choose_category)));
+		groupText.setOnClickListener(v -> openCatalog(GroupDialog.newInstance(Constants.TAG_ADD_WORK), getString(R.string.choose_group)));
         declaredRequestText.setOnEditorActionListener(editorActionListener);
         realRequestText.setOnEditorActionListener(editorActionListener);
-	    workFormText.setOnClickListener(v -> EditableDialog.newInstance(getString(R.string.choose_work_form)).show(getActivity().getSupportFragmentManager(), getString(R.string.choose_work_form)));
+		workFormText.setOnClickListener(v -> openCatalog(WorkFormDialog.newInstance(Constants.TAG_ADD_WORK), getString(R.string.choose_work_form)));
 	    codeTfText.setOnClickListener(v -> openDialogue(OTFDialog.newInstance(Constants.TAG_ADD_WORK) , getString(R.string.OTF)));
     }
 
@@ -181,6 +190,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	}
 
 	private void openDialogue(FunctionDialog dialog, String title) {
+		if (getActivity() != null) {
+			dialog.show(getActivity().getSupportFragmentManager(), title);
+		}
+	}
+
+	private void openCatalog(EditableDialog dialog, String title) {
 		if (getActivity() != null) {
 			dialog.show(getActivity().getSupportFragmentManager(), title);
 		}
@@ -313,6 +328,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
 	public SettableByFunction getSettableByFunction() {
+		return workPresenter;
+	}
+
+	@Override
+	public SettableByCatalog getSettableByCatalog() {
 		return workPresenter;
 	}
 
