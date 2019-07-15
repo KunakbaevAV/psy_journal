@@ -1,25 +1,20 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-
 import com.arellomobile.mvp.MvpAppCompatDialogFragment;
-
 import ru.geekbrains.psy_journal.R;
 
 public abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 
 	private boolean isPositiveButton;
 	private String textButton;
-	private DialogInterface.OnClickListener listener;
 
 	protected void hasPositiveButton(boolean isPositiveButton){
 		this.isPositiveButton = isPositiveButton;
@@ -27,10 +22,6 @@ public abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 
 	protected void setTextButton(String textButton) {
 		this.textButton = textButton;
-	}
-
-	protected void setListener(DialogInterface.OnClickListener listener) {
-		this.listener = listener;
 	}
 
 	@NonNull
@@ -44,7 +35,7 @@ public abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 				.beginTransaction()
 				.remove(this)
 				.commitNow());
-			if (isPositiveButton) builder.setPositiveButton(textButton, listener);
+			if (isPositiveButton) builder.setPositiveButton(textButton, null);
 		return builder.create();
 	}
 

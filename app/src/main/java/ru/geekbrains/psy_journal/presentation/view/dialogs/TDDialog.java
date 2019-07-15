@@ -29,12 +29,17 @@ public class TDDialog extends OTFDialog {
 	DialogFunctionPresenter providePresenter(){
 		if (getArguments() != null) {
 			int id = getArguments().getInt(Constants.KEY_ID);
-			DialogFunctionPresenter dialogFunctionPresenter = new DialogFunctionPresenter(getString(R.string.TD));
+			DialogFunctionPresenter dialogFunctionPresenter = new DialogFunctionPresenter();
 			App.getAppComponent().inject(dialogFunctionPresenter);
 			dialogFunctionPresenter.getTD(id);
 			return dialogFunctionPresenter;
 		}
 		return new DialogFunctionPresenter();
+	}
+
+	@Override
+	protected String getTitle() {
+		return getString(R.string.TD);
 	}
 
 	@Override

@@ -1,14 +1,15 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import butterknife.BindView;
@@ -28,26 +29,19 @@ import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class ReportSelectionDialog extends AbstractDialog implements
 	ReportSelectionView,
-		GivenBySettableDate,
-		GivenBySettableFunction {
+	GivenBySettableDate,
+	GivenBySettableFunction {
+
+	@BindView(R.id.otf_text) TextInputEditText otfView;
+	@BindView(R.id.report_date_begin_text) TextInputEditText fromView;
+	@BindView(R.id.report_date_end_text) TextInputEditText toView;
+	@BindView(R.id.otf_layout) TextInputLayout otfLayout;
+	@BindView(R.id.report_date_begin_layout) TextInputLayout dateBeginLayout;
+	@BindView(R.id.report_date_end_layout) TextInputLayout dateEndLayout;
+
+	@InjectPresenter ReportSelectionPresenter selectionPresenter;
 
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
-	@BindView(R.id.otf_text)
-	TextInputEditText otfView;
-	@BindView(R.id.report_date_begin_text)
-	TextInputEditText fromView;
-	@BindView(R.id.report_date_end_text)
-	TextInputEditText toView;
-	@BindView(R.id.report_date_begin_layout)
-	TextInputLayout dateBeginLayout;
-
-	@InjectPresenter
-	ReportSelectionPresenter selectionPresenter;
-	@BindView(R.id.report_date_end_layout)
-	TextInputLayout dateEndLayout;
-	private final DialogInterface.OnClickListener listener = (dialog, which) -> {
-		if (selectionPresenter.isCollectedAll()) dismiss();
-	};
 	private Unbinder unbinder;
 
 	@ProvidePresenter
@@ -77,7 +71,6 @@ public class ReportSelectionDialog extends AbstractDialog implements
 			toView.setOnClickListener(v -> determineDate(false));
 			hasPositiveButton(true);
 			setTextButton(getResources().getString(R.string.report));
-			setListener(listener);
 		}
 	}
 
@@ -99,6 +92,7 @@ public class ReportSelectionDialog extends AbstractDialog implements
 
 	@Override
 	public void showSelectedOTF(String name) {
+		if (otfLayout.getError() != null) otfLayout.setError(null);
 		otfView.setText(name);
 	}
 
@@ -124,13 +118,26 @@ public class ReportSelectionDialog extends AbstractDialog implements
 	}
 
 	@Override
-	public void showErrorFrom() {
-		dateBeginLayout.setError("Начальная дата НЕ может быть больше конечной");
+	public void showErrorOTF(int otf) {
+		String message = null;
+		if (otf == 0) message = "Обобщенная трудовая функция НЕ выбрана";
+		otfLayout.setError(message);
 	}
 
 	@Override
-	public void showErrorUnto() {
-		dateEndLayout.setError("Конечная дата НЕ может быть меньше начальной");
+	public void showErrorFrom(long from) {
+		String message;
+		if (from == 0) message = "Начальная дата НЕ заполнена";
+		else message = "Начальная дата НЕ может быть больше конечной";
+		dateBeginLayout.setError(message);
+	}
+
+	@Override
+	public void showErrorUnto(long unto) {
+		String message;
+		if (unto == 0) message = "Конечная дата НЕ заполнена";
+		else message = "Начальная дата НЕ может быть больше конечной";
+		dateEndLayout.setError(message);
 	}
 
 	@Override
@@ -152,6 +159,12 @@ public class ReportSelectionDialog extends AbstractDialog implements
     @Override
     public void onResume() {
         super.onResume();
-        //TODO запретить, если даты не выбраны
+	    final AlertDialog dialog = (AlertDialog) getDialog();
+	    if (dialog != null) {
+		    Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+		    positiveButton.setOnClickListener(v -> {
+			    if (selectionPresenter.isCollectedAll()) dialog.dismiss();
+		    });
+	    }
     }
 }

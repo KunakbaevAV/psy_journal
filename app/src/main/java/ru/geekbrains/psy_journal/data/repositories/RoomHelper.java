@@ -1,15 +1,10 @@
 package ru.geekbrains.psy_journal.data.repositories;
 
 import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.di.App;
@@ -34,9 +29,6 @@ import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_ERROR;
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_GOOD;
 import static ru.geekbrains.psy_journal.Constants.DB_LOGS;
-import static ru.geekbrains.psy_journal.Constants.MAPPING_JOURNAL_ERROR;
-import static ru.geekbrains.psy_journal.Constants.TAG;
-
 /**
  * Организация работы с базой данный в дополнительном потоке
  */

@@ -13,12 +13,12 @@ public interface ReportSelectionView extends MvpView {
 	void showSelectedFrom(long date);
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void showSelectedUnto(long date);
-
+	@StateStrategyType(AddToEndSingleStrategy.class)
+	void showErrorOTF(int otf);
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void showErrorFrom();
-
+    void showErrorFrom(long from);
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void showErrorUnto();
+    void showErrorUnto(long unto);
 	@StateStrategyType(AddToEndSingleStrategy.class)
 	void transferData(int idOTF, long from, long unto);
 }

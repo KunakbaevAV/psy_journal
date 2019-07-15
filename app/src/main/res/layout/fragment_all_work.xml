@@ -13,6 +13,8 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/standartMargin"
         android:orientation="vertical"
+        android:divider="@color/colorPrimaryDark"
+        android:showDividers="middle"
         tools:listitem="@layout/item_all_work" />
 
     <ProgressBar

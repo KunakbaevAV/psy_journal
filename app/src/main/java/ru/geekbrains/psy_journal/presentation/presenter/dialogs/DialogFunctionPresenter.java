@@ -21,48 +21,52 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewhold
 public class DialogFunctionPresenter extends MvpPresenter<FunctionView> implements Bindable {
 
 	private final List<Functional> list = new ArrayList<>();
-	@Inject
-	RoomHelper roomHelper;
-	private String title;
+	@Inject	RoomHelper roomHelper;
 	private Disposable disposable;
 
-	public DialogFunctionPresenter() {
-	}
-
-	public DialogFunctionPresenter(String title) {
-		this.title = title;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
 	public void getOTF() {
+		getViewState().showProgressBar();
 		disposable = roomHelper.getOTFList()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(otfList -> {
 					list.addAll(otfList);
-					getViewState().update();
-				}, e -> Log.e("getOTF(): ", e.getMessage()));
+					ifRequestSuccess();
+				}, e -> {
+					getViewState().hideProgressBar();
+					Log.e("getOTF(): ", e.getMessage());
+			});
 
 	}
 
 	public void getTF(int idOTF) {
+		getViewState().showProgressBar();
 		disposable = roomHelper.getTFList(idOTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tfs -> {
 					list.addAll(tfs);
-					getViewState().update();
-				}, e -> Log.e("getTF(): ", e.getMessage()));
+					ifRequestSuccess();
+				}, e -> {
+					getViewState().hideProgressBar();
+					Log.e("getTF(): ", e.getMessage());
+			});
 	}
 
 	public void getTD(int idTF) {
+		getViewState().showProgressBar();
 		disposable = roomHelper.getTDList(idTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tds -> {
 					list.addAll(tds);
-					getViewState().update();
-				}, e -> Log.e("getTD: ", e.getMessage()));
+					ifRequestSuccess();
+				}, e -> {
+					getViewState().hideProgressBar();
+					Log.e("getTD: ", e.getMessage());
+			});
+	}
+
+	private void ifRequestSuccess() {
+		getViewState().updateRecyclerView();
+		getViewState().hideProgressBar();
 	}
 
 	@Override

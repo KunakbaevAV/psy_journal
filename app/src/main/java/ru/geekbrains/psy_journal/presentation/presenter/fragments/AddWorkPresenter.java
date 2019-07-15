@@ -1,21 +1,18 @@
 package ru.geekbrains.psy_journal.presentation.presenter.fragments;
 
 import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-
 import javax.inject.Inject;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.Constants;
+import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.presentation.presenter.Settable;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
@@ -27,7 +24,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	Settable,
 	SettableByDate,
 	SettableByTime,
-        SettableByFunction {
+    SettableByFunction {
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
 	private Journal journal;

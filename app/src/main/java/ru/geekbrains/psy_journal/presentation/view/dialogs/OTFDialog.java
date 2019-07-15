@@ -28,7 +28,7 @@ public class OTFDialog extends FunctionDialog{
 
 	@ProvidePresenter
 	DialogFunctionPresenter providePresenter(){
-		DialogFunctionPresenter dialogFunctionPresenter = new DialogFunctionPresenter(getString(R.string.OTF));
+		DialogFunctionPresenter dialogFunctionPresenter = new DialogFunctionPresenter();
 		App.getAppComponent().inject(dialogFunctionPresenter);
 		dialogFunctionPresenter.getOTF();
 		return dialogFunctionPresenter;
@@ -43,6 +43,11 @@ public class OTFDialog extends FunctionDialog{
 			GivenBySettableFunction bySelectableFunction = (GivenBySettableFunction) getActivity().getSupportFragmentManager().findFragmentByTag(tag);
 			if (bySelectableFunction != null) settableByFunction = bySelectableFunction.getSettableByFunction();
 		}
+	}
+
+	@Override
+	protected String getTitle() {
+		return getString(R.string.OTF);
 	}
 
 	@Override
