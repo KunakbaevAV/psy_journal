@@ -50,8 +50,8 @@ import ru.geekbrains.psy_journal.presentation.view.dialogs.TimeSettingDialog;
 public class AddWorkFragment extends MvpAppCompatFragment implements
 	AddWorkView,
 	Collectable,
-        GivenBySettableDate,
-        GivenBySettableFunction {
+    GivenBySettableDate,
+    GivenBySettableFunction {
 
 	private static final String DEFAULT_WORK_TIME = "1.0";
 	private static final String KEY_JOURNAL = "key journal";

@@ -7,10 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".presentation.view.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/frame_master"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:overScrollMode="always">
+
+        <FrameLayout
+            android:id="@+id/frame_master"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.core.widget.NestedScrollView>
+
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"

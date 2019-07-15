@@ -3,7 +3,6 @@ package ru.geekbrains.psy_journal.presentation.view.utilities;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
@@ -35,19 +34,31 @@ public class BehaviorFABAndBottomAppBar extends HideBottomViewOnScrollBehavior<V
 	public void onStopNestedScroll(@NonNull CoordinatorLayout coordinatorLayout,
 	                               @NonNull View child,
 	                               @NonNull View target, int type) {
-		FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) target.getLayoutParams();
 		if (isDown){
-			BottomAppBar bottomAppBar = coordinatorLayout.findViewById(R.id.bottomAppBar);
-			int heightBottomAppBar = 0;
-			if (bottomAppBar != null) {
-				heightBottomAppBar = bottomAppBar.getHeight();
-				bottomAppBar.performShow();
-			}
-			slideUp(child);
-			layoutParams.bottomMargin = child.getHeight() + heightBottomAppBar;
+			toLift(coordinatorLayout, child, target);
 		} else {
-			layoutParams.bottomMargin = 0;
+			toBringBack(target);
 		}
+	}
+
+	private void toBringBack(View target){
+		CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) target.getLayoutParams();
+		if (layoutParams.bottomMargin == 0) return;
+		layoutParams.bottomMargin = 0;
+		target.setLayoutParams(layoutParams);
+	}
+
+	private void toLift(CoordinatorLayout coordinatorLayout,
+	                    View child, View target){
+		CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) target.getLayoutParams();
+		BottomAppBar bottomAppBar = coordinatorLayout.findViewById(R.id.bottomAppBar);
+		int heightBottomAppBar = 0;
+		if (bottomAppBar != null) {
+			heightBottomAppBar = bottomAppBar.getHeight();
+			bottomAppBar.performShow();
+		}
+		slideUp(child);
+		layoutParams.bottomMargin = child.getHeight() / 2 + heightBottomAppBar;
 		target.setLayoutParams(layoutParams);
 	}
 }
