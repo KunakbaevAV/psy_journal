@@ -51,4 +51,6 @@
     <string name="db_empty">база пуста</string>
     <string name="file_write_to">%s записан в DOCUMENTS</string>
     <string name="file_write_error">отчет.xls не создан, %s</string>
+    <string name="description">description</string>
+    <string name="create_excel_xls">сформировать excel файл, отчет.xls</string>
 </resources>
