@@ -14,6 +14,12 @@
         android:layout_marginTop="@dimen/standartMargin"
         app:counterEnabled="true"
         app:counterMaxLength="255"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
         app:counterTextAppearance="@style/TextAppearance.MaterialComponents.Body1">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -25,6 +31,7 @@
             android:imeOptions="actionDone"
             android:inputType="textMultiLine|textAutoCorrect"
             android:textAlignment="center"
+            android:padding="@dimen/padding_vertical"
            />
 
     </com.google.android.material.textfield.TextInputLayout>

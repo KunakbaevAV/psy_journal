@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="@dimen/standart_elevation">
 
     <LinearLayout
@@ -22,34 +23,57 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/category_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@android:color/white"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <com.google.android.material.textfield.TextInputEditText
+
                 android:id="@+id/category_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
-                android:hint="@string/choose_category" />
+                android:gravity="center"
+                android:hint="@string/choose_category"
+                android:padding="@dimen/padding_vertical" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/group_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standartMargin">
+            android:layout_marginTop="@dimen/standartMargin"
+            app:boxBackgroundColor="@android:color/white"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/group_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
-                android:hint="@string/choose_group" />
+                android:gravity="center"
+                android:hint="@string/choose_group"
+                android:padding="@dimen/padding_vertical" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standartMargin">
+            android:layout_marginTop="@dimen/standartMargin"
+            app:boxBackgroundColor="@android:color/white"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/name_text"
@@ -63,7 +87,9 @@
                 android:paddingBottom="@dimen/padding_vertical"
                 android:cursorVisible="false"
                 android:imeOptions="actionDone"
-                android:inputType="textPersonName|textAutoCorrect" />
+                android:gravity="center"
+                android:inputType="textPersonName|textAutoCorrect"
+                android:padding="@dimen/padding_vertical" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
