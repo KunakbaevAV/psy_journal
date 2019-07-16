@@ -14,4 +14,5 @@
     <dimen name="bottom_tab_layout">256dp</dimen>
     <dimen name="header_height">60dp</dimen>
     <dimen name="standart_corner_radius">30dp</dimen>
+    <dimen name="margin_top">16dp</dimen>
 </resources>
