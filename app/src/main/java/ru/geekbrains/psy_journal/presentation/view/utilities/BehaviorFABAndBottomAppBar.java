@@ -3,12 +3,11 @@ package ru.geekbrains.psy_journal.presentation.view.utilities;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
-import com.google.android.material.bottomappbar.BottomAppBar;
 
-import ru.geekbrains.psy_journal.R;
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
 
 public class BehaviorFABAndBottomAppBar extends HideBottomViewOnScrollBehavior<View> {
 
@@ -37,14 +36,14 @@ public class BehaviorFABAndBottomAppBar extends HideBottomViewOnScrollBehavior<V
 		if (isDown){
             slideUp(child);
 		} else {
-			toBringBack(target);
-		}
-	}
+            toBringBack(target);
+        }
+    }
 
-	private void toBringBack(View target){
-		CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) target.getLayoutParams();
-		if (layoutParams.bottomMargin == 0) return;
-		layoutParams.bottomMargin = 0;
+    private void toBringBack(View target) {
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) target.getLayoutParams();
+        if (layoutParams.bottomMargin == 0) return;
+        layoutParams.bottomMargin = 0;
 		target.setLayoutParams(layoutParams);
 	}
 }
