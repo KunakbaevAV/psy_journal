@@ -24,6 +24,8 @@ android {
 
 dependencies {
     implementation fileTree(include:['*.jar'], dir:'libs')
+//    XML Pull Parser
+    implementation files('libs/xmlpull_1_0_5.jar')
 //    Apache POI работа с excel
     implementation 'org.apache.poi:poi-ooxml:4.0.1'
 //    ButterKnife

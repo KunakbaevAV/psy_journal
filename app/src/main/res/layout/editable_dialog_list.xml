@@ -13,5 +13,7 @@
         android:divider="@color/colorPrimaryDark"
         android:orientation="vertical"
         android:showDividers="middle"
-        tools:listitem="@layout/editable_dialog_item"></androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/editable_dialog_item">
+
+    </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

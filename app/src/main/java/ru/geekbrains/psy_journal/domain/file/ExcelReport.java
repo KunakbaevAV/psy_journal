@@ -5,7 +5,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +12,8 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 
@@ -31,14 +32,16 @@ public class ExcelReport implements CreatedByExcel{
 	}
 
 	@Override
-	public File create(List<ReportingJournal> journals) throws IOException {
-		numberRow = 0;
-		HSSFWorkbook workbook = new HSSFWorkbook();
-        Date date = new Date();
-        HSSFSheet sheet = workbook.createSheet(createNameSheet(date));
-		createHeadlines(sheet);
-        fillLines(sheet, journals);
-        return fileSaved.writeExcelFile(workbook, createNameFile(date));
+	public Single<File> create(List<ReportingJournal> journals) {
+		return Single.fromCallable(() -> {
+			numberRow = 0;
+			HSSFWorkbook workbook = new HSSFWorkbook();
+			Date date = new Date();
+			HSSFSheet sheet = workbook.createSheet(createNameSheet(date));
+			createHeadlines(sheet);
+			fillLines(sheet, journals);
+			return fileSaved.writeExcelFile(workbook, createNameFile(date));
+			}).subscribeOn(Schedulers.io());
     }
 
     private String createNameSheet(Date date) {

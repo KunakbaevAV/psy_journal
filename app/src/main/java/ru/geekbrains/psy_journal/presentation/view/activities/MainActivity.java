@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.view;
+package ru.geekbrains.psy_journal.presentation.view.activities;
 
 import android.Manifest;
 import android.content.ClipData;
