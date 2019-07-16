@@ -20,6 +20,8 @@
             android:focusableInTouchMode="false"
             android:textAlignment="center"
             tools:text="1"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
             />
 
     </com.google.android.material.textfield.TextInputLayout>

@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/standartMargin"
+    android:background="@color/colorPrimary"
     android:elevation="@dimen/standart_elevation">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/quantity_people_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        app:errorEnabled="false"
         app:errorTextColor="?attr/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -25,6 +25,9 @@
             android:inputType="number"
             android:imeOptions="actionDone"
             android:cursorVisible="false"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
             tools:text="@string/report_example_count" />
 
     </com.google.android.material.textfield.TextInputLayout>
