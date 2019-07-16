@@ -21,8 +21,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
+import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
 import ru.geekbrains.psy_journal.presentation.view.activities.MainActivity;
@@ -70,7 +70,7 @@ public class AllWorkFragment extends MvpAppCompatFragment implements AllWorkView
 			@Override
 			public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
 				int dragFlags = 0;
-				int swipeFlags = ItemTouchHelper.END;
+				int swipeFlags = ItemTouchHelper.START;
 				return makeMovementFlags(dragFlags, swipeFlags);
 			}
 

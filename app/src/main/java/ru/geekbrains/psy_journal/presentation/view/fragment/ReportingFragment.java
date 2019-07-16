@@ -25,14 +25,15 @@ import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.AdapterRepo
 
 public class ReportingFragment extends MvpAppCompatFragment implements ReportingView {
 
-    @BindView(R.id.recycler_all_work) RecyclerView recycler;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-
-    @InjectPresenter  ReportPresenter reportPresenter;
-
-	private static final String KEY_ID_OTF = "key idOTF";
-	private static final String KEY_FROM = "key from";
-	private static final String KEY_UNTO = "key unto";
+    private static final String KEY_ID_OTF = "key idOTF";
+    private static final String KEY_FROM = "key from";
+    private static final String KEY_UNTO = "key unto";
+    @BindView(R.id.recycler_all_work)
+    RecyclerView recycler;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @InjectPresenter
+    ReportPresenter reportPresenter;
     private Unbinder unbinder;
     private AdapterReport adapterReport;
 

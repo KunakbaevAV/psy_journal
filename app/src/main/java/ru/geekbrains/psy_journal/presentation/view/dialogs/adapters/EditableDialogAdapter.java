@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.Bindable;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.IViewHolderCatalog;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 
-public class EditableDialogAdapter extends RecyclerView.Adapter<EditableDialogAdapter.ViewHolder> {
+public class EditableDialogAdapter extends RecyclerView.Adapter {
 
-    private EditableDialogPresenter presenter;
+    private Bindable presenter;
 
     public EditableDialogAdapter(EditableDialogPresenter presenter) {
         this.presenter = presenter;
@@ -24,16 +25,14 @@ public class EditableDialogAdapter extends RecyclerView.Adapter<EditableDialogAd
 
     @NonNull
     @Override
-    public EditableDialogAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.editable_dialog_item, parent, false);
-        return new EditableDialogAdapter.ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.editable_dialog_item, parent, false), presenter);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EditableDialogAdapter.ViewHolder holder, int position) {
-        holder.position = position;
-        presenter.bindView(holder);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ViewHolder myViewHolder = (ViewHolder) holder;
+        presenter.bindView(myViewHolder, position);
     }
 
     @Override
@@ -41,32 +40,26 @@ public class EditableDialogAdapter extends RecyclerView.Adapter<EditableDialogAd
         return presenter.getItemCount();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements IViewHolderCatalog, View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Displayed {
 
         @BindView(R.id.catalog_item)
         TextView item;
 
-        private int position = 0;
-
-        private ViewHolder(final View view) {
+        private ViewHolder(final View view, Bindable bindable) {
             super(view);
+            presenter = bindable;
             ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 
         @Override
-        public void setCatalogItem(String name) {
-            item.setText(name);
-        }
-
-        @Override
-        public int getPos() {
-            return position;
-        }
-
-        @Override
         public void onClick(View v) {
-            presenter.selectItem(this);
+            presenter.selectItem(getAdapterPosition());
+        }
+
+        @Override
+        public void bind(String code, String name) {
+            item.setText(name);
         }
     }
 }
