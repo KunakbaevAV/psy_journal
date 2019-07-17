@@ -18,6 +18,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
         app:layout_constraintVertical_chainStyle="spread">
 
         <com.google.android.material.textfield.TextInputEditText
