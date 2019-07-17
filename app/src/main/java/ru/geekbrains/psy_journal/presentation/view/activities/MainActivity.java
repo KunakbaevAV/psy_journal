@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.view;
+package ru.geekbrains.psy_journal.presentation.view.activities;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -187,7 +187,7 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
     }
 
     private void openScreenEditCatalogs() {
-        //TODO Метод открытия окна для редактирования списков
+	    startActivity(new Intent(getBaseContext(), EditorActivity.class));
     }
 
     private void openScreenSelectOtf() {

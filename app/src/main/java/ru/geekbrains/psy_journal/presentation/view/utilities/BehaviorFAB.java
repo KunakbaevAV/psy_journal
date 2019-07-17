@@ -6,15 +6,12 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
-import com.google.android.material.bottomappbar.BottomAppBar;
 
-import ru.geekbrains.psy_journal.R;
-
-public class BehaviorFABAndBottomAppBar extends HideBottomViewOnScrollBehavior<View> {
+public class BehaviorFAB extends HideBottomViewOnScrollBehavior<View> {
 
 	private boolean isDown;
 
-	public BehaviorFABAndBottomAppBar(Context context, AttributeSet attrs) {
+	public BehaviorFAB(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
@@ -36,15 +33,6 @@ public class BehaviorFABAndBottomAppBar extends HideBottomViewOnScrollBehavior<V
 	                               @NonNull View target, int type) {
 		if (isDown){
             slideUp(child);
-		} else {
-			toBringBack(target);
 		}
-	}
-
-	private void toBringBack(View target){
-		CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) target.getLayoutParams();
-		if (layoutParams.bottomMargin == 0) return;
-		layoutParams.bottomMargin = 0;
-		target.setLayoutParams(layoutParams);
 	}
 }

@@ -7,13 +7,16 @@
     android:orientation="vertical"
     tools:ignore="UseCompoundDrawables">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_vertical"
-        android:text="@string/entity"
-        android:textSize="@dimen/medium_text" />
+        android:textSize="@dimen/medium_text"
+        android:background="@color/cardview_light_background"
+        android:inputType="textAutoCorrect|textAutoComplete"
+        android:imeOptions="actionDone"
+        tools:text="@string/entity"/>
 
     <ImageView
         android:id="@+id/imageView2"

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.view.MainActivity">
+    tools:context=".presentation.view.activities.MainActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:focusableInTouchMode="false"
         app:layout_anchor="@id/bottomAppBar"
         app:layout_anchorGravity="center"
-        app:layout_behavior=".presentation.view.utilities.BehaviorFABAndBottomAppBar"
+        app:layout_behavior=".presentation.view.utilities.BehaviorFAB"
         app:backgroundTint="?attr/colorAccent"
         app:elevation="16dp"
         app:fabSize="auto"

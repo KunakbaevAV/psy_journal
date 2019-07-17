@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.domain.file.CreatedByExcel;
 import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
@@ -34,12 +37,10 @@ public class MainPresenter extends MvpPresenter<InformedView> {
     private void writeReportFile(List<ReportingJournal> list){
 	    if (list.isEmpty()) getViewState().showEmpty();
 	    else {
-		    try {
-			    File file = excel.create(list);
-			    getViewState().showGood(file.getName());
-		    } catch (IOException e) {
-			    getViewState().showBad(e.getMessage());
-		    }
+			disposable = excel.create(list)
+		        .observeOn(AndroidSchedulers.mainThread())
+		        .subscribe(file -> getViewState().showGood(file.getName()),
+			        e -> getViewState().showBad(e.getMessage()));
 	    }
     }
 

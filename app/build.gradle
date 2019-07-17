@@ -23,39 +23,42 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include:['*.jar'], dir:'libs')
-//    Apache POI работа с excel
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //    XML Pull Parser
+    implementation 'xmlpull:xmlpull:1.1.3.4d_b4_min'
+    //    Apache POI работа с excel
     implementation 'org.apache.poi:poi-ooxml:4.0.1'
-//    ButterKnife
+    //    ButterKnife
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-//    MoxyX
+    //    MoxyX
     implementation 'tech.schoolhelper:moxy-x:1.7.0'
     annotationProcessor 'tech.schoolhelper:moxy-x-compiler:1.7.0'
     implementation 'tech.schoolhelper:moxy-x-androidx:1.7.0'
-//    AndroidX
+    //    AndroidX
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.1.0-alpha07'
     // Dagger2
     implementation 'com.google.dagger:dagger-android:2.20'
-    implementation 'com.google.dagger:dagger-android-support:2.20' // if you use the support libraries
+    implementation 'com.google.dagger:dagger-android-support:2.20'
+    // if you use the support libraries
     testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.21'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.20'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
-//    Room
+    //    Room
     implementation 'androidx.room:room-runtime:2.1.0'
     annotationProcessor 'androidx.room:room-compiler:2.1.0'
     implementation 'androidx.room:room-rxjava2:2.1.0'
-//    RxJava
+    //    RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-//    Тесты
+    //    Тесты
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    Анимация
+    //    Анимация
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
 }

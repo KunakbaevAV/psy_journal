@@ -13,11 +13,11 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.ReportRelated;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.ReportShown;
 
-public class AdapterReport extends RecyclerView.Adapter<AdapterReport.ReportViewHolder> {
+public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportViewHolder> {
 
     private ReportRelated related;
 
-    public AdapterReport(ReportRelated related) {
+    public ReportAdapter(ReportRelated related) {
         this.related = related;
     }
 

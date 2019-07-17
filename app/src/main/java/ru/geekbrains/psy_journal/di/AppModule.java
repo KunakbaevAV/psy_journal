@@ -1,6 +1,7 @@
 package ru.geekbrains.psy_journal.di;
 
 import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.room.Room;
 
@@ -9,8 +10,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.psy_journal.data.database.DataBaseFirstLoader;
-import ru.geekbrains.psy_journal.data.repositories.Mapping;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.database.dao.AppDatabase;
 import ru.geekbrains.psy_journal.data.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.data.database.dao.GroupDao;
@@ -20,7 +19,8 @@ import ru.geekbrains.psy_journal.data.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.data.database.dao.TDDao;
 import ru.geekbrains.psy_journal.data.database.dao.TFDao;
 import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.factory.CatalogFactory;
+import ru.geekbrains.psy_journal.data.repositories.Mapping;
+import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 
 import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
 
@@ -91,12 +91,6 @@ public class AppModule {
     }
 
     @Provides
-    @Singleton
-    CatalogFactory getCatalogFactory() {
-        return new CatalogFactory();
-    }
-
-    @Provides
     ReportDao getReportDao() {
         return getAppDatabase().reportDao();
     }
@@ -106,4 +100,9 @@ public class AppModule {
         return new Mapping();
     }
 
+	@Provides
+	@Singleton
+	InputMethodManager provideInputMethodManager(){
+        return (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+	}
 }

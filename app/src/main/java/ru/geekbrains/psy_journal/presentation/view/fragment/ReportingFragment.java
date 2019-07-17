@@ -21,20 +21,21 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.ReportingView;
-import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.AdapterReport;
+import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.ReportAdapter;
 
 public class ReportingFragment extends MvpAppCompatFragment implements ReportingView {
 
-    @BindView(R.id.recycler_all_work) RecyclerView recycler;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-
-    @InjectPresenter  ReportPresenter reportPresenter;
-
-	private static final String KEY_ID_OTF = "key idOTF";
-	private static final String KEY_FROM = "key from";
-	private static final String KEY_UNTO = "key unto";
+    private static final String KEY_ID_OTF = "key idOTF";
+    private static final String KEY_FROM = "key from";
+    private static final String KEY_UNTO = "key unto";
+    @BindView(R.id.recycler_all_work)
+    RecyclerView recycler;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @InjectPresenter
+    ReportPresenter reportPresenter;
     private Unbinder unbinder;
-    private AdapterReport adapterReport;
+    private ReportAdapter reportAdapter;
 
     public static ReportingFragment newInstance(int idOTF, long from, long unto) {
         ReportingFragment reportFragment = new ReportingFragment();
@@ -70,13 +71,13 @@ public class ReportingFragment extends MvpAppCompatFragment implements Reporting
     private void showRecycler() {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.setHasFixedSize(true);
-        adapterReport = new AdapterReport(reportPresenter.getRecyclePresenter());
-        recycler.setAdapter(adapterReport);
+        reportAdapter = new ReportAdapter(reportPresenter.getRecyclePresenter());
+        recycler.setAdapter(reportAdapter);
     }
 
     @Override
     public void updateRecyclerView() {
-        adapterReport.notifyDataSetChanged();
+        reportAdapter.notifyDataSetChanged();
     }
 
     @Override
