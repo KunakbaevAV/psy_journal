@@ -19,8 +19,8 @@
     <string name="block_client_label">С кем проводится работа</string>
     <string name="block_topic_label">Тематика</string>
     <string name="report_label">Отчет</string>
-    <string name="report_date_begin">от дня</string>
-    <string name="report_date_end">до дня</string>
+    <string name="report_date_begin">от дня:</string>
+    <string name="report_date_end">до дня:</string>
     <string name="block_report_all_label">Все направления</string>
     <string name="report_label_quantity_people">Человек</string>
     <string name="report_label_work_time">Часов</string>
@@ -32,7 +32,7 @@
     <string name="tf_06">A/06.7 Психологическое просвещение субъектов образовательного процесса</string>
     <string name="tf_07">A/07.7 Психопрофилактика (профессиональная деятельность, направленная на сохранение и укрепление психологического здоровья обучающихся в процессе обучения и воспитания в образовательных организациях)</string>
     <string name="report_example_count">999</string>
-    <string name="OTF">Обобщенные трудовые функции</string>
+    <string name="OTF">Обобщенная трудовая функция</string>
     <string name="TF">Трудовые функции</string>
     <string name="TD">Трудовые действия</string>
     <string name="cancel">Отмена</string>
@@ -53,6 +53,6 @@
     <string name="file_write_error">отчет.xls не создан, %s</string>
     <string name="title_add_catalog_item">Добавление элемента справочника </string>
     <string name="description">description</string>
-    <string name="create_excel_xls">сформировать excel файл, отчет.xls</string>
+    <string name="create_excel_xls">Сохранить отчет в Excel</string>
     <string name="entity">Сущность</string>
 </resources>

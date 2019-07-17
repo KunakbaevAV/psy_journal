@@ -170,9 +170,6 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
 	        case R.id.edit_catalogs:
 		        openScreenEditCatalogs();
 		        return true;
-	        case R.id.select_otf:
-		        openScreenSelectOtf();
-		        return true;
 	        case R.id.get_report:
 		        openScreenGettingReport();
 		        return true;
@@ -188,10 +185,6 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
 
     private void openScreenEditCatalogs() {
 	    startActivity(new Intent(getBaseContext(), EditorActivity.class));
-    }
-
-    private void openScreenSelectOtf() {
-
     }
 
     private void openScreenGettingReport() {

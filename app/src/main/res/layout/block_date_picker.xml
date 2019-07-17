@@ -18,13 +18,17 @@
         app:errorTextColor="?attr/colorAccent"
         app:layout_constraintEnd_toStartOf="@+id/report_date_end_layout"
         app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/report_date_begin_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:hint="@string/report_date_begin"
             android:focusableInTouchMode="false"
             android:textAlignment="center" />
@@ -40,13 +44,17 @@
         app:errorTextColor="?attr/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/report_date_begin_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/report_date_end_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:hint="@string/report_date_end"
             android:focusableInTouchMode="false"
             android:textAlignment="center" />
