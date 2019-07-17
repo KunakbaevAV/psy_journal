@@ -8,9 +8,6 @@
             android:id="@+id/edit_catalogs"
             android:title="@string/edit_catalogs" />
         <item
-            android:id="@+id/select_otf"
-            android:title="@string/select_otf" />
-        <item
             android:id="@+id/get_report"
             android:title="@string/get_report" />
         <item
