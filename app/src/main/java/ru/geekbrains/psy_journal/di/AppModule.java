@@ -1,6 +1,7 @@
 package ru.geekbrains.psy_journal.di;
 
 import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.room.Room;
 
@@ -99,4 +100,9 @@ public class AppModule {
         return new Mapping();
     }
 
+	@Provides
+	@Singleton
+	InputMethodManager provideInputMethodManager(){
+        return (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+	}
 }

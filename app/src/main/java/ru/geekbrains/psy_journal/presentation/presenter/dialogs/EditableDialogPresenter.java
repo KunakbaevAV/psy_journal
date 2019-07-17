@@ -17,7 +17,6 @@ import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
-import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.Insertable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.EditableDialogView;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
@@ -43,7 +42,6 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
 
     public EditableDialogPresenter(String title) {
         this.title = title;
-        App.getAppComponent().inject(this);
         catalogList = new ArrayList<>();
     }
 

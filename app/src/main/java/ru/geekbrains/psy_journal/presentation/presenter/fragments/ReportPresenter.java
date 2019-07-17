@@ -18,11 +18,12 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewho
 @InjectViewState
 public class ReportPresenter extends MvpPresenter<ReportingView> {
 
+	@Inject RoomHelper roomHelper;
+
+	private Disposable disposable;
+
     private final RecyclePresenter recyclePresenter = new RecyclePresenter();
     private final List<ReportData> list = new ArrayList<>();
-    @Inject
-    RoomHelper roomHelper;
-    private Disposable disposable;
 
     public RecyclePresenter getRecyclePresenter() {
         return recyclePresenter;
@@ -33,8 +34,8 @@ public class ReportPresenter extends MvpPresenter<ReportingView> {
         disposable = roomHelper.getReport(idOTF, from, unto)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(reports -> {
-                            ifRequestSuccess();
                             list.addAll(reports);
+		                    ifRequestSuccess();
                         },
                         e -> {
                             getViewState().hideProgressBar();

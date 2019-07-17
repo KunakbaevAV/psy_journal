@@ -7,11 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
 
-public class BehaviorFABAndBottomAppBar extends HideBottomViewOnScrollBehavior<View> {
+public class BehaviorFAB extends HideBottomViewOnScrollBehavior<View> {
 
 	private boolean isDown;
 
-	public BehaviorFABAndBottomAppBar(Context context, AttributeSet attrs) {
+	public BehaviorFAB(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 

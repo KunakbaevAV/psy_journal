@@ -11,7 +11,9 @@ import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogFunctionPr
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableListPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
+import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
 
 @Singleton
 @Component(modules = {AppModule.class, FileModule.class})
@@ -36,4 +38,8 @@ public interface AppComponent {
 	void inject(MainPresenter presenter);
 
     void inject(Mapping mapping);
+
+	void inject(EditableListPresenter presenter);
+
+	void inject(EditableListsAdapter.ViewHolder viewHolder);
 }

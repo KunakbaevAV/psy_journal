@@ -12,14 +12,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.Bindable;
-import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 
 public class EditableDialogAdapter extends RecyclerView.Adapter {
 
     private Bindable presenter;
 
-    public EditableDialogAdapter(EditableDialogPresenter presenter) {
+    public EditableDialogAdapter(Bindable presenter) {
         this.presenter = presenter;
     }
 
