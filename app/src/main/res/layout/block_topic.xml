@@ -26,13 +26,11 @@
             android:layout_height="wrap_content"
             app:counterEnabled="true"
             app:counterMaxLength="255"
-            app:boxBackgroundColor="@android:color/white"
-            app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
-            app:counterTextAppearance="@style/TextAppearance.MaterialComponents.Body1">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/declared_request_text"
@@ -41,8 +39,8 @@
                 android:hint="@string/declared_request"
                 android:inputType="textAutoCorrect"
                 android:imeOptions="actionDone"
-                android:gravity="center"
                 android:padding="@dimen/padding_vertical"
+                android:textAlignment="center"
                />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,13 +50,11 @@
             android:layout_height="wrap_content"
             app:counterEnabled="true"
             app:counterMaxLength="255"
-            app:boxBackgroundColor="@android:color/white"
-            app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
-            app:counterTextAppearance="@style/TextAppearance.MaterialComponents.Body1">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/real_request_text"
@@ -66,9 +62,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/real_request"
                 android:inputType="textAutoCorrect"
-                android:gravity="center"
                 android:imeOptions="actionDone"
-                android:padding="@dimen/padding_vertical" />
+                android:padding="@dimen/padding_vertical"
+                android:textAlignment="center" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,12 +79,11 @@
                 android:layout_marginEnd="@dimen/standartMargin"
                 app:layout_constraintBaseline_toBaselineOf="@+id/code_tf_layout"
                 app:layout_constraintEnd_toStartOf="@+id/code_tf_layout"
-                app:boxBackgroundColor="@android:color/white"
-                app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
                 app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
                 app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
                 app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -96,9 +91,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="false"
-                    android:gravity="center"
                     android:hint="@string/choose_work_form"
-                    android:padding="@dimen/padding_vertical" />
+                    android:padding="@dimen/padding_vertical"
+                    android:textAlignment="center" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -108,12 +103,11 @@
                 android:layout_marginEnd="@dimen/minMargin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/work_form_layout"
-                app:boxBackgroundColor="@android:color/white"
-                app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
                 app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
                 app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
                 app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -121,9 +115,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="false"
-                    android:gravity="center"
                     android:hint="@string/choose_tf"
-                    android:padding="@dimen/padding_vertical" />
+                    android:padding="@dimen/padding_vertical"
+                    android:textAlignment="center" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

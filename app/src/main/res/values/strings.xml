@@ -10,11 +10,11 @@
     <string name="group_example">7а</string>
     <string name="choose_group">Класс/группа</string>
     <string name="choose_fio">ФИО</string>
-    <string name="quantity_people">Охвачено человек</string>
+    <string name="quantity_people">Кол-во человек</string>
     <string name="declared_request">Декларируемый запрос</string>
     <string name="real_request">Выявленная проблема</string>
     <string name="choose_work_form">Форма работы</string>
-    <string name="choose_work_time">Затрачено времени</string>
+    <string name="choose_work_time">Кол-во часов</string>
     <string name="comment_label">Примечания</string>
     <string name="block_client_label">С кем проводится работа</string>
     <string name="block_topic_label">Тематика</string>
