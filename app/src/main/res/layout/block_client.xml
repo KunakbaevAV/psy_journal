@@ -24,11 +24,10 @@
             android:id="@+id/category_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundColor="@android:color/white"
-            app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -37,9 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
-                android:gravity="center"
                 android:hint="@string/choose_category"
-                android:padding="@dimen/padding_vertical" />
+                android:padding="@dimen/padding_vertical"
+                android:textAlignment="center" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -47,11 +46,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standartMargin"
-            app:boxBackgroundColor="@android:color/white"
-            app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -59,20 +57,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
-                android:gravity="center"
                 android:hint="@string/choose_group"
-                android:padding="@dimen/padding_vertical" />
+                android:padding="@dimen/padding_vertical"
+                android:textAlignment="center" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standartMargin"
-            app:boxBackgroundColor="@android:color/white"
-            app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
@@ -87,9 +84,9 @@
                 android:paddingBottom="@dimen/padding_vertical"
                 android:cursorVisible="false"
                 android:imeOptions="actionDone"
-                android:gravity="center"
                 android:inputType="textPersonName|textAutoCorrect"
-                android:padding="@dimen/padding_vertical" />
+                android:padding="@dimen/padding_vertical"
+                android:textAlignment="center" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
