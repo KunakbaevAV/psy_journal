@@ -20,13 +20,12 @@
         app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
         app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
         app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
-        app:counterTextAppearance="@style/TextAppearance.MaterialComponents.Body1">
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/comment_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:hint="@string/comment_label"
             android:imeOptions="actionDone"
             android:inputType="textMultiLine|textAutoCorrect"
