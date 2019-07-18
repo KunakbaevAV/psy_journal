@@ -1,17 +1,21 @@
 package ru.geekbrains.psy_journal.presentation.view.fragment;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
+
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-
-import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
-import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableListPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableGroupPresenter;
+import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
+import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCallback;
 
-public class EditableGroupFragment extends EditableCategoryFragment{
+public class EditableGroupFragment extends EditableCatalogFragment{
+
+	@InjectPresenter EditableGroupPresenter presenter;
 
 	@ProvidePresenter
-	EditableListPresenter providePresenter(){
-		EditableListPresenter presenter = new EditableListPresenter();
+	EditableGroupPresenter providePresenter(){
+		EditableGroupPresenter presenter = new EditableGroupPresenter();
 		App.getAppComponent().inject(presenter);
 		presenter.getGroup();
 		return presenter;
@@ -22,13 +26,10 @@ public class EditableGroupFragment extends EditableCategoryFragment{
 		return "Группа";
 	}
 
-	@Override
-	public void changeName(Catalog catalog, int position) {
-		editableListPresenter.changeNameGroup((Group) catalog, position);
-	}
-
-	@Override
-	public void remove(Catalog catalog) {
-		editableListPresenter.removeGroup((Group) catalog);
+	protected void showRecycler() {
+		super.showRecycler();
+		adapter = new EditableListsAdapter(presenter.getAdapterPresenter());
+		recycler.setAdapter(adapter);
+		new ItemTouchHelper(new ItemTouchHelperCallback(adapter)).attachToRecyclerView(recycler);
 	}
 }

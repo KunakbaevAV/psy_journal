@@ -1,17 +1,21 @@
 package ru.geekbrains.psy_journal.presentation.view.fragment;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
+
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-
-import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
-import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableListPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableWorkFormPresenter;
+import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
+import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCallback;
 
-public class EditableWorkFormFragment extends EditableCategoryFragment {
+public class EditableWorkFormFragment extends EditableCatalogFragment {
+
+	@InjectPresenter EditableWorkFormPresenter presenter;
 
 	@ProvidePresenter
-	EditableListPresenter providePresenter(){
-		EditableListPresenter presenter = new EditableListPresenter();
+	EditableWorkFormPresenter providePresenter(){
+		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter();
 		App.getAppComponent().inject(presenter);
 		presenter.getWorkForm();
 		return presenter;
@@ -22,13 +26,10 @@ public class EditableWorkFormFragment extends EditableCategoryFragment {
 		return "Форма работы";
 	}
 
-	@Override
-	public void changeName(Catalog catalog, int position) {
-		editableListPresenter.changeNameWorkForm((WorkForm) catalog, position);
-	}
-
-	@Override
-	public void remove(Catalog catalog) {
-		editableListPresenter.removeWorkForm((WorkForm) catalog);
+	protected void showRecycler() {
+		super.showRecycler();
+		adapter = new EditableListsAdapter(presenter.getAdapterPresenter());
+		recycler.setAdapter(adapter);
+		new ItemTouchHelper(new ItemTouchHelperCallback(adapter)).attachToRecyclerView(recycler);
 	}
 }

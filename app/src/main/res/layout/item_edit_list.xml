@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_vertical"
         android:textSize="@dimen/medium_text"
-        android:background="@color/cardview_light_background"
+        android:background="@color/design_default_color_background"
         android:inputType="textAutoCorrect|textAutoComplete"
         android:imeOptions="actionDone"
         tools:text="@string/entity"/>
