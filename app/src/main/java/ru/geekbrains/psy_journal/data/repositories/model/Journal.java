@@ -13,7 +13,7 @@ import static ru.geekbrains.psy_journal.Constants.TABLE_JOURNAL;
  * Журнал регистрации единиц работы пользователя
  */
 @Entity(tableName = TABLE_JOURNAL)
-public class Journal implements Parcelable {
+public class Journal implements Parcelable, Comparable<Journal> {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -183,5 +183,10 @@ public class Journal implements Parcelable {
             dest.writeFloat(getWorkTime());
         }
         dest.writeString(getComment());
+    }
+
+    @Override
+    public int compareTo(Journal o) {
+        return (int) (o.date - this.date);
     }
 }
