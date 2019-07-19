@@ -1,7 +1,6 @@
 package ru.geekbrains.psy_journal.data.repositories.model;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import static ru.geekbrains.psy_journal.Constants.TABLE_OTF;
@@ -17,11 +16,6 @@ public class OTF implements Functional {
     private String code;
     private String name;
 
-	public OTF(int id) {
-		this.id = id;
-	}
-
-	@Ignore
 	public OTF(int id, String code, String name) {
         this.id = id;
         this.code = code;

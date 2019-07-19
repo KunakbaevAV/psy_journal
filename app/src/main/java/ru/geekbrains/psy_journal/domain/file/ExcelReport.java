@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.Constants;
@@ -25,7 +23,6 @@ public class ExcelReport implements CreatedByExcel{
 	private final String[] headlines;
 	private int numberRow;
 
-	@Inject
 	public ExcelReport(String[] headlines, FileSaved fileSaved) {
 		this.headlines = headlines;
 		this.fileSaved = fileSaved;

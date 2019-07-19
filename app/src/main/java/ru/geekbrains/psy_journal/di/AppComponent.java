@@ -3,7 +3,6 @@ package ru.geekbrains.psy_journal.di;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.geekbrains.psy_journal.data.database.DataBaseFirstLoader;
 import ru.geekbrains.psy_journal.data.repositories.Mapping;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
@@ -12,11 +11,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPr
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCatalogPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCategoryPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableGroupPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableWorkFormPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
-import ru.geekbrains.psy_journal.presentation.view.fragment.EditableCatalogFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
 
 @Singleton
@@ -24,8 +19,6 @@ import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableLis
 public interface AppComponent {
 
     void inject(RoomHelper roomHelper);
-
-    void inject(DataBaseFirstLoader dataBaseFirstLoader);
 
     void inject(AllWorkPresenter allWorkPresenter);
 
