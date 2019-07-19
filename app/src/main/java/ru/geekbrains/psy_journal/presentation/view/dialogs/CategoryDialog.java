@@ -68,7 +68,7 @@ public class CategoryDialog extends EditableDialog {
         if (getActivity() == null) return;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(alertView);
-        builder.setTitle(R.string.title_add_catalog_item + R.string.choose_category);
+        builder.setTitle(getString(R.string.title_add_catalog_item) + " " + getString(R.string.choose_category));
         builder.setNegativeButton(R.string.cancel, null);
         builder.setPositiveButton(R.string.add_catalog_item, (dialog, id) -> {
             EditText catalogItem = alertView.findViewById(R.id.new_catalog_item);
