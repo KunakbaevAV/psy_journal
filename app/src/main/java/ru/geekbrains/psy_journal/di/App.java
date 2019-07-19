@@ -2,7 +2,12 @@ package ru.geekbrains.psy_journal.di;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+
 import javax.inject.Inject;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.data.files.FileXMLLoader;
@@ -42,8 +47,15 @@ public class App extends Application {
         }
     }
 
+    //FixMe вывести сообщения для пользователя в случае неудачи
 	private void loadDefaultFunctions(){
-		XmlPullParser parser = getApplicationContext().getResources().getXml(R.xml.default_functions);
-		new FileXMLLoader(loadableDataBase, parser).toParseFile(null);
+		XmlPullParser parser = getResources().getXml(R.xml.default_functions);
+		try {
+			new FileXMLLoader(loadableDataBase, parser).loadByDefault();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -29,7 +29,7 @@ public class DataBaseLoader implements LoadableDataBase {
     private final List<Group> groupList = new ArrayList<>();
     private final List<WorkForm> workFormList = new ArrayList<>();
 	private final RoomHelper roomHelper;
-	private final Context context; //вывел специально для перевода строк в ресурсы, если не нужен, удалить
+	private final Context context;
 
 	@Override
 	public List<OTF> getOtfList() {

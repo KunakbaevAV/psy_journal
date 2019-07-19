@@ -45,21 +45,25 @@ public class FileXMLLoader {
 
 	public Completable toParseFile(File file) {
 		return Completable.fromAction(() -> {
-			if (file != null) parser.setInput(new FileReader(file));
-			while (parser.getEventType() != XmlPullParser.END_DOCUMENT){
-				if (isFoundTagStart() && isTagMatchesName(CODE_OTF)){
-					checkOTF();
-				}
-				if (isFoundTagStart() && isTagMatchesName(CODE_TF)){
-					checkTF();
-				}
-				if (isFoundTagStart() && isTagMatchesName(LABOR_ACTIONS)){
-					parsingTD();
-				}
-				parser.next();
-			}
-			loadableDataBase.initDataBase();
+			parser.setInput(new FileReader(file));
+			loadByDefault();
 		}).subscribeOn(Schedulers.io());
+	}
+
+	public void loadByDefault() throws XmlPullParserException, IOException {
+		while (parser.getEventType() != XmlPullParser.END_DOCUMENT){
+			if (isFoundTagStart() && isTagMatchesName(CODE_OTF)){
+				checkOTF();
+			}
+			if (isFoundTagStart() && isTagMatchesName(CODE_TF)){
+				checkTF();
+			}
+			if (isFoundTagStart() && isTagMatchesName(LABOR_ACTIONS)){
+				parsingTD();
+			}
+			parser.next();
+		}
+		loadableDataBase.initDataBase();
 	}
 
 	private boolean isTagMatchesName(String name){

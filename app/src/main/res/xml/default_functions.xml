@@ -1,9 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <XMLCardInfo
-    xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsd="http://www.w3.org/2001/XMLSchema">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <ProfessionalStandarts>
         <ProfessionalStandart>
+            <NameProfessionalStandart>Педагог-психолог (психолог в сфере образования)</NameProfessionalStandart>
+            <RegistrationNumber>509</RegistrationNumber>
+            <OrderNumber>514н</OrderNumber>
+            <DateOfApproval>24.07.2015</DateOfApproval>
+            <FirstSection>
+                <KindProfessionalActivity>
+                    Деятельность по психолого-педагогическому сопровождению образовательного процесса
+                </KindProfessionalActivity>
+                <CodeKindProfessionalActivity>01.002</CodeKindProfessionalActivity>
+                <PurposeKindProfessionalActivity>
+                    Психолого-педагогическое сопровождение образовательного процесса в образовательных организациях общего, профессионального и дополнительного образования, основных и дополнительных образовательных программ; оказание психолого-педагогической помощи лицам с ограниченными возможностями здоровья, испытывающим трудности в освоении основных общеобразовательных программ, развитии и социальной адаптации, в том числе несовершеннолетним обучающимся, признанным в случаях и в порядке, которые предусмотрены уголовно-процессуальным законодательством, подозреваемыми, обвиняемыми или подсудимыми по уголовному делу либо являющимся потерпевшими или свидетелями преступления
+                </PurposeKindProfessionalActivity>
+                <EmploymentGroup>
+                    <ListOKZ>
+                        <UnitOKZ>
+                            <CodeOKZ>2320</CodeOKZ>
+                            <NameOKZ>Преподаватели в средней школе</NameOKZ>
+                        </UnitOKZ>
+                        <UnitOKZ>
+                            <CodeOKZ>3310</CodeOKZ>
+                            <NameOKZ>Преподавательский персонал начального образования</NameOKZ>
+                        </UnitOKZ>
+                        <UnitOKZ>
+                            <CodeOKZ>3330</CodeOKZ>
+                            <NameOKZ>Преподавательский персонал специального обучения</NameOKZ>
+                        </UnitOKZ>
+                        <UnitOKZ>
+                            <CodeOKZ>2445</CodeOKZ>
+                            <NameOKZ>Психологи</NameOKZ>
+                        </UnitOKZ>
+                        <UnitOKZ>
+                            <CodeOKZ>3320</CodeOKZ>
+                            <NameOKZ>Персонал дошкольного воспитания и обучения</NameOKZ>
+                        </UnitOKZ>
+                    </ListOKZ>
+                </EmploymentGroup>
+            </FirstSection>
             <ThirdSection>
                 <WorkFunctions>
                     <GeneralizedWorkFunctions>
