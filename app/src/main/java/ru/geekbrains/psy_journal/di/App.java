@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import javax.inject.Inject;
 
-import ru.geekbrains.psy_journal.data.database.DataBaseFirstLoader;
+import ru.geekbrains.psy_journal.data.database.DataBaseLoader;
 
 import static ru.geekbrains.psy_journal.Constants.FIRST_START;
 import static ru.geekbrains.psy_journal.Constants.PREFERENCES;
@@ -18,8 +18,8 @@ public class App extends Application {
         return appComponent;
     }
 
-    @Inject
-    DataBaseFirstLoader dataBaseFirstLoader;
+//    @Inject
+//    DataBaseLoader dataBaseLoader;
 
     @Override
     public void onCreate() {
@@ -29,19 +29,19 @@ public class App extends Application {
 	            .fileModule(new FileModule(this))
                 .build();
         appComponent.inject(this);
-        if (checkIsFirstStart()) dataBaseFirstLoader.initDataBase();
+//        if (checkIsFirstStart()) dataBaseLoader.initDataBase();
     }
 
-    private boolean checkIsFirstStart() {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
-        boolean isFirstStart = sharedPreferences.getBoolean(FIRST_START, true);
-        if (isFirstStart) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(FIRST_START, false);
-            editor.apply();
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    private boolean checkIsFirstStart() {
+//        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
+//        boolean isFirstStart = sharedPreferences.getBoolean(FIRST_START, true);
+//        if (isFirstStart) {
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putBoolean(FIRST_START, false);
+//            editor.apply();
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 }

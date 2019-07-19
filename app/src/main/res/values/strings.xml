@@ -47,7 +47,7 @@
     <string name="report">Отчет</string>
     <string name="reports">Отчеты</string>
     <string name="need_mail_client">Установите почтовый клиент</string>
-    <string name="no_permission_write_file">Отсутствует разрешение на запись файла</string>
+    <string name="no_permission_file">Отсутствует разрешение на чтение/запись файлов</string>
     <string name="db_empty">база пуста</string>
     <string name="file_write_to">%s записан в DOCUMENTS</string>
     <string name="file_write_error">отчет.xls не создан, %s</string>

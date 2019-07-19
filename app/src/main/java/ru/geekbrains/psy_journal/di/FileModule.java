@@ -38,13 +38,13 @@ class FileModule {
 
 	@Singleton
 	@Provides
-	FileSaved getFileCreator(){
-		return new FileCreator(getDirectory());
+	FileSaved provideFileCreator(File directory){
+		return new FileCreator(directory);
 	}
 
 	@Singleton
 	@Provides
-	CreatedByExcel provideExcelReport(){
-		return new ExcelReport(getHeadlines(), getFileCreator());
+	CreatedByExcel provideExcelReport(String[] headlines, FileSaved fileSaved){
+		return new ExcelReport(headlines, fileSaved);
 	}
 }

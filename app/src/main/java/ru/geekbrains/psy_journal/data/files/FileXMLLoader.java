@@ -7,41 +7,117 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Locale;
 
+import io.reactivex.Completable;
+import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.data.repositories.model.OTF;
+import ru.geekbrains.psy_journal.data.repositories.model.TD;
+import ru.geekbrains.psy_journal.data.repositories.model.TF;
 
 public class FileXMLLoader {
 
+	private static final String CODE_OTF = "CodeOTF";
+	private static final String CODE_TF = "CodeTF";
+	private static final String LABOR_ACTIONS = "LaborActions";
+	private static final String NAME_OTF = "NameOTF";
+	private static final String NAME_TF = "NameTF";
+	private static final String NAME_TD = "LaborAction";
+	private static final String CODE_TD = "%s.%d";
+	private LoadableDataBase loadableDataBase;
 	private XmlPullParser parser;
 	private int idOTF;
 	private int idTF;
 	private int idTD;
-	private int idWorkForm;
-	private int idGroup;
-	private int idCategory;
+	private int countTD;
+	private String codeTF;
 
-	public FileXMLLoader() throws XmlPullParserException{
+	public FileXMLLoader(LoadableDataBase loadableDataBase) throws XmlPullParserException{
+		this.loadableDataBase = loadableDataBase;
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		parser = factory.newPullParser();
 	}
 
-	public void toParseFile(File file) throws IOException, XmlPullParserException {
-		parser.setInput(new FileReader(file));
-		while (parser.getEventType() != XmlPullParser.END_DOCUMENT){
+	public Completable toParseFile(File file) {
+		return Completable.fromAction(() -> {
+			parser.setInput(new FileReader(file));
+			while (parser.getEventType() != XmlPullParser.END_DOCUMENT){
+				if (isFoundTagStart() && isTagMatchesName(CODE_OTF)){
+					checkOTF();
+				}
+				if (isFoundTagStart() && isTagMatchesName(CODE_TF)){
+					checkTF();
+				}
+				if (isFoundTagStart() && isTagMatchesName(LABOR_ACTIONS)){
+					parsingTD();
+				}
+				parser.next();
+			}
+			loadableDataBase.initDataBase();
+		}).subscribeOn(Schedulers.io());
+	}
 
-			parser.next();
-		}
+	private boolean isTagMatchesName(String name){
+		return parser.getName().equals(name);
+	}
+
+	private boolean isFoundTagStart() throws XmlPullParserException {
+		return parser.getEventType() == XmlPullParser.START_TAG;
+	}
+
+	private boolean isFoundText() throws XmlPullParserException {
+		return parser.getEventType() == XmlPullParser.TEXT;
+	}
+
+	private boolean isFoundTagEnd() throws XmlPullParserException {
+		return parser.getEventType() == XmlPullParser.END_TAG;
 	}
 
 	private void checkOTF() throws IOException, XmlPullParserException {
-		OTF otf;
-		if (parser.getName().equals("CodeOTF")){
-			otf = new OTF(++idOTF);
-			otf.setCode(parser.getText());
+		String codeOTF = null, nameOTF = null;
+		while (!(isFoundTagEnd() && isTagMatchesName(CODE_OTF))){
 			parser.next();
-			if (parser.getName().equals("NameOTF")) {
-				otf.setName(parser.getText());
-			}
+			if (isFoundText()) codeOTF = parser.getText();
 		}
+		while (!(isFoundTagEnd() && isTagMatchesName(NAME_OTF))){
+			parser.next();
+			if (isFoundText()) nameOTF = parser.getText();
+		}
+		loadableDataBase.getOtfList().add(new OTF(++idOTF, codeOTF, nameOTF));
+	}
+
+	private void checkTF() throws IOException, XmlPullParserException {
+		String nameTF = null;
+		while (!(isFoundTagEnd() && isTagMatchesName(CODE_TF))){
+			parser.next();
+			if (isFoundText()) codeTF = parser.getText();
+		}
+		while (!(isFoundTagEnd() && isTagMatchesName(NAME_TF))){
+			parser.next();
+			if (isFoundText()) nameTF = parser.getText();
+		}
+		loadableDataBase.getTfList().add(new TF(++idTF, codeTF, nameTF, idOTF));
+		countTD = 0;
+	}
+
+	private void parsingTD() throws XmlPullParserException, IOException {
+		while (!(isFoundTagEnd() && isTagMatchesName(LABOR_ACTIONS))){
+			parser.next();
+			if (isFoundTagStart() && isTagMatchesName(NAME_TD)) checkTD();
+		}
+	}
+
+	private void checkTD() throws XmlPullParserException, IOException {
+		String nameTD = null;
+		while (!(isFoundTagEnd() && isTagMatchesName(NAME_TD))) {
+			parser.next();
+			if (isFoundText()) nameTD = parser.getText();
+		}
+		String codeTD = createCodeTD(++countTD);
+		loadableDataBase.getTdList().add(new TD(++idTD, codeTD, nameTD, idTF));
+	}
+
+	private String createCodeTD(int count){
+		return String.format(Locale.getDefault(), CODE_TD, codeTF, count);
 	}
 }

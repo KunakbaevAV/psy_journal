@@ -4,7 +4,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import javax.inject.Inject;
 import ru.geekbrains.psy_journal.domain.file.FileSaved;
 
 public class FileCreator implements FileSaved {
@@ -13,7 +12,6 @@ public class FileCreator implements FileSaved {
 	private static final String WRITE_ERROR = "ошибка записи: %s";
 	private File directory;
 
-	@Inject
 	public FileCreator(File directory) {
 		this.directory = directory;
 	}

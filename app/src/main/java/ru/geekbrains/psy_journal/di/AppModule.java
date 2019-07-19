@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.geekbrains.psy_journal.data.database.DataBaseFirstLoader;
+import ru.geekbrains.psy_journal.data.database.DataBaseLoader;
 import ru.geekbrains.psy_journal.data.database.dao.AppDatabase;
 import ru.geekbrains.psy_journal.data.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.data.database.dao.GroupDao;
@@ -19,6 +19,7 @@ import ru.geekbrains.psy_journal.data.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.data.database.dao.TDDao;
 import ru.geekbrains.psy_journal.data.database.dao.TFDao;
 import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
+import ru.geekbrains.psy_journal.data.files.LoadableDataBase;
 import ru.geekbrains.psy_journal.data.repositories.Mapping;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 
@@ -86,8 +87,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    DataBaseFirstLoader getDataBaseFirstLoader() {
-        return new DataBaseFirstLoader();
+    LoadableDataBase provideLoadableDataBase(RoomHelper roomHelper) {
+        return new DataBaseLoader(context, roomHelper);
     }
 
     @Provides
