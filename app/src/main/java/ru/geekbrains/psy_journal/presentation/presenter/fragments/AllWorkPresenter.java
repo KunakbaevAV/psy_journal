@@ -7,6 +7,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -49,6 +50,7 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(journalList -> {
                     listWorks.addAll(journalList);
+                    Collections.sort(listWorks);
                     ifRequestSuccess();
                 }, throwable -> {
                     getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage());
