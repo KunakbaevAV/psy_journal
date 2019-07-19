@@ -20,7 +20,6 @@ import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.presentation.presenter.Settable;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.EditableDialogView;
@@ -32,13 +31,13 @@ import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public abstract class EditableDialog extends AbstractDialog implements EditableDialogView {
 
-    protected SettableByCatalog settableByCatalog;
-
     @BindView(R.id.recycler_dialog)
     RecyclerView recyclerView;
 
+    protected SettableByCatalog settableByCatalog;
+
     private EditableDialogAdapter adapter;
-    private Settable settable;
+
     @InjectPresenter
     EditableDialogPresenter editablePresenter;
 
@@ -58,7 +57,7 @@ public abstract class EditableDialog extends AbstractDialog implements EditableD
         super.onCreate(savedInstanceState);
         if (getActivity() == null) return;
         AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag(TAG_ADD_WORK);
-        if (fragment != null) settable = fragment.workPresenter;
+        if (fragment != null) settableByCatalog = fragment.workPresenter;
         hasPositiveButton(true);
         setTextButton(getResources().getString(R.string.add_catalog_item));
     }
@@ -94,22 +93,22 @@ public abstract class EditableDialog extends AbstractDialog implements EditableD
 
     @Override
     public void saveSelectedCategory(Category catalog) {
-        if (settable == null) return;
-        settable.saveSelectedCategory(catalog);
+        if (settableByCatalog == null) return;
+        settableByCatalog.saveSelectedCategory(catalog);
         if (getDialog() != null) getDialog().dismiss();
     }
 
     @Override
     public void saveSelectedGroup(Group catalog) {
-        if (settable == null) return;
-        settable.saveSelectedGroup(catalog);
+        if (settableByCatalog == null) return;
+        settableByCatalog.saveSelectedGroup(catalog);
         if (getDialog() != null) getDialog().dismiss();
     }
 
     @Override
     public void saveSelectedWorkForm(WorkForm catalog) {
-        if (settable == null) return;
-        settable.saveSelectedWorkForm(catalog);
+        if (settableByCatalog == null) return;
+        settableByCatalog.saveSelectedWorkForm(catalog);
         if (getDialog() != null) getDialog().dismiss();
     }
 
