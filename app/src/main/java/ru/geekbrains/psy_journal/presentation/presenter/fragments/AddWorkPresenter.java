@@ -16,7 +16,6 @@ import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
-import ru.geekbrains.psy_journal.presentation.presenter.Settable;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
@@ -25,7 +24,6 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AddWor
 
 @InjectViewState
 public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
-	Settable,
 	SettableByDate,
 	SettableByTime,
 		SettableByFunction,
