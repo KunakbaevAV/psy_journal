@@ -70,7 +70,6 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
 	MainPresenter providePresenter(){
 		MainPresenter mainPresenter = new MainPresenter();
 		App.getAppComponent().inject(mainPresenter);
-		mainPresenter.checkDataBase();
 		return mainPresenter;
 	}
 
@@ -286,10 +285,10 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
 
 	private String getStringPathFile(Uri uri){
 		if ("content".equals(uri.getScheme())){
-			String[] projection = new String[]{MediaStore.Files.FileColumns.TITLE};
+			String[] projection = new String[]{MediaStore.Files.FileColumns.DATA};
 			try (Cursor cursor = getContentResolver().query( uri, projection,null, null, null)) {
 				if (cursor != null && cursor.moveToFirst()) {
-					int numberIndex = cursor.getColumnIndex(MediaStore.Files.FileColumns.TITLE);
+					int numberIndex = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
 					 return cursor.getString(numberIndex);
 				}
 			}

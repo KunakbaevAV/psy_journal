@@ -3,7 +3,6 @@ package ru.geekbrains.psy_journal.presentation.presenter.activity;
 import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
@@ -23,22 +22,11 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.Informe
 @InjectViewState
 public class MainPresenter extends MvpPresenter<InformedView> {
 
-    @Inject RoomHelper roomHelper;
+	@Inject RoomHelper roomHelper;
     @Inject CreatedByExcel excel;
     @Inject LoadableDataBase loadableDataBase;
 
     private Disposable disposable;
-
-	/** Проверка базы, заполнена или нет
-	 *
-	 */
-	public void checkDataBase(){
-    	disposable = roomHelper.getItemOTF(1)
-		    .observeOn(AndroidSchedulers.mainThread())
-		    .subscribe(otf -> {
-		    	if (otf == null) getViewState().showEmpty();
-		    }, e -> Log.e("checkDataBase: e", e.getMessage()));
-    }
 
 	public void loadDataBase(String pathFile) throws XmlPullParserException{
 		File file = new File(pathFile);

@@ -24,13 +24,18 @@ public class FileXMLLoader {
 	private static final String NAME_TF = "NameTF";
 	private static final String NAME_TD = "LaborAction";
 	private static final String CODE_TD = "%s.%d";
-	private LoadableDataBase loadableDataBase;
-	private XmlPullParser parser;
+	private final LoadableDataBase loadableDataBase;
+	private final XmlPullParser parser;
 	private int idOTF;
 	private int idTF;
 	private int idTD;
 	private int countTD;
 	private String codeTF;
+
+	public FileXMLLoader(LoadableDataBase loadableDataBase, XmlPullParser parser) {
+		this.loadableDataBase = loadableDataBase;
+		this.parser = parser;
+	}
 
 	public FileXMLLoader(LoadableDataBase loadableDataBase) throws XmlPullParserException{
 		this.loadableDataBase = loadableDataBase;
@@ -40,7 +45,7 @@ public class FileXMLLoader {
 
 	public Completable toParseFile(File file) {
 		return Completable.fromAction(() -> {
-			parser.setInput(new FileReader(file));
+			if (file != null) parser.setInput(new FileReader(file));
 			while (parser.getEventType() != XmlPullParser.END_DOCUMENT){
 				if (isFoundTagStart() && isTagMatchesName(CODE_OTF)){
 					checkOTF();
