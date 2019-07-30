@@ -45,7 +45,7 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<ReportingVie
 		@Override
 		public void bindView(Displayed displayed, int position) {
 			Catalog catalogItem = catalogList.get(position);
-			displayed.bind(null, catalogItem.getName());
+			displayed.bind(catalogItem.getName());
 		}
 
 		@Override

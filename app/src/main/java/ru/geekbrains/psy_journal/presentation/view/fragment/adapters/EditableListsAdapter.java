@@ -68,7 +68,7 @@ public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdap
 		}
 
 		@Override
-		public void bind(String code, String name) {
+		public void bind(String name) {
 			textView.setText(name);
 		}
 

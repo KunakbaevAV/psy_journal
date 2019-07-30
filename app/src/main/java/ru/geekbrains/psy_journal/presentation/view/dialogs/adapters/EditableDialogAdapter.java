@@ -57,7 +57,7 @@ public class EditableDialogAdapter extends RecyclerView.Adapter {
         }
 
         @Override
-        public void bind(String code, String name) {
+        public void bind(String name) {
             item.setText(name);
         }
     }

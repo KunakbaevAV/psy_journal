@@ -43,8 +43,7 @@ public class DialogAdapter extends RecyclerView.Adapter{
 		Displayed,
 		View.OnClickListener {
 
-		@BindView(R.id.code_fun)TextView codeView;
-		@BindView(R.id.name_fun) TextView nameView;
+		@BindView(R.id.function)TextView functionView;
 		private Bindable bindable;
 
 		FunctionViewHolder(@NonNull View itemView, Bindable bindable) {
@@ -55,9 +54,8 @@ public class DialogAdapter extends RecyclerView.Adapter{
 		}
 
 		@Override
-		public void bind(String code, String name) {
-			codeView.setText(code);
-			nameView.setText(name);
+		public void bind(String function) {
+			functionView.setText(function);
 		}
 
 		@Override

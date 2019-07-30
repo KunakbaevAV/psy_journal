@@ -27,8 +27,6 @@ import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABA
 @InjectViewState
 public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> implements Bindable, Insertable {
 
-    private static final String EMPTY_CODE = "";
-
     @Inject
     RoomHelper roomHelper;
 
@@ -48,7 +46,7 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
     @Override
     public void bindView(Displayed displayed, int position) {
         Catalog catalogItem = catalogList.get(position);
-        displayed.bind(EMPTY_CODE, catalogItem.getName());
+        displayed.bind(catalogItem.getName());
     }
 
     public int getItemCount() {
