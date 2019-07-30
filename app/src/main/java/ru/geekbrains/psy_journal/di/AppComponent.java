@@ -8,6 +8,7 @@ import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogFunctionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.OpenFileDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCatalogPresenter;
@@ -39,4 +40,6 @@ public interface AppComponent {
 	void inject(EditableCatalogPresenter presenter);
 
 	void inject(EditableListsAdapter.ViewHolder viewHolder);
+
+    void inject(OpenFileDialogPresenter presenter);
 }

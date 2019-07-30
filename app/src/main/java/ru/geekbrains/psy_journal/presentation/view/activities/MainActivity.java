@@ -22,6 +22,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -31,7 +32,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.xmlpull.v1.XmlPullParserException;
+
 import java.util.ArrayList;
+
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +43,7 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.InformedView;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.OpenFileDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AllWorkFragment;
@@ -194,7 +198,12 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
     }
 
     private void loadDataBaseFromXMLFile() {
-        if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XML)) getXMLFile();
+        if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XML)) openFileDialog();//getXMLFile();
+    }
+
+    private void openFileDialog() {
+        OpenFileDialog dialog = new OpenFileDialog();
+        dialog.show(this.getSupportFragmentManager(), "SELECT_XML");
     }
 
     private void openScreenEditCatalogs() {
@@ -327,7 +336,8 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
                     mainPresenter.createExcelFile();
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XML:
-                    getXMLFile();
+                    //   getXMLFile();
+                    openFileDialog();
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XLS:
                     getFiles();

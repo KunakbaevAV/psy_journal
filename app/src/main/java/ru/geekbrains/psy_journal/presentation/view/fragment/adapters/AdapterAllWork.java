@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.view.fragment;
+package ru.geekbrains.psy_journal.presentation.view.fragment.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +18,7 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
 
     private final IRecyclerAllWorkPresenter presenter;
 
-    AdapterAllWork(IRecyclerAllWorkPresenter presenter) {
+    public AdapterAllWork(IRecyclerAllWorkPresenter presenter) {
         this.presenter = presenter;
     }
 

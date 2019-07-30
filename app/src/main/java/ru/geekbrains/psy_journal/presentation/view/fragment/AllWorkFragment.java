@@ -26,6 +26,7 @@ import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
 import ru.geekbrains.psy_journal.presentation.view.activities.MainActivity;
+import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.AdapterAllWork;
 
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
