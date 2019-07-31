@@ -85,7 +85,7 @@ public class OpenFileDialogAdapter extends RecyclerView.Adapter {
 	            nameFile.setText(file.getName());
             } else {
 	            iconFile.setImageDrawable(fileImage);
-	            nameFile.setText(String.format("%s %s %sбайт", file.getName(),
+	            nameFile.setText(String.format("%s %s %s байт", file.getName(),
 		            new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault())
 			            .format(new Date(file.lastModified())),
 		            file.length()));

@@ -42,7 +42,7 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView>{
 		    .subscribe(list -> {
 				    fileList = list;
 				    ifRequestSuccess();
-			    }, throwable -> showError(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
+			    }, throwable -> showError(throwable.getMessage())
 		    );
     }
 
@@ -64,7 +64,7 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView>{
                         fileList = list;
                         showCurrentDirectory();
                         ifRequestSuccess();
-                    }, throwable -> showError(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
+                    }, throwable -> showError(throwable.getMessage())
             );
     }
 
@@ -78,7 +78,7 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView>{
                     fileList = list;
                     showCurrentDirectory();
                     ifRequestSuccess();
-                }, throwable -> showError(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
+                }, throwable -> showError(throwable.getMessage())
             );
 }
 
@@ -89,7 +89,7 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView>{
 
     private void showError(String error){
 	    getViewState().hideProgressBar();
-	    getViewState().showCurrentDirectory(error);
+	    getViewState().showCurrentDirectory(String.format("%s %s", ERROR_LOADING_DATA_FROM_DATABASE, error));
     }
 
 	@Override

@@ -22,7 +22,7 @@ public class FileProvider implements DisplayFiles {
 
 	@Override
 	public boolean isRoot(File file) {
-		return file.getParent() == null;
+		return file.getParentFile() == null;
 	}
 
 	@Override
@@ -35,7 +35,10 @@ public class FileProvider implements DisplayFiles {
 
     @Override
     public List<File> goUp(File currentFolder) {
-    	if (isRoot(currentFolder)) return null;
+    	if (isRoot(currentFolder)) {
+    		currentDirectory = currentFolder;
+    		return showFiles();
+	    }
         currentDirectory = currentFolder.getParentFile();
         return getListFile(currentDirectory);
     }
