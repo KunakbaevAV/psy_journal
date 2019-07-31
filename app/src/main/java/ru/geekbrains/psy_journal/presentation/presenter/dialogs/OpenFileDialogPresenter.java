@@ -88,8 +88,24 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView>{
     }
 
     private void showError(String error){
+		if (error.equals("storage == null")){
+			loadCurrentDirectory();
+			return;
+		}
 	    getViewState().hideProgressBar();
 	    getViewState().showCurrentDirectory(String.format("%s %s", ERROR_LOADING_DATA_FROM_DATABASE, error));
+    }
+
+    private void loadCurrentDirectory(){
+	    disposable = Single.fromCallable(() -> displayFiles.showFiles(currentDirectory))
+		    .subscribeOn(Schedulers.io())
+		    .observeOn(AndroidSchedulers.mainThread())
+		    .subscribe(list -> {
+				    fileList = list;
+				    showCurrentDirectory();
+				    ifRequestSuccess();
+			    }, throwable -> showError(throwable.getMessage())
+		    );
     }
 
 	@Override
