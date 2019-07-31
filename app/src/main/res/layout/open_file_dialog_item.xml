@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/standartMargin"
         android:layout_marginBottom="@dimen/standartMargin"
-        android:drawableStart="@drawable/ic_folder_24dp"
+        android:drawableLeft="@drawable/ic_folder_24dp"
         android:drawablePadding="@dimen/standartMargin"
         android:padding="@dimen/standartMargin"
         android:text="@string/open_file"

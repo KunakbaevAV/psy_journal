@@ -12,8 +12,8 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.FunctionView;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 
@@ -72,7 +72,7 @@ public class DialogFunctionPresenter extends MvpPresenter<FunctionView> implemen
 	@Override
 	public void bindView(Displayed displayed, int position) {
 		Functional function = list.get(position);
-		displayed.bind(function.getCode(), function.getName());
+        displayed.bind(String.format("%s. $%s", function.getCode(), function.getName()));
 	}
 
 	@Override

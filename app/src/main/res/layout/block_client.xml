@@ -28,6 +28,8 @@
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_top"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -50,6 +52,8 @@
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_top"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -70,6 +74,8 @@
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_top"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView

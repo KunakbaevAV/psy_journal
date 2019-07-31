@@ -4,12 +4,10 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -33,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindDrawable;
@@ -53,7 +52,9 @@ import static ru.geekbrains.psy_journal.Constants.INTENT_TYPE_MULTIPART;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
 
-public class MainActivity extends MvpAppCompatActivity implements InformedView {
+public class MainActivity extends MvpAppCompatActivity implements
+        InformedView,
+        SelectableFile {
 
     @BindView(R.id.main_navigation_drawer) DrawerLayout drawer;
     @BindView(R.id.navigation_view) NavigationView navigationView;
@@ -68,7 +69,6 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
 	private static final int REQUEST_PERMISSION_READ_FILE_XML = 2;
 	private static final int REQUEST_PERMISSION_READ_FILE_XLS = 3;
 	private static final int REQUEST_FILES_GET = 4;
-	private static final int REQUEST_XML_FILE_GET = 5;
 
     @ProvidePresenter
     MainPresenter providePresenter() {
@@ -198,7 +198,9 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
     }
 
     private void loadDataBaseFromXMLFile() {
-        if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XML)) openFileDialog();//getXMLFile();
+        if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XML)) {
+            openFileDialog();
+        }
     }
 
     private void openFileDialog() {
@@ -220,13 +222,6 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
 
     private void sendToMailReport() {
         if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XLS)) getFiles();
-    }
-
-    private void getXMLFile() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/xml");
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        startActivityForResult(intent, REQUEST_XML_FILE_GET);
     }
 
     private void getFiles() {
@@ -264,45 +259,11 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_FILES_GET:
-                if (resultCode == RESULT_OK && data != null) {
-                    sendToMail(data);
-                }
-                break;
-            case REQUEST_XML_FILE_GET:
-                if (resultCode == RESULT_OK && data != null) {
-                    loadBase(data);
-                }
-                break;
-        }
-    }
-
-    private void loadBase(Intent data) {
-        Uri uri = data.getData();
-        if (uri != null) {
-            String pathFile = getStringPathFile(uri);
-            if (pathFile != null) {
-                try {
-                    mainPresenter.loadDataBase(pathFile);
-                } catch (XmlPullParserException e) {
-                    showMessage(String.format("Невозможно прочесть файл, %s", e.getDetail()));
-                }
+        if (requestCode == REQUEST_FILES_GET) {
+            if (resultCode == RESULT_OK && data != null) {
+                sendToMail(data);
             }
         }
-    }
-
-    private String getStringPathFile(Uri uri) {
-        if ("content".equals(uri.getScheme())) {
-			String[] projection = new String[]{MediaStore.Files.FileColumns.DATA};
-            try (Cursor cursor = getContentResolver().query(uri, projection, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-					int numberIndex = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
-                    return cursor.getString(numberIndex);
-                }
-            }
-        }
-        return uri.toString();
     }
 
     private void sendToMail(Intent data) {
@@ -336,7 +297,6 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
                     mainPresenter.createExcelFile();
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XML:
-                    //   getXMLFile();
                     openFileDialog();
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XLS:
@@ -352,6 +312,23 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
         Snackbar snackbar = Snackbar.make(bottomAppBar, message, Snackbar.LENGTH_INDEFINITE);
         snackbar.setAnchorView(fab);
         snackbar.show();
+    }
+
+    private void loadXMLDatabase(String pathFile) {
+        if (pathFile != null) {
+            try {
+                mainPresenter.loadDataBase(pathFile);
+            } catch (XmlPullParserException e) {
+                showMessage(String.format("Невозможно прочесть файл, %s", e.getDetail()));
+            }
+        }
+    }
+
+    @Override
+    public void getFileXML(File file) {
+        if (file.getName().endsWith(".xml")) {
+            loadXMLDatabase(file.getPath());
+        }
     }
 
     @Override

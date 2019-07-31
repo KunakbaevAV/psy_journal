@@ -15,4 +15,5 @@
     <dimen name="header_height">60dp</dimen>
     <dimen name="standart_corner_radius">30dp</dimen>
     <dimen name="margin_top">16dp</dimen>
+    <dimen name="icon_size">256dp</dimen>
 </resources>

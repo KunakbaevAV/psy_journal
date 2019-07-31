@@ -1,6 +1,7 @@
 package ru.geekbrains.psy_journal.presentation.presenter.fragments;
 
 import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<ReportingVie
 		@Override
 		public void bindView(Displayed displayed, int position) {
 			Catalog catalogItem = catalogList.get(position);
-			displayed.bind(null, catalogItem.getName());
+            displayed.bind(catalogItem.getName());
 		}
 
 		@Override
