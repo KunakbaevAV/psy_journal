@@ -1,34 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/go_up"
-        android:layout_width="8dp"
-        android:layout_height="@dimen/standartMargin"
-        android:contentDescription="@string/description"
-        app:srcCompat="@drawable/ic_go_up_24dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_dialog"
+    <TextView
+        android:id="@+id/current_folder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="56dp"
-        android:divider="@color/colorPrimaryDark"
-        android:orientation="vertical"
-        android:showDividers="middle"
-        tools:listitem="@layout/open_file_dialog_item">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
-</FrameLayout>
+        android:textSize="18sp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_margin="8dp"/>
+
+    <include layout="@layout/fragment_all_work"/>
+
+</LinearLayout>

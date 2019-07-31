@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +18,6 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.OpenFileDialogPresenter;
@@ -26,15 +25,14 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.OpenFile
 import ru.geekbrains.psy_journal.presentation.view.activities.SelectableFile;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.OpenFileDialogAdapter;
 
-public class OpenFileDialog extends AbstractDialog implements OpenFileDialogView {
+public class OpenFileDialog extends AbstractDialog implements
+	OpenFileDialogView {
 
-    @BindView(R.id.recycler_dialog)
-    RecyclerView recyclerView;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+	@BindView(R.id.current_folder) TextView textView;
+    @BindView(R.id.recycler_all_work)RecyclerView recyclerView;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
-    @InjectPresenter
-    OpenFileDialogPresenter presenter;
+    @InjectPresenter OpenFileDialogPresenter presenter;
 
     private OpenFileDialogAdapter adapter;
     private SelectableFile selectableFile;
@@ -49,7 +47,7 @@ public class OpenFileDialog extends AbstractDialog implements OpenFileDialogView
     @Override
     public void onStart() {
         super.onStart();
-        presenter.onStart();
+        presenter.openDefaultDirectory();
     }
 
     @Override
@@ -64,7 +62,7 @@ public class OpenFileDialog extends AbstractDialog implements OpenFileDialogView
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.open_file_dialog_list, null);
         ButterKnife.bind(this, view);
-        adapter = new OpenFileDialogAdapter(presenter);
+        adapter = new OpenFileDialogAdapter(presenter.getOpenable());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
@@ -73,7 +71,7 @@ public class OpenFileDialog extends AbstractDialog implements OpenFileDialogView
 
     @Override
     protected String getTitle() {
-        return getResources().getString(R.string.open_file);
+        return getResources().getString(R.string.select_file);
     }
 
     @Override
@@ -81,15 +79,15 @@ public class OpenFileDialog extends AbstractDialog implements OpenFileDialogView
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void showToast(String message) {
-        if (getActivity() == null) return;
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-    }
+	@Override
+	public void showCurrentDirectory(String path) {
+		textView.setText(path);
+	}
 
     @Override
     public void startLoadXml(File file) {
         selectableFile.getFileXML(file);
+        dismiss();
     }
 
     @Override
@@ -100,11 +98,6 @@ public class OpenFileDialog extends AbstractDialog implements OpenFileDialogView
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(ProgressBar.INVISIBLE);
-    }
-
-    @OnClick(R.id.go_up)
-    public void goUp() {
-        presenter.onClickGoUp();
     }
 
 }
