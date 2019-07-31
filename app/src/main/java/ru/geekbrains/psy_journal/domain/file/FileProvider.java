@@ -33,7 +33,13 @@ public class FileProvider implements DisplayFiles {
     	return getListFile(currentDirectory);
     }
 
-    @Override
+	@Override
+	public List<File> showFiles(File currentFolder) {
+    	currentDirectory = currentFolder;
+		return new ArrayList<>(Arrays.asList(currentDirectory.listFiles()));
+	}
+
+	@Override
     public List<File> goUp(File currentFolder) {
     	if (isRoot(currentFolder)) {
     		currentDirectory = currentFolder;
