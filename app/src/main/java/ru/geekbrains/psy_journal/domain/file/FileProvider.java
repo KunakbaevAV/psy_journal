@@ -13,13 +13,24 @@ public class FileProvider implements DisplayFiles {
         this.currentDirectory = currentDirectory;
     }
 
-    @Override
+	@Override
+	public File getCurrentDirectory() {
+		return currentDirectory;
+	}
+
+	@Override
+	public boolean isRoot(File file) {
+		return file.getParent() == null;
+	}
+
+	@Override
     public List<File> showFiles() {
         return new ArrayList<>(Arrays.asList(currentDirectory.listFiles()));
     }
 
     @Override
     public List<File> goUp(File currentFolder) {
+    	if (isRoot(currentFolder)) return null;
         currentDirectory = currentFolder.getParentFile();
         return new ArrayList<>(Arrays.asList(currentDirectory.listFiles()));
     }

@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.domain.file.DisplayFiles;
 import ru.geekbrains.psy_journal.presentation.presenter.Derivable;
@@ -25,15 +26,21 @@ import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABA
 @InjectViewState
 public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView> implements Derivable {
 
+
+	//наигрубейшая ошибка в презентерах вообще ничего НЕ должно быть от андроида,
+	//поэтому и вели шаблон MVP
     @Inject
     Context context;
 
     @Inject
     DisplayFiles displayFiles;
-    @Inject
+    //здесь не нужно инжетировать текущую директорию , делаем через DisplayFiles
+//    @Inject
     File currentDirectory;
 
     private List<File> fileList;
+
+    //убрать
     private Drawable fileImage;
     private Drawable folderImage;
 
@@ -41,19 +48,25 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView> im
     public void onStart() {
         fileList = new ArrayList<>();
         showFiles();
+        //наигрубейшая ошибка это должно быть ао вьюхолдере
+	    //и там спрашивать File.isDirectory() и взависимости от этого
+	    //отображать значек
         fileImage = context.getDrawable(R.drawable.ic_file_24dp);
         folderImage = context.getDrawable(R.drawable.ic_folder_24dp);
     }
 
+
+    //это должно делаться через интерфейс
     public void bindView(IOpenFileViewHolder viewHolder, int position) {
         File fileItem = fileList.get(position);
-        Drawable image;
-        if (fileItem.isDirectory()) {
-            image = folderImage;
-        } else {
-            image = fileImage;
-        }
-        viewHolder.bind(image, fileItem.getName());
+//        Drawable image;
+//        if (fileItem.isDirectory()) {
+//            image = folderImage;
+//        } else {
+//            image = fileImage;
+//        }
+//        viewHolder.bind(image, fileItem.getName());
+	    viewHolder.bind(null, fileItem.getName());
     }
 
     @Override

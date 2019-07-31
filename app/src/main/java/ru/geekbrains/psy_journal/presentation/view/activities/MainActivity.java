@@ -328,6 +328,8 @@ public class MainActivity extends MvpAppCompatActivity implements
     public void getFileXML(File file) {
         if (file.getName().endsWith(".xml")) {
             loadXMLDatabase(file.getPath());
+        } else {
+        	showMessage("выбран не файл .xml");
         }
     }
 

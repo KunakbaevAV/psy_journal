@@ -5,6 +5,10 @@ import java.util.List;
 
 public interface DisplayFiles {
 
+	File getCurrentDirectory();
+
+	boolean isRoot(File file);
+
     List<File> showFiles();
 
     List<File> goUp(File currentFolder);

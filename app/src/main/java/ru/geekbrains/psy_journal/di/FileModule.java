@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
-
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -27,7 +25,6 @@ class FileModule {
 		this.context = context;
 	}
 
-	@Named("DOWNLOADS")
 	@Singleton
 	@Provides
 	File getCurrentDirectory() {
@@ -36,14 +33,12 @@ class FileModule {
 		return file;
 	}
 
-	@Named("DOWNLOADS")
 	@Singleton
 	@Provides
-	DisplayFiles provideSelectableFile(File currentDirectory) {
-		return new FileProvider(currentDirectory);
+	DisplayFiles provideSelectableFile() {
+		return new FileProvider(getCurrentDirectory());
 	}
 
-	@Named("DOCUMENTS")
 	@Singleton
 	@Provides
 	File getDirectory(){
@@ -58,11 +53,10 @@ class FileModule {
 		return context.getResources().getStringArray(R.array.headlines);
 	}
 
-	@Named("DOCUMENTS")
 	@Singleton
 	@Provides
-	FileSaved provideFileCreator(File directory){
-		return new FileCreator(directory);
+	FileSaved provideFileCreator(){
+		return new FileCreator(getDirectory());
 	}
 
 	@Singleton
