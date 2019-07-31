@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ru.geekbrains.psy_journal.Constants;
+
 public class FileProvider implements DisplayFiles {
 
-    private File currentDirectory;
+	private File currentDirectory;
 
     public FileProvider(File currentDirectory) {
         this.currentDirectory = currentDirectory;
@@ -46,7 +48,7 @@ public class FileProvider implements DisplayFiles {
 
     private List<File> getListFile(File directory){
     	List<File> files = new ArrayList<>();
-    	files.add(new File("/\\...\\/"));
+    	files.add(new File(Constants.SUB_LEVEL));
 	    files.addAll(Arrays.asList(directory.listFiles()));
     	return files;
     }

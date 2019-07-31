@@ -1,21 +1,15 @@
 package ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs;
 
-import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-
 import java.io.File;
 
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.ReportingView;
+
 @StateStrategyType(SingleStateStrategy.class)
-public interface OpenFileDialogView extends MvpView {
+public interface OpenFileDialogView extends ReportingView {
 
-    void updateRecyclerView();
-
-    void showToast(String message);
+	void showCurrentDirectory(String path);
 
     void startLoadXml(File file);
-
-    void showProgressBar();
-
-    void hideProgressBar();
 }
