@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/load_database"
-            android:title="Загрузить XML документ в базу" />
+            android:title="Загрузить профстандарт XML в базу" />
         <item
             android:id="@+id/edit_catalogs"
             android:title="@string/edit_catalogs" />
