@@ -72,7 +72,7 @@ public class DialogFunctionPresenter extends MvpPresenter<FunctionView> implemen
 	@Override
 	public void bindView(Displayed displayed, int position) {
 		Functional function = list.get(position);
-        displayed.bind(String.format("%s. $%s", function.getCode(), function.getName()));
+        displayed.bind(String.format("%s. %s", function.getCode(), function.getName()));
 	}
 
 	@Override

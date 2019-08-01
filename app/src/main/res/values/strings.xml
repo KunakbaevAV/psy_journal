@@ -56,5 +56,5 @@
     <string name="create_excel_xls">Сохранить журнал в Excel</string>
     <string name="entity">Сущность</string>
     <string name="icon">icon</string>
-    <string name="open_file">Открыть файл</string>
+    <string name="select_file">Выбрать файл профстандарта .xml</string>
 </resources>
