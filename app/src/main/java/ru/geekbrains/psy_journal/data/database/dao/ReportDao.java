@@ -34,8 +34,8 @@ public interface ReportDao {
             "SUM(Journal.workTime) AS workTime " +
             "FROM TD " +
             "LEFT JOIN Journal ON TD.code = Journal.codeTD " +
-            " WHERE TD.idTF = (SELECT TF.id FROM TF WHERE TF.code = :codeTF)" +
             "AND Journal.date BETWEEN :dateFrom AND :dateTo " +
+            " WHERE TD.idTF = (SELECT TF.id FROM TF WHERE TF.code = :codeTF)" +
             "GROUP BY TD.id";
 
     @Transaction
