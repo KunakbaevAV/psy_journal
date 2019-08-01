@@ -12,9 +12,9 @@ import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.presentation.presenter.Editable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.ReportingView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
-public abstract class EditableCatalogPresenter extends MvpPresenter<ReportingView> {
+public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringView> {
 
 	@Inject RoomHelper roomHelper;
 

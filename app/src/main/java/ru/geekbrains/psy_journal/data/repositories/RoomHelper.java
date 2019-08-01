@@ -1,22 +1,15 @@
 package ru.geekbrains.psy_journal.data.repositories;
 
 import android.util.Log;
+
 import java.util.List;
+
 import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.data.repositories.model.Category;
-import ru.geekbrains.psy_journal.data.repositories.model.Group;
-import ru.geekbrains.psy_journal.data.repositories.model.Journal;
-import ru.geekbrains.psy_journal.data.repositories.model.OTF;
-import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
-import ru.geekbrains.psy_journal.domain.models.ReportData;
-import ru.geekbrains.psy_journal.data.repositories.model.TD;
-import ru.geekbrains.psy_journal.data.repositories.model.TF;
-import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.data.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.data.database.dao.GroupDao;
 import ru.geekbrains.psy_journal.data.database.dao.JournalDao;
@@ -25,6 +18,16 @@ import ru.geekbrains.psy_journal.data.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.data.database.dao.TDDao;
 import ru.geekbrains.psy_journal.data.database.dao.TFDao;
 import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
+import ru.geekbrains.psy_journal.data.repositories.model.Category;
+import ru.geekbrains.psy_journal.data.repositories.model.Group;
+import ru.geekbrains.psy_journal.data.repositories.model.Journal;
+import ru.geekbrains.psy_journal.data.repositories.model.OTF;
+import ru.geekbrains.psy_journal.data.repositories.model.TD;
+import ru.geekbrains.psy_journal.data.repositories.model.TF;
+import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
+import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.domain.models.ReportData;
+import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_ERROR;
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_GOOD;
@@ -497,6 +500,18 @@ public class RoomHelper {
      */
     public Single<List<ReportData>> getReport(int idOTF, long dateFrom, long dateTo) {
         return reportDao.getReport(idOTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Метод получения из БД строк таблицы {@link Journal}, отфильтрованных по выбранной ТФ и периоду
+     *
+     * @param codeTF   код выбранной ТФ
+     * @param dateFrom Начало периода отчета
+     * @param dateTo   Конец периода отчета
+     * @return список объектов {@link ReportData}
+     */
+    public Single<List<ReportData>> getReportByTF(String codeTF, long dateFrom, long dateTo) {
+        return reportDao.getReportByTF(codeTF, dateFrom, dateTo).subscribeOn(Schedulers.io());
     }
 
     /**

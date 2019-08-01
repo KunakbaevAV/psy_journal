@@ -5,8 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
@@ -25,7 +27,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     @Override
     public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.block_report_all, parent, false);
-        return new ReportViewHolder(view);
+        return new ReportViewHolder(view, related);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         return related.getItemCount();
     }
 
-    public static class ReportViewHolder extends RecyclerView.ViewHolder implements ReportShown {
+    public static class ReportViewHolder extends RecyclerView.ViewHolder implements ReportShown, View.OnClickListener {
 
         @BindView(R.id.report_label_tf)
         EditText tfView;
@@ -46,10 +48,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         TextView quantityView;
         @BindView(R.id.report_work_time_tf)
         TextView workTimeView;
+        private ReportRelated related;
 
-        private ReportViewHolder(final View view) {
+        private ReportViewHolder(final View view, ReportRelated related) {
             super(view);
+            this.related = related;
             ButterKnife.bind(this, view);
+            tfView.setOnClickListener(this);
         }
 
         @Override
@@ -57,6 +62,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
             tfView.setText(tf);
             quantityView.setText(String.valueOf(quantityPeople));
             workTimeView.setText(String.valueOf(workTime));
+        }
+
+        @Override
+        public void onClick(View v) {
+            related.selectItem(getAdapterPosition());
         }
     }
 }
