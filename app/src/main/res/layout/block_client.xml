@@ -11,7 +11,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/block_client_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standartMargin"
@@ -21,7 +20,6 @@
             android:textSize="@dimen/largeText" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/category_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
@@ -44,7 +42,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/group_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standartMargin"

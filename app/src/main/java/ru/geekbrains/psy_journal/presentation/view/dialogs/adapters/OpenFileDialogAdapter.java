@@ -25,7 +25,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewhold
 
 public class OpenFileDialogAdapter extends RecyclerView.Adapter {
 
-    private Openable openable;
+    private final Openable openable;
 
     public OpenFileDialogAdapter(Openable openable) {
         this.openable = openable;
@@ -59,7 +59,8 @@ public class OpenFileDialogAdapter extends RecyclerView.Adapter {
 	    @BindView(R.id.icon_file) ImageView iconFile;
         @BindView(R.id.name_file) TextView nameFile;
 
-        private Openable openable;
+	    private static final int NUMBER_OF_BYTES = 1024;
+        private final Openable openable;
 
         private ViewHolder(final View view, Openable openable) {
             super(view);
@@ -85,11 +86,25 @@ public class OpenFileDialogAdapter extends RecyclerView.Adapter {
 	            nameFile.setText(file.getName());
             } else {
 	            iconFile.setImageDrawable(fileImage);
-	            nameFile.setText(String.format("%s %s %s байт", file.getName(),
-		            new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault())
-			            .format(new Date(file.lastModified())),
-		            file.length()));
+	            nameFile.setText(String.format("%s %s %s", file.getName(),
+		            getSizeFile(file), getDateModifiedFile(file)));
             }
         }
+
+	    private String getSizeFile(File file){
+		    double sizeFile = file.length();
+		    int counter = 0;
+		    while (sizeFile > NUMBER_OF_BYTES){
+			    sizeFile = sizeFile / NUMBER_OF_BYTES;
+			    counter++;
+		    }
+		    String dimension = (counter == 0) ? "байт" : (counter == 1) ? "Кб" : (counter == 2) ? "Мб" : "Гб";
+		    return String.format(Locale.getDefault(), (counter == 0) ? "%.0f %s" : "%.3f %s", sizeFile, dimension);
+	    }
+
+	    private String getDateModifiedFile(File file){
+        	return new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault())
+		        .format(new Date(file.lastModified()));
+	    }
     }
 }

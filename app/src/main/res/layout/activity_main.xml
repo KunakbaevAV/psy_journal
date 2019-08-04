@@ -15,7 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/background_light"
         android:lineSpacingMultiplier="1.5"
         app:headerLayout="@layout/navigation_header"
         app:itemMaxLines="2"

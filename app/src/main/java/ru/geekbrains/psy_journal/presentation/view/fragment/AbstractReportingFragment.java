@@ -33,7 +33,7 @@ public abstract class AbstractReportingFragment extends MvpAppCompatFragment imp
 		return view;
 	}
 
-	protected void showRecycler() {
+	void showRecycler() {
 		recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 		recycler.setHasFixedSize(true);
 	}

@@ -19,7 +19,7 @@ import ru.geekbrains.psy_journal.domain.file.FileSaved;
 @Module
 class FileModule {
 
-	private Context context;
+	private final Context context;
 
 	FileModule(Context context) {
 		this.context = context;

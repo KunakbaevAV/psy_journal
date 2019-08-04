@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_gravity="start|center_vertical"
-            android:contentDescription="icon" />
+            android:contentDescription="@string/icon" />
 
         <TextView
             android:id="@+id/name_file"
@@ -34,7 +34,6 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standartMargin"
         android:contentDescription="@string/description"

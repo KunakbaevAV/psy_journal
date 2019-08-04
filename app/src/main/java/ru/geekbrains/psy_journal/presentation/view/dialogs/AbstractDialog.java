@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.arellomobile.mvp.MvpAppCompatDialogFragment;
 import ru.geekbrains.psy_journal.R;
 
-public abstract class AbstractDialog extends MvpAppCompatDialogFragment {
+abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 
 	private boolean isPositiveButton;
 	private String textButton;

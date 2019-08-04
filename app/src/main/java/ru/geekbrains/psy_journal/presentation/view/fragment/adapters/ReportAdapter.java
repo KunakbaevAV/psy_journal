@@ -17,7 +17,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewho
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportViewHolder> {
 
-    private ReportRelated related;
+    private final ReportRelated related;
 
     public ReportAdapter(ReportRelated related) {
         this.related = related;
@@ -48,7 +48,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         TextView quantityView;
         @BindView(R.id.report_work_time_tf)
         TextView workTimeView;
-        private ReportRelated related;
+        private final ReportRelated related;
 
         private ReportViewHolder(final View view, ReportRelated related) {
             super(view);

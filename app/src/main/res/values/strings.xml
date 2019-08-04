@@ -4,10 +4,8 @@
     <string name="app_name">Журнал психолога</string>
     <string name="data_example">дд.мм.гг</string>
     <string name="theme_example">Диагностика сплоченности коллектива</string>
-    <string name="id_td_example">A5–4</string>
     <string name="choose_tf">Направление работы</string>
     <string name="choose_category">Категория</string>
-    <string name="group_example">7а</string>
     <string name="choose_group">Класс/группа</string>
     <string name="choose_fio">ФИО</string>
     <string name="quantity_people">Кол-во человек</string>
@@ -18,19 +16,11 @@
     <string name="comment_label">Примечания</string>
     <string name="block_client_label">С кем проводится работа</string>
     <string name="block_topic_label">Тематика</string>
-    <string name="report_label">Отчет</string>
     <string name="report_date_begin">от дня:</string>
     <string name="report_date_end">до дня:</string>
-    <string name="block_report_all_label">Все направления</string>
     <string name="report_label_quantity_people">Человек</string>
     <string name="report_label_work_time">Часов</string>
     <string name="tf_01">A/01.7 Психолого-педагогическое сопровождение образовательного процесса в образовательных организациях общего, профессионального и дополнительного образования, сопровождение основных и дополнительных образовательных программ</string>
-    <string name="tf_02">A/02.7 Психологическая экспертиза (оценка) комфортности и безопасности образовательной среды образовательных организаций</string>
-    <string name="tf_03">A/03.7 Психологическое консультирование субъектов образовательного процесса</string>
-    <string name="tf_04">A/04.7 Коррекционно-развивающая работа с детьми и обучающимися, в том числе работа по восстановлению и реабилитации</string>
-    <string name="tf_05">A/05.7 Психологическая диагностика детей и обучающихся</string>
-    <string name="tf_06">A/06.7 Психологическое просвещение субъектов образовательного процесса</string>
-    <string name="tf_07">A/07.7 Психопрофилактика (профессиональная деятельность, направленная на сохранение и укрепление психологического здоровья обучающихся в процессе обучения и воспитания в образовательных организациях)</string>
     <string name="report_example_count">999</string>
     <string name="OTF">Обобщенная трудовая функция</string>
     <string name="TF">Трудовые функции</string>
@@ -38,14 +28,11 @@
     <string name="cancel">Отмена</string>
     <string name="fill_declared_request">Заполните декларируемый запрос</string>
     <string name="add_catalog_item">Добавить</string>
-    <string name="user">Пользователь</string>
-    <string name="select_otf">Выбрать Обобщенную трудовую функцию</string>
     <string name="edit_catalogs">Редактировать списки</string>
     <string name="get_report">Показать отчет</string>
     <string name="send_email">Отправить журнал на электронную почту</string>
     <string name="report_of_generalized_labor_functions">Отчет</string>
     <string name="report">Отчет</string>
-    <string name="reports">Отчеты</string>
     <string name="need_mail_client">Установите почтовый клиент</string>
     <string name="no_permission_file">Отсутствует разрешение на чтение/запись файлов</string>
     <string name="db_empty">база пуста</string>
@@ -57,4 +44,6 @@
     <string name="entity">Сущность</string>
     <string name="icon">icon</string>
     <string name="select_file">Выбрать файл профстандарта .xml</string>
+    <string name="update_profstandart">Загрузить профстандарт XML в базу</string>
+    <string name="icon_file">icon</string>
 </resources>
