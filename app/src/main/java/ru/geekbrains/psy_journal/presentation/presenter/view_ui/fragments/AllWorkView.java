@@ -6,7 +6,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 
 @StateStrategyType(SingleStateStrategy.class)
-public interface AllWorkView extends ReportingView {
+public interface AllWorkView extends RecycleringView {
 
     void showToast(String message);
 
