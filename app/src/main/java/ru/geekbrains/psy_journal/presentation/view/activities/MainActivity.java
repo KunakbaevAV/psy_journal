@@ -85,7 +85,7 @@ public class MainActivity extends MvpAppCompatActivity implements
         setSupportActionBar(bottomAppBar);
         setImageFabForTag(getTag());
         if (savedInstanceState == null) {
-            loadFragment(new AllWorkFragment(), TAG_ALL_WORK);
+            loadFragment(new AllWorkFragment());
         }
         init();
     }
@@ -150,14 +150,14 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     private void openAllWorkFragment() {
         getSupportFragmentManager().popBackStack(TAG_ADD_WORK, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        loadFragment(new AllWorkFragment(), TAG_ALL_WORK);
+        loadFragment(new AllWorkFragment());
         setImageFab(plus);
     }
 
-    private void loadFragment(Fragment fragment, String tag) {
+    private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_master, fragment, tag)
+                .replace(R.id.frame_master, fragment, Constants.TAG_ALL_WORK)
                 .commit();
     }
 
@@ -193,6 +193,9 @@ public class MainActivity extends MvpAppCompatActivity implements
             case R.id.send_email:
                 sendToMailReport();
                 return true;
+	        case R.id.feedback:
+				toSendLetter();
+	        	return true;
         }
         return false;
     }
@@ -222,6 +225,14 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     private void sendToMailReport() {
         if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XLS)) getFiles();
+    }
+
+    private void toSendLetter(){
+	    Intent intent = new Intent(Intent.ACTION_SENDTO);
+	    intent.setData(Uri.parse("mailto:"));
+	    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"geekbrains.psyjournal@gmail.com"});
+	    intent.putExtra(Intent.EXTRA_SUBJECT, "Отзыв");
+		sendOut(intent);
     }
 
     private void getFiles() {
@@ -273,10 +284,16 @@ public class MainActivity extends MvpAppCompatActivity implements
         }
         if (intent != null) {
             intent.setType(INTENT_TYPE_MULTIPART);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            } else showMessage(getString(R.string.need_mail_client));
+            sendOut(intent);
         }
+    }
+
+    private void sendOut(Intent intent){
+	    if (intent.resolveActivity(getPackageManager()) != null) {
+		    startActivity(intent);
+	    } else {
+	    	showMessage(getString(R.string.need_mail_client));
+	    }
     }
 
     private boolean checkPermissions(int request) {

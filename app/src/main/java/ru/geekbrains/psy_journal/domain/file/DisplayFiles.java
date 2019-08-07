@@ -11,8 +11,6 @@ public interface DisplayFiles {
 
     List<File> showFiles();
 
-	List<File> showFiles(File currentFolder);
-
     List<File> goUp(File currentFolder);
 
     List<File> goToFolder(File selectFolder);
