@@ -29,8 +29,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -42,6 +40,7 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.InformedView;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.MessageDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.OpenFileDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
@@ -53,8 +52,9 @@ import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
 
 public class MainActivity extends MvpAppCompatActivity implements
-        InformedView,
-        SelectableFile {
+    InformedView,
+    SelectableFile,
+    Responded {
 
     @BindView(R.id.main_navigation_drawer) DrawerLayout drawer;
     @BindView(R.id.navigation_view) NavigationView navigationView;
@@ -220,7 +220,7 @@ public class MainActivity extends MvpAppCompatActivity implements
     }
 
     private void createExcelReportFile() {
-        if (checkPermissions(REQUEST_PERMISSION_CREATE_FILE_XLS)) mainPresenter.createExcelFile();
+        if (checkPermissions(REQUEST_PERMISSION_CREATE_FILE_XLS)) mainPresenter.createExcelFile("Отчет");
     }
 
     private void sendToMailReport() {
@@ -311,7 +311,7 @@ public class MainActivity extends MvpAppCompatActivity implements
                 grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
             switch (requestCode) {
                 case REQUEST_PERMISSION_CREATE_FILE_XLS:
-                    mainPresenter.createExcelFile();
+                    mainPresenter.createExcelFile("Отчет");
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XML:
                     openFileDialog();
@@ -331,37 +331,66 @@ public class MainActivity extends MvpAppCompatActivity implements
         snackbar.show();
     }
 
-    private void loadXMLDatabase(String pathFile) {
-        if (pathFile != null) {
-            try {
-                mainPresenter.loadDataBase(pathFile);
-            } catch (XmlPullParserException e) {
-                showMessage(String.format("Невозможно прочесть файл, %s", e.getDetail()));
-            }
-        }
-    }
-
     @Override
     public void getFileXML(File file) {
         if (file.getName().endsWith(".xml")) {
-            loadXMLDatabase(file.getPath());
+			mainPresenter.takeFile(file);
+			String message = String.format("При обновлении профстандарта файлом %s \nпредыдущие записи будут удалены.\nВы хотите их сохранить?", file.getName());
+	        MessageDialog.newInstance(message).show(getSupportFragmentManager(), "Tag message");
         } else {
         	showMessage("выбран не файл .xml");
         }
     }
 
-    @Override
-    public void showEmpty() {
-        showMessage(getString(R.string.db_empty));
+	@Override
+	public void showStatusLoadDataBase(String error) {
+		String message;
+		if(error == null){
+			message = "База успешно загружена новым профстандартом";
+		} else {
+			message = String.format("При загрузке базы произошел сбой, %s", error);
+		}
+		showMessage(message);
+	}
+
+	@Override
+    public void showStatusClearDatabase(String message) {
+    	//Todo вывести статус очистки базы
     }
 
     @Override
-    public void showGood(String message) {
-        showMessage(String.format(getString(R.string.file_write_to), message));
+    public void showStatusWriteReport(String nameFile, String error) {
+    	String message = null;
+    	if(nameFile == null && error == null){
+    		message = getString(R.string.db_empty);
+	    }
+    	if(nameFile == null && error != null){
+    		message = String.format(getString(R.string.file_write_error), error);
+	    }
+    	if (nameFile != null && error == null){
+    		message = String.format(getString(R.string.file_write_to), nameFile);
+	    }
+        showMessage(message);
     }
 
-    @Override
-    public void showBad(String error) {
-        showMessage(String.format(getString(R.string.file_write_error), error));
-    }
+	@Override
+	public void showStatusReadXml(String nameFile, String error) {
+		showMessage(String.format("Невозможно прочесть файл %s, %s", nameFile, error));
+	}
+
+	@Override
+	public void toCancel() {
+		showMessage("Обновление профстандарта отменено");
+		mainPresenter.takeFile(null);
+	}
+
+	@Override
+	public void refuse() {
+		mainPresenter.updateWithoutSaving();
+	}
+
+	@Override
+	public void toAccept() {
+		mainPresenter.saveOldDataBase("Архив отчетов");
+	}
 }

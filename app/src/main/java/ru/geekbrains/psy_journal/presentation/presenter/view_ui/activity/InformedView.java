@@ -6,9 +6,11 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 public interface InformedView extends MvpView {
 	@StateStrategyType(SingleStateStrategy.class)
-	void showEmpty();
+	void showStatusLoadDataBase(String error);
 	@StateStrategyType(SingleStateStrategy.class)
-	void showGood(String message);
+	void showStatusClearDatabase(String message);
 	@StateStrategyType(SingleStateStrategy.class)
-	void showBad(String error);
+	void showStatusWriteReport(String nameFile, String error);
+	@StateStrategyType(SingleStateStrategy.class)
+	void showStatusReadXml(String nameFile, String error);
 }

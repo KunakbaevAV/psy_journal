@@ -18,7 +18,7 @@ import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 public class ExcelReport implements CreatedByExcel{
 
     private static final String PATTERN_NAME_REPORT = "dd_MM_yy HH:mm";
-	private static final String REPORT_XLS = "report %s.xls";
+	private static final String REPORT_XLS = "%s %s.xls";
 	private final FileSaved fileSaved;
 	private final String[] headlines;
 	private int numberRow;
@@ -29,7 +29,7 @@ public class ExcelReport implements CreatedByExcel{
 	}
 
 	@Override
-	public Single<File> create(List<ReportingJournal> journals) {
+	public Single<File> create(List<ReportingJournal> journals, String nameReport) {
 		return Single.fromCallable(() -> {
 			numberRow = 0;
 			HSSFWorkbook workbook = new HSSFWorkbook();
@@ -37,7 +37,7 @@ public class ExcelReport implements CreatedByExcel{
 			HSSFSheet sheet = workbook.createSheet(createNameSheet(date));
 			createHeadlines(sheet);
 			fillLines(sheet, journals);
-			return fileSaved.writeExcelFile(workbook, createNameFile(date));
+			return fileSaved.writeExcelFile(workbook, createNameFile(date, nameReport));
 			}).subscribeOn(Schedulers.io());
     }
 
@@ -45,9 +45,9 @@ public class ExcelReport implements CreatedByExcel{
         return new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault()).format(date);
     }
 
-    private String createNameFile(Date date) {
+    private String createNameFile(Date date, String nameFile) {
         String dateCreationTime = new SimpleDateFormat(PATTERN_NAME_REPORT, Locale.getDefault()).format(date);
-        return String.format(REPORT_XLS, dateCreationTime);
+        return String.format(REPORT_XLS, nameFile, dateCreationTime);
 	}
 
 	private void createHeadlines(HSSFSheet sheet){
