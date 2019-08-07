@@ -11,7 +11,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/block_client_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standartMargin"
@@ -30,7 +29,9 @@
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_top">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/declared_request_text"
@@ -45,7 +46,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/real_request_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:counterEnabled="true"
@@ -54,7 +54,9 @@
             app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
             app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_top">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/real_request_text"
@@ -75,7 +77,7 @@
                 android:id="@+id/work_form_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/minMargin"
+                android:layout_marginStart="@dimen/margin_top"
                 android:layout_marginEnd="@dimen/standartMargin"
                 app:layout_constraintBaseline_toBaselineOf="@+id/code_tf_layout"
                 app:layout_constraintEnd_toStartOf="@+id/code_tf_layout"
@@ -100,7 +102,7 @@
                 android:id="@+id/code_tf_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/minMargin"
+                android:layout_marginEnd="@dimen/margin_top"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/work_form_layout"
                 app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"

@@ -22,6 +22,9 @@ public interface OTFDao {
     @Query("SELECT * FROM OTF WHERE id = :id")
     Single<OTF> getItemOtf(int id);
 
+    @Query("DELETE FROM OTF")
+    Completable deleteAllOTF();
+
     //первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<OTF> otfList);

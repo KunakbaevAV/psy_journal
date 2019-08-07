@@ -4,12 +4,10 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -22,6 +20,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -30,8 +29,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.xmlpull.v1.XmlPullParserException;
+import java.io.File;
 import java.util.ArrayList;
+
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +40,8 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.InformedView;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.MessageDialog;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.OpenFileDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AllWorkFragment;
@@ -49,7 +51,10 @@ import static ru.geekbrains.psy_journal.Constants.INTENT_TYPE_MULTIPART;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
 
-public class MainActivity extends MvpAppCompatActivity implements InformedView {
+public class MainActivity extends MvpAppCompatActivity implements
+    InformedView,
+    SelectableFile,
+    Responded {
 
     @BindView(R.id.main_navigation_drawer) DrawerLayout drawer;
     @BindView(R.id.navigation_view) NavigationView navigationView;
@@ -64,7 +69,6 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
 	private static final int REQUEST_PERMISSION_READ_FILE_XML = 2;
 	private static final int REQUEST_PERMISSION_READ_FILE_XLS = 3;
 	private static final int REQUEST_FILES_GET = 4;
-	private static final int REQUEST_XML_FILE_GET = 5;
 
     @ProvidePresenter
     MainPresenter providePresenter() {
@@ -81,7 +85,7 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
         setSupportActionBar(bottomAppBar);
         setImageFabForTag(getTag());
         if (savedInstanceState == null) {
-            loadFragment(new AllWorkFragment(), TAG_ALL_WORK);
+            loadFragment(new AllWorkFragment());
         }
         init();
     }
@@ -146,14 +150,14 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
 
     private void openAllWorkFragment() {
         getSupportFragmentManager().popBackStack(TAG_ADD_WORK, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        loadFragment(new AllWorkFragment(), TAG_ALL_WORK);
+        loadFragment(new AllWorkFragment());
         setImageFab(plus);
     }
 
-    private void loadFragment(Fragment fragment, String tag) {
+    private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_master, fragment, tag)
+                .replace(R.id.frame_master, fragment, Constants.TAG_ALL_WORK)
                 .commit();
     }
 
@@ -189,12 +193,22 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
             case R.id.send_email:
                 sendToMailReport();
                 return true;
+	        case R.id.feedback:
+				toSendLetter();
+	        	return true;
         }
         return false;
     }
 
     private void loadDataBaseFromXMLFile() {
-        if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XML)) getXMLFile();
+        if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XML)) {
+            openFileDialog();
+        }
+    }
+
+    private void openFileDialog() {
+        OpenFileDialog dialog = new OpenFileDialog();
+        dialog.show(this.getSupportFragmentManager(), "SELECT_XML");
     }
 
     private void openScreenEditCatalogs() {
@@ -206,18 +220,19 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
     }
 
     private void createExcelReportFile() {
-        if (checkPermissions(REQUEST_PERMISSION_CREATE_FILE_XLS)) mainPresenter.createExcelFile();
+        if (checkPermissions(REQUEST_PERMISSION_CREATE_FILE_XLS)) mainPresenter.createExcelFile("Отчет");
     }
 
     private void sendToMailReport() {
         if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XLS)) getFiles();
     }
 
-    private void getXMLFile() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/xml");
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        startActivityForResult(intent, REQUEST_XML_FILE_GET);
+    private void toSendLetter(){
+	    Intent intent = new Intent(Intent.ACTION_SENDTO);
+	    intent.setData(Uri.parse("mailto:"));
+	    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"geekbrains.psyjournal@gmail.com"});
+	    intent.putExtra(Intent.EXTRA_SUBJECT, "Отзыв");
+		sendOut(intent);
     }
 
     private void getFiles() {
@@ -255,45 +270,11 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_FILES_GET:
-                if (resultCode == RESULT_OK && data != null) {
-                    sendToMail(data);
-                }
-                break;
-            case REQUEST_XML_FILE_GET:
-                if (resultCode == RESULT_OK && data != null) {
-                    loadBase(data);
-                }
-                break;
-        }
-    }
-
-    private void loadBase(Intent data) {
-        Uri uri = data.getData();
-        if (uri != null) {
-            String pathFile = getStringPathFile(uri);
-            if (pathFile != null) {
-                try {
-                    mainPresenter.loadDataBase(pathFile);
-                } catch (XmlPullParserException e) {
-                    showMessage(String.format("Невозможно прочесть файл, %s", e.getDetail()));
-                }
+        if (requestCode == REQUEST_FILES_GET) {
+            if (resultCode == RESULT_OK && data != null) {
+                sendToMail(data);
             }
         }
-    }
-
-    private String getStringPathFile(Uri uri) {
-        if ("content".equals(uri.getScheme())) {
-			String[] projection = new String[]{MediaStore.Files.FileColumns.DATA};
-            try (Cursor cursor = getContentResolver().query(uri, projection, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-					int numberIndex = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
-                    return cursor.getString(numberIndex);
-                }
-            }
-        }
-        return uri.toString();
     }
 
     private void sendToMail(Intent data) {
@@ -303,10 +284,16 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
         }
         if (intent != null) {
             intent.setType(INTENT_TYPE_MULTIPART);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            } else showMessage(getString(R.string.need_mail_client));
+            sendOut(intent);
         }
+    }
+
+    private void sendOut(Intent intent){
+	    if (intent.resolveActivity(getPackageManager()) != null) {
+		    startActivity(intent);
+	    } else {
+	    	showMessage(getString(R.string.need_mail_client));
+	    }
     }
 
     private boolean checkPermissions(int request) {
@@ -324,10 +311,10 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
                 grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
             switch (requestCode) {
                 case REQUEST_PERMISSION_CREATE_FILE_XLS:
-                    mainPresenter.createExcelFile();
+                    mainPresenter.createExcelFile("Отчет");
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XML:
-                    getXMLFile();
+                    openFileDialog();
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XLS:
                     getFiles();
@@ -345,17 +332,65 @@ public class MainActivity extends MvpAppCompatActivity implements InformedView {
     }
 
     @Override
-    public void showEmpty() {
-        showMessage(getString(R.string.db_empty));
+    public void getFileXML(File file) {
+        if (file.getName().endsWith(".xml")) {
+			mainPresenter.takeFile(file);
+			String message = String.format("При обновлении профстандарта файлом %s \nпредыдущие записи будут удалены.\nВы хотите их сохранить?", file.getName());
+	        MessageDialog.newInstance(message).show(getSupportFragmentManager(), "Tag message");
+        } else {
+        	showMessage("выбран не файл .xml");
+        }
+    }
+
+	@Override
+	public void showStatusLoadDataBase(String error) {
+		String message;
+		if(error == null){
+			message = "База успешно загружена новым профстандартом";
+		} else {
+			message = String.format("При загрузке базы произошел сбой, %s", error);
+		}
+		showMessage(message);
+	}
+
+	@Override
+    public void showStatusClearDatabase(String message) {
+        showMessage(message);
     }
 
     @Override
-    public void showGood(String message) {
-        showMessage(String.format(getString(R.string.file_write_to), message));
+    public void showStatusWriteReport(String nameFile, String error) {
+    	String message = null;
+    	if(nameFile == null && error == null){
+    		message = getString(R.string.db_empty);
+	    }
+    	if(nameFile == null && error != null){
+    		message = String.format(getString(R.string.file_write_error), error);
+	    }
+    	if (nameFile != null && error == null){
+    		message = String.format(getString(R.string.file_write_to), nameFile);
+	    }
+        showMessage(message);
     }
 
-    @Override
-    public void showBad(String error) {
-        showMessage(String.format(getString(R.string.file_write_error), error));
-    }
+	@Override
+	public void showStatusReadXml(String nameFile, String error) {
+		showMessage(String.format("Невозможно прочесть файл %s, %s", nameFile, error));
+	}
+
+	@Override
+	public void toCancel() {
+		showMessage("Обновление профстандарта отменено");
+		mainPresenter.takeFile(null);
+	}
+
+	@Override
+	public void refuse() {
+		mainPresenter.updateWithoutSaving();
+	}
+
+	@Override
+	public void toAccept() {
+		mainPresenter.saveOldDataBase("Архив отчетов");
+	}
 }

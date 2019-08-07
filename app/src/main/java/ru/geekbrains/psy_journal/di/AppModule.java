@@ -28,7 +28,7 @@ import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
 @Module
 public class AppModule {
 
-    private Context context;
+    private final Context context;
 
     public AppModule(Context context) {
         this.context = context;

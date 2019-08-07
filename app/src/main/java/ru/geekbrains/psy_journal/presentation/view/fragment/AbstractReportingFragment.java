@@ -16,9 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.ReportingView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
-public abstract class AbstractReportingFragment extends MvpAppCompatFragment implements ReportingView {
+public abstract class AbstractReportingFragment extends MvpAppCompatFragment implements RecycleringView {
 
 	@BindView(R.id.recycler_all_work) RecyclerView recycler;
 	@BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -33,7 +33,7 @@ public abstract class AbstractReportingFragment extends MvpAppCompatFragment imp
 		return view;
 	}
 
-	protected void showRecycler() {
+	void showRecycler() {
 		recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 		recycler.setHasFixedSize(true);
 	}

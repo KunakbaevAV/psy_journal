@@ -5,18 +5,21 @@ import android.os.Environment;
 
 import java.io.File;
 import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.domain.file.CreatedByExcel;
-import ru.geekbrains.psy_journal.domain.file.ExcelReport;
-import ru.geekbrains.psy_journal.domain.file.FileSaved;
 import ru.geekbrains.psy_journal.data.files.FileCreator;
+import ru.geekbrains.psy_journal.domain.file.CreatedByExcel;
+import ru.geekbrains.psy_journal.domain.file.DisplayFiles;
+import ru.geekbrains.psy_journal.domain.file.ExcelReport;
+import ru.geekbrains.psy_journal.domain.file.FileProvider;
+import ru.geekbrains.psy_journal.domain.file.FileSaved;
 
 @Module
 class FileModule {
 
-	private Context context;
+	private final Context context;
 
 	FileModule(Context context) {
 		this.context = context;
@@ -24,8 +27,22 @@ class FileModule {
 
 	@Singleton
 	@Provides
+	File getCurrentDirectory() {
+		File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		if (!file.exists() && !file.mkdirs()) return null;
+		return file;
+	}
+
+	@Singleton
+	@Provides
+	DisplayFiles provideSelectableFile() {
+		return new FileProvider(getCurrentDirectory());
+	}
+
+	@Singleton
+	@Provides
 	File getDirectory(){
-        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+		File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
 		if (!file.exists() && !file.mkdirs()) return null;
 		return file;
 	}
@@ -38,8 +55,8 @@ class FileModule {
 
 	@Singleton
 	@Provides
-	FileSaved provideFileCreator(File directory){
-		return new FileCreator(directory);
+	FileSaved provideFileCreator(){
+		return new FileCreator(getDirectory());
 	}
 
 	@Singleton

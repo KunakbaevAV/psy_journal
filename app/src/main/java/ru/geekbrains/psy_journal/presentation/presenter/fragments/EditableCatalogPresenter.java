@@ -1,6 +1,7 @@
 package ru.geekbrains.psy_journal.presentation.presenter.fragments;
 
 import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +12,9 @@ import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.presentation.presenter.Editable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.ReportingView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
-public abstract class EditableCatalogPresenter extends MvpPresenter<ReportingView> {
+public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringView> {
 
 	@Inject RoomHelper roomHelper;
 
@@ -45,7 +46,7 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<ReportingVie
 		@Override
 		public void bindView(Displayed displayed, int position) {
 			Catalog catalogItem = catalogList.get(position);
-			displayed.bind(null, catalogItem.getName());
+            displayed.bind(catalogItem.getName());
 		}
 
 		@Override

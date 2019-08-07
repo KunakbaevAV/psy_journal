@@ -30,8 +30,8 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.getDefault());
     @Inject
     RoomHelper roomHelper;
-    private RecyclerAllWorkPresenter recyclerAllWorkPresenter;
-    private List<Journal> listWorks;
+    private final RecyclerAllWorkPresenter recyclerAllWorkPresenter;
+    private final List<Journal> listWorks;
 
     public AllWorkPresenter() {
         recyclerAllWorkPresenter = new RecyclerAllWorkPresenter();

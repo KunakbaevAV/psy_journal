@@ -21,7 +21,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewhold
 
 public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdapter.ViewHolder> implements Removable{
 
-	private Editable editable;
+	private final Editable editable;
 
 	public EditableListsAdapter(Editable editable) {
 		this.editable = editable;
@@ -56,7 +56,7 @@ public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdap
 		@Inject InputMethodManager imm;
 		@BindView(R.id.textView) AppCompatEditText textView;
 
-		private Editable editable;
+		private final Editable editable;
 
 		private ViewHolder(final View view, Editable editable) {
 			super(view);
@@ -68,7 +68,7 @@ public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdap
 		}
 
 		@Override
-		public void bind(String code, String name) {
+        public void bind(String name) {
 			textView.setText(name);
 		}
 

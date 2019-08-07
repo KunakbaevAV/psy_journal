@@ -1,8 +1,10 @@
 package ru.geekbrains.psy_journal.presentation.presenter.activity;
 
 import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
@@ -27,32 +29,101 @@ public class MainPresenter extends MvpPresenter<InformedView> {
     @Inject LoadableDataBase loadableDataBase;
 
     private Disposable disposable;
+    private File file;
 
-	public void loadDataBase(String pathFile) throws XmlPullParserException{
-		File file = new File(pathFile);
-		if(file.exists()){
-			FileXMLLoader xmlLoader = new FileXMLLoader(loadableDataBase);
-			xmlLoader.toParseFile(file)
+    public void takeFile(File file){
+    	this.file = file;
+    }
+
+    public void saveOldDataBase(String nameReport){
+		createExcelFile(nameReport);
+    }
+
+    public void updateWithoutSaving(){
+    	clearDataBase();
+    }
+
+    private void clearDataBase(){
+    	if (file == null) return;
+		clearOTFTable();
+	}
+
+	private void clearOTFTable() {
+		disposable = roomHelper.deleteAllOTF()
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe();
+				.subscribe(this::clearTFTable,
+						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+	}
+
+	private void clearTFTable() {
+		disposable = roomHelper.deleteAllTF()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(this::clearTDTable,
+						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+	}
+
+	private void clearTDTable() {
+		disposable = roomHelper.deleteAllTD()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(this::clearJournalTable,
+						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+	}
+
+	private void clearJournalTable() {
+		disposable = roomHelper.deleteAllJournal()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(() -> {
+							loadDataBase();
+							getViewState().showStatusClearDatabase("База данных очищена");
+						},
+						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+	}
+
+	private void loadDataBase(){
+		if(file.exists()){
+			try {
+				FileXMLLoader xmlLoader = new FileXMLLoader(loadableDataBase);
+				disposable = xmlLoader.toParseFile(file)
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(() -> {
+							getViewState().showStatusLoadDataBase(null);
+							file = null;
+						},
+						e -> getViewState().showStatusLoadDataBase(e.getMessage()));
+			} catch (XmlPullParserException e) {
+				getViewState().showStatusReadXml(file.getName(), e.getDetail().getMessage());
+			}
 		}
 	}
 
-    public void createExcelFile() {
+    public void createExcelFile(String nameReport) {
         disposable = roomHelper.getListReportingJournal()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::writeReportFile,
+            .subscribe(list -> getReport(list, nameReport),
                 e -> Log.e("createExcelFile: e", e.getMessage()));
     }
 
-    private void writeReportFile(List<ReportingJournal> list){
-	    if (list.isEmpty()) getViewState().showEmpty();
-	    else {
-			disposable = excel.create(list)
-		        .observeOn(AndroidSchedulers.mainThread())
-		        .subscribe(file -> getViewState().showGood(file.getName()),
-			        e -> getViewState().showBad(e.getMessage()));
+    private void getReport(List<ReportingJournal> list, String nameReport){
+	    if (list.isEmpty()){
+	    	getViewState().showStatusWriteReport(null, null);
+	    	if (this.file != null){
+	    		loadDataBase();
+		    }
+	    } else {
+			writeReportFile(list, nameReport);
 	    }
+    }
+
+    private void writeReportFile(List<ReportingJournal> list, String nameReport){
+	    disposable = excel.create(list, nameReport)
+		    .observeOn(AndroidSchedulers.mainThread())
+		    .subscribe(file -> {
+				    getViewState().showStatusWriteReport(file.getName(), null);
+				    if (this.file != null){
+					    clearDataBase();
+				    }
+			    },
+			    e -> getViewState().showStatusWriteReport(null, e.getMessage()));
     }
 
     @Override

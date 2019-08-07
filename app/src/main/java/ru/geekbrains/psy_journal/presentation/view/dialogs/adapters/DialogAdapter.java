@@ -16,7 +16,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewhold
 
 public class DialogAdapter extends RecyclerView.Adapter{
 
-	private Bindable bindable;
+	private final Bindable bindable;
 
 	public DialogAdapter(Bindable bindable) {
 		this.bindable = bindable;
@@ -43,9 +43,9 @@ public class DialogAdapter extends RecyclerView.Adapter{
 		Displayed,
 		View.OnClickListener {
 
-		@BindView(R.id.code_fun)TextView codeView;
-		@BindView(R.id.name_fun) TextView nameView;
-		private Bindable bindable;
+        @BindView(R.id.function)
+        TextView functionView;
+		private final Bindable bindable;
 
 		FunctionViewHolder(@NonNull View itemView, Bindable bindable) {
 			super(itemView);
@@ -55,9 +55,8 @@ public class DialogAdapter extends RecyclerView.Adapter{
 		}
 
 		@Override
-		public void bind(String code, String name) {
-			codeView.setText(code);
-			nameView.setText(name);
+        public void bind(String function) {
+            functionView.setText(function);
 		}
 
 		@Override

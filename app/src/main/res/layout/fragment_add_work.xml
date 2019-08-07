@@ -16,25 +16,21 @@
             android:layout_height="wrap_content" />
 
         <include
-            android:id="@+id/client"
             layout="@layout/block_client"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            android:id="@+id/topic"
             layout="@layout/block_topic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            android:id="@+id/comment"
             layout="@layout/field_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/empty_card"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_tab_layout" />
     </LinearLayout>
