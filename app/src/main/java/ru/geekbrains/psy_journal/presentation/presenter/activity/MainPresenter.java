@@ -1,8 +1,10 @@
 package ru.geekbrains.psy_journal.presentation.presenter.activity;
 
 import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
@@ -43,10 +45,39 @@ public class MainPresenter extends MvpPresenter<InformedView> {
 
     private void clearDataBase(){
     	if (file == null) return;
-    	//Todo метод очитски базы данных с кэлбэк очитска завершена успешно
+		clearOTFTable();
+	}
 
-		loadDataBase();
-    }
+	private void clearOTFTable() {
+		disposable = roomHelper.deleteAllOTF()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(this::clearTFTable,
+						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+	}
+
+	private void clearTFTable() {
+		disposable = roomHelper.deleteAllTF()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(this::clearTDTable,
+						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+	}
+
+	private void clearTDTable() {
+		disposable = roomHelper.deleteAllTD()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(this::clearJournalTable,
+						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+	}
+
+	private void clearJournalTable() {
+		disposable = roomHelper.deleteAllJournal()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(() -> {
+							loadDataBase();
+							getViewState().showStatusClearDatabase("База данных очищена");
+						},
+						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+	}
 
 	private void loadDataBase(){
 		if(file.exists()){

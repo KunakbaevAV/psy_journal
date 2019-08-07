@@ -355,7 +355,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 
 	@Override
     public void showStatusClearDatabase(String message) {
-    	//Todo вывести статус очистки базы
+        showMessage(message);
     }
 
     @Override

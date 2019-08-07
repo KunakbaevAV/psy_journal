@@ -539,6 +539,34 @@ public class RoomHelper {
         ).subscribeOn(Schedulers.io());
     }
 
+    /**
+     * Удаление из базы данных всех строк таблицы {@link OTF}
+     */
+    public Completable deleteAllOTF() {
+        return otfDao.deleteAllOTF().subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Удаление из базы данных всех строк таблицы {@link TF}
+     */
+    public Completable deleteAllTF() {
+        return tfDao.deleteAllTF().subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Удаление из базы данных всех строк таблицы {@link TD}
+     */
+    public Completable deleteAllTD() {
+        return tdDao.deleteAllTD().subscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Удаление из базы данных всех строк таблицы {@link TD}
+     */
+    public Completable deleteAllJournal() {
+        return journalDao.deleteAllJournal().subscribeOn(Schedulers.io());
+    }
+
 }
 
 
