@@ -14,7 +14,7 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.IRecyclerAllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.IViewHolder;
 
-public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHolder> {
+public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHolder> implements Removable {
 
     private final IRecyclerAllWorkPresenter presenter;
 
@@ -41,8 +41,10 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
         return presenter.getItemCount();
     }
 
-    public void delete(int adapterPosition) {
-        notifyItemRemoved(adapterPosition);
+    @Override
+    public void delete(int position) {
+        presenter.onClickDelete(position);
+        notifyItemRemoved(position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements IViewHolder, View.OnClickListener {

@@ -27,6 +27,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresent
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
 import ru.geekbrains.psy_journal.presentation.view.activities.MainActivity;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.AdapterAllWork;
+import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCallback;
 
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
@@ -55,7 +56,6 @@ public class AllWorkFragment extends MvpAppCompatFragment implements AllWorkView
 		context = view.getContext();
 		App.getAppComponent().inject(allWorkPresenter);
 		showAllWorkRecycler();
-		initItemTouchHelper();
 		return view;
 	}
 
@@ -64,29 +64,7 @@ public class AllWorkFragment extends MvpAppCompatFragment implements AllWorkView
 		recycler.setHasFixedSize(true);
 		adapterAllWork = new AdapterAllWork(allWorkPresenter.getRecyclerAllWorkPresenter());
 		recycler.setAdapter(adapterAllWork);
-	}
-
-	private void initItemTouchHelper() {
-		ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
-			@Override
-			public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-				int dragFlags = 0;
-				int swipeFlags = ItemTouchHelper.START;
-				return makeMovementFlags(dragFlags, swipeFlags);
-			}
-
-			@Override
-			public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-				return false;
-			}
-
-
-			@Override
-			public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-				allWorkPresenter.getRecyclerAllWorkPresenter().onClickDelete(viewHolder.getAdapterPosition());
-			}
-		});
-		itemTouchHelper.attachToRecyclerView(recycler);
+        new ItemTouchHelper(new ItemTouchHelperCallback(adapterAllWork)).attachToRecyclerView(recycler);
 	}
 
 	@Override
