@@ -9,6 +9,7 @@ import ru.geekbrains.psy_journal.Constants;
 
 public class FileProvider implements DisplayFiles {
 
+	private static final String STORAGE_EMULATED = "/storage/emulated";
 	private File currentDirectory;
 
     public FileProvider(File currentDirectory) {
@@ -22,31 +23,21 @@ public class FileProvider implements DisplayFiles {
 
 	@Override
 	public boolean isRoot(File file) {
-		return file.getParentFile() == null;
+		return file.getParent().equals(STORAGE_EMULATED);
 	}
 
 	@Override
     public List<File> showFiles() {
     	if (isRoot(currentDirectory)){
-    		return new ArrayList<>(Arrays.asList(currentDirectory.listFiles()));
+    		return showRootDirectory(currentDirectory);
 	    }
     	return getListFile(currentDirectory);
     }
 
 	@Override
-	public List<File> showFiles(File currentFolder) {
-    	currentDirectory = currentFolder;
-		return new ArrayList<>(Arrays.asList(currentDirectory.listFiles()));
-	}
-
-	@Override
     public List<File> goUp(File currentFolder) {
-    	if (isRoot(currentFolder)) {
-    		currentDirectory = currentFolder;
-    		return showFiles();
-	    }
         currentDirectory = currentFolder.getParentFile();
-        return getListFile(currentDirectory);
+        return showFiles();
     }
 
     @Override
@@ -61,4 +52,8 @@ public class FileProvider implements DisplayFiles {
 	    files.addAll(Arrays.asList(directory.listFiles()));
     	return files;
     }
+
+	private List<File> showRootDirectory(File currentFolder) {
+		return new ArrayList<>(Arrays.asList(currentFolder.listFiles()));
+	}
 }

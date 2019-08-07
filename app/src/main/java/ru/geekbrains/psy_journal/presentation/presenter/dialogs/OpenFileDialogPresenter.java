@@ -37,6 +37,7 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView>{
 	public void openDefaultDirectory() {
 	    getViewState().showProgressBar();
 	    showCurrentDirectory();
+	    if (currentDirectory == null) return;
 	    disposable = Single.fromCallable(() -> displayFiles.showFiles())
 		    .subscribeOn(Schedulers.io())
 		    .observeOn(AndroidSchedulers.mainThread())
@@ -70,7 +71,6 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView>{
     }
 
     private void onClickGoUp() {
-    	if (displayFiles.isRoot(currentDirectory)) return;
         getViewState().showProgressBar();
         disposable = Single.fromCallable(() -> displayFiles.goUp(currentDirectory))
 	        .subscribeOn(Schedulers.io())
@@ -89,24 +89,8 @@ public class OpenFileDialogPresenter extends MvpPresenter<OpenFileDialogView>{
     }
 
     private void showError(String error){
-		if (error.equals("storage == null")){
-			loadCurrentDirectory();
-			return;
-		}
 	    getViewState().hideProgressBar();
 	    getViewState().showCurrentDirectory(String.format("%s %s", ERROR_LOADING_DATA_FROM_DATABASE, error));
-    }
-
-    private void loadCurrentDirectory(){
-	    disposable = Single.fromCallable(() -> displayFiles.showFiles(currentDirectory))
-		    .subscribeOn(Schedulers.io())
-		    .observeOn(AndroidSchedulers.mainThread())
-		    .subscribe(list -> {
-				    fileList = list;
-				    showCurrentDirectory();
-				    ifRequestSuccess();
-			    }, throwable -> showError(throwable.getMessage())
-		    );
     }
 
 	@Override
