@@ -1,7 +1,5 @@
 package ru.geekbrains.psy_journal.presentation.presenter.activity;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -43,40 +41,23 @@ public class MainPresenter extends MvpPresenter<InformedView> {
     	clearDataBase();
     }
 
+    private void finishUpdate(){
+    	if (file != null) {
+    		file = null;
+	    }
+    }
+
     private void clearDataBase(){
     	if (file == null) return;
-		clearOTFTable();
-	}
-
-	private void clearOTFTable() {
-		disposable = roomHelper.deleteAllOTF()
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(this::clearTFTable,
-						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
-	}
-
-	private void clearTFTable() {
-		disposable = roomHelper.deleteAllTF()
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(this::clearTDTable,
-						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
-	}
-
-	private void clearTDTable() {
-		disposable = roomHelper.deleteAllTD()
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(this::clearJournalTable,
-						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
-	}
-
-	private void clearJournalTable() {
-		disposable = roomHelper.deleteAllJournal()
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(() -> {
-							loadDataBase();
-							getViewState().showStatusClearDatabase("База данных очищена");
-						},
-						e -> getViewState().showStatusClearDatabase("Ошибка при очистке БД"));
+		disposable = roomHelper.clearDatabases()
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(() ->{
+				getViewState().showStatusClearDatabase(null);
+				loadDataBase();
+			}, e -> {
+				finishUpdate();
+				getViewState().showStatusClearDatabase(e.getMessage());
+			});
 	}
 
 	private void loadDataBase(){
@@ -87,10 +68,13 @@ public class MainPresenter extends MvpPresenter<InformedView> {
 					.observeOn(AndroidSchedulers.mainThread())
 					.subscribe(() -> {
 							getViewState().showStatusLoadDataBase(null);
-							file = null;
-						},
-						e -> getViewState().showStatusLoadDataBase(e.getMessage()));
+							finishUpdate();
+						}, e -> {
+							finishUpdate();
+							getViewState().showStatusLoadDataBase(e.getMessage());
+						});
 			} catch (XmlPullParserException e) {
+				finishUpdate();
 				getViewState().showStatusReadXml(file.getName(), e.getDetail().getMessage());
 			}
 		}
@@ -100,13 +84,16 @@ public class MainPresenter extends MvpPresenter<InformedView> {
         disposable = roomHelper.getListReportingJournal()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(list -> getReport(list, nameReport),
-                e -> Log.e("createExcelFile: e", e.getMessage()));
+                e -> {
+            	    finishUpdate();
+            	    getViewState().showStatusWriteReport(null, e.getMessage());
+                });
     }
 
     private void getReport(List<ReportingJournal> list, String nameReport){
 	    if (list.isEmpty()){
 	    	getViewState().showStatusWriteReport(null, null);
-	    	if (this.file != null){
+	    	if (file != null){
 	    		loadDataBase();
 		    }
 	    } else {
@@ -123,7 +110,10 @@ public class MainPresenter extends MvpPresenter<InformedView> {
 					    clearDataBase();
 				    }
 			    },
-			    e -> getViewState().showStatusWriteReport(null, e.getMessage()));
+			    e -> {
+		    	    finishUpdate();
+		    	    getViewState().showStatusWriteReport(null, e.getMessage());
+			    });
     }
 
     @Override

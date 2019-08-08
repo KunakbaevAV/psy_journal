@@ -24,6 +24,7 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.Updated;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
 import ru.geekbrains.psy_journal.presentation.view.activities.MainActivity;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.AdapterAllWork;
@@ -42,6 +43,10 @@ public class AllWorkFragment extends MvpAppCompatFragment implements AllWorkView
 	@InjectPresenter
 	AllWorkPresenter allWorkPresenter;
 	private AdapterAllWork adapterAllWork;
+
+	public Updated getUpdated() {
+		return allWorkPresenter;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -8,7 +8,7 @@ public interface InformedView extends MvpView {
 	@StateStrategyType(SingleStateStrategy.class)
 	void showStatusLoadDataBase(String error);
 	@StateStrategyType(SingleStateStrategy.class)
-	void showStatusClearDatabase(String message);
+	void showStatusClearDatabase(String error);
 	@StateStrategyType(SingleStateStrategy.class)
 	void showStatusWriteReport(String nameFile, String error);
 	@StateStrategyType(SingleStateStrategy.class)

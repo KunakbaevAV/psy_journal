@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
@@ -25,17 +26,30 @@ import static ru.geekbrains.psy_journal.Constants.ERROR_DELETING;
 import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABASE;
 
 @InjectViewState
-public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
+public class AllWorkPresenter extends MvpPresenter<AllWorkView> implements Updated {
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.getDefault());
-    @Inject
-    RoomHelper roomHelper;
+    @Inject RoomHelper roomHelper;
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
     private final RecyclerAllWorkPresenter recyclerAllWorkPresenter;
     private final List<Journal> listWorks;
+
+	public RecyclerAllWorkPresenter getRecyclerAllWorkPresenter() {
+		return recyclerAllWorkPresenter;
+	}
 
     public AllWorkPresenter() {
         recyclerAllWorkPresenter = new RecyclerAllWorkPresenter();
         listWorks = new ArrayList<>();
+    }
+
+    //метод обновления фрагмента при обновлении профстандарта в базе.
+	//можно использовать и в других обновлениях
+	@Override
+    public void update(){
+    	if (!listWorks.isEmpty()){
+    		listWorks.clear();
+	    }
+    	showAllWorkRecycler();
     }
 
     @Override
@@ -80,11 +94,7 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
         getViewState().hideProgressBar();
     }
 
-    public RecyclerAllWorkPresenter getRecyclerAllWorkPresenter() {
-        return recyclerAllWorkPresenter;
-    }
-
-    public class RecyclerAllWorkPresenter implements IRecyclerAllWorkPresenter {
+    private class RecyclerAllWorkPresenter implements IRecyclerAllWorkPresenter {
 
         @Override
         public void bindView(IViewHolder holder) {
@@ -115,5 +125,4 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> {
             openScreenUpdateJournal(listWorks.get(holder.getPos()));
         }
     }
-
 }

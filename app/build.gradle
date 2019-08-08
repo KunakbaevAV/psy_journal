@@ -51,11 +51,11 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.20'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
     //    Room
-    implementation 'androidx.room:room-runtime:2.1.0'
-    annotationProcessor 'androidx.room:room-compiler:2.1.0'
-    implementation 'androidx.room:room-rxjava2:2.1.0'
+    implementation 'androidx.room:room-runtime:2.2.0-alpha01'
+    annotationProcessor 'androidx.room:room-compiler:2.2.0-alpha01'
+    implementation 'androidx.room:room-rxjava2:2.2.0-alpha01'
     //    RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     //    Тесты
     testImplementation 'junit:junit:4.12'

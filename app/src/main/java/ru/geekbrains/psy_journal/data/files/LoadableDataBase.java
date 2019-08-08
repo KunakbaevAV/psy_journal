@@ -12,4 +12,5 @@ public interface LoadableDataBase {
 	List<TF> getTfList();
 	List<TD> getTdList();
 	void initDataBase();
+	void updateDataBase();
 }

@@ -65,6 +65,12 @@ public class MessageDialog extends DialogFragment implements DialogInterface.OnC
 	}
 
 	@Override
+	public void onCancel(@NonNull DialogInterface dialog) {
+		super.onCancel(dialog);
+		responded.toCancel();
+	}
+
+	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		responded = null;

@@ -46,11 +46,17 @@ public class FileXMLLoader {
 	public Completable toParseFile(File file) {
 		return Completable.fromAction(() -> {
 			parser.setInput(new FileReader(file));
-			loadByDefault();
+			parseData();
+			loadableDataBase.updateDataBase();
 		}).subscribeOn(Schedulers.io());
 	}
 
 	public void loadByDefault() throws XmlPullParserException, IOException {
+		parseData();
+		loadableDataBase.initDataBase();
+	}
+
+	private void parseData() throws XmlPullParserException, IOException {
 		while (parser.getEventType() != XmlPullParser.END_DOCUMENT){
 			if (isFoundTagStart() && isTagMatchesName(CODE_OTF)){
 				checkOTF();
@@ -63,7 +69,6 @@ public class FileXMLLoader {
 			}
 			parser.next();
 		}
-		loadableDataBase.initDataBase();
 	}
 
 	private boolean isTagMatchesName(String name){

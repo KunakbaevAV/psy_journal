@@ -2,6 +2,8 @@ package ru.geekbrains.psy_journal.data.repositories;
 
 import android.util.Log;
 
+import androidx.room.Transaction;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,6 +19,7 @@ import ru.geekbrains.psy_journal.data.database.dao.OTFDao;
 import ru.geekbrains.psy_journal.data.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.data.database.dao.TDDao;
 import ru.geekbrains.psy_journal.data.database.dao.TFDao;
+import ru.geekbrains.psy_journal.data.database.dao.TableCleaningDao;
 import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
@@ -63,6 +66,9 @@ public class RoomHelper {
 
     @Inject
     Mapping mapping;
+
+    @Inject
+	TableCleaningDao tableCleaningDao;
 
     public RoomHelper() {
         App.getAppComponent().inject(this);
@@ -567,6 +573,14 @@ public class RoomHelper {
         return journalDao.deleteAllJournal().subscribeOn(Schedulers.io());
     }
 
+	/**
+	 * Mетод очистки таблиц базы данных при обновлении профстандарта
+	 * @return
+	 */
+    public Completable clearDatabases(){
+    	return Completable.fromAction(() -> tableCleaningDao.deleteOldProfessionalStandardRecords())
+		    .subscribeOn(Schedulers.io());
+    }
 }
 
 

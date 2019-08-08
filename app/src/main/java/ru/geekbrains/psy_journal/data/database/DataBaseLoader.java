@@ -66,7 +66,15 @@ public class DataBaseLoader implements LoadableDataBase {
         addOtherWorkActivities();
     }
 
-    //не использовать цикл foreach
+	@Override
+	public void updateDataBase() {
+		roomHelper.initializeOTF(otfList);
+		roomHelper.initializeTF(tfList);
+		roomHelper.initializeTD(tdList);
+		addOtherWorkActivities();
+	}
+
+	//не использовать цикл foreach
     private void initWorkFormList() {
 	    int id = 0;
 	    String[] workForms = context.getResources().getStringArray(R.array.workForm);

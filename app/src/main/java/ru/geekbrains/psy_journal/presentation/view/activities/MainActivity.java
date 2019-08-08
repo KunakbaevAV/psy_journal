@@ -331,6 +331,15 @@ public class MainActivity extends MvpAppCompatActivity implements
         snackbar.show();
     }
 
+    private void updateFragment(){
+	    if (TAG_ALL_WORK.equals(getTag())){
+		    AllWorkFragment workFragment = (AllWorkFragment) getSupportFragmentManager().findFragmentByTag(TAG_ALL_WORK);
+		    if (workFragment != null) {
+			    workFragment.getUpdated().update();
+		    }
+	    }
+    }
+
     @Override
     public void getFileXML(File file) {
         if (file.getName().endsWith(".xml")) {
@@ -347,6 +356,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 		String message;
 		if(error == null){
 			message = "База успешно загружена новым профстандартом";
+			updateFragment();
 		} else {
 			message = String.format("При загрузке базы произошел сбой, %s", error);
 		}
@@ -354,7 +364,13 @@ public class MainActivity extends MvpAppCompatActivity implements
 	}
 
 	@Override
-    public void showStatusClearDatabase(String message) {
+    public void showStatusClearDatabase(String error) {
+		String message;
+		if(error == null){
+			message = "База успешно очищена";
+		} else {
+			message = String.format("При очистке базы произошел сбой, %s, база восстановлена", error);
+		}
         showMessage(message);
     }
 

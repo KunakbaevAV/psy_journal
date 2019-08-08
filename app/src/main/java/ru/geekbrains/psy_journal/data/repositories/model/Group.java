@@ -24,7 +24,7 @@ public class Group implements Catalog {
     @Ignore
     public Group(int id, String name) {
         this.id = id;
-        this.name = name;
+        new Group(name);
     }
 
     public Group() {

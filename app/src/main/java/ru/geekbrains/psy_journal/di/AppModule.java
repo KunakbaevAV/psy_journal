@@ -18,6 +18,7 @@ import ru.geekbrains.psy_journal.data.database.dao.OTFDao;
 import ru.geekbrains.psy_journal.data.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.data.database.dao.TDDao;
 import ru.geekbrains.psy_journal.data.database.dao.TFDao;
+import ru.geekbrains.psy_journal.data.database.dao.TableCleaningDao;
 import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
 import ru.geekbrains.psy_journal.data.files.LoadableDataBase;
 import ru.geekbrains.psy_journal.data.repositories.Mapping;
@@ -95,6 +96,12 @@ public class AppModule {
     ReportDao getReportDao() {
         return getAppDatabase().reportDao();
     }
+
+	@Provides
+	@Singleton
+	TableCleaningDao provideTableCleaningDao(AppDatabase database){
+    	return database.tableCleaningDao();
+	}
 
     @Provides
     Mapping getMapping() {
