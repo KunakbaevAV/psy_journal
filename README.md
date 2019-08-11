@@ -58,17 +58,21 @@
 ---
 ***
 ![Артем Кунакбаев](https://a.radikal.ru/a34/1908/ed/df540cba8863.jpg)
+### Артем Кунакбаев
 #### Разработчик, менеджер проекта
 ##### Telegram: @kunakbaev
 ***
 ![Алина Рахимова](https://c.radikal.ru/c34/1908/80/0a6da097bbc6.jpg)
+### Алина Рахимова
 #### Разработчик, UI/UX-дизайнер
 ##### Telegram: @rr_alina
 ***
 ![Ирина Карзанова](https://a.radikal.ru/a19/1908/9c/77726f474bad.jpg)
+### Ирина Карзанова
 #### Концептуальный дизайнер
 ##### Telegram: @irina_irina9
 ***
 ![Максим Ресчиков](https://a.radikal.ru/a36/1908/46/e8ba57cacf8a.jpg)
+### Максим Ресчиков
 #### Разработчик, архитектор
 ##### Telegram: @ReschikovMaxim
