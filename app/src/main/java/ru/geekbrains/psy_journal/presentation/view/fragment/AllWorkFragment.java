@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,7 +68,7 @@ public class AllWorkFragment extends MvpAppCompatFragment implements AllWorkView
 		recycler.setHasFixedSize(true);
 		adapterAllWork = new AdapterAllWork(allWorkPresenter.getRecyclerAllWorkPresenter());
 		recycler.setAdapter(adapterAllWork);
-        new ItemTouchHelper(new ItemTouchHelperCallback(adapterAllWork)).attachToRecyclerView(recycler);
+        new ItemTouchHelperCallback(recycler);
 	}
 
 	@Override

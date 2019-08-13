@@ -1,9 +1,8 @@
 package ru.geekbrains.psy_journal.presentation.view.fragment;
 
-import androidx.recyclerview.widget.ItemTouchHelper;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableGroupPresenter;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
@@ -30,6 +29,6 @@ public class EditableGroupFragment extends EditableCatalogFragment{
 		super.showRecycler();
 		adapter = new EditableListsAdapter(presenter.getAdapterPresenter());
 		recycler.setAdapter(adapter);
-		new ItemTouchHelper(new ItemTouchHelperCallback(adapter)).attachToRecyclerView(recycler);
+		new ItemTouchHelperCallback(recycler);
 	}
 }

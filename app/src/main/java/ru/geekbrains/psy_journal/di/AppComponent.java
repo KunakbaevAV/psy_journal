@@ -14,6 +14,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresent
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCatalogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
+import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCallback;
 
 @Singleton
 @Component(modules = {AppModule.class, FileModule.class})
@@ -42,4 +43,6 @@ public interface AppComponent {
 	void inject(EditableListsAdapter.ViewHolder viewHolder);
 
     void inject(OpenFileDialogPresenter presenter);
+
+    void inject(ItemTouchHelperCallback itemTouchHelperCallback);
 }
