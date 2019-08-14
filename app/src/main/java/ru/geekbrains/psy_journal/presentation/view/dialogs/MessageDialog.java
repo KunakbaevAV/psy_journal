@@ -42,7 +42,6 @@ public class MessageDialog extends DialogFragment implements DialogInterface.OnC
 			.setTitle("Внимание!")
 			.setMessage(message)
 			.setIcon(R.drawable.ic_warning_24dp)
-			.setNegativeButton(getResources().getString(R.string.cancel), this)
 			.setNeutralButton("Нет", this)
 			.setPositiveButton("Да", this);
 		return builder.create();
@@ -51,9 +50,6 @@ public class MessageDialog extends DialogFragment implements DialogInterface.OnC
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which){
-			case DialogInterface.BUTTON_NEGATIVE:
-				responded.toCancel();
-				break;
 			case DialogInterface.BUTTON_NEUTRAL:
 				responded.refuse();
 				break;

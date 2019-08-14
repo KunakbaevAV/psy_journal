@@ -69,7 +69,6 @@ public class GroupDialog extends EditableDialog {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(alertView);
         builder.setTitle(getString(R.string.title_add_catalog_item) + " " + getString(R.string.choose_group));
-        builder.setNegativeButton(R.string.cancel, null);
         builder.setPositiveButton(R.string.add_catalog_item, (dialog, id) -> {
             EditText catalogItem = alertView.findViewById(R.id.new_catalog_item);
             String newCatalogItem = catalogItem.getText().toString();
