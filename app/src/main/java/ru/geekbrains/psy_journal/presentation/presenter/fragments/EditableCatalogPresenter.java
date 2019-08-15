@@ -14,7 +14,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.Editable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
-public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringView> {
+public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringView> implements Addable {
 
 	@Inject RoomHelper roomHelper;
 
