@@ -58,8 +58,7 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 
 	@Override
 	public void addCatalog(String name) {
-		Group group = new Group();
-		group.setName(name);
+		Group group = new Group(name);
 		getViewState().showProgressBar();
 		disposable = roomHelper.insertItemGroup(group)
 				.observeOn(AndroidSchedulers.mainThread())

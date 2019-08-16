@@ -1,5 +1,7 @@
 package ru.geekbrains.psy_journal.presentation.view.activities.adapters;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,9 +17,11 @@ import ru.geekbrains.psy_journal.presentation.view.fragment.EditableWorkFormFrag
 public class EditableCatalogAdapter extends FragmentPagerAdapter {
 
 	private final List<Fragment> listFragment = new ArrayList<>();
+	private final Context context;
 
-	public EditableCatalogAdapter(@NonNull FragmentManager fm) {
+	public EditableCatalogAdapter(@NonNull FragmentManager fm, @NonNull Context context) {
 		super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+		this.context = context;
 		listFragment.add(new EditableCategoryFragment());
 		listFragment.add(new EditableGroupFragment());
 		listFragment.add(new EditableWorkFormFragment());
@@ -38,6 +42,6 @@ public class EditableCatalogAdapter extends FragmentPagerAdapter {
 	@Nullable
 	@Override
 	public CharSequence getPageTitle(int position) {
-		return ((Named)listFragment.get(position)).getListName();
+		return ((Named)listFragment.get(position)).getListName(context);
 	}
 }

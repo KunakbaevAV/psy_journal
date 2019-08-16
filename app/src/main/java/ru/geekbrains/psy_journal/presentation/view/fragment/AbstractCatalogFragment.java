@@ -20,11 +20,10 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.Recycl
 
 public abstract class AbstractCatalogFragment extends MvpAppCompatFragment implements RecycleringView {
 
-    protected Unbinder unbinder;
-    @BindView(R.id.recycler_dialog)
-    RecyclerView recycler;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+    @BindView(R.id.recycler_dialog) RecyclerView recycler;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+
+	protected Unbinder unbinder;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,11 +36,6 @@ public abstract class AbstractCatalogFragment extends MvpAppCompatFragment imple
     void showRecycler() {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.setHasFixedSize(true);
-    }
-
-    @Override
-    public void updateRecyclerView() {
-
     }
 
     @Override

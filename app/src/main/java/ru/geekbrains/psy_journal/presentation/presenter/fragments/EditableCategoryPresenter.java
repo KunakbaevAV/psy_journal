@@ -58,8 +58,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 
 	@Override
 	public void addCatalog(String name) {
-		Category category = new Category();
-		category.setName(name);
+		Category category = new Category(name);
 		getViewState().showProgressBar();
 		disposable = roomHelper.insertItemCategory(category)
 				.observeOn(AndroidSchedulers.mainThread())

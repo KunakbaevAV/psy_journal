@@ -1,5 +1,7 @@
 package ru.geekbrains.psy_journal.presentation.view.fragment;
 
+import android.content.Context;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
@@ -24,8 +26,8 @@ public class EditableGroupFragment extends EditableCatalogFragment{
 	}
 
 	@Override
-	public String getListName(){
-		return "Группа";
+	public String getListName(Context context){
+		return context.getResources().getString(R.string.choose_group);
 	}
 
 	protected void showRecycler() {
@@ -39,7 +41,7 @@ public class EditableGroupFragment extends EditableCatalogFragment{
     void openAddDialog() {
         AddCatalogItemDialog dialog = new AddCatalogItemDialog(presenter);
         if (getActivity() != null) {
-            dialog.show(getActivity().getSupportFragmentManager(), "Добавление в справочник " + getListName());
+            dialog.show(getActivity().getSupportFragmentManager(), getListName(getActivity()));
         }
     }
 }

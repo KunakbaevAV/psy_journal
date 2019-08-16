@@ -58,8 +58,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 
 	@Override
 	public void addCatalog(String name) {
-		WorkForm workForm = new WorkForm();
-		workForm.setName(name);
+		WorkForm workForm = new WorkForm(name);
 		getViewState().showProgressBar();
 		disposable = roomHelper.insertItemWorkForm(workForm)
 				.observeOn(AndroidSchedulers.mainThread())

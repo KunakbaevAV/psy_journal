@@ -22,7 +22,7 @@ public class EditorActivity extends MvpAppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editor);
 		unbinder = ButterKnife.bind(this);
-		pager.setAdapter(new EditableCatalogAdapter(getSupportFragmentManager()));
+		pager.setAdapter(new EditableCatalogAdapter(getSupportFragmentManager(), getBaseContext()));
 		tabLayout.setupWithViewPager(pager);
 	}
 
