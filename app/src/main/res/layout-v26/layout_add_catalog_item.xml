@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginStart="@dimen/standartMargin"
-        android:hint="@string/add_catalog_item"
+        android:layout_marginStart="@dimen/standardMargin"
         android:importantForAutofill="no"
         android:inputType="text" />
 </LinearLayout>

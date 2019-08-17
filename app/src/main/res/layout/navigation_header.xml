@@ -5,9 +5,9 @@
     android:background="@color/colorPrimary"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/padding_gorizontal"
+    android:paddingLeft="@dimen/padding_horizontal"
     android:paddingTop="@dimen/padding_vertical"
-    android:paddingRight="@dimen/padding_gorizontal"
+    android:paddingRight="@dimen/padding_horizontal"
     android:paddingBottom="@dimen/padding_vertical">
 
     <TextView
@@ -25,9 +25,9 @@
     <ImageView
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:layout_marginStart="@dimen/standartMargin"
-        android:layout_marginTop="@dimen/standartMargin"
-        android:layout_marginEnd="@dimen/standartMargin"
+        android:layout_marginStart="@dimen/standardMargin"
+        android:layout_marginTop="@dimen/standardMargin"
+        android:layout_marginEnd="@dimen/standardMargin"
         android:layout_marginBottom="@dimen/margin_top"
         android:contentDescription="@string/icon"
         app:layout_constraintBottom_toTopOf="@+id/textView2"

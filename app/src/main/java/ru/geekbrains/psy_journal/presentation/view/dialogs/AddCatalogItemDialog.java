@@ -15,7 +15,6 @@ import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.Addable;
 
-
 public class AddCatalogItemDialog extends AbstractDialog {
 
     @BindView(R.id.new_catalog_item)
@@ -46,7 +45,11 @@ public class AddCatalogItemDialog extends AbstractDialog {
 
     @Override
     protected String getTitle() {
-        return "Добавление позиции справочника";
+        if (getActivity() == null) {
+            return "";
+        } else {
+            return getActivity().getResources().getString(R.string.title_add_catalog_item);
+        }
     }
 
     @Override

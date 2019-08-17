@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="@dimen/standartMargin"
+    android:layout_margin="@dimen/standardMargin"
     android:background="@color/colorPrimary"
-    android:elevation="@dimen/standart_elevation">
+    android:elevation="@dimen/standard_elevation">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/quantity_people_layout"

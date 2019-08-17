@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="@dimen/standart_elevation">
+    android:elevation="@dimen/standard_elevation">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -16,10 +16,10 @@
         app:counterMaxLength="255"
         app:boxBackgroundColor="@android:color/white"
         app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
-        app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
-        app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
-        app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
+        app:boxCornerRadiusBottomEnd="@dimen/standard_corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/standard_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/standard_corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/standard_corner_radius"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText

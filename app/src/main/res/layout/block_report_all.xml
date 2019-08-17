@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/design_default_color_background"
-    android:elevation="@dimen/standart_elevation">
+    android:elevation="@dimen/standard_elevation">
 
     <include
         layout="@layout/block_report_tf"
