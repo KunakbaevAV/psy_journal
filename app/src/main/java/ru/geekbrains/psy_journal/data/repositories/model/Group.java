@@ -21,13 +21,9 @@ public class Group implements Catalog {
         this.name = name;
     }
 
-    @Ignore
     public Group(int id, String name) {
-        this.id = id;
-        new Group(name);
-    }
-
-    public Group() {
+	    this(name);
+    	this.id = id;
     }
 
     public int getId() {

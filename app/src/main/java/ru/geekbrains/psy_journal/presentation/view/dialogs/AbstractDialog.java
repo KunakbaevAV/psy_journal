@@ -6,10 +6,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+
 import com.arellomobile.mvp.MvpAppCompatDialogFragment;
-import ru.geekbrains.psy_journal.R;
 
 abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 
@@ -29,12 +30,7 @@ abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 		if (getActivity() == null) return super.onCreateDialog(savedInstanceState);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
 			.setTitle(getTitle())
-			.setView(createView())
-			.setNegativeButton(getResources().getString(R.string.cancel), (dialog, id) -> getActivity()
-				.getSupportFragmentManager()
-				.beginTransaction()
-				.remove(this)
-				.commitNow());
+				.setView(createView());
 			if (isPositiveButton) builder.setPositiveButton(textButton, null);
 		return builder.create();
 	}

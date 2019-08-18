@@ -17,13 +17,14 @@ public class WorkForm implements Catalog {
     private int id;
     private String name;
 
-    public WorkForm() {
+    @Ignore
+    public WorkForm(String name) {
+	    this.name = name;
     }
 
-    @Ignore
     public WorkForm(int id, String name) {
+    	this(name);
         this.id = id;
-        this.name = name;
     }
 
     public int getId() {

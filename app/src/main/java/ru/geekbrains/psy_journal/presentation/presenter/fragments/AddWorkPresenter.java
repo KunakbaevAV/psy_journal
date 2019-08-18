@@ -105,10 +105,6 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 				.subscribe();
 	}
 
-    public void setGroup(Group group) {
-        journal.setIdGroup(group.getId());
-	}
-
 	@Override
     public void saveSelectedCategory(Category category) {
 		journal.setIdCategory(category.getId());

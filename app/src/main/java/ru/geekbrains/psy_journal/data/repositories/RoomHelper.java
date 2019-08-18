@@ -2,8 +2,6 @@ package ru.geekbrains.psy_journal.data.repositories;
 
 import android.util.Log;
 
-import androidx.room.Transaction;
-
 import java.util.List;
 
 import javax.inject.Inject;

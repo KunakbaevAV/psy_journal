@@ -96,22 +96,19 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
 
     @Override
     public void insertCategoryItem(String name) {
-        catalog = new Category();
-        catalog.setName(name);
+        catalog = new Category(name);
         insertCatalogItemSubscribe(roomHelper.insertItemCategory((Category) catalog));
     }
 
     @Override
     public void insertGroupItem(String name) {
-        catalog = new Group();
-        catalog.setName(name);
+        catalog = new Group(name);
         insertCatalogItemSubscribe(roomHelper.insertItemGroup((Group) catalog));
     }
 
     @Override
     public void insertWorkFormItem(String name) {
-        catalog = new WorkForm();
-        catalog.setName(name);
+        catalog = new WorkForm(name);
         insertCatalogItemSubscribe(roomHelper.insertItemWorkForm((WorkForm) catalog));
     }
 

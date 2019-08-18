@@ -46,5 +46,6 @@
     <string name="select_file">Выбрать файл профстандарта .xml</string>
     <string name="update_prof_standard">Загрузить профстандарт XML в базу</string>
     <string name="icon_file">icon</string>
-    <string name="feedback">обратная связь с разработчиками</string>
+    <string name="feedback">Обратная связь с разработчиками</string>
+    <string name="delete">Удалить</string>
 </resources>
