@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.Named;
+import ru.geekbrains.psy_journal.presentation.view.fragment.Named;
 import ru.geekbrains.psy_journal.presentation.view.fragment.EditableCategoryFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.EditableGroupFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.EditableWorkFormFragment;

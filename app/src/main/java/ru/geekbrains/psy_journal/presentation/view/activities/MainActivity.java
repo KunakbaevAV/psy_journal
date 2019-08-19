@@ -1,7 +1,6 @@
 package ru.geekbrains.psy_journal.presentation.view.activities;
 
 import android.Manifest;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,13 +38,13 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.InformedView;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.MessageDialog;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.FileSelectionDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.OpenFileDialog;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.MessageDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AllWorkFragment;
 
-import static ru.geekbrains.psy_journal.Constants.INTENT_TYPE_EXCEL;
 import static ru.geekbrains.psy_journal.Constants.INTENT_TYPE_MULTIPART;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
@@ -68,7 +66,6 @@ public class MainActivity extends MvpAppCompatActivity implements
 	private static final int REQUEST_PERMISSION_CREATE_FILE_XLS = 1;
 	private static final int REQUEST_PERMISSION_READ_FILE_XML = 2;
 	private static final int REQUEST_PERMISSION_READ_FILE_XLS = 3;
-	private static final int REQUEST_FILES_GET = 4;
 
     @ProvidePresenter
     MainPresenter providePresenter() {
@@ -208,7 +205,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     private void openFileDialog() {
         OpenFileDialog dialog = new OpenFileDialog();
-        dialog.show(this.getSupportFragmentManager(), "SELECT_XML");
+        dialog.show(getSupportFragmentManager(), "Tag select XML");
     }
 
     private void openScreenEditCatalogs() {
@@ -220,7 +217,7 @@ public class MainActivity extends MvpAppCompatActivity implements
     }
 
     private void createExcelReportFile() {
-        if (checkPermissions(REQUEST_PERMISSION_CREATE_FILE_XLS)) mainPresenter.createExcelFile("Отчет");
+        if (checkPermissions(REQUEST_PERMISSION_CREATE_FILE_XLS)) mainPresenter.createExcelFile(getString(R.string.report));
     }
 
     private void sendToMailReport() {
@@ -236,56 +233,24 @@ public class MainActivity extends MvpAppCompatActivity implements
     }
 
     private void getFiles() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType(INTENT_TYPE_EXCEL);
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        startActivityForResult(intent, REQUEST_FILES_GET);
+		new FileSelectionDialog().show(getSupportFragmentManager(), "Tag files xls");
     }
 
-    private ArrayList<Uri> getAttachment(ClipData clipData) {
-        ArrayList<Uri> arrayList = new ArrayList<>(clipData.getItemCount());
-        for (int i = 0; i < clipData.getItemCount(); i++) {
-            arrayList.add(clipData.getItemAt(i).getUri());
-        }
-        return arrayList;
-    }
-
-    private Intent sendMultipleFiles(Intent data) {
-        ClipData clipData = data.getClipData();
-        if (clipData == null) return null;
-        Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-        intent.putExtra(Intent.EXTRA_STREAM, getAttachment(clipData));
+    private Intent prepareFiles(ArrayList<Uri> files) {
+	    Intent intent;
+    	if (files.size() == 1){
+		    intent = new Intent(Intent.ACTION_SEND);
+		    intent.putExtra(Intent.EXTRA_STREAM, files.get(0));
+	    } else {
+		    intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+		    intent.putExtra(Intent.EXTRA_STREAM, files);
+	    }
+	    intent.setType(INTENT_TYPE_MULTIPART);
         return intent;
     }
 
-    private Intent sendOneFile(Intent data) {
-        Uri uri = data.getData();
-        if (uri == null) return null;
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        return intent;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_FILES_GET) {
-            if (resultCode == RESULT_OK && data != null) {
-                sendToMail(data);
-            }
-        }
-    }
-
-    private void sendToMail(Intent data) {
-        Intent intent = sendMultipleFiles(data);
-        if (intent == null) {
-            intent = sendOneFile(data);
-        }
-        if (intent != null) {
-            intent.setType(INTENT_TYPE_MULTIPART);
-            sendOut(intent);
-        }
+    private void sendToMail(ArrayList<Uri> files) {
+        sendOut(prepareFiles(files));
     }
 
     private void sendOut(Intent intent){
@@ -311,7 +276,7 @@ public class MainActivity extends MvpAppCompatActivity implements
                 grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
             switch (requestCode) {
                 case REQUEST_PERMISSION_CREATE_FILE_XLS:
-                    mainPresenter.createExcelFile("Отчет");
+                    mainPresenter.createExcelFile(getString(R.string.report));
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XML:
                     openFileDialog();
@@ -341,7 +306,7 @@ public class MainActivity extends MvpAppCompatActivity implements
     }
 
     @Override
-    public void getFileXML(File file) {
+    public void selectFileXML(File file) {
         if (file.getName().endsWith(".xml")) {
 			mainPresenter.takeFile(file);
 			String message = String.format("При обновлении профстандарта файлом %s \nпредыдущие записи будут удалены.\nВы хотите их сохранить?", file.getName());
@@ -350,6 +315,12 @@ public class MainActivity extends MvpAppCompatActivity implements
         	showMessage("выбран не файл .xml");
         }
     }
+
+	@Override
+	public void selectReportFiles(ArrayList<Uri> files) {
+    	if (files.isEmpty()) return;
+		sendToMail(files);
+	}
 
 	@Override
 	public void showStatusLoadDataBase(String error) {
@@ -407,6 +378,6 @@ public class MainActivity extends MvpAppCompatActivity implements
 
 	@Override
 	public void toAccept() {
-		mainPresenter.saveOldDataBase("Архив отчетов");
+		mainPresenter.saveOldDataBase("Архив ");
 	}
 }

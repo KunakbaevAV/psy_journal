@@ -46,14 +46,15 @@ public class FileProvider implements DisplayFiles {
         return getListFile(currentDirectory);
     }
 
+	@Override
+	public List<File> showRootDirectory(File rootFolder) {
+		return new ArrayList<>(Arrays.asList(rootFolder.listFiles()));
+	}
+
     private List<File> getListFile(File directory){
     	List<File> files = new ArrayList<>();
     	files.add(new File(Constants.SUB_LEVEL));
 	    files.addAll(Arrays.asList(directory.listFiles()));
     	return files;
     }
-
-	private List<File> showRootDirectory(File currentFolder) {
-		return new ArrayList<>(Arrays.asList(currentFolder.listFiles()));
-	}
 }

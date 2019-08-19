@@ -1,4 +1,4 @@
-package ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments;
+package ru.geekbrains.psy_journal.presentation.view.fragment;
 
 import android.content.Context;
 

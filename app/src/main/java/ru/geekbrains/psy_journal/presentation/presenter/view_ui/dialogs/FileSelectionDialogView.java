@@ -8,9 +8,9 @@ import java.io.File;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
 @StateStrategyType(SingleStateStrategy.class)
-public interface OpenFileDialogView extends RecycleringView {
+public interface FileSelectionDialogView extends RecycleringView {
 
 	void showCurrentDirectory(String path);
 
-    void startLoadXml(File file);
+    void selectFile(File file);
 }

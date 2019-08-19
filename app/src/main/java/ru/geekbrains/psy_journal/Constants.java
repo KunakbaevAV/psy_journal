@@ -40,7 +40,9 @@ public class Constants {
     public static final String FIRST_START = "first_start";
 
     public static final String INTENT_TYPE_MULTIPART = "multipart/*";
-    public static final String INTENT_TYPE_EXCEL = "application/vnd.ms-excel";
 
 	public static final String SUB_LEVEL = "....";
+
+	public static final String DOWNLOADS = "DOWNLOADS";
+	public static final String REPORTS = "REPORTS";
 }

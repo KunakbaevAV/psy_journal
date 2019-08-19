@@ -1,6 +1,7 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -15,14 +16,24 @@ import com.arellomobile.mvp.MvpAppCompatDialogFragment;
 abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 
 	private boolean isPositiveButton;
-	private String textButton;
+	private boolean isNegativeButton;
+	private String textPositiveBut;
+	private String textNegativeBut;
 
 	protected void hasPositiveButton(boolean isPositiveButton){
 		this.isPositiveButton = isPositiveButton;
 	}
 
-	protected void setTextButton(String textButton) {
-		this.textButton = textButton;
+	protected void hasNegativeButton(boolean isNegativeButton){
+		this.isNegativeButton = isNegativeButton;
+	}
+
+	protected void setTextPositiveBut(String textPositiveBut) {
+		this.textPositiveBut = textPositiveBut;
+	}
+
+	protected void setTextNegativeBut(String textNegativeBut) {
+		this.textNegativeBut = textNegativeBut;
 	}
 
 	@NonNull
@@ -31,13 +42,20 @@ abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
 			.setTitle(getTitle())
 				.setView(createView());
-			if (isPositiveButton) builder.setPositiveButton(textButton, null);
+			if (isPositiveButton) builder.setPositiveButton(textPositiveBut, null);
+			if (isNegativeButton) builder.setNegativeButton(textNegativeBut, null);
 		return builder.create();
 	}
 
 	protected abstract View createView();
 
 	protected abstract String getTitle();
+
+	@Override
+	public void onCancel(@NonNull DialogInterface dialog) {
+		super.onCancel(dialog);
+		dialog.dismiss();
+	}
 
 	@Override
 	public void onStart() {

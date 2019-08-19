@@ -14,4 +14,6 @@ public interface DisplayFiles {
     List<File> goUp(File currentFolder);
 
     List<File> goToFolder(File selectFolder);
+
+	List<File> showRootDirectory(File rootFolder);
 }

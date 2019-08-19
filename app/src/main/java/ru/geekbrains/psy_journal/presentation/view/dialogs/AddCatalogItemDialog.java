@@ -32,7 +32,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
         super.onCreate(savedInstanceState);
         if (getActivity() == null) return;
         hasPositiveButton(true);
-        setTextButton(getResources().getString(R.string.add_catalog_item));
+        setTextPositiveBut(getResources().getString(R.string.add_catalog_item));
     }
 
     @Override
