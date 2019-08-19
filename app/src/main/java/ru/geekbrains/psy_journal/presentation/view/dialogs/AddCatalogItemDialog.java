@@ -20,7 +20,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
     @BindView(R.id.new_catalog_item)
     EditText catalogItem;
 
-    private Addable addable;
+    private final Addable addable;
 
     public AddCatalogItemDialog(Addable addable) {
         this.addable = addable;

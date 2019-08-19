@@ -17,8 +17,8 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.Constants;
-import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.IViewHolder;
 
@@ -102,16 +102,16 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> implements Updat
             holder.setWork(getDate(journalItem.getDate()), journalItem.getDeclaredRequest());
         }
 
+        private String getDate(long date) {
+            return dateFormat.format(new Date(date));
+        }
+
         @Override
         public int getItemCount() {
             if (listWorks != null) {
                 return listWorks.size();
             }
             return 0;
-        }
-
-        private String getDate(long date) {
-            return dateFormat.format(new Date(date));
         }
 
         @Override

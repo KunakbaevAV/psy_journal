@@ -7,8 +7,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 class UnderlayButton {
-    private String text;
-    private int color;
+    private final String text;
+    private final int color;
     private int pos;
     private RectF clickRegion;
     private ItemTouchHelperCallback.UnderlayButtonClickListener clickListener;

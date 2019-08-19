@@ -29,8 +29,6 @@ import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.Removable;
 public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
 
     private static final int BUTTON_WIDTH = 200;
-    @Inject
-    Context context;
     private RecyclerView recyclerView;
     private List<UnderlayButton> buttons;
     private GestureDetector gestureDetector;
@@ -38,6 +36,8 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
     private float swipeThreshold = 0.5f;
     private Map<Integer, List<UnderlayButton>> buttonsBuffer;
     private Queue<Integer> recoverQueue;
+    @Inject
+    Context context;
 
     private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
@@ -121,6 +121,16 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
         recoverSwipedItem();
     }
 
+    private synchronized void recoverSwipedItem() {
+        if (recyclerView.getAdapter() == null) return;
+        while (!recoverQueue.isEmpty()) {
+            int pos = recoverQueue.poll();
+            if (pos > -1) {
+                recyclerView.getAdapter().notifyItemChanged(pos);
+            }
+        }
+    }
+
     @Override
     public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
         return swipeThreshold;
@@ -158,16 +168,6 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
             drawButtons(canvas, itemView, buffer, pos, translationX);
         }
         super.onChildDraw(canvas, recyclerView, viewHolder, translationX, dY, actionState, isCurrentlyActive);
-    }
-
-    private synchronized void recoverSwipedItem() {
-        if (recyclerView.getAdapter() == null) return;
-        while (!recoverQueue.isEmpty()) {
-            int pos = recoverQueue.poll();
-            if (pos > -1) {
-                recyclerView.getAdapter().notifyItemChanged(pos);
-            }
-        }
     }
 
     private void drawButtons(Canvas canvas, View itemView, List<UnderlayButton> buffer, int pos, float dX) {
