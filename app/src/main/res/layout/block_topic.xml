@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="@dimen/standart_elevation">
+    android:elevation="@dimen/standard_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standartMargin"
-            android:layout_marginBottom="@dimen/standartMargin"
+            android:layout_marginTop="@dimen/standardMargin"
+            android:layout_marginBottom="@dimen/standardMargin"
             android:text="@string/block_topic_label"
             android:textAlignment="center"
             android:textSize="@dimen/largeText" />
@@ -25,10 +25,10 @@
             android:layout_height="wrap_content"
             app:counterEnabled="true"
             app:counterMaxLength="255"
-            app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
-            app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
-            app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
+            app:boxCornerRadiusBottomEnd="@dimen/standard_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/standard_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/standard_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/standard_corner_radius"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginStart="@dimen/margin_top"
             android:layout_marginEnd="@dimen/margin_top">
@@ -50,10 +50,10 @@
             android:layout_height="wrap_content"
             app:counterEnabled="true"
             app:counterMaxLength="255"
-            app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
-            app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
-            app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
+            app:boxCornerRadiusBottomEnd="@dimen/standard_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/standard_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/standard_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/standard_corner_radius"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginStart="@dimen/margin_top"
             android:layout_marginEnd="@dimen/margin_top">
@@ -78,13 +78,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_top"
-                android:layout_marginEnd="@dimen/standartMargin"
+                android:layout_marginEnd="@dimen/standardMargin"
                 app:layout_constraintBaseline_toBaselineOf="@+id/code_tf_layout"
                 app:layout_constraintEnd_toStartOf="@+id/code_tf_layout"
-                app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
-                app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
-                app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
-                app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/standard_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/standard_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/standard_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/standard_corner_radius"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -105,10 +105,10 @@
                 android:layout_marginEnd="@dimen/margin_top"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/work_form_layout"
-                app:boxCornerRadiusBottomEnd="@dimen/standart_corner_radius"
-                app:boxCornerRadiusBottomStart="@dimen/standart_corner_radius"
-                app:boxCornerRadiusTopEnd="@dimen/standart_corner_radius"
-                app:boxCornerRadiusTopStart="@dimen/standart_corner_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/standard_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/standard_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/standard_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/standard_corner_radius"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintTop_toTopOf="parent">
 

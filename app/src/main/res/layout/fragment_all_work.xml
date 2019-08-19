@@ -11,7 +11,7 @@
         android:id="@+id/recycler_all_work"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/standartMargin"
+        android:layout_margin="@dimen/standardMargin"
         android:orientation="vertical"
         android:divider="@color/colorPrimaryDark"
         android:showDividers="middle"

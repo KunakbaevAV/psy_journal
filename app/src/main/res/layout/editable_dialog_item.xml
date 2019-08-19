@@ -15,7 +15,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:padding="@dimen/standartMargin"
+        android:padding="@dimen/standardMargin"
         android:text="@string/theme_example"
         android:textSize="@dimen/medium_text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,11 +24,11 @@
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="@dimen/standartMargin"
+        android:layout_height="@dimen/standardMargin"
         android:contentDescription="@string/description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/separtor" />
+        app:srcCompat="@drawable/separator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

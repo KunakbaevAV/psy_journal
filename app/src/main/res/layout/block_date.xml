@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        android:elevation="@dimen/standart_elevation">
+        android:elevation="@dimen/standard_elevation">
 
         <include
             android:id="@+id/include_date"
@@ -24,7 +24,7 @@
             layout="@layout/field_quantity_people"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standartMargin"
+            android:layout_marginStart="@dimen/standardMargin"
             app:layout_constraintEnd_toStartOf="@+id/include_time"
             app:layout_constraintStart_toEndOf="@+id/include_date"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
             layout="@layout/field_work_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standartMargin"
+            android:layout_marginStart="@dimen/standardMargin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/include_people"
             app:layout_constraintTop_toTopOf="parent" />

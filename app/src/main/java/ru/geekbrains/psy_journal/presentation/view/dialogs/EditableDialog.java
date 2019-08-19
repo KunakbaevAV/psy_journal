@@ -31,7 +31,7 @@ import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public abstract class EditableDialog extends AbstractDialog implements EditableDialogView {
 
-    @BindView(R.id.recycler_dialog)
+    @BindView(R.id.recycler_all_work)
     RecyclerView recyclerView;
 
     protected SettableByCatalog settableByCatalog;
@@ -66,7 +66,7 @@ public abstract class EditableDialog extends AbstractDialog implements EditableD
     protected View createView() {
         if (getActivity() == null) return null;
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.editable_dialog_list, null);
+        View view = inflater.inflate(R.layout.fragment_all_work, null);
         ButterKnife.bind(this, view);
         adapter = new EditableDialogAdapter(editablePresenter);
         recyclerView.setAdapter(adapter);
