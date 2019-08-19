@@ -194,6 +194,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
         underlayButtons.add(new UnderlayButton(
                 context.getString(R.string.delete),
                 context.getResources().getColor(R.color.colorAccent),
+                context.getResources().getColor(R.color.colorPrimary),
                 pos -> removable.delete(viewHolder.getAdapterPosition())
         ));
     }

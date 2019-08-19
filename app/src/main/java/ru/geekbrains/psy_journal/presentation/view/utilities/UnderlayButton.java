@@ -1,21 +1,22 @@
 package ru.geekbrains.psy_journal.presentation.view.utilities;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 class UnderlayButton {
     private final String text;
-    private final int color;
+    private final int buttonColor;
+    private final int textColor;
     private int pos;
     private RectF clickRegion;
     private ItemTouchHelperCallback.UnderlayButtonClickListener clickListener;
 
-    UnderlayButton(String text, int color, ItemTouchHelperCallback.UnderlayButtonClickListener clickListener) {
+    UnderlayButton(String text, int buttonColor, int textColor, ItemTouchHelperCallback.UnderlayButtonClickListener clickListener) {
         this.text = text;
-        this.color = color;
+        this.buttonColor = buttonColor;
+        this.textColor = textColor;
         this.clickListener = clickListener;
     }
 
@@ -29,9 +30,9 @@ class UnderlayButton {
 
     void onDraw(Canvas c, RectF rect, int pos) {
         Paint p = new Paint();
-        p.setColor(color);
+        p.setColor(buttonColor);
         c.drawRect(rect, p);
-        p.setColor(Color.WHITE);
+        p.setColor(textColor);
         p.setTextSize(36);
 
         Rect r = new Rect();
