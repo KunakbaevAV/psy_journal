@@ -62,6 +62,20 @@ public class GroupDialog extends EditableDialog {
         dismiss();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        final AlertDialog dialog = (AlertDialog) getDialog();
+        if (dialog != null) {
+            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(v -> {
+                wantToCloseDialog = false;
+                onClickAddItem();
+                if (wantToCloseDialog) dialog.dismiss();
+            });
+        }
+    }
+
     private void onClickAddItem() {
         LayoutInflater factory = LayoutInflater.from(getActivity());
         @SuppressLint("InflateParams") final View alertView = factory.inflate(R.layout.layout_add_catalog_item, null);
@@ -75,19 +89,5 @@ public class GroupDialog extends EditableDialog {
             editablePresenter.insertGroupItem(newCatalogItem);
         });
         builder.show();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        final AlertDialog dialog = (AlertDialog) getDialog();
-        if (dialog != null) {
-            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
-            positiveButton.setOnClickListener(v -> {
-                wantToCloseDialog = false;
-                onClickAddItem();
-                if (wantToCloseDialog) dialog.dismiss();
-            });
-        }
     }
 }

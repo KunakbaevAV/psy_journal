@@ -16,44 +16,45 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewhold
 
 public class EditableDialogAdapter extends RecyclerView.Adapter {
 
-    private Bindable presenter;
+    private final Bindable bindable;
 
-    public EditableDialogAdapter(Bindable presenter) {
-        this.presenter = presenter;
+    public EditableDialogAdapter(Bindable bindable) {
+        this.bindable = bindable;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.editable_dialog_item, parent, false), presenter);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.editable_dialog_item, parent, false), bindable);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder myViewHolder = (ViewHolder) holder;
-        presenter.bindView(myViewHolder, position);
+        bindable.bindView(myViewHolder, position);
     }
 
     @Override
     public int getItemCount() {
-        return presenter.getItemCount();
+        return bindable.getItemCount();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Displayed {
 
         @BindView(R.id.catalog_item)
         TextView item;
+        private final Bindable bindable;
 
         private ViewHolder(final View view, Bindable bindable) {
             super(view);
-            presenter = bindable;
+            this.bindable = bindable;
             ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            presenter.selectItem(getAdapterPosition());
+            bindable.selectItem(getAdapterPosition());
         }
 
         @Override

@@ -29,7 +29,6 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
 
     @Inject
     RoomHelper roomHelper;
-
     private List<Catalog> catalogList;
     private String title;
     private Catalog catalog;
@@ -59,6 +58,10 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
     @Override
     public void selectItem(int position) {
         getViewState().saveSelectedCatalog(catalogList.get(position));
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     @SuppressLint("CheckResult")
@@ -122,9 +125,5 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
                         },
                         throwable -> getViewState().showToast(ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage())
                 ).isDisposed();
-    }
-
-    public String getTitle() {
-        return title;
     }
 }
