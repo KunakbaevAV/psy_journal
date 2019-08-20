@@ -14,6 +14,12 @@ import static ru.geekbrains.psy_journal.Constants.TAG;
 @InjectViewState
 public class EditableGroupPresenter extends EditableCatalogPresenter {
 
+	private String title;
+
+	public EditableGroupPresenter(String title) {
+		this.title = title;
+	}
+
 	public void getGroup() {
 		getViewState().showProgressBar();
 		disposable = roomHelper.getListGroups()
@@ -72,5 +78,10 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 							Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
 						}
 				);
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
 	}
 }

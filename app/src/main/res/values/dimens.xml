@@ -13,4 +13,5 @@
     <dimen name="standard_corner_radius">30dp</dimen>
     <dimen name="margin_top">16dp</dimen>
     <dimen name="icon_size">256dp</dimen>
+    <dimen name="mediumMargin">4dp</dimen>
 </resources>

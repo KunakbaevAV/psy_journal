@@ -45,11 +45,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
 
     @Override
     protected String getTitle() {
-        if (getActivity() == null) {
-            return "";
-        } else {
-            return getActivity().getResources().getString(R.string.title_add_catalog_item);
-        }
+        return addable.getTitle();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class EditableWorkFormFragment extends EditableCatalogFragment {
 
 	@ProvidePresenter
 	EditableWorkFormPresenter providePresenter(){
-		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter();
+		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter(getListName(getActivity()));
 		App.getAppComponent().inject(presenter);
 		presenter.getWorkForm();
 		return presenter;
