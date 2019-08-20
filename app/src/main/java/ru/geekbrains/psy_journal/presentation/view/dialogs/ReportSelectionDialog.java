@@ -70,7 +70,7 @@ public class ReportSelectionDialog extends AbstractDialog implements
 			fromView.setOnClickListener(v -> determineDate(true));
 			toView.setOnClickListener(v -> determineDate(false));
 			hasPositiveButton(true);
-			setTextButton(getResources().getString(R.string.report));
+			setTextPositiveBut(getResources().getString(R.string.report));
 		}
 	}
 

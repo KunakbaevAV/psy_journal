@@ -79,7 +79,7 @@ public class DataBaseLoader implements LoadableDataBase {
 	    int id = 0;
 	    String[] workForms = context.getResources().getStringArray(R.array.workForm);
 	    for (int i = 0; i < workForms.length; i++) {
-		    workFormList.add(new WorkForm(++id, workForms[i]));
+		    workFormList.add(new WorkForm(workForms[i]));
 	    }
     }
 
@@ -88,7 +88,7 @@ public class DataBaseLoader implements LoadableDataBase {
 	    int id = 0;
 	    String[] groups = context.getResources().getStringArray(R.array.group);
 	    for (int i = 0; i < groups.length; i++) {
-		    groupList.add(new Group(++id, groups[i]));
+		    groupList.add(new Group(groups[i]));
 	    }
     }
 
@@ -97,7 +97,7 @@ public class DataBaseLoader implements LoadableDataBase {
 		int id = 0;
 		String[] categories = context.getResources().getStringArray(R.array.category);
 	    for (int i = 0; i < categories.length; i++) {
-		    categoryList.add(new Category(++id, categories[i]));
+		    categoryList.add(new Category(categories[i]));
 	    }
     }
 

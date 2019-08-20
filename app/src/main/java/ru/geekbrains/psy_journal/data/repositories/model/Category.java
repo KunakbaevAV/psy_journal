@@ -16,14 +16,8 @@ public class Category implements Catalog {
     private int id;
     private String name;
 
-	@Ignore
     public Category(String name) {
 		this.name = name;
-    }
-
-    public Category(int id, String name) {
-		this(name);
-        this.id = id;
     }
 
     public int getId() {

@@ -32,11 +32,10 @@
     <string name="get_report">Показать отчет</string>
     <string name="send_email">Отправить журнал на электронную почту</string>
     <string name="report_of_generalized_labor_functions">Отчет</string>
-    <string name="report">Отчет</string>
     <string name="need_mail_client">Установите почтовый клиент</string>
     <string name="no_permission_file">Отсутствует разрешение на чтение/запись файлов</string>
     <string name="db_empty">база пуста</string>
-    <string name="file_write_to">%s записан в DOCUMENTS</string>
+    <string name="file_write_to">%s успешно записан</string>
     <string name="file_write_error">отчет.xls не создан, %s</string>
     <string name="title_add_catalog_item">Добавление элемента справочника </string>
     <string name="description">description</string>
@@ -48,4 +47,10 @@
     <string name="icon_file">icon</string>
     <string name="feedback">Обратная связь с разработчиками</string>
     <string name="delete">Удалить</string>
+    <string name="report">Отчет</string>
+    <string name="reports">Отчеты</string>
+    <string name="bytes">байт</string>
+    <string name="Kb">Кб</string>
+    <string name="Mb">Мб</string>
+    <string name="Gb">Гб</string>
 </resources>

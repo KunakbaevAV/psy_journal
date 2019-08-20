@@ -59,7 +59,7 @@ public abstract class EditableDialog extends AbstractDialog implements EditableD
         AddWorkFragment fragment = (AddWorkFragment) getActivity().getSupportFragmentManager().findFragmentByTag(TAG_ADD_WORK);
         if (fragment != null) settableByCatalog = fragment.workPresenter;
         hasPositiveButton(true);
-        setTextButton(getResources().getString(R.string.add_catalog_item));
+        setTextPositiveBut(getResources().getString(R.string.add_catalog_item));
     }
 
     @Override

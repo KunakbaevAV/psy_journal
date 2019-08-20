@@ -9,10 +9,12 @@ import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogFunctionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.OpenFileDialogPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.SelectFileDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCatalogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.SelectionFileDialogAdapter;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
 import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCallback;
 
@@ -42,7 +44,11 @@ public interface AppComponent {
 
 	void inject(EditableListsAdapter.ViewHolder viewHolder);
 
-    void inject(OpenFileDialogPresenter presenter);
+    void inject(SelectFileDialogPresenter presenter);
+
+	void inject(OpenFileDialogPresenter presenter);
 
     void inject(ItemTouchHelperCallback itemTouchHelperCallback);
+
+    void inject(SelectionFileDialogAdapter.SelectionFileViewHolder holder);
 }
