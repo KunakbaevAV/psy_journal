@@ -19,7 +19,7 @@ public class EditableGroupFragment extends EditableCatalogFragment{
 
 	@ProvidePresenter
 	EditableGroupPresenter providePresenter(){
-		EditableGroupPresenter presenter = new EditableGroupPresenter();
+		EditableGroupPresenter presenter = new EditableGroupPresenter(getListName(getActivity()));
 		App.getAppComponent().inject(presenter);
 		presenter.getGroup();
 		return presenter;

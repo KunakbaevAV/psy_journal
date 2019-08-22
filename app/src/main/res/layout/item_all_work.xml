@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="@dimen/mediumMargin"
     android:orientation="horizontal">
 
     <TextView
@@ -11,10 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="@dimen/standardMargin"
         android:padding="@dimen/standardMargin"
         android:text="@string/theme_example"
         android:textSize="@dimen/medium_text"
@@ -28,9 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/standardMargin"
         android:padding="@dimen/standardMargin"
         android:text="@string/data_example"
         android:textColor="@android:color/darker_gray"
