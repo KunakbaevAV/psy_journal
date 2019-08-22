@@ -11,6 +11,10 @@ public class BehaviorFAB extends HideBottomViewOnScrollBehavior<View> {
 
 	private boolean isDown;
 
+	public BehaviorFAB() {
+		super();
+	}
+
 	public BehaviorFAB(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}

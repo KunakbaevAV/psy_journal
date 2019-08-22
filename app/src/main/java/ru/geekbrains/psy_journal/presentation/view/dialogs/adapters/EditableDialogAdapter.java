@@ -39,7 +39,9 @@ public class EditableDialogAdapter extends RecyclerView.Adapter {
         return bindable.getItemCount();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Displayed {
+    public class ViewHolder extends RecyclerView.ViewHolder implements
+	    View.OnClickListener,
+	    Displayed {
 
         @BindView(R.id.catalog_item)
         TextView item;

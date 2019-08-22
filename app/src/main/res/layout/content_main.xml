@@ -2,10 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.view.activities.MainActivity">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -18,7 +16,6 @@
             android:layout_height="wrap_content" />
 
     </androidx.core.widget.NestedScrollView>
-
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -43,7 +40,6 @@
         android:focusableInTouchMode="false"
         app:layout_anchor="@id/bottomAppBar"
         app:layout_anchorGravity="center"
-        app:layout_behavior=".presentation.view.utilities.BehaviorFAB"
         app:backgroundTint="?attr/colorAccent"
         app:elevation="16dp"
         app:fabSize="auto"

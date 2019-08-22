@@ -37,7 +37,7 @@
         </activity>
 
         <provider
-            android:authorities="ru.geekbrains.psy_journal.fileprovider"
+            android:authorities="${applicationId}"
             android:name="androidx.core.content.FileProvider"
             android:grantUriPermissions="true"
             android:exported="false">

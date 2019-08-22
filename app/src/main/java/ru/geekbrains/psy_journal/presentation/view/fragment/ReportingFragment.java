@@ -15,12 +15,13 @@ import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class ReportingFragment extends AbstractReportingFragment implements ReportingView {
 
-    private static final String KEY_ID_OTF = "key idOTF";
-    private static final String KEY_CODE_TF = "key codeTF";
-    @InjectPresenter
-    ReportPresenter reportPresenter;
+    @InjectPresenter ReportPresenter reportPresenter;
+
+	private static final String KEY_ID_OTF = "key idOTF";
+	private static final String KEY_CODE_TF = "key codeTF";
     private static final String KEY_FROM = "key from";
     private static final String KEY_UNTO = "key unto";
+
     private ReportAdapter reportAdapter;
 
     public static ReportingFragment newInstance(int idOTF, long from, long unto) {

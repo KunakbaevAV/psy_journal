@@ -25,10 +25,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import ru.geekbrains.psy_journal.BuildConfig;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.SelectFileDialogPresenter;
-
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.FileSelectionDialogView;
 import ru.geekbrains.psy_journal.presentation.view.activities.SelectableFile;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.SelectionFileDialogAdapter;
@@ -45,7 +45,6 @@ public class FileSelectionDialog extends AbstractDialog implements
 	protected SelectableFile selectableFile;
 	protected RecyclerView.Adapter adapter;
 
-	private static final String FILE_PROVIDER = "ru.geekbrains.psy_journal.fileprovider";
 	private Unbinder unbinder;
 
 	@ProvidePresenter SelectFileDialogPresenter providePresenter(){
@@ -106,9 +105,10 @@ public class FileSelectionDialog extends AbstractDialog implements
 	}
 
 	private ArrayList<Uri> getUriList(Context context, List<File> fileList){
+		if (fileList.isEmpty()) return null;
 		ArrayList<Uri> uris = new ArrayList<>(fileList.size());
 		for (int i = 0; i < fileList.size(); i++) {
-			uris.add(FileProvider.getUriForFile(context, FILE_PROVIDER, fileList.get(i)));
+			uris.add(FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, fileList.get(i)));
 		}
 		return uris;
 	}

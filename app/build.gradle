@@ -23,6 +23,19 @@ android {
         targetCompatibility = '1.8'
         sourceCompatibility = '1.8'
     }
+    flavorDimensions 'product'
+    productFlavors {
+        base {
+            dimension = 'product'
+            versionNameSuffix = '-base'
+            applicationIdSuffix = '.base'
+        }
+        pro {
+            dimension = 'product'
+            applicationIdSuffix = '.pro'
+            versionNameSuffix = '-pro'
+        }
+    }
 }
 
 dependencies {
@@ -39,9 +52,9 @@ dependencies {
     annotationProcessor 'tech.schoolhelper:moxy-x-compiler:1.7.0'
     implementation 'tech.schoolhelper:moxy-x-androidx:1.7.0'
     //    AndroidX
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta03'
     implementation 'com.google.android.material:material:1.1.0-alpha09'
     // Dagger2
     implementation 'com.google.dagger:dagger-android:2.20'

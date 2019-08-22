@@ -26,8 +26,8 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AddWor
 public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	SettableByDate,
 	SettableByTime,
-		SettableByFunction,
-		SettableByCatalog {
+	SettableByFunction,
+	SettableByCatalog {
 
 	private static final float HOUR_IN_MINUTES = 60.0f;
 	private Journal journal;

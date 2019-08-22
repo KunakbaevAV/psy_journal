@@ -5,8 +5,6 @@ import android.content.Context;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
-
-
 import butterknife.OnClick;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
@@ -46,5 +44,4 @@ public class EditableCategoryFragment extends EditableCatalogFragment {
 			dialog.show(getActivity().getSupportFragmentManager(), getListName(getActivity()));
 		}
 	}
-
 }

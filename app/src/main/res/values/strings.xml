@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="int_navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="int_navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -42,8 +43,6 @@
     <string name="create_excel_xls">Сохранить журнал в Excel</string>
     <string name="entity">Сущность</string>
     <string name="icon">icon</string>
-    <string name="select_file">Выбрать файл профстандарта .xml</string>
-    <string name="update_prof_standard">Загрузить профстандарт XML в базу</string>
     <string name="icon_file">icon</string>
     <string name="feedback">Обратная связь с разработчиками</string>
     <string name="delete">Удалить</string>
@@ -53,4 +52,9 @@
     <string name="Kb">Кб</string>
     <string name="Mb">Мб</string>
     <string name="Gb">Гб</string>
+    <string name="OTF_NOT_selected">Обобщенная трудовая функция НЕ выбрана</string>
+    <string name="Start_date_NOT_populated">Начальная дата НЕ заполнена</string>
+    <string name="Start_date_can_NOT_greater_than_end_date">Начальная дата НЕ может быть больше конечной</string>
+    <string name="End_date_NOT_populated">Конечная дата НЕ заполнена</string>
+    <string name="recall">Отзыв</string>
 </resources>

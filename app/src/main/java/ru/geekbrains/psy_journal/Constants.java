@@ -29,6 +29,7 @@ public class Constants {
     public static final String TAG_ALL_WORK = "Tag all work";
 	public static final String TAG_DATE_PICKER = "Tag date picker";
 	public static final String TAG_OTF_SELECTION = "Tag OTFSelection";
+	public static final String TAG_FILES_XLS = "Tag files xls";
 
     public static final String ERROR_LOADING_DATA_FROM_DATABASE = "Error loading data from database";
     public static final String ERROR_DELETING = "Error deleting: ";
@@ -45,4 +46,9 @@ public class Constants {
 
 	public static final String DOWNLOADS = "DOWNLOADS";
 	public static final String REPORTS = "REPORTS";
+	public static final String MAILTO = "mailto:";
+	public static final String PSYJOURNAL_GMAIL_COM = "geekbrains.psyjournal@gmail.com";
+
+	public static final int REQUEST_PERMISSION_CREATE_FILE_XLS = 1;
+	public static final int REQUEST_PERMISSION_READ_FILE_XLS = 3;
 }

@@ -20,8 +20,9 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewhold
 @InjectViewState
 public class DialogFunctionPresenter extends MvpPresenter<FunctionView> implements Bindable {
 
-	private final List<Functional> list = new ArrayList<>();
 	@Inject	RoomHelper roomHelper;
+
+	private final List<Functional> list = new ArrayList<>();
 	private Disposable disposable;
 
 	public void getOTF() {

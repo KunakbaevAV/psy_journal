@@ -3,14 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="8dp">
+    android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/otf_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
         app:errorTextColor="?attr/colorAccent"
@@ -29,6 +27,7 @@
             android:id="@+id/otf_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:focusableInTouchMode="false"
             android:hint="@string/OTF" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -37,7 +36,6 @@
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         app:layout_constraintTop_toBottomOf="@id/otf_layout"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

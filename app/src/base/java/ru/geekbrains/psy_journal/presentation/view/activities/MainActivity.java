@@ -12,6 +12,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -27,7 +28,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindDrawable;
@@ -37,24 +37,22 @@ import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.InformedView;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.InformedView;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.FileSelectionDialog;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.OpenFileDialog;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.MessageDialog;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.ReportSelectionDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AllWorkFragment;
+import ru.geekbrains.psy_journal.presentation.view.utilities.BehaviorFAB;
 
 import static ru.geekbrains.psy_journal.Constants.INTENT_TYPE_MULTIPART;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 import static ru.geekbrains.psy_journal.Constants.TAG_ALL_WORK;
 
 public class MainActivity extends MvpAppCompatActivity implements
-    InformedView,
-    SelectableFile,
-    Responded {
+	InformedView,
+    SelectableFile{
 
-    @BindView(R.id.main_navigation_drawer) DrawerLayout drawer;
+	@BindView(R.id.main_navigation_drawer) DrawerLayout drawer;
     @BindView(R.id.navigation_view) NavigationView navigationView;
     @BindView(R.id.bottomAppBar) BottomAppBar bottomAppBar;
     @BindView(R.id.fab)FloatingActionButton fab;
@@ -62,10 +60,6 @@ public class MainActivity extends MvpAppCompatActivity implements
     @BindDrawable(R.drawable.ic_done_white_24dp)Drawable done;
 
     @InjectPresenter MainPresenter mainPresenter;
-
-	private static final int REQUEST_PERMISSION_CREATE_FILE_XLS = 1;
-	private static final int REQUEST_PERMISSION_READ_FILE_XML = 2;
-	private static final int REQUEST_PERMISSION_READ_FILE_XLS = 3;
 
     @ProvidePresenter
     MainPresenter providePresenter() {
@@ -91,6 +85,9 @@ public class MainActivity extends MvpAppCompatActivity implements
         setToggle();
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         fab.setOnClickListener(this::onClick);
+	    CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+	    layoutParams.setBehavior(new BehaviorFAB());
+	    fab.setLayoutParams(layoutParams);
     }
 
     private void setToggle() {
@@ -175,9 +172,6 @@ public class MainActivity extends MvpAppCompatActivity implements
     private boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
         switch (item.getItemId()) {
-            case R.id.load_database:
-                loadDataBaseFromXMLFile();
-                return true;
             case R.id.edit_catalogs:
                 openScreenEditCatalogs();
                 return true;
@@ -197,17 +191,6 @@ public class MainActivity extends MvpAppCompatActivity implements
         return false;
     }
 
-    private void loadDataBaseFromXMLFile() {
-        if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XML)) {
-            openFileDialog();
-        }
-    }
-
-    private void openFileDialog() {
-        OpenFileDialog dialog = new OpenFileDialog();
-        dialog.show(getSupportFragmentManager(), "Tag select XML");
-    }
-
     private void openScreenEditCatalogs() {
         startActivity(new Intent(getBaseContext(), EditorActivity.class));
     }
@@ -217,23 +200,23 @@ public class MainActivity extends MvpAppCompatActivity implements
     }
 
     private void createExcelReportFile() {
-        if (checkPermissions(REQUEST_PERMISSION_CREATE_FILE_XLS)) mainPresenter.createExcelFile(getString(R.string.report));
+        if (checkPermissions(Constants.REQUEST_PERMISSION_CREATE_FILE_XLS)) mainPresenter.createExcelFile(getString(R.string.report));
     }
 
     private void sendToMailReport() {
-        if (checkPermissions(REQUEST_PERMISSION_READ_FILE_XLS)) getFiles();
+        if (checkPermissions(Constants.REQUEST_PERMISSION_READ_FILE_XLS)) getFiles();
     }
 
     private void toSendLetter(){
 	    Intent intent = new Intent(Intent.ACTION_SENDTO);
-	    intent.setData(Uri.parse("mailto:"));
-	    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"geekbrains.psyjournal@gmail.com"});
-	    intent.putExtra(Intent.EXTRA_SUBJECT, "Отзыв");
+	    intent.setData(Uri.parse(Constants.MAILTO));
+	    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.PSYJOURNAL_GMAIL_COM});
+	    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.recall));
 		sendOut(intent);
     }
 
     private void getFiles() {
-		new FileSelectionDialog().show(getSupportFragmentManager(), "Tag files xls");
+		new FileSelectionDialog().show(getSupportFragmentManager(), Constants.TAG_FILES_XLS);
     }
 
     private Intent prepareFiles(ArrayList<Uri> files) {
@@ -275,13 +258,10 @@ public class MainActivity extends MvpAppCompatActivity implements
         if (permissions.length == 2 && (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
             switch (requestCode) {
-                case REQUEST_PERMISSION_CREATE_FILE_XLS:
+                case Constants.REQUEST_PERMISSION_CREATE_FILE_XLS:
                     mainPresenter.createExcelFile(getString(R.string.report));
                     break;
-                case REQUEST_PERMISSION_READ_FILE_XML:
-                    openFileDialog();
-                    break;
-                case REQUEST_PERMISSION_READ_FILE_XLS:
+                case Constants.REQUEST_PERMISSION_READ_FILE_XLS:
                     getFiles();
                     break;
             }
@@ -296,54 +276,11 @@ public class MainActivity extends MvpAppCompatActivity implements
         snackbar.show();
     }
 
-    private void updateFragment(){
-	    if (TAG_ALL_WORK.equals(getTag())){
-		    AllWorkFragment workFragment = (AllWorkFragment) getSupportFragmentManager().findFragmentByTag(TAG_ALL_WORK);
-		    if (workFragment != null) {
-			    workFragment.getUpdated().update();
-		    }
-	    }
-    }
-
-    @Override
-    public void selectFileXML(File file) {
-        if (file.getName().endsWith(".xml")) {
-			mainPresenter.takeFile(file);
-			String message = String.format("При обновлении профстандарта файлом %s \nпредыдущие записи будут удалены.\nВы хотите их сохранить?", file.getName());
-	        MessageDialog.newInstance(message).show(getSupportFragmentManager(), "Tag message");
-        } else {
-        	showMessage("выбран не файл .xml");
-        }
-    }
-
 	@Override
 	public void selectReportFiles(ArrayList<Uri> files) {
     	if (files.isEmpty()) return;
 		sendToMail(files);
 	}
-
-	@Override
-	public void showStatusLoadDataBase(String error) {
-		String message;
-		if(error == null){
-			message = "База успешно загружена новым профстандартом";
-			updateFragment();
-		} else {
-			message = String.format("При загрузке базы произошел сбой, %s", error);
-		}
-		showMessage(message);
-	}
-
-	@Override
-    public void showStatusClearDatabase(String error) {
-		String message;
-		if(error == null){
-			message = "База успешно очищена";
-		} else {
-			message = String.format("При очистке базы произошел сбой, %s, база восстановлена", error);
-		}
-        showMessage(message);
-    }
 
     @Override
     public void showStatusWriteReport(String nameFile, String error) {
@@ -359,25 +296,4 @@ public class MainActivity extends MvpAppCompatActivity implements
 	    }
         showMessage(message);
     }
-
-	@Override
-	public void showStatusReadXml(String nameFile, String error) {
-		showMessage(String.format("Невозможно прочесть файл %s, %s", nameFile, error));
-	}
-
-	@Override
-	public void toCancel() {
-		showMessage("Обновление профстандарта отменено");
-		mainPresenter.takeFile(null);
-	}
-
-	@Override
-	public void refuse() {
-		mainPresenter.updateWithoutSaving();
-	}
-
-	@Override
-	public void toAccept() {
-		mainPresenter.saveOldDataBase("Архив ");
-	}
 }

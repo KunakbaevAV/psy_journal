@@ -25,10 +25,12 @@ import static ru.geekbrains.psy_journal.Constants.ERROR_INSERTING_CATALOG_ITEM_T
 import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABASE;
 
 @InjectViewState
-public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> implements Bindable, Insertable {
+public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> implements
+	Bindable,
+	Insertable {
 
-    @Inject
-    RoomHelper roomHelper;
+    @Inject RoomHelper roomHelper;
+
     private List<Catalog> catalogList;
     private String title;
     private Catalog catalog;

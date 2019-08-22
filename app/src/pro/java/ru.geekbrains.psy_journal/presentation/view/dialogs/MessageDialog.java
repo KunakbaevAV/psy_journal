@@ -14,14 +14,15 @@ import ru.geekbrains.psy_journal.presentation.view.activities.Responded;
 
 public class MessageDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
+	private static final String KEY_MESSAGE = "key message";
+
 	public static MessageDialog newInstance(String message){
 		MessageDialog fragment = new MessageDialog();
 		Bundle args = new Bundle();
-		args.putString("message", message);
+		args.putString(KEY_MESSAGE, message);
 		fragment.setArguments(args);
 		return fragment;
 	}
-
 
 	private Responded responded;
 
@@ -36,21 +37,21 @@ public class MessageDialog extends DialogFragment implements DialogInterface.OnC
 		if (getActivity() == null) return super.onCreateDialog(savedInstanceState);
 		String message = null;
 		if (getArguments() != null){
-			message = getArguments().getString("message");
+			message = getArguments().getString(KEY_MESSAGE);
 		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-			.setTitle("Внимание!")
+			.setTitle(getResources().getString(R.string.caution))
 			.setMessage(message)
 			.setIcon(R.drawable.ic_warning_24dp)
-			.setNeutralButton("Нет", this)
-			.setPositiveButton("Да", this);
+			.setNegativeButton(getResources().getString(R.string.no), this)
+			.setPositiveButton(getResources().getString(R.string.yes), this);
 		return builder.create();
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which){
-			case DialogInterface.BUTTON_NEUTRAL:
+			case DialogInterface.BUTTON_NEGATIVE:
 				responded.refuse();
 				break;
 			case DialogInterface.BUTTON_POSITIVE:

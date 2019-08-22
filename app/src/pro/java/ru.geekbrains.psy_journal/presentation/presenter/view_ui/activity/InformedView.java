@@ -14,3 +14,4 @@ public interface InformedView extends MvpView {
 	@StateStrategyType(SingleStateStrategy.class)
 	void showStatusReadXml(String nameFile, String error);
 }
+

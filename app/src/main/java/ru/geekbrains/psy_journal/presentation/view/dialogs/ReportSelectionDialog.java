@@ -17,9 +17,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.dialogs.ReportSelectionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.ReportSelectionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.ReportSelectionView;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableDate;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableFunction;
@@ -66,7 +66,8 @@ public class ReportSelectionDialog extends AbstractDialog implements
 
 	private void initialize() {
 		if (getActivity() != null) {
-			otfView.setOnClickListener(v -> OTFDialog.newInstance(Constants.TAG_OTF_SELECTION).show(getActivity().getSupportFragmentManager(), getString(R.string.OTF)));
+			otfView.setOnClickListener(v -> OTFDialog.newInstance(Constants.TAG_OTF_SELECTION)
+				.show(getActivity().getSupportFragmentManager(), getString(R.string.OTF)));
 			fromView.setOnClickListener(v -> determineDate(true));
 			toView.setOnClickListener(v -> determineDate(false));
 			hasPositiveButton(true);
@@ -77,7 +78,8 @@ public class ReportSelectionDialog extends AbstractDialog implements
 	private void determineDate(boolean isFrom) {
 		if (getActivity() == null) return;
 		selectionPresenter.setFrom(isFrom);
-		DateSettingDialog.newInstance(Constants.TAG_OTF_SELECTION).show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER);
+		DateSettingDialog.newInstance(Constants.TAG_OTF_SELECTION)
+			.show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER);
 	}
 
 	@Override
@@ -120,23 +122,23 @@ public class ReportSelectionDialog extends AbstractDialog implements
 	@Override
 	public void showErrorOTF(int otf) {
 		String message = null;
-		if (otf == 0) message = "Обобщенная трудовая функция НЕ выбрана";
+		if (otf == 0) message = getResources().getString(R.string.OTF_NOT_selected);
 		otfLayout.setError(message);
 	}
 
 	@Override
 	public void showErrorFrom(long from) {
 		String message;
-		if (from == 0) message = "Начальная дата НЕ заполнена";
-		else message = "Начальная дата НЕ может быть больше конечной";
+		if (from == 0) message = getResources().getString(R.string.Start_date_NOT_populated);
+		else message = getResources().getString(R.string.Start_date_can_NOT_greater_than_end_date);
 		dateBeginLayout.setError(message);
 	}
 
 	@Override
 	public void showErrorUnto(long unto) {
 		String message;
-		if (unto == 0) message = "Конечная дата НЕ заполнена";
-		else message = "Начальная дата НЕ может быть больше конечной";
+		if (unto == 0) message = getResources().getString(R.string.End_date_NOT_populated);
+		else message = getResources().getString(R.string.Start_date_can_NOT_greater_than_end_date);
 		dateEndLayout.setError(message);
 	}
 
