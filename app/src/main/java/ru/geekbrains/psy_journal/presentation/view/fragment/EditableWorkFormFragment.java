@@ -19,7 +19,7 @@ public class EditableWorkFormFragment extends EditableCatalogFragment {
 
 	@ProvidePresenter
 	EditableWorkFormPresenter providePresenter(){
-		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter(getListName(getActivity()));
+		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter();
 		App.getAppComponent().inject(presenter);
 		presenter.getWorkForm();
 		return presenter;
@@ -36,12 +36,4 @@ public class EditableWorkFormFragment extends EditableCatalogFragment {
 		recycler.setAdapter(adapter);
 		new ItemTouchHelperCallback(recycler);
 	}
-
-    @OnClick(R.id.add_catalog_item)
-    void openAddDialog() {
-        AddCatalogItemDialog dialog = new AddCatalogItemDialog(presenter);
-        if (getActivity() != null) {
-            dialog.show(getActivity().getSupportFragmentManager(), getListName(getActivity()));
-        }
-    }
 }

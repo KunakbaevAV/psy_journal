@@ -13,8 +13,11 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.arellomobile.mvp.MvpAppCompatDialogFragment;
 
+import butterknife.Unbinder;
+
 abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 
+	protected Unbinder unbinder;
 	private boolean isPositiveButton;
 	private boolean isNegativeButton;
 	private String textPositiveBut;
@@ -67,5 +70,11 @@ abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 				window.setGravity(Gravity.CENTER);
 			}
 		}
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		unbinder.unbind();
 	}
 }

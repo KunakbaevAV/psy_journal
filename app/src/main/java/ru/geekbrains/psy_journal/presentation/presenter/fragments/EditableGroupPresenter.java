@@ -14,12 +14,6 @@ import static ru.geekbrains.psy_journal.Constants.TAG;
 @InjectViewState
 public class EditableGroupPresenter extends EditableCatalogPresenter {
 
-	private String title;
-
-	public EditableGroupPresenter(String title) {
-		this.title = title;
-	}
-
 	public void getGroup() {
 		getViewState().showProgressBar();
 		disposable = roomHelper.getListGroups()
@@ -67,21 +61,16 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 		Group group = new Group(name);
 		getViewState().showProgressBar();
 		disposable = roomHelper.insertItemGroup(group)
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(
-						() -> {
-							catalogList.add(group);
-							ifRequestSuccess();
-						},
-						throwable -> {
-							getViewState().hideProgressBar();
-							Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
-						}
-				);
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(
+				() -> {
+					catalogList.add(group);
+					ifRequestSuccess();
+				},
+				throwable -> {
+					getViewState().hideProgressBar();
+					Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
+				}
+			);
 	}
 }

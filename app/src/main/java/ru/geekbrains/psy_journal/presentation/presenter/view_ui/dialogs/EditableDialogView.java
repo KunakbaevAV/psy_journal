@@ -16,11 +16,5 @@ public interface EditableDialogView extends MvpView {
 
     void showToast(String message);
 
-    void saveSelectedCategory(Category catalog);
-
-    void saveSelectedGroup(Group catalog);
-
-    void saveSelectedWorkForm(WorkForm catalog);
-
     void saveSelectedCatalog(Catalog catalog);
 }

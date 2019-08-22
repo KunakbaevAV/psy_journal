@@ -14,12 +14,6 @@ import static ru.geekbrains.psy_journal.Constants.TAG;
 @InjectViewState
 public class EditableCategoryPresenter extends EditableCatalogPresenter {
 
-	private final String title;
-
-	public EditableCategoryPresenter(String title) {
-		this.title = title;
-	}
-
 	public void getCategory() {
 		getViewState().showProgressBar();
 		disposable = roomHelper.getListCategory()
@@ -67,22 +61,16 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 		Category category = new Category(name);
 		getViewState().showProgressBar();
 		disposable = roomHelper.insertItemCategory(category)
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(
-						() -> {
-							catalogList.add(category);
-							ifRequestSuccess();
-						},
-						throwable -> {
-							getViewState().hideProgressBar();
-							Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
-						}
-				);
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(
+				() -> {
+					catalogList.add(category);
+					ifRequestSuccess();
+				},
+				throwable -> {
+					getViewState().hideProgressBar();
+					Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
+				}
+			);
 	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
 }

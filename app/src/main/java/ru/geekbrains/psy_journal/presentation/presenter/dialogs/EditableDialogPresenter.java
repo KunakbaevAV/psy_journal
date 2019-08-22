@@ -1,7 +1,5 @@
 package ru.geekbrains.psy_journal.presentation.presenter.dialogs;
 
-import android.annotation.SuppressLint;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -12,6 +10,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
@@ -31,18 +30,9 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
 
     @Inject RoomHelper roomHelper;
 
-    private List<Catalog> catalogList;
-    private String title;
+    private final List<Catalog> catalogList = new ArrayList<>();
     private Catalog catalog;
-
-    public EditableDialogPresenter() {
-
-    }
-
-    public EditableDialogPresenter(String title) {
-        this.title = title;
-        catalogList = new ArrayList<>();
-    }
+    private Disposable disposable;
 
     @Override
     public void bindView(Displayed displayed, int position) {
@@ -51,10 +41,7 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
     }
 
     public int getItemCount() {
-        if (catalogList != null) {
-            return catalogList.size();
-        }
-        return 0;
+        return catalogList.size();
     }
 
     @Override
@@ -62,41 +49,34 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
         getViewState().saveSelectedCatalog(catalogList.get(position));
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    @SuppressLint("CheckResult")
     public void getCategory() {
-        roomHelper.getListCategory()
+        disposable = roomHelper.getListCategory()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
                         }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
-                ).isDisposed();
+                );
     }
 
-    @SuppressLint("CheckResult")
     public void getGroup() {
-        roomHelper.getListGroups()
+        disposable = roomHelper.getListGroups()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
                         }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
-                ).isDisposed();
+                );
     }
 
-    @SuppressLint("CheckResult")
     public void getWorkForm() {
-        roomHelper.getListWorkForms()
+        disposable = roomHelper.getListWorkForms()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> {
                     catalogList.addAll(list);
                     getViewState().updateRecyclerView();
                         }, throwable -> getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage())
-                ).isDisposed();
+                );
     }
 
     @Override
@@ -117,15 +97,20 @@ public class EditableDialogPresenter extends MvpPresenter<EditableDialogView> im
         insertCatalogItemSubscribe(roomHelper.insertItemWorkForm((WorkForm) catalog));
     }
 
-    @SuppressLint("CheckResult")
     private void insertCatalogItemSubscribe(Completable completable) {
-        completable.observeOn(AndroidSchedulers.mainThread())
+        disposable = completable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> {
                             catalogList.add(catalog);
                             getViewState().updateRecyclerView();
                         },
                         throwable -> getViewState().showToast(ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage())
-                ).isDisposed();
+                );
     }
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (disposable != null) disposable.dispose();
+	}
 }

@@ -9,22 +9,27 @@ import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.Addable;
 
 public class AddCatalogItemDialog extends AbstractDialog {
 
-    @BindView(R.id.new_catalog_item)
-    EditText catalogItem;
+	public static AddCatalogItemDialog newInstance(String title){
+		AddCatalogItemDialog itemDialog = new AddCatalogItemDialog();
+		Bundle arg = new Bundle();
+		arg.putString(Constants.KEY_TITLE, title);
+		itemDialog.setArguments(arg);
+		return itemDialog;
+	}
 
-    private final Addable addable;
+    @BindView(R.id.new_catalog_item) EditText catalogItem;
 
-    public AddCatalogItemDialog(Addable addable) {
-        this.addable = addable;
-    }
+	private Addable addable;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,12 +45,16 @@ public class AddCatalogItemDialog extends AbstractDialog {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_add_catalog_item, null);
         ButterKnife.bind(this, view);
+        addable = (Addable) getParentFragment();
         return view;
     }
 
     @Override
     protected String getTitle() {
-        return addable.getTitle();
+    	if (getArguments() != null){
+    		return getArguments().getString(Constants.KEY_TITLE);
+	    }
+        return null;
     }
 
     @Override
@@ -62,6 +71,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
     }
 
     private void onClickAddItem() {
+    	if (addable == null) return;
         addable.addCatalog(catalogItem.getText().toString());
     }
 }

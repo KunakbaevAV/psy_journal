@@ -19,7 +19,7 @@ public class EditableGroupFragment extends EditableCatalogFragment{
 
 	@ProvidePresenter
 	EditableGroupPresenter providePresenter(){
-		EditableGroupPresenter presenter = new EditableGroupPresenter(getListName(getActivity()));
+		EditableGroupPresenter presenter = new EditableGroupPresenter();
 		App.getAppComponent().inject(presenter);
 		presenter.getGroup();
 		return presenter;
@@ -36,12 +36,4 @@ public class EditableGroupFragment extends EditableCatalogFragment{
 		recycler.setAdapter(adapter);
 		new ItemTouchHelperCallback(recycler);
 	}
-
-    @OnClick(R.id.add_catalog_item)
-    void openAddDialog() {
-        AddCatalogItemDialog dialog = new AddCatalogItemDialog(presenter);
-        if (getActivity() != null) {
-            dialog.show(getActivity().getSupportFragmentManager(), getListName(getActivity()));
-        }
-    }
 }

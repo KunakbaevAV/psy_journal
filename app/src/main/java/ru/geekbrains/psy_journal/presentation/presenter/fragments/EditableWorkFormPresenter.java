@@ -14,12 +14,6 @@ import static ru.geekbrains.psy_journal.Constants.TAG;
 @InjectViewState
 public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 
-	private String title;
-
-	public EditableWorkFormPresenter(String title) {
-		this.title = title;
-	}
-
 	public void getWorkForm() {
 		getViewState().showProgressBar();
 		disposable = roomHelper.getListWorkForms()
@@ -67,21 +61,16 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 		WorkForm workForm = new WorkForm(name);
 		getViewState().showProgressBar();
 		disposable = roomHelper.insertItemWorkForm(workForm)
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(
-						() -> {
-							catalogList.add(workForm);
-							ifRequestSuccess();
-						},
-						throwable -> {
-							getViewState().hideProgressBar();
-							Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
-						}
-				);
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(
+				() -> {
+					catalogList.add(workForm);
+					ifRequestSuccess();
+				},
+				throwable -> {
+					getViewState().hideProgressBar();
+					Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
+				}
+			);
 	}
 }
