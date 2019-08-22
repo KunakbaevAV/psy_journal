@@ -1,14 +1,19 @@
 package ru.geekbrains.psy_journal.presentation.view.fragment;
 
 import android.content.Context;
+import android.widget.Button;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.Addable;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.AddCatalogItemDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
 
-public abstract class EditableCatalogFragment extends AbstractCatalogFragment implements Named {
+public abstract class EditableFragment extends AbstractFragment implements
+	Named,
+	Addable {
 
 	protected EditableListsAdapter adapter;
 

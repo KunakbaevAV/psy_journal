@@ -25,7 +25,6 @@ public abstract class FunctionDialog extends AbstractDialog implements FunctionV
 
 	protected SettableByFunction settableByFunction;
 	private DialogAdapter adapter;
-	private Unbinder unbinder;
 
 	@InjectPresenter DialogFunctionPresenter functionPresenter;
 
@@ -63,6 +62,5 @@ public abstract class FunctionDialog extends AbstractDialog implements FunctionV
 	public void onDestroyView() {
 		super.onDestroyView();
 		settableByFunction = null;
-		unbinder.unbind();
 	}
 }

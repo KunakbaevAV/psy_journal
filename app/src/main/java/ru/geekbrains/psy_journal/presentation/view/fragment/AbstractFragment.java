@@ -18,9 +18,9 @@ import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
-public abstract class AbstractCatalogFragment extends MvpAppCompatFragment implements RecycleringView {
+public abstract class AbstractFragment extends MvpAppCompatFragment implements RecycleringView {
 
-    @BindView(R.id.recycler_dialog) RecyclerView recycler;
+    @BindView(R.id.recycler_all_work) RecyclerView recycler;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
 	protected Unbinder unbinder;
@@ -33,7 +33,7 @@ public abstract class AbstractCatalogFragment extends MvpAppCompatFragment imple
         return view;
     }
 
-    void showRecycler() {
+    protected void showRecycler() {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.setHasFixedSize(true);
     }

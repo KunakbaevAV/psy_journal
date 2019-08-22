@@ -27,8 +27,6 @@ import ru.geekbrains.psy_journal.presentation.presenter.fragments.Addable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.EditableDialogView;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.EditableDialogAdapter;
 import ru.geekbrains.psy_journal.presentation.view.fragment.AddWorkFragment;
-
-import static ru.geekbrains.psy_journal.Constants.KEY_TITLE;
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public abstract class EditableDialog extends AbstractDialog implements
@@ -73,14 +71,6 @@ public abstract class EditableDialog extends AbstractDialog implements
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         return view;
-    }
-
-    @Override
-    protected String getTitle() {
-	    if (getArguments() != null){
-		    return getArguments().getString(KEY_TITLE);
-	    }
-        return null;
     }
 
 	@Override

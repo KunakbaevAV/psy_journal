@@ -23,7 +23,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.dialogs.ReportSelectionP
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.ReportSelectionView;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableDate;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableFunction;
-import ru.geekbrains.psy_journal.presentation.view.fragment.ReportingFragment;
+import ru.geekbrains.psy_journal.presentation.view.fragment.ReportingOTFFragment;
 
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
@@ -41,8 +41,8 @@ public class ReportSelectionDialog extends AbstractDialog implements
 
 	@InjectPresenter ReportSelectionPresenter selectionPresenter;
 
+	private static final String TAG_REPORT_OTF = "Tag report OTF";
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
-	private Unbinder unbinder;
 
 	@ProvidePresenter
 	ReportSelectionPresenter providePresenter() {
@@ -147,16 +147,10 @@ public class ReportSelectionDialog extends AbstractDialog implements
 		if (getActivity() == null) return;
 		getActivity().getSupportFragmentManager()
 				.beginTransaction()
-				.add(R.id.frame_master, ReportingFragment.newInstance(idOTF, from, unto), "Tag report")
+				.add(R.id.frame_master, ReportingOTFFragment.newInstance(idOTF, from, unto), TAG_REPORT_OTF)
 				.addToBackStack(TAG_ADD_WORK)
 				.commit();
     }
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		unbinder.unbind();
-	}
 
     @Override
     public void onResume() {

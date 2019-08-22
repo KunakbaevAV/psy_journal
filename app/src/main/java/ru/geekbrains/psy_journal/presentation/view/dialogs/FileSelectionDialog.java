@@ -45,8 +45,6 @@ public class FileSelectionDialog extends AbstractDialog implements
 	protected SelectableFile selectableFile;
 	protected RecyclerView.Adapter adapter;
 
-	private Unbinder unbinder;
-
 	@ProvidePresenter SelectFileDialogPresenter providePresenter(){
 		SelectFileDialogPresenter presenter = new SelectFileDialogPresenter();
 		App.getAppComponent().inject(presenter);
@@ -136,9 +134,4 @@ public class FileSelectionDialog extends AbstractDialog implements
 		progressBar.setVisibility(ProgressBar.INVISIBLE);
 	}
 
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		unbinder.unbind();
-	}
 }

@@ -5,15 +5,13 @@ import android.content.Context;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
-import butterknife.OnClick;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableGroupPresenter;
-import ru.geekbrains.psy_journal.presentation.view.dialogs.AddCatalogItemDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
 import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCallback;
 
-public class EditableGroupFragment extends EditableCatalogFragment{
+public class EditableGroupFragment extends EditableFragment {
 
 	@InjectPresenter EditableGroupPresenter presenter;
 
@@ -35,5 +33,10 @@ public class EditableGroupFragment extends EditableCatalogFragment{
 		adapter = new EditableListsAdapter(presenter.getAdapterPresenter());
 		recycler.setAdapter(adapter);
 		new ItemTouchHelperCallback(recycler);
+	}
+
+	@Override
+	public void addCatalog(String name) {
+		presenter.addCatalog(name);
 	}
 }

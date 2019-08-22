@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import ru.geekbrains.psy_journal.Constants;
+import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
@@ -27,6 +28,11 @@ public class CategoryDialog extends EditableDialog {
         presenter.getCategory();
         return presenter;
     }
+
+	@Override
+	protected String getTitle() {
+		return getResources().getString(R.string.choose_category);
+	}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

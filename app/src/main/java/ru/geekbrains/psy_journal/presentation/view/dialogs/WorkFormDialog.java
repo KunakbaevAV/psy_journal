@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import ru.geekbrains.psy_journal.Constants;
+import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
@@ -26,6 +27,11 @@ public class WorkFormDialog extends EditableDialog {
         presenter.getWorkForm();
         return presenter;
     }
+
+	@Override
+	protected String getTitle() {
+		return getResources().getString(R.string.choose_work_form);
+	}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

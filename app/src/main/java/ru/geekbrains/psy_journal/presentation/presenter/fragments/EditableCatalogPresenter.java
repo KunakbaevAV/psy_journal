@@ -14,7 +14,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.Editable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
-public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringView> implements Addable {
+public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringView> {
 
 	@Inject RoomHelper roomHelper;
 
@@ -29,6 +29,8 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringV
 	protected abstract void removeCatalog(Catalog catalog);
 
 	protected abstract void changeNameCatalog(Catalog catalog, int pos);
+
+	public abstract void addCatalog(String name);
 
 	protected void ifRequestSuccess() {
 		getViewState().updateRecyclerView();

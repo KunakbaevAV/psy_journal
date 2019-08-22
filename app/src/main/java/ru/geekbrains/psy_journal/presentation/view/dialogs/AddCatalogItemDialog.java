@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.Constants;
@@ -44,9 +46,16 @@ public class AddCatalogItemDialog extends AbstractDialog {
         if (getActivity() == null) return null;
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_add_catalog_item, null);
-        ButterKnife.bind(this, view);
-        addable = (Addable) getParentFragment();
+        unbinder = ButterKnife.bind(this, view);
+        addable = getAddable();
         return view;
+    }
+
+    private Addable getAddable(){
+    	if (getFragmentManager() == null) return null;
+    	List<Fragment> fragments = getFragmentManager().getFragments();
+    	int index = fragments.lastIndexOf(this);
+    	return (Addable) fragments.get(index - 1);
     }
 
     @Override
