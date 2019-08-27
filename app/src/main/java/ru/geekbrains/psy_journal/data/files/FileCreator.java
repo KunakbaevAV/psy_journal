@@ -10,7 +10,7 @@ public class FileCreator implements FileSaved {
 
 	private static final String UNABLE_CREATE_DIRECTORY = "невозможно создать директорию отчеты";
 	private static final String WRITE_ERROR = "ошибка записи: %s";
-	private File directory;
+	private final File directory;
 
 	public FileCreator(File directory) {
 		this.directory = directory;

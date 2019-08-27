@@ -12,10 +12,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
         }
         debug {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+//                    'proguard-rules.pro'
             debuggable = true
         }
     }
@@ -57,16 +61,16 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0-beta03'
     implementation 'com.google.android.material:material:1.1.0-alpha09'
     // Dagger2
-    implementation 'com.google.dagger:dagger-android:2.20'
-    implementation 'com.google.dagger:dagger-android-support:2.20'
+    implementation 'com.google.dagger:dagger-android:2.24'
+    implementation 'com.google.dagger:dagger-android-support:2.24'
     // if you use the support libraries
-    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.21'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.20'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.24'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.24'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
     //    Room
-    implementation 'androidx.room:room-runtime:2.2.0-alpha02'
-    annotationProcessor 'androidx.room:room-compiler:2.2.0-alpha02'
-    implementation 'androidx.room:room-rxjava2:2.2.0-alpha02'
+    implementation 'androidx.room:room-runtime:2.2.0-beta01'
+    annotationProcessor 'androidx.room:room-compiler:2.2.0-beta01'
+    implementation 'androidx.room:room-rxjava2:2.2.0-beta01'
     //    RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'

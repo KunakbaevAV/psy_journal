@@ -11,20 +11,18 @@ import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.presentation.presenter.Editable;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
+import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.EditableView;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
-import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
-public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringView> {
+public abstract class EditableCatalogPresenter extends MvpPresenter<EditableView> {
 
 	@Inject RoomHelper roomHelper;
 
-	protected final List<Catalog> catalogList = new ArrayList<>();
-	protected final EditableCatalogPresenter.AdapterPresenter adapterPresenter = new EditableCatalogPresenter.AdapterPresenter();
-	protected Disposable disposable;
-
-	public EditableCatalogPresenter.AdapterPresenter getAdapterPresenter() {
-		return adapterPresenter;
-	}
+	final List<Catalog> catalogList = new ArrayList<>();
+	EditableCatalogPresenter.AdapterPresenter adapterPresenter;
+	SettableByCatalog settableByCatalog;
+	Disposable disposable;
 
 	protected abstract void removeCatalog(Catalog catalog);
 
@@ -32,7 +30,7 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringV
 
 	public abstract void addCatalog(String name);
 
-	protected void ifRequestSuccess() {
+	void ifRequestSuccess() {
 		getViewState().updateRecyclerView();
 		getViewState().hideProgressBar();
 	}
@@ -44,6 +42,12 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringV
 	}
 
 	protected class AdapterPresenter implements Editable {
+
+		private final boolean isEditable;
+
+		AdapterPresenter(boolean isEditable) {
+			this.isEditable = isEditable;
+		}
 
 		@Override
 		public void bindView(Displayed displayed, int position) {
@@ -57,8 +61,11 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<RecycleringV
 		}
 
 		@Override
-		public void selectItem(int position) {
+		public void selectItem(int position) {}
 
+		@Override
+		public boolean isEditable() {
+			return isEditable;
 		}
 
 		@Override

@@ -17,25 +17,25 @@ import butterknife.Unbinder;
 
 abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 
-	protected Unbinder unbinder;
+	Unbinder unbinder;
 	private boolean isPositiveButton;
 	private boolean isNegativeButton;
 	private String textPositiveBut;
 	private String textNegativeBut;
 
-	protected void hasPositiveButton(boolean isPositiveButton){
+	void hasPositiveButton(boolean isPositiveButton){
 		this.isPositiveButton = isPositiveButton;
 	}
 
-	protected void hasNegativeButton(boolean isNegativeButton){
+	void hasNegativeButton(boolean isNegativeButton){
 		this.isNegativeButton = isNegativeButton;
 	}
 
-	protected void setTextPositiveBut(String textPositiveBut) {
+	void setTextPositiveBut(String textPositiveBut) {
 		this.textPositiveBut = textPositiveBut;
 	}
 
-	protected void setTextNegativeBut(String textNegativeBut) {
+	void setTextNegativeBut(String textNegativeBut) {
 		this.textNegativeBut = textNegativeBut;
 	}
 

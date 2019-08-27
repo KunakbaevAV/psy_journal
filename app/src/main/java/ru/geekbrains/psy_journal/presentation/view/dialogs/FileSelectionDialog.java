@@ -24,7 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.BuildConfig;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
@@ -66,7 +65,7 @@ public class FileSelectionDialog extends AbstractDialog implements
 		return view;
 	}
 
-	protected void initButton(){
+	private void initButton(){
 		hasPositiveButton(true);
 		setTextPositiveBut("Отправить");
 		hasNegativeButton(true);

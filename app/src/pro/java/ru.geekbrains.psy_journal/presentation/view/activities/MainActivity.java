@@ -60,7 +60,7 @@ public class MainActivity extends MvpAppCompatActivity implements
     @BindView(R.id.navigation_view) NavigationView navigationView;
     @BindView(R.id.bottomAppBar) BottomAppBar bottomAppBar;
     @BindView(R.id.fab)FloatingActionButton fab;
-    @BindDrawable(R.drawable.ic_add_circle_outline_white_24dp) Drawable plus;
+    @BindDrawable(R.drawable.ic_add_24dp) Drawable plus;
     @BindDrawable(R.drawable.ic_done_white_24dp)Drawable done;
 
     @InjectPresenter MainPresenter mainPresenter;
@@ -69,6 +69,8 @@ public class MainActivity extends MvpAppCompatActivity implements
 	private static final String TAG_SELECT_XML = "Tag select XML";
 	private static final String XML = ".xml";
 	private static final String TAG_MESSAGE = "Tag message";
+	private boolean isShowFileXML;
+	private boolean isShowFilesXLS;
 
     @ProvidePresenter
     MainPresenter providePresenter() {
@@ -285,10 +287,10 @@ public class MainActivity extends MvpAppCompatActivity implements
                     mainPresenter.createExcelFile(getString(R.string.report));
                     break;
                 case REQUEST_PERMISSION_READ_FILE_XML:
-                    openFileDialog();
+                    isShowFileXML = true;
                     break;
                 case Constants.REQUEST_PERMISSION_READ_FILE_XLS:
-                    getFiles();
+                    isShowFilesXLS = true;
                     break;
             }
         } else {
@@ -296,7 +298,21 @@ public class MainActivity extends MvpAppCompatActivity implements
         }
     }
 
-    private void showMessage(String message) {
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+		if (isShowFileXML){
+			openFileDialog();
+			isShowFileXML = false;
+			return;
+		}
+		if (isShowFilesXLS){
+			getFiles();
+			isShowFilesXLS = false;
+		}
+	}
+
+	private void showMessage(String message) {
         Snackbar snackbar = Snackbar.make(bottomAppBar, message, Snackbar.LENGTH_INDEFINITE);
         snackbar.setAnchorView(fab);
         snackbar.show();

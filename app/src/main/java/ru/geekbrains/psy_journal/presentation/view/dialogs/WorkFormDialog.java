@@ -1,58 +1,42 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
-import android.os.Bundle;
-import androidx.annotation.Nullable;
+import android.view.View;
+
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
-import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
-import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
-import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
-import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableCatalog;
+import ru.geekbrains.psy_journal.di.App;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableWorkFormPresenter;
+import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
 
 public class WorkFormDialog extends EditableDialog {
 
-    public static WorkFormDialog newInstance(String tag) {
-        WorkFormDialog fragment = new WorkFormDialog();
-        Bundle args = new Bundle();
-        args.putString(Constants.KEY_TAG, tag);
-        fragment.setArguments(args);
-        return fragment;
-    }
+	@InjectPresenter EditableWorkFormPresenter workFormPresenter;
 
-    @ProvidePresenter
-    EditableDialogPresenter providePresenter() {
-	    EditableDialogPresenter presenter = super.providePresenter();
-        presenter.getWorkForm();
-        return presenter;
-    }
+	@ProvidePresenter
+	EditableWorkFormPresenter providePresenter(){
+		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter(settableByCatalog);
+		App.getAppComponent().inject(presenter);
+		presenter.getWorkForm();
+		return presenter;
+	}
+
+	@Override
+	protected View createView() {
+		View view = super.createView();
+		adapter = new EditableListsAdapter(workFormPresenter.getAdapterPresenter());
+		recyclerView.setAdapter(adapter);
+		return view;
+	}
 
 	@Override
 	protected String getTitle() {
 		return getResources().getString(R.string.choose_work_form);
 	}
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getActivity() == null) return;
-        if (getArguments() != null) {
-            String tag = getArguments().getString(Constants.KEY_TAG);
-            GivenBySettableCatalog bySettableCatalog = (GivenBySettableCatalog) getActivity()
-	            .getSupportFragmentManager().findFragmentByTag(tag);
-            if (bySettableCatalog != null)
-                settableByCatalog = bySettableCatalog.getSettableByCatalog();
-        }
-    }
-
-    @Override
-    public void saveSelectedCatalog(Catalog catalog) {
-        settableByCatalog.saveSelectedWorkForm((WorkForm) catalog);
-    }
-
 	@Override
 	public void addCatalog(String name) {
-		editablePresenter.insertWorkFormItem(name);
+		workFormPresenter.addCatalog(name);
 	}
 }

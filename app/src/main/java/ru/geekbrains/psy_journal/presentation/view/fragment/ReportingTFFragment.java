@@ -8,7 +8,7 @@ import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
 
-public class ReportingTFFragment extends ReportingOTFFragment {
+class ReportingTFFragment extends ReportingOTFFragment {
 
 	static ReportingTFFragment newInstanceOfDetailedReport(String codeTF, long from, long unto) {
 		ReportingTFFragment reportFragment = new ReportingTFFragment();

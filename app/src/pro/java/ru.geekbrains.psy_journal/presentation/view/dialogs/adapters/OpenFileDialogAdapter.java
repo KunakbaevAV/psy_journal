@@ -18,7 +18,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewhold
 
 public class OpenFileDialogAdapter extends SelectionFileDialogAdapter {
 
-	private Openable openable;
+	private final Openable openable;
 
     public OpenFileDialogAdapter(Openable openable) {
        super(openable.getSelectable());

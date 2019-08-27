@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Использование библиотеки org.xmlpull.v1 для парсинга XML.
+ -dontwarn org.xmlpull.v1.**
+ -dontnote org.xmlpull.v1.**
+ -keep class org.xmlpull.** { *; }
+ -keepclassmembers class org.xmlpull.** { *; }

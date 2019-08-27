@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;

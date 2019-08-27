@@ -7,12 +7,34 @@ import com.arellomobile.mvp.InjectViewState;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
 
 import static ru.geekbrains.psy_journal.Constants.ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE;
 import static ru.geekbrains.psy_journal.Constants.TAG;
 
 @InjectViewState
 public class EditableWorkFormPresenter extends EditableCatalogPresenter {
+
+	public EditableWorkFormPresenter(SettableByCatalog settableByCatalog) {
+		this.settableByCatalog = settableByCatalog;
+	}
+
+	public EditableCatalogPresenter.AdapterPresenter getAdapterPresenter() {
+		final boolean isEditable = settableByCatalog == null;
+		return  adapterPresenter = new EditableCatalogPresenter.AdapterPresenter(isEditable){
+			@Override
+			public void selectItem(int position) {
+				if (!isEditable){
+					transferCatalog((WorkForm)catalogList.get(position));
+				}
+			}
+		};
+	}
+
+	private void transferCatalog(WorkForm workForm){
+		settableByCatalog.saveSelectedWorkForm(workForm);
+		getViewState().performAction(null);
+	}
 
 	public void getWorkForm() {
 		getViewState().showProgressBar();
@@ -24,6 +46,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 				},
 				e -> {
 					getViewState().hideProgressBar();
+					getViewState().performAction(e.getMessage());
 					Log.e("getWorkForm: e", e.getMessage());
 				});
 	}
@@ -36,6 +59,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 			.subscribe(() -> getViewState().hideProgressBar(),
 				e -> {
 					getViewState().hideProgressBar();
+					getViewState().performAction(catalog.getName());
 					Log.e("removeWorkForm: e", e.getMessage());
 				});
 	}
@@ -52,23 +76,27 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 				},
 				e -> {
 					getViewState().hideProgressBar();
+					getViewState().performAction(workForm.getName());
 					Log.e("changeNameWorkForm: e", e.getMessage());
 				});
 	}
 
 	@Override
 	public void addCatalog(String name) {
-		WorkForm workForm = new WorkForm(name);
 		getViewState().showProgressBar();
-		disposable = roomHelper.insertItemWorkForm(workForm)
+		disposable = roomHelper.getAddedWorkFormItem(name)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(
-				() -> {
-					catalogList.add(workForm);
-					ifRequestSuccess();
+			.subscribe(workForm -> {
+					if (adapterPresenter.isEditable()){
+						catalogList.add(workForm);
+						ifRequestSuccess();
+					} else {
+						transferCatalog(workForm);
+					}
 				},
 				throwable -> {
 					getViewState().hideProgressBar();
+					getViewState().performAction(name);
 					Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
 				}
 			);

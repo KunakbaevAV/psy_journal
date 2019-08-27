@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -54,7 +55,8 @@ public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdap
 		Displayed {
 
 		@Inject InputMethodManager imm;
-		@BindView(R.id.textView) AppCompatEditText textView;
+		@BindView(R.id.textView) AppCompatEditText editText;
+		@BindView(R.id.catalog_item) TextView textView;
 
 		private final Editable editable;
 
@@ -63,13 +65,25 @@ public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdap
 			this.editable = editable;
 			App.getAppComponent().inject(this);
 			ButterKnife.bind(this, view);
-			setListenerItemView();
-			setListenerTextView();
+			if (editable.isEditable()){
+				textView.setVisibility(View.INVISIBLE);
+				editText.setVisibility(View.VISIBLE);
+				setListenerItemView();
+				setListenerTextView();
+			} else {
+				editText.setVisibility(View.INVISIBLE);
+				textView.setVisibility(View.VISIBLE);
+				itemView.setOnClickListener(v -> editable.selectItem(getAdapterPosition()));
+			}
 		}
 
 		@Override
         public void bind(String name) {
-			textView.setText(name);
+			if (editable.isEditable()) {
+				editText.setText(name);
+			} else {
+				textView.setText(name);
+			}
 		}
 
 		private void setListenerItemView(){
@@ -77,7 +91,7 @@ public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdap
 		}
 
 		private void setListenerTextView(){
-			textView.setOnEditorActionListener((v, actionId, event) -> {
+			editText.setOnEditorActionListener((v, actionId, event) -> {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
 					checkTextView();
 					closeKeyBoard();
@@ -88,21 +102,21 @@ public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdap
 		}
 
 		private void openKeyBoard(View view){
-			textView.setCursorVisible(true);
+			editText.setCursorVisible(true);
 			imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
 		}
 
 		private void checkTextView(){
-			if (textView.getText() == null || textView.getText().toString().equals("")){
+			if (editText.getText() == null || editText.getText().toString().equals("")){
 				editable.selectItem(null, getAdapterPosition());
 				return;
 			}
-			editable.selectItem(textView.getText().toString(), getAdapterPosition());
+			editable.selectItem(editText.getText().toString(), getAdapterPosition());
 		}
 
 		private void closeKeyBoard() {
 			imm.hideSoftInputFromWindow(itemView.getWindowToken(), 0);
-			textView.setCursorVisible(false);
+			editText.setCursorVisible(false);
 		}
 	}
 }

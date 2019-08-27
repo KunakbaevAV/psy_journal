@@ -43,6 +43,7 @@
         app:backgroundTint="?attr/colorAccent"
         app:elevation="16dp"
         app:fabSize="auto"
-        app:tint="@android:color/white" />
+        app:maxImageSize="48dp"
+        app:tint="?attr/colorPrimaryDark"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

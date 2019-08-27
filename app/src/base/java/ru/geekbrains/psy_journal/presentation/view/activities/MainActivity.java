@@ -56,10 +56,12 @@ public class MainActivity extends MvpAppCompatActivity implements
     @BindView(R.id.navigation_view) NavigationView navigationView;
     @BindView(R.id.bottomAppBar) BottomAppBar bottomAppBar;
     @BindView(R.id.fab)FloatingActionButton fab;
-    @BindDrawable(R.drawable.ic_add_circle_outline_white_24dp) Drawable plus;
+    @BindDrawable(R.drawable.ic_add_24dp) Drawable plus;
     @BindDrawable(R.drawable.ic_done_white_24dp)Drawable done;
 
     @InjectPresenter MainPresenter mainPresenter;
+
+	private boolean isShowFilesXLS;
 
     @ProvidePresenter
     MainPresenter providePresenter() {
@@ -262,13 +264,22 @@ public class MainActivity extends MvpAppCompatActivity implements
                     mainPresenter.createExcelFile(getString(R.string.report));
                     break;
                 case Constants.REQUEST_PERMISSION_READ_FILE_XLS:
-                    getFiles();
+	                isShowFilesXLS = true;
                     break;
             }
         } else {
             showMessage(getString(R.string.no_permission_file));
         }
     }
+
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+		if (isShowFilesXLS){
+			getFiles();
+			isShowFilesXLS = false;
+		}
+	}
 
     private void showMessage(String message) {
         Snackbar snackbar = Snackbar.make(bottomAppBar, message, Snackbar.LENGTH_INDEFINITE);

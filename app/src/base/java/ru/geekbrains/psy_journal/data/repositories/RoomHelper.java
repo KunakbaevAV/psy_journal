@@ -10,6 +10,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import ru.geekbrains.psy_journal.data.database.dao.AddedCatalogDao;
 import ru.geekbrains.psy_journal.data.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.data.database.dao.GroupDao;
 import ru.geekbrains.psy_journal.data.database.dao.JournalDao;
@@ -63,6 +64,9 @@ public class RoomHelper {
 
     @Inject
     Mapping mapping;
+
+    @Inject
+	AddedCatalogDao addedCatalogDao;
 
     public RoomHelper() {
         App.getAppComponent().inject(this);
@@ -566,6 +570,30 @@ public class RoomHelper {
     public Completable deleteAllJournal() {
         return journalDao.deleteAllJournal().subscribeOn(Schedulers.io());
     }
+
+	/**
+	 * получение добавленной Категории по name
+	 */
+	public Single<Category> getAddedCategoryItem(String name){
+		return Single.fromCallable(() -> addedCatalogDao.getAddedCategoryItem(name))
+			.subscribeOn(Schedulers.io());
+	}
+
+	/**
+	 * получение добавленной Group по name
+	 */
+	public Single<Group> getAddedGroupItem(String name){
+		return Single.fromCallable(() -> addedCatalogDao.getAddedGroupItem(name))
+			.subscribeOn(Schedulers.io());
+	}
+
+	/**
+	 * получение добавленной WorkForm по name
+	 */
+	public Single<WorkForm> getAddedWorkFormItem(String name){
+		return Single.fromCallable(() -> addedCatalogDao.getAddedWorkFormItem(name))
+			.subscribeOn(Schedulers.io());
+	}
 }
 
 

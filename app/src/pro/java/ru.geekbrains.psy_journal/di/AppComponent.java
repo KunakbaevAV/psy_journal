@@ -7,7 +7,6 @@ import ru.geekbrains.psy_journal.data.repositories.Mapping;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.presentation.presenter.activity.MainPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogFunctionPresenter;
-import ru.geekbrains.psy_journal.presentation.presenter.dialogs.EditableDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.OpenFileDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.SelectFileDialogPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AddWorkPresenter;
@@ -31,8 +30,6 @@ public interface AppComponent {
     void inject(DialogFunctionPresenter functionPresenter);
 
     void inject(App app);
-
-    void inject(EditableDialogPresenter presenter);
 
     void inject(ReportPresenter presenter);
 

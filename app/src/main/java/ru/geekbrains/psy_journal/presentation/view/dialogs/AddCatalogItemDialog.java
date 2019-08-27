@@ -2,14 +2,16 @@ package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
 		return itemDialog;
 	}
 
-    @BindView(R.id.new_catalog_item) EditText catalogItem;
+    @BindView(R.id.new_catalog_item) TextInputEditText catalogItem;
 
 	private Addable addable;
 
@@ -81,6 +83,8 @@ public class AddCatalogItemDialog extends AbstractDialog {
 
     private void onClickAddItem() {
     	if (addable == null) return;
+	    Editable editable = catalogItem.getText();
+    	if (editable == null || "".contentEquals(editable)) return;
         addable.addCatalog(catalogItem.getText().toString());
     }
 }

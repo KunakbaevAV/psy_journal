@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.psy_journal.data.database.DataBaseLoader;
+import ru.geekbrains.psy_journal.data.database.dao.AddedCatalogDao;
 import ru.geekbrains.psy_journal.data.database.dao.AppDatabase;
 import ru.geekbrains.psy_journal.data.files.LoadableDataBase;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
@@ -78,6 +79,11 @@ public class AppModule {
     WorkFormDao getWorkFormDao() {
         return getAppDatabase().workFormDao();
     }
+
+	@Provides
+	AddedCatalogDao getAddedCatalogDao() {
+		return getAppDatabase().addedCatalogDao();
+	}
 
     @Provides
     AppDatabase getAppDatabase() {

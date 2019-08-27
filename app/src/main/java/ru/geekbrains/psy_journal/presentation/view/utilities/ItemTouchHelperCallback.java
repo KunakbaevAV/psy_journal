@@ -29,7 +29,7 @@ import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.Removable;
 public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
 
     private static final int BUTTON_WIDTH = 200;
-    private RecyclerView recyclerView;
+    private final RecyclerView recyclerView;
     private List<UnderlayButton> buttons;
     private GestureDetector gestureDetector;
     private int swipedPos = -1;
@@ -39,7 +39,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
     @Inject
     Context context;
 
-    private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
+    private final GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             for (UnderlayButton button : buttons) {
@@ -50,7 +50,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
         }
     };
 
-    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent e) {
             if (swipedPos < 0) return false;

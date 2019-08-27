@@ -13,11 +13,11 @@ import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCall
 
 public class EditableGroupFragment extends EditableFragment {
 
-	@InjectPresenter EditableGroupPresenter presenter;
+	@InjectPresenter EditableGroupPresenter groupPresenter;
 
 	@ProvidePresenter
 	EditableGroupPresenter providePresenter(){
-		EditableGroupPresenter presenter = new EditableGroupPresenter();
+		EditableGroupPresenter presenter = new EditableGroupPresenter(null);
 		App.getAppComponent().inject(presenter);
 		presenter.getGroup();
 		return presenter;
@@ -30,13 +30,13 @@ public class EditableGroupFragment extends EditableFragment {
 
 	protected void showRecycler() {
 		super.showRecycler();
-		adapter = new EditableListsAdapter(presenter.getAdapterPresenter());
+		adapter = new EditableListsAdapter(groupPresenter.getAdapterPresenter());
 		recycler.setAdapter(adapter);
 		new ItemTouchHelperCallback(recycler);
 	}
 
 	@Override
 	public void addCatalog(String name) {
-		presenter.addCatalog(name);
+		groupPresenter.addCatalog(name);
 	}
 }

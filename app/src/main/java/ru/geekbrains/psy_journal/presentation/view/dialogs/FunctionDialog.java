@@ -10,7 +10,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
@@ -23,7 +22,7 @@ public abstract class FunctionDialog extends AbstractDialog implements FunctionV
 	@BindView(R.id.recycler_all_work) RecyclerView recyclerView;
 	@BindView(R.id.progress_bar) ProgressBar progressBar;
 
-	protected SettableByFunction settableByFunction;
+	SettableByFunction settableByFunction;
 	private DialogAdapter adapter;
 
 	@InjectPresenter DialogFunctionPresenter functionPresenter;

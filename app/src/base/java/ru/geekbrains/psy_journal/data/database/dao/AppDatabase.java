@@ -29,4 +29,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract WorkFormDao workFormDao();
 
     public abstract ReportDao reportDao();
+
+    public abstract AddedCatalogDao addedCatalogDao();
 }

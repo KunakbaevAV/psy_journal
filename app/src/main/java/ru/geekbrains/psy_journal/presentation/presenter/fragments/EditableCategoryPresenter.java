@@ -7,12 +7,34 @@ import com.arellomobile.mvp.InjectViewState;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
+import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
 
 import static ru.geekbrains.psy_journal.Constants.ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE;
 import static ru.geekbrains.psy_journal.Constants.TAG;
 
 @InjectViewState
 public class EditableCategoryPresenter extends EditableCatalogPresenter {
+
+	public EditableCategoryPresenter(SettableByCatalog settableByCatalog) {
+		this.settableByCatalog = settableByCatalog;
+	}
+
+	public EditableCatalogPresenter.AdapterPresenter getAdapterPresenter() {
+		final boolean isEditable = settableByCatalog == null;
+		return  adapterPresenter = new EditableCatalogPresenter.AdapterPresenter(isEditable){
+			@Override
+			public void selectItem(int position) {
+				if (!isEditable) {
+					transferCatalog((Category) catalogList.get(position));
+				}
+			}
+		};
+	}
+
+	private void transferCatalog(Category category){
+		settableByCatalog.saveSelectedCategory(category);
+		getViewState().performAction(null);
+	}
 
 	public void getCategory() {
 		getViewState().showProgressBar();
@@ -24,6 +46,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 				},
 				e -> {
 					getViewState().hideProgressBar();
+					getViewState().performAction(e.getMessage());
 					Log.e("getCategory: e", e.getMessage());
 				});
 	}
@@ -36,6 +59,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 			.subscribe(() -> getViewState().hideProgressBar(),
 				e -> {
 					getViewState().hideProgressBar();
+					getViewState().performAction(catalog.getName());
 					Log.e("removeCategory: e", e.getMessage());
 				});
 	}
@@ -52,25 +76,30 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 				},
 				e -> {
 					getViewState().hideProgressBar();
+					getViewState().performAction(category.getName());
 					Log.e("changeNameCategory: e", e.getMessage());
 				});
 	}
 
 	@Override
 	public void addCatalog(String name) {
-		Category category = new Category(name);
 		getViewState().showProgressBar();
-		disposable = roomHelper.insertItemCategory(category)
+		disposable = roomHelper.getAddedCategoryItem(name)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(
-				() -> {
-					catalogList.add(category);
-					ifRequestSuccess();
+			.subscribe(category -> {
+					if (adapterPresenter.isEditable()){
+						catalogList.add(category);
+						ifRequestSuccess();
+					} else {
+						transferCatalog(category);
+					}
 				},
 				throwable -> {
 					getViewState().hideProgressBar();
+					getViewState().performAction(name);
 					Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
 				}
 			);
+
 	}
 }

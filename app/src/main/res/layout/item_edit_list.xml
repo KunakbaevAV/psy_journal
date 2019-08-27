@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     tools:ignore="UseCompoundDrawables">
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -16,11 +16,32 @@
         android:background="@color/design_default_color_background"
         android:inputType="textAutoCorrect|textAutoComplete"
         android:imeOptions="actionDone"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/separator"
         tools:text="@string/entity"/>
 
+    <TextView
+        android:id="@+id/catalog_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/standardMargin"
+        android:padding="@dimen/standardMargin"
+        android:text="@string/theme_example"
+        android:textSize="@dimen/medium_text"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/separator"
+        tools:visibility="visible"/>
+
     <ImageView
+        android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standardMargin"
         android:contentDescription="@string/description"
-        app:srcCompat="@drawable/separator" />
-</LinearLayout>
+        app:srcCompat="@drawable/separator"
+        app:layout_constraintTop_toBottomOf="@id/catalog_item"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

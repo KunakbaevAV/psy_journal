@@ -13,11 +13,11 @@ import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCall
 
 public class EditableWorkFormFragment extends EditableFragment {
 
-	@InjectPresenter EditableWorkFormPresenter presenter;
+	@InjectPresenter EditableWorkFormPresenter workFormPresenter;
 
 	@ProvidePresenter
 	EditableWorkFormPresenter providePresenter(){
-		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter();
+		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter(null);
 		App.getAppComponent().inject(presenter);
 		presenter.getWorkForm();
 		return presenter;
@@ -30,13 +30,13 @@ public class EditableWorkFormFragment extends EditableFragment {
 
 	protected void showRecycler() {
 		super.showRecycler();
-		adapter = new EditableListsAdapter(presenter.getAdapterPresenter());
+		adapter = new EditableListsAdapter(workFormPresenter.getAdapterPresenter());
 		recycler.setAdapter(adapter);
 		new ItemTouchHelperCallback(recycler);
 	}
 
 	@Override
 	public void addCatalog(String name) {
-		presenter.addCatalog(name);
+		workFormPresenter.addCatalog(name);
 	}
 }

@@ -39,7 +39,6 @@ import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.Collectable;
-import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AddWorkPresenter;
@@ -59,8 +58,7 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	AddWorkView,
 	Collectable,
 	GivenBySettableDate,
-	GivenBySettableFunction,
-	GivenBySettableCatalog {
+	GivenBySettableFunction {
 
 	static AddWorkFragment newInstance(Journal journal) {
 		AddWorkFragment addWorkFragment = new AddWorkFragment();
@@ -127,11 +125,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	    dateText.setOnClickListener(v -> DateSettingDialog.newInstance(Constants.TAG_ADD_WORK).show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER));
         quantityPeople.setOnEditorActionListener(editorActionListener);
 	    workTimeText.setOnClickListener(v -> new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), TAG_TIME_PICKER));
-		categoryText.setOnClickListener(v -> openCatalog(CategoryDialog.newInstance(Constants.TAG_ADD_WORK), getString(R.string.choose_category)));
-		groupText.setOnClickListener(v -> openCatalog(GroupDialog.newInstance(Constants.TAG_ADD_WORK), getString(R.string.choose_group)));
+		categoryText.setOnClickListener(v -> openCatalog(new CategoryDialog(), getString(R.string.choose_category)));
+		groupText.setOnClickListener(v -> openCatalog(new GroupDialog(), getString(R.string.choose_group)));
         declaredRequestText.setOnEditorActionListener(editorActionListener);
         realRequestText.setOnEditorActionListener(editorActionListener);
-		workFormText.setOnClickListener(v -> openCatalog(WorkFormDialog.newInstance(Constants.TAG_ADD_WORK), getString(R.string.choose_work_form)));
+		workFormText.setOnClickListener(v -> openCatalog(new WorkFormDialog(), getString(R.string.choose_work_form)));
 	    codeTfText.setOnClickListener(v -> openDialogue(OTFDialog.newInstance(Constants.TAG_ADD_WORK) , getString(R.string.OTF)));
     }
 
@@ -194,7 +192,8 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	private void openCatalog(EditableDialog dialog, String title) {
 		if (getActivity() != null) {
-			dialog.show(getActivity().getSupportFragmentManager(), title);
+			dialog.setSettableByCatalog(workPresenter)
+				.show(getActivity().getSupportFragmentManager(), title);
 		}
 	}
 
@@ -325,11 +324,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
 	public SettableByFunction getSettableByFunction() {
-		return workPresenter;
-	}
-
-	@Override
-	public SettableByCatalog getSettableByCatalog() {
 		return workPresenter;
 	}
 
