@@ -56,7 +56,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 		getViewState().showProgressBar();
 		disposable = roomHelper.deleteItemCategory((Category) catalog)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(() -> getViewState().hideProgressBar(),
+				.subscribe(this::ifRequestSuccess,
 				e -> {
 					getViewState().hideProgressBar();
 					getViewState().performAction(catalog.getName());

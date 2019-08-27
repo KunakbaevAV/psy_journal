@@ -35,6 +35,11 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<EditableView
 		getViewState().hideProgressBar();
 	}
 
+    void ifRequestNotSuccess(String message) {
+        getViewState().hideProgressBar();
+        getViewState().performAction(message);
+    }
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();

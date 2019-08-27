@@ -45,8 +45,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 					ifRequestSuccess();
 				},
 				e -> {
-					getViewState().hideProgressBar();
-					getViewState().performAction(e.getMessage());
+					ifRequestNotSuccess(e.getMessage());
 					Log.e("getWorkForm: e", e.getMessage());
 				});
 	}
@@ -56,10 +55,9 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 		getViewState().showProgressBar();
 		disposable = roomHelper.deleteItemWorkForm((WorkForm) catalog)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(() -> getViewState().hideProgressBar(),
+				.subscribe(this::ifRequestSuccess,
 				e -> {
-					getViewState().hideProgressBar();
-					getViewState().performAction(catalog.getName());
+					ifRequestNotSuccess(catalog.getName());
 					Log.e("removeWorkForm: e", e.getMessage());
 				});
 	}
@@ -75,8 +73,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 					ifRequestSuccess();
 				},
 				e -> {
-					getViewState().hideProgressBar();
-					getViewState().performAction(workForm.getName());
+					ifRequestNotSuccess(workForm.getName());
 					Log.e("changeNameWorkForm: e", e.getMessage());
 				});
 	}
@@ -95,8 +92,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 					}
 				},
 				throwable -> {
-					getViewState().hideProgressBar();
-					getViewState().performAction(name);
+					ifRequestNotSuccess(name);
 					Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
 				}
 			);

@@ -56,7 +56,7 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 		getViewState().showProgressBar();
 		disposable = roomHelper.deleteItemGroup((Group) catalog)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(() -> getViewState().hideProgressBar(),
+				.subscribe(this::ifRequestSuccess,
 				e -> {
 					getViewState().hideProgressBar();
 					getViewState().performAction(catalog.getName());
