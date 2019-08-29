@@ -16,14 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.Selectable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.DisplayedSelectedFileViewHolder;
 
@@ -57,20 +54,20 @@ public class SelectionFileDialogAdapter extends RecyclerView.Adapter {
 		View.OnClickListener,
 		DisplayedSelectedFileViewHolder {
 
-		@Inject Context context;
 		@BindDrawable(R.drawable.ic_file_24dp) Drawable fileImage;
 		@BindView(R.id.icon_file) ImageView iconFile;
 		@BindView(R.id.name_file) CheckedTextView nameFile;
 
 		protected Selectable selectable;
 		private static final int NUMBER_OF_BYTES = 1024;
+		private Context context;
 
 		SelectionFileViewHolder(View view, Selectable selectable) {
 			super(view);
-			App.getAppComponent().inject(this);
 			ButterKnife.bind(this, view);
 			this.selectable = selectable;
 			view.setOnClickListener(this);
+			context = view.getContext();
 		}
 
 		@Override

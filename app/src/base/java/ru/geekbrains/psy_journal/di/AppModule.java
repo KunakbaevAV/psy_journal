@@ -36,11 +36,6 @@ public class AppModule {
     }
 
     @Provides
-    Context getContext() {
-        return context;
-    }
-
-    @Provides
     RoomHelper getRoomHelper() {
         return new RoomHelper();
     }

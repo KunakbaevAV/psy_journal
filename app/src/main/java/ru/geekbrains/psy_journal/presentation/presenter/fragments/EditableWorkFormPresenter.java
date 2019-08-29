@@ -56,7 +56,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 		getViewState().showProgressBar();
 		disposable = roomHelper.deleteItemWorkForm((WorkForm) catalog)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(() -> getViewState().hideProgressBar(),
+			.subscribe(() -> ifRequestSuccess(oldCatalogList, catalogList),
 				e -> {
 					getViewState().hideProgressBar();
 					getViewState().performAction(catalog.getName());
@@ -72,7 +72,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> {
 					catalogList.set(pos, workForm);
-					ifRequestSuccess();
+					ifRequestSuccess(oldCatalogList, catalogList);
 				},
 				e -> {
 					getViewState().hideProgressBar();
@@ -88,8 +88,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(workForm -> {
 					if (adapterPresenter.isEditable()){
-						catalogList.add(workForm);
-						ifRequestSuccess();
+						editCatalogList(workForm);
 					} else {
 						transferCatalog(workForm);
 					}

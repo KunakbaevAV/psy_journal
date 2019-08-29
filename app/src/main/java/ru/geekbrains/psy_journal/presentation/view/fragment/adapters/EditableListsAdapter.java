@@ -48,7 +48,6 @@ public class EditableListsAdapter extends RecyclerView.Adapter<EditableListsAdap
 	@Override
 	public void delete(int pos){
 		editable.delete(pos);
-		notifyItemRemoved(pos);
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements

@@ -20,15 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import javax.inject.Inject;
-
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.Removable;
 
 public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
 
     private static final int BUTTON_WIDTH = 200;
+	private final Context context;
     private final RecyclerView recyclerView;
     private List<UnderlayButton> buttons;
     private GestureDetector gestureDetector;
@@ -36,8 +34,6 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
     private float swipeThreshold = 0.5f;
     private Map<Integer, List<UnderlayButton>> buttonsBuffer;
     private Queue<Integer> recoverQueue;
-    @Inject
-    Context context;
 
     private final GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
@@ -76,8 +72,8 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
 
     public ItemTouchHelperCallback(RecyclerView recyclerView) {
         super(0, ItemTouchHelper.LEFT);
-        App.getAppComponent().inject(this);
         this.recyclerView = recyclerView;
+        context = recyclerView.getContext();
         initializeValues();
         attachSwipe();
     }

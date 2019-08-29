@@ -20,6 +20,7 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<EditableView
 	@Inject RoomHelper roomHelper;
 
 	final List<Catalog> catalogList = new ArrayList<>();
+	final List<Catalog> oldCatalogList = new ArrayList<>();
 	EditableCatalogPresenter.AdapterPresenter adapterPresenter;
 	SettableByCatalog settableByCatalog;
 	Disposable disposable;
@@ -30,9 +31,25 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<EditableView
 
 	public abstract void addCatalog(String name);
 
+	void editCatalogList(Catalog catalog){
+		prepareOldList();
+		catalogList.add(catalog);
+		ifRequestSuccess(oldCatalogList, catalogList);
+	}
+
 	void ifRequestSuccess() {
 		getViewState().updateRecyclerView();
 		getViewState().hideProgressBar();
+	}
+
+	void ifRequestSuccess(List<Catalog> oldList, List<Catalog> newList) {
+		getViewState().updateRecyclerView(oldList, newList);
+		getViewState().hideProgressBar();
+	}
+
+	private void prepareOldList(){
+		if (!oldCatalogList.isEmpty()) oldCatalogList.clear();
+		oldCatalogList.addAll(catalogList);
 	}
 
 	@Override
@@ -76,12 +93,14 @@ public abstract class EditableCatalogPresenter extends MvpPresenter<EditableView
 			}
 			Catalog catalog = catalogList.get(position);
 			if (catalog.getName().equals(name)) return;
+			prepareOldList();
 			catalog.setName(name);
 			changeNameCatalog(catalog, position);
 		}
 
 		@Override
 		public void delete(int position) {
+			prepareOldList();
 			removeCatalog(catalogList.remove(position));
 		}
 	}

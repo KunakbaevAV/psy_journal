@@ -9,17 +9,14 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.fragments.Addable;
+import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCatalogPresenter;
 
 public class AddCatalogItemDialog extends AbstractDialog {
 
@@ -33,7 +30,11 @@ public class AddCatalogItemDialog extends AbstractDialog {
 
     @BindView(R.id.new_catalog_item) TextInputEditText catalogItem;
 
-	private Addable addable;
+	private EditableCatalogPresenter catalogPresenter;
+
+	public void setPresenter(EditableCatalogPresenter catalogPresenter){
+		this.catalogPresenter = catalogPresenter;
+	}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,15 +50,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_add_catalog_item, null);
         unbinder = ButterKnife.bind(this, view);
-        addable = getAddable();
         return view;
-    }
-
-    private Addable getAddable(){
-    	if (getFragmentManager() == null) return null;
-    	List<Fragment> fragments = getFragmentManager().getFragments();
-    	int index = fragments.lastIndexOf(this);
-    	return (Addable) fragments.get(index - 1);
     }
 
     @Override
@@ -73,6 +66,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
         super.onResume();
         final AlertDialog dialog = (AlertDialog) getDialog();
         if (dialog != null) {
+        	if (catalogPresenter == null) dialog.dismiss();
             Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(v -> {
                 onClickAddItem();
@@ -82,9 +76,8 @@ public class AddCatalogItemDialog extends AbstractDialog {
     }
 
     private void onClickAddItem() {
-    	if (addable == null) return;
 	    Editable editable = catalogItem.getText();
     	if (editable == null || "".contentEquals(editable)) return;
-        addable.addCatalog(catalogItem.getText().toString());
+        catalogPresenter.addCatalog(catalogItem.getText().toString());
     }
 }

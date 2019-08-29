@@ -10,21 +10,23 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
+import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
-import ru.geekbrains.psy_journal.presentation.presenter.fragments.Addable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.EditableView;
+import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.CatalogDiffUtilCallback;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
 
 public abstract class EditableDialog extends AbstractDialog implements
-	EditableView,
-	Addable {
+	EditableView {
 
     @BindView(R.id.recycler_all_work) RecyclerView recyclerView;
 	@BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -64,13 +66,7 @@ public abstract class EditableDialog extends AbstractDialog implements
 		}
 	}
 
-	private void onClickAddItem() {
-		if (getActivity() != null) {
-			String title = getTitle();
-			AddCatalogItemDialog dialog = AddCatalogItemDialog.newInstance(title);
-			dialog.show(getActivity().getSupportFragmentManager(), Constants.TAG_ADD + title);
-		}
-	}
+	protected abstract void onClickAddItem();
 
 	public EditableDialog setSettableByCatalog(SettableByCatalog settableByCatalog){
 		this.settableByCatalog = settableByCatalog;
@@ -90,6 +86,13 @@ public abstract class EditableDialog extends AbstractDialog implements
 	@Override
 	public void hideProgressBar() {
 		progressBar.setVisibility(View.INVISIBLE);
+	}
+
+	@Override
+	public void updateRecyclerView(List<Catalog> oldList, List<Catalog> newList) {
+		CatalogDiffUtilCallback diffUtilCallback = new CatalogDiffUtilCallback(oldList, newList);
+		DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback, false);
+		diffResult.dispatchUpdatesTo(adapter);
 	}
 
 	@Override

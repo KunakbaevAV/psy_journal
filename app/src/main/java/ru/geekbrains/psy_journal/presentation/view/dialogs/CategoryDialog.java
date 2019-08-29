@@ -5,6 +5,7 @@ import android.view.View;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCategoryPresenter;
@@ -35,8 +36,12 @@ public class CategoryDialog extends EditableDialog {
 		return getResources().getString(R.string.choose_category);
 	}
 
-	@Override
-	public void addCatalog(String name) {
-		categoryPresenter.addCatalog(name);
+	protected void onClickAddItem() {
+		if (getActivity() != null) {
+			String title = getTitle();
+			AddCatalogItemDialog dialog = AddCatalogItemDialog.newInstance(title);
+			dialog.setPresenter(categoryPresenter);
+			dialog.show(getActivity().getSupportFragmentManager(), Constants.TAG_ADD + title);
+		}
 	}
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableGroupPresenter;
@@ -35,8 +36,12 @@ public class GroupDialog extends EditableDialog {
 		return getResources().getString(R.string.choose_group);
 	}
 
-	@Override
-	public void addCatalog(String name) {
-		groupPresenter.addCatalog(name);
+	protected void onClickAddItem() {
+		if (getActivity() != null) {
+			String title = getTitle();
+			AddCatalogItemDialog dialog = AddCatalogItemDialog.newInstance(title);
+			dialog.setPresenter(groupPresenter);
+			dialog.show(getActivity().getSupportFragmentManager(), Constants.TAG_ADD + title);
+		}
 	}
 }

@@ -56,7 +56,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 		getViewState().showProgressBar();
 		disposable = roomHelper.deleteItemCategory((Category) catalog)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(() -> getViewState().hideProgressBar(),
+			.subscribe(() -> ifRequestSuccess(oldCatalogList, catalogList),
 				e -> {
 					getViewState().hideProgressBar();
 					getViewState().performAction(catalog.getName());
@@ -72,7 +72,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> {
 					catalogList.set(pos, category);
-					ifRequestSuccess();
+					ifRequestSuccess(oldCatalogList, catalogList);
 				},
 				e -> {
 					getViewState().hideProgressBar();
@@ -88,8 +88,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(category -> {
 					if (adapterPresenter.isEditable()){
-						catalogList.add(category);
-						ifRequestSuccess();
+						editCatalogList(category);
 					} else {
 						transferCatalog(category);
 					}
