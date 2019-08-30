@@ -21,7 +21,7 @@ public class EditableWorkFormFragment extends EditableFragment {
 	EditableWorkFormPresenter providePresenter(){
 		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter(null);
 		App.getAppComponent().inject(presenter);
-		presenter.getWorkForm();
+		presenter.getWorkForms();
 		return presenter;
 	}
 

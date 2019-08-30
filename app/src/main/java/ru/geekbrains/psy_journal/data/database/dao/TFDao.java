@@ -25,9 +25,6 @@ public interface TFDao {
     @Query("SELECT * FROM TF WHERE id = :id")
     Single<TF> getItemTF(int id);
 
-    @Query("DELETE FROM TF")
-    Completable deleteAllTF();
-
 	//первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<TF> tfList);

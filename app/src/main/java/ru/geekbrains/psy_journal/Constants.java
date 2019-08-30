@@ -34,9 +34,8 @@ public class Constants {
 	public static final String TAG_FILES_XLS = "Tag files xls";
 	public static final String TAG_ADD = "Tag add ";
 
-    public static final String ERROR_LOADING_DATA_FROM_DATABASE = "Error loading data from database";
-    public static final String ERROR_DELETING = "Error deleting: ";
-    public static final String ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE = "Error inserting catalog item to database";
+    public static final String ERROR_LOADING_DATA_FROM_DATABASE = "При загрузке из базы данных возникла ошибка ";
+    public static final String ERROR_DELETING = "При удалении из базы данных возникла ошибка ";
 
 	public static final String PATTERN_DATE = "dd.MM.yy";
 

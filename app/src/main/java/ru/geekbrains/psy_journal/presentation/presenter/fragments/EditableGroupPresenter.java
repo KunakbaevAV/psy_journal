@@ -9,7 +9,7 @@ import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
 
-import static ru.geekbrains.psy_journal.Constants.ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE;
+import static ru.geekbrains.psy_journal.Constants.DB_ADD_ERROR;
 import static ru.geekbrains.psy_journal.Constants.TAG;
 
 @InjectViewState
@@ -36,12 +36,12 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 		getViewState().performAction(null);
 	}
 
-	public void getGroup() {
+	public void getGroups() {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getListGroups()
+		disposable = roomHelper.getGroups()
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(list -> {
-					catalogList.addAll(list);
+				.subscribe(groups -> {
+							catalogList.addAll(groups);
 					ifRequestSuccess();
 				},
 				e -> {
@@ -96,7 +96,7 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 				throwable -> {
 					getViewState().hideProgressBar();
 					getViewState().performAction(name);
-					Log.e(TAG, ERROR_INSERTING_CATALOG_ITEM_TO_DATABASE + throwable.getMessage());
+					Log.e(TAG, DB_ADD_ERROR + throwable.getMessage());
 				}
 			);
 	}

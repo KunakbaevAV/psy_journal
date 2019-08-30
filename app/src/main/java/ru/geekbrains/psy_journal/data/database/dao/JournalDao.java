@@ -36,6 +36,4 @@ public interface JournalDao {
     @Query("SELECT Journal.name FROM Journal WHERE Journal.name IS NOT NULL")
     Single<List<String>> getListFullNames();
 
-    @Query("DELETE FROM Journal")
-    Completable deleteAllJournal();
 }

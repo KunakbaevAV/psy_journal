@@ -28,9 +28,6 @@ public interface TDDao {
     @Query("SELECT * FROM TD WHERE code = :code")
     Single<TD> getTdByCode(String code);
 
-    @Query("DELETE FROM TD")
-    Completable deleteAllTD();
-
 	//первичная инициализация
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	Completable insert(List<TD> tdList);

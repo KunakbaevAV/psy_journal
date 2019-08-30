@@ -19,7 +19,7 @@ public class WorkFormDialog extends EditableDialog {
 	EditableWorkFormPresenter providePresenter(){
 		EditableWorkFormPresenter presenter = new EditableWorkFormPresenter(settableByCatalog);
 		App.getAppComponent().inject(presenter);
-		presenter.getWorkForm();
+		presenter.getWorkForms();
 		return presenter;
 	}
 

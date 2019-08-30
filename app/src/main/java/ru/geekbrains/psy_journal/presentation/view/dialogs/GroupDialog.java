@@ -19,7 +19,7 @@ public class GroupDialog extends EditableDialog {
 	EditableGroupPresenter providePresenter(){
 		EditableGroupPresenter presenter = new EditableGroupPresenter(settableByCatalog);
 		App.getAppComponent().inject(presenter);
-		presenter.getGroup();
+		presenter.getGroups();
 		return presenter;
 	}
 

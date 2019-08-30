@@ -203,7 +203,7 @@ public class RoomHelper {
      *
      * @return список всех сущностей {@link Category} в базе данных
      */
-    public Single<List<Category>> getListCategory() {
+    public Single<List<Category>> getCategories() {
         return categoryDao.getAllCategories().subscribeOn(Schedulers.io());
     }
 
@@ -212,7 +212,7 @@ public class RoomHelper {
      *
      * @return список всех сущностей {@link Group} в базе данных
      */
-    public Single<List<Group>> getListGroups() {
+    public Single<List<Group>> getGroups() {
         return groupDao.getAllGroups().subscribeOn(Schedulers.io());
     }
 
@@ -221,7 +221,7 @@ public class RoomHelper {
      *
      * @return список всех сущностей {@link WorkForm} в базе данных
      */
-    public Single<List<WorkForm>> getListWorkForms() {
+    public Single<List<WorkForm>> getWorkForms() {
         return workFormDao.getAllWorkForms().subscribeOn(Schedulers.io());
     }
 
@@ -541,34 +541,6 @@ public class RoomHelper {
         return Single.fromCallable(
                 () -> mapping.getListReportingJournal()
         ).subscribeOn(Schedulers.io());
-    }
-
-    /**
-     * Удаление из базы данных всех строк таблицы {@link OTF}
-     */
-    public Completable deleteAllOTF() {
-        return otfDao.deleteAllOTF().subscribeOn(Schedulers.io());
-    }
-
-    /**
-     * Удаление из базы данных всех строк таблицы {@link TF}
-     */
-    public Completable deleteAllTF() {
-        return tfDao.deleteAllTF().subscribeOn(Schedulers.io());
-    }
-
-    /**
-     * Удаление из базы данных всех строк таблицы {@link TD}
-     */
-    public Completable deleteAllTD() {
-        return tdDao.deleteAllTD().subscribeOn(Schedulers.io());
-    }
-
-    /**
-     * Удаление из базы данных всех строк таблицы {@link TD}
-     */
-    public Completable deleteAllJournal() {
-        return journalDao.deleteAllJournal().subscribeOn(Schedulers.io());
     }
 
 	/**

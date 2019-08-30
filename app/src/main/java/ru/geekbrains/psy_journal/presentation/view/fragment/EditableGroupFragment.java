@@ -21,7 +21,7 @@ public class EditableGroupFragment extends EditableFragment {
 	EditableGroupPresenter providePresenter(){
 		EditableGroupPresenter presenter = new EditableGroupPresenter(null);
 		App.getAppComponent().inject(presenter);
-		presenter.getGroup();
+		presenter.getGroups();
 		return presenter;
 	}
 

@@ -19,7 +19,7 @@ public class CategoryDialog extends EditableDialog {
 	EditableCategoryPresenter providePresenter(){
 		EditableCategoryPresenter presenter = new EditableCategoryPresenter(settableByCatalog);
 		App.getAppComponent().inject(presenter);
-		presenter.getCategory();
+		presenter.getCategories();
 		return presenter;
 	}
 

@@ -21,7 +21,7 @@ public class EditableCategoryFragment extends EditableFragment {
 	EditableCategoryPresenter providePresenter(){
 		EditableCategoryPresenter presenter = new EditableCategoryPresenter(null);
 		App.getAppComponent().inject(presenter);
-		presenter.getCategory();
+		presenter.getCategories();
 		return presenter;
 	}
 

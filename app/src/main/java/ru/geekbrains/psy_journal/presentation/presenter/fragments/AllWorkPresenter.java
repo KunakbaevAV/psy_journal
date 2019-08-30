@@ -1,7 +1,5 @@
 package ru.geekbrains.psy_journal.presentation.presenter.fragments;
 
-import android.annotation.SuppressLint;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -16,6 +14,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
@@ -31,54 +30,53 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> implements Updat
     @Inject RoomHelper roomHelper;
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
     private final RecyclerAllWorkPresenter recyclerAllWorkPresenter;
-    private final List<Journal> listWorks;
-
-	public RecyclerAllWorkPresenter getRecyclerAllWorkPresenter() {
-		return recyclerAllWorkPresenter;
-	}
+    private final List<Journal> works;
+    private Disposable disposable;
 
     public AllWorkPresenter() {
         recyclerAllWorkPresenter = new RecyclerAllWorkPresenter();
-        listWorks = new ArrayList<>();
+        works = new ArrayList<>();
     }
+
+    public RecyclerAllWorkPresenter getRecyclerAllWorkPresenter() {
+		return recyclerAllWorkPresenter;
+	}
 
     //метод обновления фрагмента при обновлении профстандарта в базе.
 	//можно использовать и в других обновлениях
 	@Override
     public void update(){
-    	if (!listWorks.isEmpty()){
-    		listWorks.clear();
+        if (!works.isEmpty()) {
+            works.clear();
 	    }
-    	showAllWorkRecycler();
+        getWorks();
     }
 
     @Override
     public void onFirstViewAttach() {
-        showAllWorkRecycler();
+        getWorks();
     }
 
-    @SuppressLint("CheckResult")
-    private void showAllWorkRecycler() {
+    private void getWorks() {
         getViewState().showProgressBar();
-        roomHelper.getJournalList()
+        disposable = roomHelper.getJournalList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(journalList -> {
-                    listWorks.addAll(journalList);
-                    Collections.sort(listWorks);
+                .subscribe(journals -> {
+                    works.addAll(journals);
+                    Collections.sort(works);
                     ifRequestSuccess();
                 }, throwable -> {
                     getViewState().showToast(ERROR_LOADING_DATA_FROM_DATABASE + throwable.getMessage());
                     getViewState().hideProgressBar();
-                }).isDisposed();
+                });
     }
 
-    @SuppressLint("CheckResult")
     private void deleteItemJournalFromDatabase(Journal journal) {
-        deleteItemJournalFromDatabaseObservable(journal).observeOn(AndroidSchedulers.mainThread())
+        disposable = deleteItemJournalFromDatabaseObservable(journal).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> getViewState().updateRecyclerView(),
-                        er -> getViewState().showToast(ERROR_DELETING + er)
-                ).isDisposed();
+                        throwable -> getViewState().showToast(ERROR_DELETING + throwable)
+                );
     }
 
     private Completable deleteItemJournalFromDatabaseObservable(Journal journal) {
@@ -94,11 +92,17 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> implements Updat
         getViewState().hideProgressBar();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (disposable != null) disposable.dispose();
+    }
+
     private class RecyclerAllWorkPresenter implements IRecyclerAllWorkPresenter {
 
         @Override
         public void bindView(IViewHolder holder) {
-            Journal journalItem = listWorks.get(holder.getPos());
+            Journal journalItem = works.get(holder.getPos());
             holder.setWork(getDate(journalItem.getDate()), journalItem.getDeclaredRequest());
         }
 
@@ -108,21 +112,21 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> implements Updat
 
         @Override
         public int getItemCount() {
-            if (listWorks != null) {
-                return listWorks.size();
+            if (works != null) {
+                return works.size();
             }
             return 0;
         }
 
         @Override
         public void onClickDelete(int position) {
-            deleteItemJournalFromDatabase(listWorks.get(position));
-            listWorks.remove(position);
+            deleteItemJournalFromDatabase(works.get(position));
+            works.remove(position);
         }
 
         @Override
         public void onClickUpdate(IViewHolder holder) {
-            openScreenUpdateJournal(listWorks.get(holder.getPos()));
+            openScreenUpdateJournal(works.get(holder.getPos()));
         }
     }
 }
