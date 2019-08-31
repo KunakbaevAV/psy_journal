@@ -8,9 +8,9 @@ import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
 
-class ReportingTFFragment extends ReportingOTFFragment {
+public class ReportingTFFragment extends ReportingOTFFragment {
 
-	static ReportingTFFragment newInstanceOfDetailedReport(String codeTF, long from, long unto) {
+	public static ReportingTFFragment newInstance(String codeTF, long from, long unto) {
 		ReportingTFFragment reportFragment = new ReportingTFFragment();
 		Bundle args = new Bundle();
 		args.putString(KEY_CODE_TF, codeTF);

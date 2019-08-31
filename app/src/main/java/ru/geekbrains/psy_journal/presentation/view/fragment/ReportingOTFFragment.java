@@ -79,7 +79,7 @@ public class ReportingOTFFragment extends AbstractFragment  implements Reporting
 		if (getActivity() == null) return;
 		getActivity().getSupportFragmentManager()
 			.beginTransaction()
-			.add(R.id.frame_master, ReportingTFFragment.newInstanceOfDetailedReport(codeTF, from, unto), TAG_REPORT_TF)
+			.add(R.id.frame_master, ReportingTFFragment.newInstance(codeTF, from, unto), TAG_REPORT_TF)
 			.addToBackStack(TAG_ADD_WORK)
 			.commit();
 	}

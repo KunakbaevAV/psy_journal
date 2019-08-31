@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.R;
-import ru.geekbrains.psy_journal.presentation.presenter.fragments.IRecyclerAllWorkPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.IRecyclerAllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.IViewHolder;
 
 public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHolder> implements Removable {
@@ -32,8 +32,7 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.position = position;
-        presenter.bindView(holder);
+        presenter.bindView(holder, position);
     }
 
     @Override
@@ -43,19 +42,15 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
 
     @Override
     public void delete(int position) {
-        presenter.onClickDelete(position);
-        notifyItemRemoved(position);
+        presenter.delete(position);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements IViewHolder, View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements
+	    IViewHolder,
+	    View.OnClickListener {
 
-        @BindView(R.id.date_layout)
-        TextView dateLayout;
-
-        @BindView(R.id.theme)
-        TextView themeLayout;
-
-        private int position = 0;
+        @BindView(R.id.date_layout) TextView dateLayout;
+        @BindView(R.id.theme) TextView themeLayout;
 
         private ViewHolder(final View view) {
             super(view);
@@ -70,13 +65,8 @@ public class AdapterAllWork extends RecyclerView.Adapter<AdapterAllWork.ViewHold
         }
 
         @Override
-        public int getPos() {
-            return position;
-        }
-
-        @Override
         public void onClick(View v) {
-            presenter.onClickUpdate(this);
+            presenter.selectItem(getAdapterPosition());
         }
     }
 }

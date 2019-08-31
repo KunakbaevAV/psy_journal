@@ -44,7 +44,7 @@ public abstract class EditableFragment extends AbstractFragment implements
 	public abstract String getListName(Context context);
 
 	@Override
-	void showRecycler() {
+	protected void showRecycler() {
 		super.showRecycler();
 		addButton.setOnClickListener(button -> openAddDialog());
 	}

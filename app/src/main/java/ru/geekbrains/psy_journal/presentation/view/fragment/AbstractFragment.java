@@ -23,7 +23,7 @@ public abstract class AbstractFragment extends MvpAppCompatFragment implements R
     @BindView(R.id.recycler_all_work) RecyclerView recycler;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
-	Unbinder unbinder;
+	protected Unbinder unbinder;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public abstract class AbstractFragment extends MvpAppCompatFragment implements R
         return view;
     }
 
-    void showRecycler() {
+    protected void showRecycler() {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.setHasFixedSize(true);
     }
