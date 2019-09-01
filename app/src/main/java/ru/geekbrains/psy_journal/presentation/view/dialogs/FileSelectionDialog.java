@@ -67,14 +67,14 @@ public class FileSelectionDialog extends AbstractDialog implements
 
 	private void initButton(){
 		hasPositiveButton(true);
-		setTextPositiveBut("Отправить");
+		setTextPositiveBut(getString(R.string.send));
 		hasNegativeButton(true);
 		setTextNegativeBut(getString(R.string.delete));
 	}
 
 	@Override
-	protected String getTitle() {
-		return "Выберите файлы отчета";
+	public String getTitle(Context context) {
+		return context.getString(R.string.select_report_files);
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class FileSelectionDialog extends AbstractDialog implements
 
 	@Override
 	public void showCurrentDirectory(String error) {
-		textView.setText(String.format("ошибка открытия папки \"Отчеты\", %s", error));
+		textView.setText(getString(R.string.error_opening_reports, error));
 	}
 
 	@Override

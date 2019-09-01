@@ -45,7 +45,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
         disposable = roomHelper.getListFullNames()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> getViewState().getNames(list),
-                        e -> Log.e("getNames: ", e.getMessage()));
+                        e -> Log.e("getNames: e", e.getMessage()));
     }
 
 	public void initialize(Journal journal){
@@ -77,7 +77,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		disposable = roomHelper.getItemWorkForm(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(workForm -> getViewState().showWorkForm(workForm.getName()),
-				e -> Log.e("getWorkForm: ", e.getMessage()));
+				e -> Log.e("getWorkForm: e", e.getMessage()));
 	}
 
 	private void getGroup(int id) {
@@ -85,7 +85,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		disposable = roomHelper.getItemGroup(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(group -> getViewState().showGroup(group.getName()),
-					e -> Log.e("getGroup: ", e.getMessage()));
+					e -> Log.e("getGroup: e", e.getMessage()));
 	}
 
 	private void getCategory(int id){
@@ -93,7 +93,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 		disposable = roomHelper.getItemCategory(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(category -> getViewState().showCategory(category.getName()),
-				e -> Log.e("getCategory: ", e.getMessage()));
+				e -> Log.e("getCategory: e", e.getMessage()));
 	}
 
 	public void addWorkIntoDatabase(){

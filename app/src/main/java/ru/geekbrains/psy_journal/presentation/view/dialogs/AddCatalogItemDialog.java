@@ -1,6 +1,7 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.LayoutInflater;
@@ -54,7 +55,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getTitle() {
+    public String getTitle(Context context) {
     	if (getArguments() != null){
     		return getArguments().getString(Constants.KEY_TITLE);
 	    }

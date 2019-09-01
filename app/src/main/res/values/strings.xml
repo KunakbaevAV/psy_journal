@@ -57,4 +57,7 @@
     <string name="Start_date_can_NOT_greater_than_end_date">Начальная дата НЕ может быть больше конечной</string>
     <string name="End_date_NOT_populated">Конечная дата НЕ заполнена</string>
     <string name="recall">Отзыв</string>
+    <string name="select_report_files">Выберите файлы отчета</string>
+    <string name="send">Отправить</string>
+    <string name="error_opening_reports">ошибка открытия папки \"Отчеты\", %s</string>
 </resources>

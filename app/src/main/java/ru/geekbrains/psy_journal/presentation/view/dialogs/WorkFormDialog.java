@@ -1,5 +1,6 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
+import android.content.Context;
 import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -32,13 +33,13 @@ public class WorkFormDialog extends EditableDialog {
 	}
 
 	@Override
-	protected String getTitle() {
-		return getResources().getString(R.string.choose_work_form);
+	public String getTitle(Context context) {
+		return context.getString(R.string.choose_work_form);
 	}
 
 	protected void onClickAddItem() {
 		if (getActivity() != null) {
-			String title = getTitle();
+			String title = getTitle(getActivity());
 			AddCatalogItemDialog dialog = AddCatalogItemDialog.newInstance(title);
 			dialog.setPresenter(workFormPresenter);
 			dialog.show(getActivity().getSupportFragmentManager(), Constants.TAG_ADD + title);

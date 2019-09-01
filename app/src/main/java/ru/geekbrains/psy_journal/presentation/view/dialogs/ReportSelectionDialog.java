@@ -1,35 +1,37 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
-import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.ReportSelectionPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.ReportSelectionView;
 import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableDate;
-import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableFunction;
 import ru.geekbrains.psy_journal.presentation.view.fragment.ReportingOTFFragment;
 
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 
 public class ReportSelectionDialog extends AbstractDialog implements
 	ReportSelectionView,
-	GivenBySettableDate,
-	GivenBySettableFunction {
+	GivenBySettableDate{
 
 	@BindView(R.id.otf_text) TextInputEditText otfView;
 	@BindView(R.id.report_date_begin_text) TextInputEditText fromView;
@@ -59,14 +61,17 @@ public class ReportSelectionDialog extends AbstractDialog implements
 	}
 
 	@Override
-	protected String getTitle() {
-		return getResources().getString(R.string.report_of_generalized_labor_functions);
+	public String getTitle(Context context) {
+		return context.getString(R.string.report_of_generalized_labor_functions);
 	}
 
 	private void initialize() {
 		if (getActivity() != null) {
-			otfView.setOnClickListener(v -> OTFDialog.newInstance(Constants.TAG_OTF_SELECTION)
-				.show(getActivity().getSupportFragmentManager(), getString(R.string.OTF)));
+			otfView.setOnClickListener(v -> {
+				OTFDialog otfDialog = new OTFDialog();
+				otfDialog.setSettableByFunction(selectionPresenter);
+				otfDialog.show(getActivity().getSupportFragmentManager(), otfDialog.getTitle(getActivity()));
+			});
 			fromView.setOnClickListener(v -> determineDate(true));
 			toView.setOnClickListener(v -> determineDate(false));
 			hasPositiveButton(true);
@@ -83,11 +88,6 @@ public class ReportSelectionDialog extends AbstractDialog implements
 
 	@Override
 	public SettableByDate getSettableByDate() {
-		return selectionPresenter;
-	}
-
-	@Override
-	public SettableByFunction getSettableByFunction() {
 		return selectionPresenter;
 	}
 

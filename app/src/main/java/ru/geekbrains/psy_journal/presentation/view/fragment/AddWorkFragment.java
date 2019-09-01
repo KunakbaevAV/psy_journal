@@ -40,7 +40,6 @@ import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.Collectable;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByDate;
-import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.AddWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AddWorkView;
 import ru.geekbrains.psy_journal.presentation.view.dialogs.CategoryDialog;
@@ -57,8 +56,7 @@ import ru.geekbrains.psy_journal.presentation.view.dialogs.WorkFormDialog;
 public class AddWorkFragment extends MvpAppCompatFragment implements
 	AddWorkView,
 	Collectable,
-	GivenBySettableDate,
-	GivenBySettableFunction {
+	GivenBySettableDate {
 
 	static AddWorkFragment newInstance(Journal journal) {
 		AddWorkFragment addWorkFragment = new AddWorkFragment();
@@ -125,12 +123,12 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	    dateText.setOnClickListener(v -> DateSettingDialog.newInstance(Constants.TAG_ADD_WORK).show(getActivity().getSupportFragmentManager(), Constants.TAG_DATE_PICKER));
         quantityPeople.setOnEditorActionListener(editorActionListener);
 	    workTimeText.setOnClickListener(v -> new TimeSettingDialog().show(getActivity().getSupportFragmentManager(), TAG_TIME_PICKER));
-		categoryText.setOnClickListener(v -> openCatalog(new CategoryDialog(), getString(R.string.choose_category)));
-		groupText.setOnClickListener(v -> openCatalog(new GroupDialog(), getString(R.string.choose_group)));
+		categoryText.setOnClickListener(v -> openCatalog(new CategoryDialog()));
+		groupText.setOnClickListener(v -> openCatalog(new GroupDialog()));
         declaredRequestText.setOnEditorActionListener(editorActionListener);
         realRequestText.setOnEditorActionListener(editorActionListener);
-		workFormText.setOnClickListener(v -> openCatalog(new WorkFormDialog(), getString(R.string.choose_work_form)));
-	    codeTfText.setOnClickListener(v -> openDialogue(OTFDialog.newInstance(Constants.TAG_ADD_WORK) , getString(R.string.OTF)));
+		workFormText.setOnClickListener(v -> openCatalog(new WorkFormDialog()));
+	    codeTfText.setOnClickListener(v -> openDialogue(new OTFDialog()));
     }
 
     private void setNumber(String string) {
@@ -184,16 +182,17 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 			workPresenter.getJournal().setComment(commentText.getText().toString());
 	}
 
-	private void openDialogue(FunctionDialog dialog, String title) {
+	private void openDialogue(FunctionDialog dialog) {
 		if (getActivity() != null) {
-			dialog.show(getActivity().getSupportFragmentManager(), title);
+			dialog.setSettableByFunction(workPresenter)
+				.show(getActivity().getSupportFragmentManager(), dialog.getTitle(getActivity()));
 		}
 	}
 
-	private void openCatalog(EditableDialog dialog, String title) {
+	private void openCatalog(EditableDialog dialog) {
 		if (getActivity() != null) {
 			dialog.setSettableByCatalog(workPresenter)
-				.show(getActivity().getSupportFragmentManager(), title);
+				.show(getActivity().getSupportFragmentManager(), dialog.getTitle(getActivity()));
 		}
 	}
 
@@ -290,11 +289,11 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 	@Override
 	public void openDialogue(Functional function) {
 		if (checkDialog(getString(R.string.OTF)) && !checkDialog(getString(R.string.TF))){
-			openDialogue(TFDialog.newInstance(function.getId(), Constants.TAG_ADD_WORK), getString(R.string.TF));
+			openDialogue(TFDialog.newInstance(function.getId()));
 			return;
 		}
 		if (checkDialog(getString(R.string.TF))){
-			openDialogue(TDDialog.newInstance(function.getId(), Constants.TAG_ADD_WORK), getString(R.string.TD));
+			openDialogue(TDDialog.newInstance(function.getId()));
 		}
 	}
 
@@ -319,11 +318,6 @@ public class AddWorkFragment extends MvpAppCompatFragment implements
 
 	@Override
 	public SettableByDate getSettableByDate() {
-		return workPresenter;
-	}
-
-	@Override
-	public SettableByFunction getSettableByFunction() {
 		return workPresenter;
 	}
 

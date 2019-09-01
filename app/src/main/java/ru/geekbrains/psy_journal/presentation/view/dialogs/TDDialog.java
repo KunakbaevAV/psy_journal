@@ -1,6 +1,8 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -8,42 +10,41 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.data.repositories.model.Functional;
-import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogFunctionPresenter;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogTDPresenter;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.FunctionDialogAdapter;
 
-public class TDDialog extends OTFDialog {
+public class TDDialog extends FunctionDialog {
 
-	public static TDDialog newInstance(int id, String tag){
-		TDDialog fragment = new TDDialog();
+	public static TDDialog newInstance(int id){
+		TDDialog dialog = new TDDialog();
 		Bundle args = new Bundle();
 		args.putInt(Constants.KEY_ID, id);
-		args.putString(Constants.KEY_TAG, tag);
-		fragment.setArguments(args);
-		return fragment;
+		dialog.setArguments(args);
+		return dialog;
 	}
 
-	@InjectPresenter
-	DialogFunctionPresenter functionPresenter;
+	@InjectPresenter DialogTDPresenter tdPresenter;
 
 	@ProvidePresenter
-	DialogFunctionPresenter providePresenter(){
+	DialogTDPresenter providePresenter(){
+		DialogTDPresenter tdPresenter = new DialogTDPresenter(settableByFunction);
+		App.getAppComponent().inject(tdPresenter);
 		if (getArguments() != null) {
-			int id = getArguments().getInt(Constants.KEY_ID);
-			DialogFunctionPresenter dialogFunctionPresenter = new DialogFunctionPresenter();
-			App.getAppComponent().inject(dialogFunctionPresenter);
-			dialogFunctionPresenter.getTD(id);
-			return dialogFunctionPresenter;
+			tdPresenter.getTD(getArguments().getInt(Constants.KEY_ID));
 		}
-		return new DialogFunctionPresenter();
+		return tdPresenter;
 	}
 
 	@Override
-	protected String getTitle() {
-		return getString(R.string.TD);
+	protected View createView(){
+		View view = super.createView();
+		adapter = new FunctionDialogAdapter(tdPresenter);
+		recyclerView.setAdapter(adapter);
+		return view;
 	}
 
 	@Override
-	public void openNewFeature(Functional function) {
-		settableByFunction.setFunction(function, true);
+	public String getTitle(Context context) {
+		return context.getString(R.string.TD);
 	}
 }

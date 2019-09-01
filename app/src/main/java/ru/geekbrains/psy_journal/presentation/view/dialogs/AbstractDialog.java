@@ -1,6 +1,7 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -43,7 +44,7 @@ abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		if (getActivity() == null) return super.onCreateDialog(savedInstanceState);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-			.setTitle(getTitle())
+			.setTitle(getTitle(getActivity()))
 				.setView(createView());
 			if (isPositiveButton) builder.setPositiveButton(textPositiveBut, null);
 			if (isNegativeButton) builder.setNegativeButton(textNegativeBut, null);
@@ -52,7 +53,7 @@ abstract class AbstractDialog extends MvpAppCompatDialogFragment {
 
 	protected abstract View createView();
 
-	protected abstract String getTitle();
+	public abstract String getTitle(Context context);
 
 	@Override
 	public void onCancel(@NonNull DialogInterface dialog) {

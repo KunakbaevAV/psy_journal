@@ -1,57 +1,38 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
+import android.content.Context;
+import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
-import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.di.App;
-import ru.geekbrains.psy_journal.data.repositories.model.Functional;
-import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogFunctionPresenter;
-import ru.geekbrains.psy_journal.presentation.view.fragment.GivenBySettableFunction;
+import ru.geekbrains.psy_journal.presentation.presenter.dialogs.DialogOTFPresenter;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.adapters.FunctionDialogAdapter;
 
 public class OTFDialog extends FunctionDialog{
 
-	public static OTFDialog newInstance(String tag){
-		OTFDialog fragment = new OTFDialog();
-		Bundle args = new Bundle();
-		args.putString(Constants.KEY_TAG, tag);
-		fragment.setArguments(args);
-		return fragment;
-	}
-
-	@InjectPresenter DialogFunctionPresenter functionPresenter;
+	@InjectPresenter DialogOTFPresenter otfPresenter;
 
 	@ProvidePresenter
-	DialogFunctionPresenter providePresenter(){
-		DialogFunctionPresenter dialogFunctionPresenter = new DialogFunctionPresenter();
-		App.getAppComponent().inject(dialogFunctionPresenter);
-		dialogFunctionPresenter.getOTF();
-		return dialogFunctionPresenter;
+	DialogOTFPresenter providePresenter(){
+		DialogOTFPresenter otfPresenter = new DialogOTFPresenter(settableByFunction);
+		App.getAppComponent().inject(otfPresenter);
+		otfPresenter.getOTF();
+		return otfPresenter;
 	}
 
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (getActivity() == null) return;
-		if (getArguments() != null){
-			String tag = getArguments().getString(Constants.KEY_TAG);
-			GivenBySettableFunction bySelectableFunction = (GivenBySettableFunction) getActivity().getSupportFragmentManager().findFragmentByTag(tag);
-			if (bySelectableFunction != null) settableByFunction = bySelectableFunction.getSettableByFunction();
-		}
+	protected View createView(){
+		View view = super.createView();
+		adapter = new FunctionDialogAdapter(otfPresenter);
+		recyclerView.setAdapter(adapter);
+		return view;
 	}
 
 	@Override
-	protected String getTitle() {
-		return getString(R.string.OTF);
-	}
-
-	@Override
-	public void openNewFeature(Functional function) {
-		settableByFunction.setFunction(function, false);
+	public String getTitle(Context context) {
+		return context.getString(R.string.OTF);
 	}
 }

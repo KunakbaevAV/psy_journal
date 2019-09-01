@@ -14,11 +14,11 @@ import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.presenter.dialogs.Bindable;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 
-public class DialogAdapter extends RecyclerView.Adapter{
+public class FunctionDialogAdapter extends RecyclerView.Adapter{
 
 	private final Bindable bindable;
 
-	public DialogAdapter(Bindable bindable) {
+	public FunctionDialogAdapter(Bindable bindable) {
 		this.bindable = bindable;
 	}
 
