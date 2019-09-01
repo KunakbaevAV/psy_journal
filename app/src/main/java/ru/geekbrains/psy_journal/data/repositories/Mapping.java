@@ -5,33 +5,47 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.data.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.data.database.dao.GroupDao;
 import ru.geekbrains.psy_journal.data.database.dao.JournalDao;
 import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
+import ru.geekbrains.psy_journal.data.repositories.model.Category;
+import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
+import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 
-public class Mapping {
+public class Mapping implements StorableReportingJournals{
 
-    @Inject
-    CategoryDao categoryDao;
-
-    @Inject
-    GroupDao groupDao;
-
-    @Inject
-    WorkFormDao workFormDao;
-
-    @Inject
-    JournalDao journalDao;
+    @Inject CategoryDao categoryDao;
+    @Inject GroupDao groupDao;
+    @Inject WorkFormDao workFormDao;
+    @Inject JournalDao journalDao;
 
     public Mapping() {
         App.getAppComponent().inject(this);
     }
 
-    List<ReportingJournal> getListReportingJournal() {
+	/**
+	 * Метод получения из БД списка {@link ReportingJournal}
+	 * с подставлением нужных значений из сущностей:
+	 * {@link Journal}
+	 * {@link Category}
+	 * {@link Group}
+	 * {@link WorkForm}
+	 *
+	 * @return список {@link ReportingJournal}
+	 */
+	@Override
+	public Single<List<ReportingJournal>> getListReportingJournals() {
+		return Single.fromCallable(this::getListReportingJournal)
+			.subscribeOn(Schedulers.io());
+	}
+
+    private List<ReportingJournal> getListReportingJournal() {
         List<ReportingJournal> reportingJournalList = new ArrayList<>();
         List<Journal> journalList = new ArrayList<>(journalDao.getAllSimple());
         for (Journal j : journalList) {

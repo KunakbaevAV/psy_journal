@@ -7,7 +7,7 @@ import java.util.List;
 
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.data.files.LoadableDataBase;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.Loadable;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.data.repositories.model.OTF;
@@ -15,7 +15,8 @@ import ru.geekbrains.psy_journal.data.repositories.model.TD;
 import ru.geekbrains.psy_journal.data.repositories.model.TF;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 
-import static ru.geekbrains.psy_journal.Constants.*;
+import static ru.geekbrains.psy_journal.Constants.CODE_OF_OTHER_ACTIVITY_SUFFIX;
+import static ru.geekbrains.psy_journal.Constants.NAME_OF_OTHER_ACTIVITY;
 
 /**
  * класс загрузки данных в базу
@@ -28,7 +29,7 @@ public class DataBaseLoader implements LoadableDataBase {
     private final List<Category> categoryList = new ArrayList<>();
     private final List<Group> groupList = new ArrayList<>();
     private final List<WorkForm> workFormList = new ArrayList<>();
-	private final RoomHelper roomHelper;
+	private final Loadable loadable;
 	private final Context context;
 
 	@Override
@@ -46,31 +47,31 @@ public class DataBaseLoader implements LoadableDataBase {
 		return tdList;
 	}
 
-	public DataBaseLoader(Context context, RoomHelper roomHelper) {
+	public DataBaseLoader(Context context, Loadable loadable) {
 		this.context = context;
-        this.roomHelper = roomHelper;
+        this.loadable = loadable;
     }
 
 	@Override
     public void initDataBase() {
-        roomHelper.initializeOTF(otfList);
-        roomHelper.initializeTF(tfList);
-        roomHelper.initializeTD(tdList);
+        loadable.initializeOTF(otfList);
+        loadable.initializeTF(tfList);
+        loadable.initializeTD(tdList);
 
         initCategoryList();
-        roomHelper.initializeCategory(categoryList);
+        loadable.initializeCategory(categoryList);
         initGroupList();
-        roomHelper.initializeGroup(groupList);
+        loadable.initializeGroup(groupList);
         initWorkFormList();
-        roomHelper.initializeWorkForms(workFormList);
+        loadable.initializeWorkForms(workFormList);
         addOtherWorkActivities();
     }
 
 	@Override
 	public void updateDataBase() {
-		roomHelper.initializeOTF(otfList);
-		roomHelper.initializeTF(tfList);
-		roomHelper.initializeTD(tdList);
+		loadable.initializeOTF(otfList);
+		loadable.initializeTF(tfList);
+		loadable.initializeTD(tdList);
 		addOtherWorkActivities();
 	}
 

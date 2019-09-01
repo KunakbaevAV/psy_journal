@@ -5,10 +5,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.disposables.Disposable;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.presentation.presenter.Editable;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
@@ -16,8 +13,6 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.Editable
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 
 public abstract class EditableCatalogPresenter extends MvpPresenter<EditableView> {
-
-	@Inject RoomHelper roomHelper;
 
 	final List<Catalog> catalogList = new ArrayList<>();
 	final List<Catalog> oldCatalogList = new ArrayList<>();

@@ -4,7 +4,10 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.geekbrains.psy_journal.data.repositories.StorableWorkForm;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
@@ -14,6 +17,8 @@ import static ru.geekbrains.psy_journal.Constants.TAG;
 
 @InjectViewState
 public class EditableWorkFormPresenter extends EditableCatalogPresenter {
+
+	@Inject StorableWorkForm storableWorkForm;
 
 	public EditableWorkFormPresenter(SettableByCatalog settableByCatalog) {
 		this.settableByCatalog = settableByCatalog;
@@ -38,7 +43,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 
 	public void getWorkForm() {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getListWorkForms()
+		disposable = storableWorkForm.getListWorkForms()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(list -> {
 					catalogList.addAll(list);
@@ -54,7 +59,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 	@Override
 	protected void removeCatalog(Catalog catalog) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.deleteItemWorkForm((WorkForm) catalog)
+		disposable = storableWorkForm.deleteItemWorkForm((WorkForm) catalog)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> ifRequestSuccess(oldCatalogList, catalogList),
 				e -> {
@@ -68,7 +73,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 	protected void changeNameCatalog(Catalog catalog, int pos) {
 		WorkForm workForm = (WorkForm) catalog;
 		getViewState().showProgressBar();
-		disposable = roomHelper.updateItemWorkForm(workForm)
+		disposable = storableWorkForm.updateItemWorkForm(workForm)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> {
 					catalogList.set(pos, workForm);
@@ -84,7 +89,7 @@ public class EditableWorkFormPresenter extends EditableCatalogPresenter {
 	@Override
 	public void addCatalog(String name) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getAddedWorkFormItem(name)
+		disposable = storableWorkForm.getAddedWorkFormItem(name)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(workForm -> {
 					if (adapterPresenter.isEditable()){

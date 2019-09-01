@@ -4,7 +4,10 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.geekbrains.psy_journal.data.repositories.StorableGroup;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
@@ -14,6 +17,8 @@ import static ru.geekbrains.psy_journal.Constants.TAG;
 
 @InjectViewState
 public class EditableGroupPresenter extends EditableCatalogPresenter {
+
+	@Inject	StorableGroup storableGroup;
 
 	public EditableGroupPresenter(SettableByCatalog settableByCatalog) {
 		this.settableByCatalog = settableByCatalog;
@@ -38,7 +43,7 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 
 	public void getGroup() {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getListGroups()
+		disposable = storableGroup.getListGroups()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(list -> {
 					catalogList.addAll(list);
@@ -54,7 +59,7 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 	@Override
 	protected void removeCatalog(Catalog catalog) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.deleteItemGroup((Group) catalog)
+		disposable = storableGroup.deleteItemGroup((Group) catalog)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> ifRequestSuccess(oldCatalogList, catalogList),
 				e -> {
@@ -68,7 +73,7 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 	protected void changeNameCatalog(Catalog catalog, int pos) {
 		Group group = (Group) catalog;
 		getViewState().showProgressBar();
-		disposable = roomHelper.updateItemGroup(group)
+		disposable = storableGroup.updateItemGroup(group)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> {
 					catalogList.set(pos, group);
@@ -84,7 +89,7 @@ public class EditableGroupPresenter extends EditableCatalogPresenter {
 	@Override
 	public void addCatalog(String name) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getAddedGroupItem(name)
+		disposable = storableGroup.getAddedGroupItem(name)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(group -> {
 					if (adapterPresenter.isEditable()){

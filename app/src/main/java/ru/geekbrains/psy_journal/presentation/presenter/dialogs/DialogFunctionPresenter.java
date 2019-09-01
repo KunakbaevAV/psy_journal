@@ -5,18 +5,13 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.disposables.Disposable;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.Displayed;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.RecycleringView;
 
 public abstract class DialogFunctionPresenter extends MvpPresenter<RecycleringView> implements Bindable {
-
-	@Inject	RoomHelper roomHelper;
 
 	protected final List<Functional> list = new ArrayList<>();
 	protected final SettableByFunction settableByFunction;

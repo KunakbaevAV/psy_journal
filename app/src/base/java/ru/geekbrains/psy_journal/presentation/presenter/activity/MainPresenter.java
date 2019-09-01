@@ -2,13 +2,14 @@ package ru.geekbrains.psy_journal.presentation.presenter.activity;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.StorableReportingJournals;
 import ru.geekbrains.psy_journal.domain.file.CreatedByExcel;
 import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.InformedView;
@@ -16,13 +17,13 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.InformedView;
 @InjectViewState
 public class MainPresenter extends MvpPresenter<InformedView> {
 
-	@Inject	RoomHelper roomHelper;
+	@Inject	StorableReportingJournals reportingJournals;
     @Inject CreatedByExcel excel;
 
     private Disposable disposable;
 
     public void createExcelFile(String nameReport) {
-        disposable = roomHelper.getListReportingJournal()
+        disposable = reportingJournals.getListReportingJournals()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(list -> getReport(list, nameReport),
                 e -> getViewState().showStatusWriteReport(null, e.getMessage()));

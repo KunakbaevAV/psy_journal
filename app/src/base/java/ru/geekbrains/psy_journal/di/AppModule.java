@@ -12,8 +12,6 @@ import dagger.Provides;
 import ru.geekbrains.psy_journal.data.database.DataBaseLoader;
 import ru.geekbrains.psy_journal.data.database.dao.AddedCatalogDao;
 import ru.geekbrains.psy_journal.data.database.dao.AppDatabase;
-import ru.geekbrains.psy_journal.data.files.LoadableDataBase;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
 import ru.geekbrains.psy_journal.data.database.dao.CategoryDao;
 import ru.geekbrains.psy_journal.data.database.dao.GroupDao;
 import ru.geekbrains.psy_journal.data.database.dao.JournalDao;
@@ -22,7 +20,18 @@ import ru.geekbrains.psy_journal.data.database.dao.ReportDao;
 import ru.geekbrains.psy_journal.data.database.dao.TDDao;
 import ru.geekbrains.psy_journal.data.database.dao.TFDao;
 import ru.geekbrains.psy_journal.data.database.dao.WorkFormDao;
+import ru.geekbrains.psy_journal.data.files.LoadableDataBase;
+import ru.geekbrains.psy_journal.data.repositories.Loadable;
 import ru.geekbrains.psy_journal.data.repositories.Mapping;
+import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.StorableCategory;
+import ru.geekbrains.psy_journal.data.repositories.StorableGroup;
+import ru.geekbrains.psy_journal.data.repositories.StorableJournal;
+import ru.geekbrains.psy_journal.data.repositories.StorableOTF;
+import ru.geekbrains.psy_journal.data.repositories.StorableReportingJournals;
+import ru.geekbrains.psy_journal.data.repositories.StorableTD;
+import ru.geekbrains.psy_journal.data.repositories.StorableTF;
+import ru.geekbrains.psy_journal.data.repositories.StorableWorkForm;
 
 import static ru.geekbrains.psy_journal.Constants.DATABASE_NAME;
 
@@ -88,8 +97,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    LoadableDataBase provideLoadableDataBase(RoomHelper roomHelper) {
-        return new DataBaseLoader(context, roomHelper);
+    LoadableDataBase provideLoadableDataBase(Loadable loadable) {
+        return new DataBaseLoader(context, loadable);
     }
 
     @Provides
@@ -98,9 +107,58 @@ public class AppModule {
     }
 
     @Provides
-    Mapping getMapping() {
+    @Singleton
+    StorableReportingJournals provideMapping() {
         return new Mapping();
     }
+
+	@Provides
+	@Singleton
+	StorableCategory provideStorableCategory(RoomHelper roomHelper){
+    	return roomHelper;
+	}
+
+	@Provides
+	@Singleton
+	Loadable provideLoadable(RoomHelper roomHelper){
+		return roomHelper;
+	}
+
+	@Provides
+	@Singleton
+	StorableGroup provideStorableGroup(RoomHelper roomHelper){
+		return roomHelper;
+	}
+
+	@Provides
+	@Singleton
+	StorableWorkForm provideStorableWorkForm(RoomHelper roomHelper){
+		return roomHelper;
+	}
+
+	@Provides
+	@Singleton
+	StorableJournal provideStorableJournal(RoomHelper roomHelper){
+		return roomHelper;
+	}
+
+	@Provides
+	@Singleton
+	StorableOTF provideStorableOTF(RoomHelper roomHelper){
+		return roomHelper;
+	}
+
+	@Provides
+	@Singleton
+	StorableTF provideStorableTF(RoomHelper roomHelper){
+		return roomHelper;
+	}
+
+	@Provides
+	@Singleton
+	StorableTD provideStorableTD(RoomHelper roomHelper){
+		return roomHelper;
+	}
 
 	@Provides
 	@Singleton

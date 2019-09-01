@@ -12,7 +12,8 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.StorableTD;
+import ru.geekbrains.psy_journal.data.repositories.StorableTF;
 import ru.geekbrains.psy_journal.domain.models.ReportData;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.ReportingView;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewholders.ReportRelated;
@@ -21,8 +22,8 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.viewho
 @InjectViewState
 public class ReportPresenter extends MvpPresenter<ReportingView> {
 
-    @Inject
-    RoomHelper roomHelper;
+    @Inject StorableTF storableTF;
+	@Inject StorableTD storableTD;
 
     private Disposable disposable;
 
@@ -39,7 +40,7 @@ public class ReportPresenter extends MvpPresenter<ReportingView> {
         this.from = from;
         this.unto = unto;
         getViewState().showProgressBar();
-        disposable = roomHelper.getReport(idOTF, from, unto)
+        disposable = storableTF.getReport(idOTF, from, unto)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(reports -> {
                             list.addAll(reports);
@@ -58,7 +59,7 @@ public class ReportPresenter extends MvpPresenter<ReportingView> {
 
     public void showReportByTF(String codeTF, long from, long unto) {
         getViewState().showProgressBar();
-        disposable = roomHelper.getReportByTF(codeTF, from, unto)
+        disposable = storableTD.getReportByTF(codeTF, from, unto)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(reports -> {
                             list.clear();

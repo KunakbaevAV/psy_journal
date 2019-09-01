@@ -29,7 +29,6 @@ import ru.geekbrains.psy_journal.data.repositories.model.TF;
 import ru.geekbrains.psy_journal.data.repositories.model.WorkForm;
 import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.domain.models.ReportData;
-import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_ERROR;
 import static ru.geekbrains.psy_journal.Constants.DB_ADD_GOOD;
@@ -37,40 +36,27 @@ import static ru.geekbrains.psy_journal.Constants.DB_LOGS;
 /**
  * Организация работы с базой данный в дополнительном потоке
  */
-public class RoomHelper {
+public class RoomHelper implements
+	Loadable,
+	StorableCategory,
+	StorableGroup,
+	StorableWorkForm,
+	StorableJournal,
+	StorableOTF,
+	StorableTF,
+	StorableTD,
+	Cleanable{
 
-    @Inject
-    JournalDao journalDao;
-
-    @Inject
-    OTFDao otfDao;
-
-    @Inject
-    TFDao tfDao;
-
-    @Inject
-    TDDao tdDao;
-
-    @Inject
-    CategoryDao categoryDao;
-
-    @Inject
-    GroupDao groupDao;
-
-    @Inject
-    WorkFormDao workFormDao;
-
-    @Inject
-    ReportDao reportDao;
-
-    @Inject
-    Mapping mapping;
-
-    @Inject
-	TableCleaningDao tableCleaningDao;
-
-    @Inject
-	AddedCatalogDao addedCatalogDao;
+    @Inject JournalDao journalDao;
+    @Inject OTFDao otfDao;
+    @Inject TFDao tfDao;
+    @Inject TDDao tdDao;
+    @Inject CategoryDao categoryDao;
+    @Inject GroupDao groupDao;
+    @Inject WorkFormDao workFormDao;
+    @Inject ReportDao reportDao;
+    @Inject TableCleaningDao tableCleaningDao;
+    @Inject AddedCatalogDao addedCatalogDao;
 
     public RoomHelper() {
         App.getAppComponent().inject(this);
@@ -529,22 +515,6 @@ public class RoomHelper {
      */
     public Single<List<String>> getListFullNames() {
         return journalDao.getListFullNames().subscribeOn(Schedulers.io());
-    }
-
-    /**
-     * Метод получения из БД списка {@link ReportingJournal}
-     * с подставлением нужных значений из сущностей:
-     * {@link Journal}
-     * {@link Category}
-     * {@link Group}
-     * {@link WorkForm}
-     *
-     * @return список {@link ReportingJournal}
-     */
-    public Single<List<ReportingJournal>> getListReportingJournal() {
-        return Single.fromCallable(
-                () -> mapping.getListReportingJournal()
-        ).subscribeOn(Schedulers.io());
     }
 
     /**

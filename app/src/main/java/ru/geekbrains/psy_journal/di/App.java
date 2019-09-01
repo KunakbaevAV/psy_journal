@@ -52,9 +52,7 @@ public class App extends Application {
 		XmlPullParser parser = getResources().getXml(R.xml.default_functions);
 		try {
 			new FileXMLLoader(loadableDataBase, parser).loadByDefault();
-		} catch (XmlPullParserException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (XmlPullParserException | IOException e) {
 			e.printStackTrace();
 		}
 	}

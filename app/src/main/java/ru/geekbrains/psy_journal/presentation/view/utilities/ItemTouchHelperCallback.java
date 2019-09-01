@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.SparseArray;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,10 +15,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 import ru.geekbrains.psy_journal.R;
@@ -32,7 +31,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
     private GestureDetector gestureDetector;
     private int swipedPos = -1;
     private float swipeThreshold = 0.5f;
-    private Map<Integer, List<UnderlayButton>> buttonsBuffer;
+    private SparseArray<List<UnderlayButton>> buttonsBuffer;
     private Queue<Integer> recoverQueue;
 
     private final GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
@@ -82,7 +81,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
         this.buttons = new ArrayList<>();
         this.gestureDetector = new GestureDetector(context, gestureListener);
         this.recyclerView.setOnTouchListener(onTouchListener);
-        buttonsBuffer = new HashMap<>();
+        buttonsBuffer = new SparseArray<>();
         recoverQueue = new LinkedList<Integer>() {
             @Override
             public boolean add(Integer o) {
@@ -107,7 +106,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
             recoverQueue.add(swipedPos);
         }
         swipedPos = pos;
-        if (buttonsBuffer.containsKey(swipedPos)) {
+        if (buttonsBuffer.indexOfKey(swipedPos) >= 0) {
             buttons = buttonsBuffer.get(swipedPos);
         } else {
             buttons.clear();
@@ -153,9 +152,9 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
         }
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE && dX < 0) {
             List<UnderlayButton> buffer = new ArrayList<>();
-            if (!buttonsBuffer.containsKey(pos)) {
+            if (buttonsBuffer.indexOfKey(pos) < 0) {
                 createUnderlayButton(viewHolder, buffer);
-                buttonsBuffer.put(pos, buffer);
+                buttonsBuffer.append(pos, buffer);
             } else {
                 buffer = buttonsBuffer.get(pos);
             }

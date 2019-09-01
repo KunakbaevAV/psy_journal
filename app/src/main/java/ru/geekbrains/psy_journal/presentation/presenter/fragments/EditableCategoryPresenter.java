@@ -4,7 +4,10 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.geekbrains.psy_journal.data.repositories.StorableCategory;
 import ru.geekbrains.psy_journal.data.repositories.model.Catalog;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByCatalog;
@@ -14,6 +17,8 @@ import static ru.geekbrains.psy_journal.Constants.TAG;
 
 @InjectViewState
 public class EditableCategoryPresenter extends EditableCatalogPresenter {
+
+	@Inject StorableCategory storableCategory;
 
 	public EditableCategoryPresenter(SettableByCatalog settableByCatalog) {
 		this.settableByCatalog = settableByCatalog;
@@ -38,7 +43,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 
 	public void getCategory() {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getListCategory()
+		disposable = storableCategory.getListCategory()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(list -> {
 					catalogList.addAll(list);
@@ -54,7 +59,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 	@Override
 	protected void removeCatalog(Catalog catalog) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.deleteItemCategory((Category) catalog)
+		disposable = storableCategory.deleteItemCategory((Category) catalog)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> ifRequestSuccess(oldCatalogList, catalogList),
 				e -> {
@@ -68,7 +73,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 	protected void changeNameCatalog(Catalog catalog, int pos) {
 		Category category = (Category) catalog;
 		getViewState().showProgressBar();
-		disposable = roomHelper.updateItemCategory(category)
+		disposable = storableCategory.updateItemCategory(category)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> {
 					catalogList.set(pos, category);
@@ -84,7 +89,7 @@ public class EditableCategoryPresenter extends EditableCatalogPresenter {
 	@Override
 	public void addCatalog(String name) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getAddedCategoryItem(name)
+		disposable = storableCategory.getAddedCategoryItem(name)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(category -> {
 					if (adapterPresenter.isEditable()){

@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.Constants;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.StorableJournal;
 import ru.geekbrains.psy_journal.data.repositories.model.Journal;
 import ru.geekbrains.psy_journal.presentation.presenter.IRecyclerAllWorkPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
@@ -27,7 +27,7 @@ import static ru.geekbrains.psy_journal.Constants.ERROR_LOADING_DATA_FROM_DATABA
 @InjectViewState
 public class AllWorkPresenter extends MvpPresenter<AllWorkView> implements Updated {
 
-    @Inject RoomHelper roomHelper;
+    @Inject	StorableJournal storableJournal;
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.PATTERN_DATE, Locale.getDefault());
     private final RecyclerAllWorkPresenter recyclerAllWorkPresenter;
     private final List<Journal> listWorks;
@@ -58,7 +58,7 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> implements Updat
 
     private void showAllWorkRecycler() {
         getViewState().showProgressBar();
-	    disposable = roomHelper.getJournalList()
+	    disposable = storableJournal.getJournalList()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(journalList -> {
                 listWorks.addAll(journalList);
@@ -72,7 +72,7 @@ public class AllWorkPresenter extends MvpPresenter<AllWorkView> implements Updat
 
 	private void deleteItemJournalFromDatabase(int position) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.deleteItemJournal(listWorks.get(position))
+		disposable = storableJournal.deleteItemJournal(listWorks.get(position))
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() -> {
 					listWorks.remove(position);

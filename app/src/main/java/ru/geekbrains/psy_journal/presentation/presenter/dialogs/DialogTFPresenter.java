@@ -4,13 +4,18 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.psy_journal.Constants;
+import ru.geekbrains.psy_journal.data.repositories.StorableTF;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
 
 @InjectViewState
 public class DialogTFPresenter extends DialogFunctionPresenter {
+
+	@Inject StorableTF storableTF;
 
 	public DialogTFPresenter(SettableByFunction settableByFunction) {
 		super(settableByFunction);
@@ -18,7 +23,7 @@ public class DialogTFPresenter extends DialogFunctionPresenter {
 
 	public void getTF(int idOTF) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getTFList(idOTF)
+		disposable = storableTF.getTFList(idOTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tfs -> {
 				list.addAll(tfs);

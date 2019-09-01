@@ -4,12 +4,16 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.geekbrains.psy_journal.data.repositories.StorableTD;
 import ru.geekbrains.psy_journal.presentation.presenter.SettableByFunction;
 
 @InjectViewState
 public class DialogTDPresenter extends DialogFunctionPresenter {
 
+	@Inject	StorableTD storableTD;
 
 	public DialogTDPresenter(SettableByFunction settableByFunction) {
 		super(settableByFunction);
@@ -17,7 +21,7 @@ public class DialogTDPresenter extends DialogFunctionPresenter {
 
 	public void getTD(int idTF) {
 		getViewState().showProgressBar();
-		disposable = roomHelper.getTDList(idTF)
+		disposable = storableTD.getTDList(idTF)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(tds -> {
 				list.addAll(tds);

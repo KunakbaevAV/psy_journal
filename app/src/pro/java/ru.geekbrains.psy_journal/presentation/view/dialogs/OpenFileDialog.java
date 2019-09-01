@@ -1,5 +1,7 @@
 package ru.geekbrains.psy_journal.presentation.view.dialogs;
 
+import android.content.Context;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
@@ -28,8 +30,8 @@ public class OpenFileDialog extends FileSelectionDialog {
 	}
 
     @Override
-    protected String getTitle() {
-        return getResources().getString(R.string.select_file);
+    public String getTitle(Context context) {
+        return context.getString(R.string.select_file);
     }
 
 	@Override

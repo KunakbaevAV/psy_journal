@@ -14,7 +14,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.data.files.FileXMLLoader;
 import ru.geekbrains.psy_journal.data.files.LoadableDataBase;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.Cleanable;
+import ru.geekbrains.psy_journal.data.repositories.StorableReportingJournals;
 import ru.geekbrains.psy_journal.domain.file.CreatedByExcel;
 import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.InformedView;
@@ -22,7 +23,8 @@ import ru.geekbrains.psy_journal.presentation.presenter.view_ui.activity.Informe
 @InjectViewState
 public class MainPresenter extends MvpPresenter<InformedView> {
 
-	@Inject RoomHelper roomHelper;
+	@Inject StorableReportingJournals reportingJournals;
+	@Inject Cleanable cleanable;
     @Inject CreatedByExcel excel;
     @Inject LoadableDataBase loadableDataBase;
 
@@ -49,7 +51,7 @@ public class MainPresenter extends MvpPresenter<InformedView> {
 
     private void clearDataBase(){
     	if (file == null) return;
-		disposable = roomHelper.clearDatabases()
+		disposable = cleanable.clearDatabases()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(() ->{
 				getViewState().showStatusClearDatabase(null);
@@ -81,7 +83,7 @@ public class MainPresenter extends MvpPresenter<InformedView> {
 	}
 
     public void createExcelFile(String nameReport) {
-        disposable = roomHelper.getListReportingJournal()
+        disposable = reportingJournals.getListReportingJournals()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(list -> getReport(list, nameReport),
                 e -> {

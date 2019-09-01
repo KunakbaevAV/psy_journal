@@ -10,7 +10,10 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.psy_journal.Constants;
-import ru.geekbrains.psy_journal.data.repositories.RoomHelper;
+import ru.geekbrains.psy_journal.data.repositories.StorableCategory;
+import ru.geekbrains.psy_journal.data.repositories.StorableGroup;
+import ru.geekbrains.psy_journal.data.repositories.StorableJournal;
+import ru.geekbrains.psy_journal.data.repositories.StorableWorkForm;
 import ru.geekbrains.psy_journal.data.repositories.model.Category;
 import ru.geekbrains.psy_journal.data.repositories.model.Functional;
 import ru.geekbrains.psy_journal.data.repositories.model.Group;
@@ -29,20 +32,22 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 	SettableByFunction,
 	SettableByCatalog {
 
+	@Inject StorableJournal storableJournal;
+	@Inject StorableWorkForm storableWorkForm;
+	@Inject StorableGroup storableGroup;
+	@Inject StorableCategory storableCategory;
+
 	private static final float HOUR_IN_MINUTES = 60.0f;
 	private Journal journal;
 	private boolean isRepeated;
 	private Disposable disposable;
-
-	@Inject
-	RoomHelper roomHelper;
 
 	public Journal getJournal() {
 		return journal;
 	}
 
     private void getNames() {
-        disposable = roomHelper.getListFullNames()
+        disposable = storableJournal.getListFullNames()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> getViewState().getNames(list),
                         e -> Log.e("getNames: e", e.getMessage()));
@@ -74,7 +79,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	private void getWorkForm(int id){
 		if (id == 0) return;
-		disposable = roomHelper.getItemWorkForm(id)
+		disposable = storableWorkForm.getItemWorkForm(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(workForm -> getViewState().showWorkForm(workForm.getName()),
 				e -> Log.e("getWorkForm: e", e.getMessage()));
@@ -82,7 +87,7 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	private void getGroup(int id) {
 		if (id == 0) return;
-		disposable = roomHelper.getItemGroup(id)
+		disposable = storableGroup.getItemGroup(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(group -> getViewState().showGroup(group.getName()),
 					e -> Log.e("getGroup: e", e.getMessage()));
@@ -90,17 +95,17 @@ public class AddWorkPresenter extends MvpPresenter<AddWorkView> implements
 
 	private void getCategory(int id){
 		if (id == 0) return;
-		disposable = roomHelper.getItemCategory(id)
+		disposable = storableCategory.getItemCategory(id)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(category -> getViewState().showCategory(category.getName()),
 				e -> Log.e("getCategory: e", e.getMessage()));
 	}
 
 	public void addWorkIntoDatabase(){
-		if (isRepeated)	roomHelper.updateItemJournal(journal)
+		if (isRepeated)	storableJournal.updateItemJournal(journal)
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe();
-		else roomHelper.insertItemJournal(journal)
+		else storableJournal.insertItemJournal(journal)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe();
 	}
