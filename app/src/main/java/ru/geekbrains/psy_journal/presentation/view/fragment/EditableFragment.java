@@ -29,9 +29,11 @@ public abstract class EditableFragment extends AbstractFragment implements
 
 	@Override
 	public void updateRecyclerView(List<Catalog> oldList, List<Catalog> newList) {
-		CatalogDiffUtilCallback diffUtilCallback = new CatalogDiffUtilCallback(oldList, newList);
-		DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback, false);
-		diffResult.dispatchUpdatesTo(adapter);
+		recycler.post(() -> {
+				CatalogDiffUtilCallback diffUtilCallback = new CatalogDiffUtilCallback(oldList, newList);
+				DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback, false);
+				diffResult.dispatchUpdatesTo(adapter);
+			});
 	}
 
 	@Override

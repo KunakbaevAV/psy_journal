@@ -16,6 +16,7 @@ import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCatego
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableGroupPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableWorkFormPresenter;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.ReportPresenter;
+import ru.geekbrains.psy_journal.presentation.view.dialogs.AddCatalogItemDialog;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.EditableListsAdapter;
 
 @Singleton
@@ -51,4 +52,6 @@ public interface AppComponent {
 	void inject(EditableListsAdapter.ViewHolder viewHolder);
 
     void inject(SelectFileDialogPresenter presenter);
+
+    void inject(AddCatalogItemDialog dialog);
 }

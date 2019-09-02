@@ -12,7 +12,8 @@
         android:layout_gravity="start"
         android:layout_margin="@dimen/standardMargin"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="textAutoCorrect|textAutoComplete"
+        android:imeOptions="actionDone"
         android:textSize="22sp"
         android:hint="Добавить пункт"/>
 

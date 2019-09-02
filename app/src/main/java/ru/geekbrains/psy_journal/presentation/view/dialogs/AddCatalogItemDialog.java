@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -13,10 +15,13 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
+import ru.geekbrains.psy_journal.di.App;
 import ru.geekbrains.psy_journal.presentation.presenter.fragments.EditableCatalogPresenter;
 
 public class AddCatalogItemDialog extends AbstractDialog {
@@ -29,8 +34,10 @@ public class AddCatalogItemDialog extends AbstractDialog {
 		return itemDialog;
 	}
 
+	@Inject	InputMethodManager imm;
     @BindView(R.id.new_catalog_item) TextInputEditText catalogItem;
 
+    private boolean isShownKeyBoard;
 	private EditableCatalogPresenter catalogPresenter;
 
 	public void setPresenter(EditableCatalogPresenter catalogPresenter){
@@ -39,8 +46,8 @@ public class AddCatalogItemDialog extends AbstractDialog {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+	    App.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-        if (getActivity() == null) return;
         hasPositiveButton(true);
         setTextPositiveBut(getResources().getString(R.string.add_catalog_item));
     }
@@ -49,7 +56,7 @@ public class AddCatalogItemDialog extends AbstractDialog {
     protected View createView() {
         if (getActivity() == null) return null;
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_add_catalog_item, null);
+        View view = inflater.inflate(R.layout.item_add_catalog, null);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -71,7 +78,10 @@ public class AddCatalogItemDialog extends AbstractDialog {
             Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(v -> {
                 onClickAddItem();
-                dialog.dismiss();
+            });
+            catalogItem.post(() -> {
+	            isShownKeyBoard = imm.showSoftInput(catalogItem, InputMethodManager.SHOW_FORCED);
+	            setListenerKeyBoard();
             });
         }
     }
@@ -80,5 +90,24 @@ public class AddCatalogItemDialog extends AbstractDialog {
 	    Editable editable = catalogItem.getText();
     	if (editable == null || "".contentEquals(editable)) return;
         catalogPresenter.addCatalog(catalogItem.getText().toString());
+	    dismiss();
     }
+
+	private void setListenerKeyBoard(){
+		catalogItem.setOnEditorActionListener((v, actionId, event) -> {
+			if (actionId == EditorInfo.IME_ACTION_DONE) {
+				onClickAddItem();
+				return true;
+			}
+			return false;
+		});
+	}
+
+	@Override
+	public void dismiss() {
+		if (isShownKeyBoard){
+			imm.hideSoftInputFromWindow(catalogItem.getWindowToken(), 0);
+		}
+		super.dismiss();
+	}
 }
