@@ -19,7 +19,6 @@ import ru.geekbrains.psy_journal.presentation.presenter.fragments.Updated;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.fragments.AllWorkView;
 import ru.geekbrains.psy_journal.presentation.view.activities.MainActivity;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.AdapterAllWork;
-import ru.geekbrains.psy_journal.presentation.view.utilities.ItemTouchHelperCallback;
 
 import static ru.geekbrains.psy_journal.Constants.TAG_ADD_WORK;
 

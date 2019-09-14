@@ -2,200 +2,159 @@ package ru.geekbrains.psy_journal.presentation.view.utilities;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.SparseArray;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
+import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.R;
 import ru.geekbrains.psy_journal.presentation.view.fragment.adapters.Removable;
 
-public class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
+import static androidx.recyclerview.widget.ItemTouchHelper.END;
+import static androidx.recyclerview.widget.ItemTouchHelper.START;
 
-    private static final int BUTTON_WIDTH = 200;
-	private final Context context;
-    private final RecyclerView recyclerView;
-    private List<UnderlayButton> buttons;
-    private GestureDetector gestureDetector;
-    private int swipedPos = -1;
-    private float swipeThreshold = 0.5f;
-    private SparseArray<List<UnderlayButton>> buttonsBuffer;
-    private Queue<Integer> recoverQueue;
+public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    private final GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            for (UnderlayButton button : buttons) {
-                if (button.onClick(e.getX(), e.getY()))
-                    break;
-            }
-            return true;
-        }
-    };
+	private static final int TEXT_SIZE = 36;
+	private static final float SWIPE_THRESHOLD = 0.75f;
+	private final SparseArray<PlugInButton> buttons = new SparseArray<>();
+	private final Removable removable;
 
-    private final View.OnTouchListener onTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent e) {
-            if (swipedPos < 0) return false;
-            Point point = new Point((int) e.getRawX(), (int) e.getRawY());
-            RecyclerView.ViewHolder swipedViewHolder = recyclerView.findViewHolderForAdapterPosition(swipedPos);
-            if (swipedViewHolder == null) return false;
-            View swipedItem = swipedViewHolder.itemView;
-            Rect rect = new Rect();
-            swipedItem.getGlobalVisibleRect(rect);
-            if (e.getAction() == MotionEvent.ACTION_DOWN || e.getAction() == MotionEvent.ACTION_UP || e.getAction() == MotionEvent.ACTION_MOVE) {
-                if (rect.top < point.y && rect.bottom > point.y) {
-                    gestureDetector.onTouchEvent(e);
-                    view.performClick();
-                } else {
-                    recoverQueue.add(swipedPos);
-                    swipedPos = -1;
-                    recoverSwipedItem();
-                }
-            }
-            return false;
-        }
-    };
+	public ItemTouchHelperCallback(RecyclerView recyclerView) {
+		removable = (Removable) recyclerView.getAdapter();
+		recyclerView.setOnTouchListener((v, event) -> {
+			if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP ){
+				for (int i = 0; i < buttons.size(); i++) {
+					int position = buttons.keyAt(i);
+					if (buttons.get(position).onClick(event.getX(), event.getY())){
+						unfastenFromViewHolder(position);
+						removable.delete(position);
+						break;
+					}
+				}
+			}
+			return false;
+		});
+		attachSwipe(recyclerView);
+	}
 
-    public ItemTouchHelperCallback(RecyclerView recyclerView) {
-        super(0, ItemTouchHelper.LEFT);
-        this.recyclerView = recyclerView;
-        context = recyclerView.getContext();
-        initializeValues();
-        attachSwipe();
-    }
+	private void attachSwipe(RecyclerView recyclerView) {
+		ItemTouchHelper itemTouchHelper = new ItemTouchHelper(this);
+		itemTouchHelper.attachToRecyclerView(recyclerView);
+	}
 
-    private void initializeValues() {
-        this.buttons = new ArrayList<>();
-        this.gestureDetector = new GestureDetector(context, gestureListener);
-        this.recyclerView.setOnTouchListener(onTouchListener);
-        buttonsBuffer = new SparseArray<>();
-        recoverQueue = new LinkedList<Integer>() {
-            @Override
-            public boolean add(Integer o) {
-                if (contains(o)) {
-                    return false;
-                } else {
-                    return super.add(o);
-                }
-            }
-        };
-    }
+	@Override
+	public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+		int dragFlags = 0;
+		int swipeFlags = START | END;
+		return makeMovementFlags(dragFlags, swipeFlags);
+	}
 
-    @Override
-    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-        return false;
-    }
+	@Override
+	public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+		return false;
+	}
 
-    @Override
-    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        int pos = viewHolder.getAdapterPosition();
-        if (swipedPos != pos) {
-            recoverQueue.add(swipedPos);
-        }
-        swipedPos = pos;
-        if (buttonsBuffer.indexOfKey(swipedPos) >= 0) {
-            buttons = buttonsBuffer.get(swipedPos);
-        } else {
-            buttons.clear();
-        }
-        buttonsBuffer.clear();
-        swipeThreshold = 0.5f * buttons.size() * BUTTON_WIDTH;
-        recoverSwipedItem();
-    }
+	@Override
+	public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+	}
 
-    private synchronized void recoverSwipedItem() {
-        if (recyclerView.getAdapter() == null) return;
-        while (!recoverQueue.isEmpty()) {
-            int pos = recoverQueue.poll();
-            if (pos > -1) {
-                recyclerView.getAdapter().notifyItemChanged(pos);
-            }
-        }
-    }
+	@Override
+	public boolean isItemViewSwipeEnabled() {
+		return true;
+	}
 
-    @Override
-    public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
-        return swipeThreshold;
-    }
+	@Override
+	public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
+		return SWIPE_THRESHOLD;
+	}
 
-    @Override
-    public float getSwipeEscapeVelocity(float defaultValue) {
-        return 0.1f * defaultValue;
-    }
+	@Override
+	public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+		if (viewHolder == null) return;
+		if (!hasButton(viewHolder)){
+			attachToViewHolder(viewHolder);
+		}
+	}
 
-    @Override
-    public float getSwipeVelocityThreshold(float defaultValue) {
-        return 5.0f * defaultValue;
-    }
+	private boolean hasButton(RecyclerView.ViewHolder viewHolder){
+		if (viewHolder == null){
+			return false;
+		}
+		int position = viewHolder.getAdapterPosition();
+		return buttons.get(position) != null;
+	}
 
-    @Override
-    public void onChildDraw(@NonNull Canvas canvas, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        int pos = viewHolder.getAdapterPosition();
-        float translationX = dX;
-        View itemView = viewHolder.itemView;
-        if (pos < 0) {
-            swipedPos = pos;
-            return;
-        }
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE && dX < 0) {
-            List<UnderlayButton> buffer = new ArrayList<>();
-            if (buttonsBuffer.indexOfKey(pos) < 0) {
-                createUnderlayButton(viewHolder, buffer);
-                buttonsBuffer.append(pos, buffer);
-            } else {
-                buffer = buttonsBuffer.get(pos);
-            }
-            if (buffer == null) return;
-            translationX = dX * buffer.size() * BUTTON_WIDTH / itemView.getWidth();
-            drawButtons(canvas, itemView, buffer, pos, translationX);
-        }
-        super.onChildDraw(canvas, recyclerView, viewHolder, translationX, dY, actionState, isCurrentlyActive);
-    }
+	private void attachToViewHolder(@NonNull RecyclerView.ViewHolder viewHolder){
+		int index = viewHolder.getAdapterPosition();
+		PlugInButton button = createButton(viewHolder);
+		buttons.append(index, button);
+	}
 
-    private void drawButtons(Canvas canvas, View itemView, List<UnderlayButton> buffer, int pos, float dX) {
-        float right = itemView.getRight();
-        float dButtonWidth = (-1) * dX / buffer.size();
-        for (UnderlayButton button : buffer) {
-            float left = right - dButtonWidth;
-            button.onDraw(canvas,
-                    new RectF(left, itemView.getTop(), right, itemView.getBottom()),
-                    pos
-            );
-            right = left;
-        }
-    }
+	private PlugInButton createButton(@NonNull RecyclerView.ViewHolder viewHolder){
+		Context context = viewHolder.itemView.getContext();
+		return new PlugInButton
+			.Builder(context.getString(R.string.delete))
+			.setButtonColor(context.getResources().getColor(R.color.colorAccent))
+			.setTextColor(context.getResources().getColor(R.color.colorPrimary))
+			.setTextSize(TEXT_SIZE)
+			.setIcon(context.getDrawable(R.drawable.ic_delete_forever_24dp))
+			.build();
+	}
 
-    private void attachSwipe() {
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(this);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
+	private void unfastenFromViewHolder(int position){
+		if (buttons.get(position) != null){
+			buttons.remove(position);
+		}
+	}
 
-    private void createUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-        Removable removable = (Removable) recyclerView.getAdapter();
-        if (removable == null) return;
-        underlayButtons.add(new UnderlayButton(
-                context.getString(R.string.delete),
-                context.getResources().getColor(R.color.colorAccent),
-                context.getResources().getColor(R.color.colorPrimary),
-                pos -> removable.delete(viewHolder.getAdapterPosition())
-        ));
-    }
+	@Override
+	public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+		if (hasButton(viewHolder)){
+			PlugInButton button = buttons.get(viewHolder.getAdapterPosition());
+			RectF buttonRectF = button.getClickRegion();
+			if (isRemovePlugInButton(buttonRectF)){
+				unfastenFromViewHolder(viewHolder.getAdapterPosition());
+				return;
+			}
+			View currentView = viewHolder.itemView;
+			if (isThereAnOverlap(currentView, button, dX)){
+				dX = getOffset(button, buttonRectF.width());
+			} else if (dX > 0){
+				button.setRightSide(false);
+				buttonRectF.set(0, currentView.getTop(), currentView.getLeft() + dX, currentView.getBottom());
+			} else if (dX < 0){
+				button.setRightSide(true);
+				buttonRectF.set(currentView.getRight() + dX, currentView.getTop(), currentView.getWidth(), currentView.getBottom());
+			}
+			button.onDraw(c, buttonRectF);
+			super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+		}
+	}
 
-    public interface UnderlayButtonClickListener {
-        void onClick(int pos);
-    }
+	private float getOffset(PlugInButton button, float offset){
+		if (button.isRightSide()) {
+			return  -offset;
+		}
+		return offset;
+	}
 
+	private boolean isRemovePlugInButton(RectF buttonRectF){
+		return !buttonRectF.isEmpty() &&  buttonRectF.width() < buttonRectF.height() * 0.1f;
+	}
+
+	private boolean isThereAnOverlap(View currentView, PlugInButton button, float dX){
+		float halfViewHolder = currentView.getWidth() * Constants.HALF;
+		RectF buttonRectF = button.getClickRegion();
+		if (button.isRightSide()){
+			return halfViewHolder <= buttonRectF.width() && buttonRectF.width() > halfViewHolder + dX;
+		}
+		return halfViewHolder <= buttonRectF.width() && halfViewHolder < buttonRectF.width() + dX;
+	}
 }

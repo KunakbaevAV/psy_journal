@@ -55,4 +55,5 @@ public class Constants {
 	public static final int REQUEST_PERMISSION_CREATE_FILE_XLS = 1;
 	public static final int REQUEST_PERMISSION_READ_FILE_XLS = 3;
 
+	public static final float HALF = 0.5f;
 }
