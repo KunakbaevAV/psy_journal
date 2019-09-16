@@ -29,7 +29,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 	public ItemTouchHelperCallback(RecyclerView recyclerView) {
 		removable = (Removable) recyclerView.getAdapter();
 		recyclerView.setOnTouchListener((v, event) -> {
-			if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP ){
+			if (event.getAction() == MotionEvent.ACTION_DOWN){
 				for (int i = 0; i < buttons.size(); i++) {
 					int position = buttons.keyAt(i);
 					if (buttons.get(position).onClick(event.getX(), event.getY())){
@@ -78,17 +78,18 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 	@Override
 	public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
 		if (viewHolder == null) return;
-		if (!hasButton(viewHolder)){
+		if (hasButton(viewHolder)){
+			int position = viewHolder.getAdapterPosition();
+			if (isRemovePlugInButton(buttons.get(position).getClickRegion())){
+				unfastenFromViewHolder(position);
+			}
+		} else {
 			attachToViewHolder(viewHolder);
 		}
 	}
 
 	private boolean hasButton(RecyclerView.ViewHolder viewHolder){
-		if (viewHolder == null){
-			return false;
-		}
-		int position = viewHolder.getAdapterPosition();
-		return buttons.get(position) != null;
+		return viewHolder != null && buttons.get(viewHolder.getAdapterPosition()) != null;
 	}
 
 	private void attachToViewHolder(@NonNull RecyclerView.ViewHolder viewHolder){
@@ -119,13 +120,9 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 		if (hasButton(viewHolder)){
 			PlugInButton button = buttons.get(viewHolder.getAdapterPosition());
 			RectF buttonRectF = button.getClickRegion();
-			if (isRemovePlugInButton(buttonRectF)){
-				unfastenFromViewHolder(viewHolder.getAdapterPosition());
-				return;
-			}
 			View currentView = viewHolder.itemView;
 			if (isThereAnOverlap(currentView, button, dX)){
-				dX = getOffset(button, buttonRectF.width());
+				dX = (button.isRightSide()) ? -buttonRectF.width() : buttonRectF.width();
 			} else if (dX > 0){
 				button.setRightSide(false);
 				buttonRectF.set(0, currentView.getTop(), currentView.getLeft() + dX, currentView.getBottom());
@@ -138,13 +135,6 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 		}
 	}
 
-	private float getOffset(PlugInButton button, float offset){
-		if (button.isRightSide()) {
-			return  -offset;
-		}
-		return offset;
-	}
-
 	private boolean isRemovePlugInButton(RectF buttonRectF){
 		return !buttonRectF.isEmpty() &&  buttonRectF.width() < buttonRectF.height() * 0.1f;
 	}
@@ -152,9 +142,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 	private boolean isThereAnOverlap(View currentView, PlugInButton button, float dX){
 		float halfViewHolder = currentView.getWidth() * Constants.HALF;
 		RectF buttonRectF = button.getClickRegion();
-		if (button.isRightSide()){
-			return halfViewHolder <= buttonRectF.width() && buttonRectF.width() > halfViewHolder + dX;
-		}
-		return halfViewHolder <= buttonRectF.width() && halfViewHolder < buttonRectF.width() + dX;
+		return (button.isRightSide()) ? halfViewHolder <= buttonRectF.width() && buttonRectF.width() > halfViewHolder + dX :
+			halfViewHolder <= buttonRectF.width() && halfViewHolder < buttonRectF.width() + dX;
 	}
 }

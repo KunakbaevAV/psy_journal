@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.psy_journal.Constants;
 import ru.geekbrains.psy_journal.domain.models.ReportingJournal;
 
@@ -38,7 +37,7 @@ public class ExcelReport implements CreatedByExcel{
 			createHeadlines(sheet);
 			fillLines(sheet, journals);
 			return fileSaved.writeExcelFile(workbook, createNameFile(date, nameReport));
-			}).subscribeOn(Schedulers.io());
+			});
     }
 
     private String createNameSheet(Date date) {

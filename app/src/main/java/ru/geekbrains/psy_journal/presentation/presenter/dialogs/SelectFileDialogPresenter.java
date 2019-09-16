@@ -1,7 +1,5 @@
 package ru.geekbrains.psy_journal.presentation.presenter.dialogs;
 
-import android.util.SparseBooleanArray;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -21,6 +19,7 @@ import ru.geekbrains.psy_journal.domain.file.DisplayFiles;
 import ru.geekbrains.psy_journal.domain.file.FileProvider;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.FileSelectionDialogView;
 import ru.geekbrains.psy_journal.presentation.presenter.view_ui.dialogs.viewholders.DisplayedSelectedFileViewHolder;
+import ru.geekbrains.psy_journal.presentation.view.utilities.BooleanCollection;
 
 @InjectViewState
 public class SelectFileDialogPresenter  extends MvpPresenter<FileSelectionDialogView> {
@@ -34,7 +33,7 @@ public class SelectFileDialogPresenter  extends MvpPresenter<FileSelectionDialog
 	protected Disposable disposable;
 
 	private final Selectable selectable = new SelectFileAdapter();
-	private final SparseBooleanArray booleanArray = new SparseBooleanArray();
+	private final BooleanCollection booleanArray = new BooleanCollection();
 
 	public Selectable getSelectable() {
 		return selectable;
@@ -117,10 +116,7 @@ public class SelectFileDialogPresenter  extends MvpPresenter<FileSelectionDialog
 
 		@Override
 		public int getItemCount() {
-			if (fileList != null) {
-				return fileList.size();
-			}
-			return 0;
+			return (fileList != null) ? fileList.size() : 0;
 		}
 
 		@Override

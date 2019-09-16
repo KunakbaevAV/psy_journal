@@ -1,5 +1,7 @@
 package ru.geekbrains.psy_journal.data.files;
 
+import androidx.annotation.NonNull;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,17 +10,15 @@ import ru.geekbrains.psy_journal.domain.file.FileSaved;
 
 public class FileCreator implements FileSaved {
 
-	private static final String UNABLE_CREATE_DIRECTORY = "невозможно создать директорию отчеты";
 	private static final String WRITE_ERROR = "ошибка записи: %s";
 	private final File directory;
 
-	public FileCreator(File directory) {
+	public FileCreator(@NonNull File directory) {
 		this.directory = directory;
 	}
 
 	@Override
 	public File writeExcelFile(HSSFWorkbook workbook, String nameFile) throws IOException {
-		if (directory == null) throw new IOException(UNABLE_CREATE_DIRECTORY);
 		File file = new File(directory, nameFile);
 		try (FileOutputStream out = new FileOutputStream(file)) {
 			workbook.write(out);

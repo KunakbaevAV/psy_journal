@@ -2,6 +2,8 @@ package ru.geekbrains.psy_journal.di;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
 
 import javax.inject.Named;
@@ -28,9 +30,12 @@ class FileModule {
 	@Named(Constants.REPORTS)
 	@Singleton
 	@Provides
-	File getDocumentsDirectory(){
-		File file = new File(context.getFilesDir(), context.getString(R.string.reports));
-		if (!file.exists() && !file.mkdirs()) return null;
+	File provideReportsDirectory(){
+		String nameDirectory = context.getString(R.string.reports);
+		File file = new File(context.getFilesDir(), nameDirectory);
+		if (!file.exists()){
+			file.mkdir();
+		}
 		return file;
 	}
 
@@ -42,8 +47,8 @@ class FileModule {
 
 	@Singleton
 	@Provides
-	FileSaved provideFileCreator(){
-		return new FileCreator(getDocumentsDirectory());
+	FileSaved provideFileCreator(@Named(Constants.REPORTS) @NonNull File directory){
+		return new FileCreator(directory);
 	}
 
 	@Singleton

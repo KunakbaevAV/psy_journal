@@ -104,6 +104,7 @@ class PlugInButton  {
 	}
 
 	private void drawText(Canvas canvas, RectF rect){
+		if (text == null) return;
 		Rect r = new Rect();
 		float cHeight = rect.height();
 		float cWidth =  rect.width();
