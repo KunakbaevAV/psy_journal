@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/load_database"
+            android:title="@string/update_prof_standard" />
+        <item
+            android:id="@+id/edit_catalogs"
+            android:title="@string/edit_catalogs" />
+        <item
+            android:id="@+id/get_report"
+            android:title="@string/get_report" />
+        <item
+            android:id="@+id/create_excel_report_file"
+            android:title="@string/create_excel_xls" />
+        <item
+            android:id="@+id/send_email"
+            android:title="@string/send_email" />
+        <item
+            android:id="@+id/feedback"
+            android:title="@string/feedback" />
+    </group>
+
+</menu>

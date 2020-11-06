@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="headlines">
+        <item>Дата</item>
+        <item>День недели</item>
+        <item>Направление работы</item>
+        <item>Категория</item>
+        <item>Класс/группа</item>
+        <item>ФИО</item>
+        <item>Количество людей</item>
+        <item>Заявленный запрос</item>
+        <item>Выявленный запрос</item>
+        <item>Форма работы</item>
+        <item>Время</item>
+        <item>Комментарии</item>
+    </string-array>
+</resources>

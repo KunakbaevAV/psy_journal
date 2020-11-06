@@ -1,0 +1,16 @@
+<resources>
+    <string name="select_file">Выбрать файл профстандарта .xml</string>
+    <string name="update_prof_standard">Загрузить профстандарт XML в базу</string>
+    <string name="updating_standard_previous_entries_want_save">При обновлении профстандарта файлом %s  предыдущие записи будут удалены. Вы хотите их сохранить?</string>
+    <string name="no_xml_selected">выбран не файл .xml</string>
+    <string name="database_loaded_new_standard">База успешно загружена новым профстандартом</string>
+    <string name="failure_loading_database">При загрузке базы произошел сбой, %s</string>
+    <string name="base_cleared">База успешно очищена</string>
+    <string name="failure_cleaning_database_restored">При очистке базы произошел сбой, %s, база восстановлена</string>
+    <string name="unable_read_file">Невозможно прочесть файл %s, %s</string>
+    <string name="standard_update_canceled">Обновление профстандарта отменено</string>
+    <string name="archive">Архив</string>
+    <string name="caution">Внимание!</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+</resources>

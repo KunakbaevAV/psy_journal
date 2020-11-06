@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standardMargin">8dp</dimen>
+    <dimen name="largeText">24sp</dimen>
+    <dimen name="standard_elevation">4dp</dimen>
+    <dimen name="small_elevation">2dp</dimen>
+    <dimen name="small_text">14sp</dimen>
+    <dimen name="padding_vertical">20dp</dimen>
+    <dimen name="padding_horizontal">12dp</dimen>
+    <dimen name="medium_text">20sp</dimen>
+    <dimen name="bottom_tab_layout">256dp</dimen>
+    <dimen name="header_height">60dp</dimen>
+    <dimen name="standard_corner_radius">30dp</dimen>
+    <dimen name="margin_top">16dp</dimen>
+    <dimen name="icon_size">256dp</dimen>
+    <dimen name="mediumMargin">4dp</dimen>
+</resources>

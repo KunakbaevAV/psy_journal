@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="@dimen/standard_elevation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standardMargin"
+            android:layout_marginBottom="@dimen/standardMargin"
+            android:text="@string/block_client_label"
+            android:textAlignment="center"
+            android:textSize="@dimen/largeText" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusBottomEnd="@dimen/standard_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/standard_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/standard_corner_radius"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_top"
+            app:boxCornerRadiusTopStart="@dimen/standard_corner_radius">
+
+            <com.google.android.material.textfield.TextInputEditText
+
+                android:id="@+id/category_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:hint="@string/choose_category"
+                android:padding="@dimen/padding_vertical"
+                android:textAlignment="center" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standardMargin"
+            app:boxCornerRadiusBottomEnd="@dimen/standard_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/standard_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/standard_corner_radius"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_top"
+            app:boxCornerRadiusTopStart="@dimen/standard_corner_radius">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/group_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:hint="@string/choose_group"
+                android:padding="@dimen/padding_vertical"
+                android:textAlignment="center" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standardMargin"
+            app:boxCornerRadiusBottomEnd="@dimen/standard_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/standard_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/standard_corner_radius"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_top"
+            app:boxCornerRadiusTopStart="@dimen/standard_corner_radius">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="2"
+                android:hint="@string/choose_fio"
+                android:paddingStart="@dimen/padding_horizontal"
+                android:paddingTop="@dimen/padding_vertical"
+                android:paddingEnd="@dimen/padding_horizontal"
+                android:paddingBottom="@dimen/padding_vertical"
+                android:cursorVisible="false"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName|textAutoCorrect"
+                android:padding="@dimen/padding_vertical"
+                android:textAlignment="center" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

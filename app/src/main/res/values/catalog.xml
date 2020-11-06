@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category">
+        <item>Классные руководители</item>
+        <item>Педагоги</item>
+        <item>Обучающиеся</item>
+        <item>Родители</item>
+        <item>Администрация</item>
+    </string-array>
+
+    <string-array name="group">
+        <item>5а</item>
+        <item>5б</item>
+        <item>5в</item>
+        <item>5г</item>
+        <item>6а</item>
+        <item>6б</item>
+        <item>6в</item>
+        <item>6г</item>
+    </string-array>
+
+    <string-array name="workForm">
+        <item>Диагностика</item>
+        <item>Профилактическая акция</item>
+        <item>Консультация</item>
+        <item>Тренинговое занятие</item>
+        <item>Развитие</item>
+        <item>Профилактика</item>
+    </string-array>
+</resources>
